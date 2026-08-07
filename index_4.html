@@ -1,0 +1,1258 @@
+<!DOCTYPE html>
+<html lang="en" data-lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Farvex Ai</title>
+<link rel="icon" type="image/png" href="farvex-logo-kit/app-icon/farvex-icon-1024.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+/* Reset & Base */
+*,*::before,*::after{box-sizing:border-box;}
+html {
+  scroll-behavior: smooth;
+  scroll-snap-type: y proximity;
+}
+body {
+  margin: 0;
+  font-family: 'Inter', sans-serif;
+  background: #020205;
+  color: #e2e8f0;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+h1, h2, h3, h4 { margin: 0; font-weight: 700; color: #ffffff; letter-spacing: -0.02em; }
+a { color: inherit; text-decoration: none; }
+.mono { font-family: 'JetBrains Mono', monospace; }
+
+/* Variables */
+:root {
+  --bg: #000000; --bg2: #050508; --bg3: #0a0a0f;
+  --glass: rgba(255,255,255,0.03); --glass-border: rgba(255,255,255,0.08);
+  --glass-hover: rgba(255,255,255,0.06);
+  --t1: #ffffff; --t2: #94a3b8; --t3: #475569;
+  --cyan: #00f0ff; --cyan-g: rgba(0,240,255,0.2);
+  --purple: #b026ff; --purple-g: rgba(176,38,255,0.2);
+  --brand-grad: linear-gradient(135deg, var(--cyan), var(--purple));
+}
+
+/* Scroll snap containers */
+.snap-section {
+  scroll-snap-align: start;
+}
+
+/* Background Effects */
+.bg-mesh {
+  position: fixed; inset: 0; z-index: -2;
+  background-image: 
+    radial-gradient(circle at 15% 50%, rgba(0,240,255,0.08), transparent 40%),
+    radial-gradient(circle at 85% 30%, rgba(176,38,255,0.08), transparent 40%);
+  filter: blur(60px);
+  pointer-events: none;
+}
+.bg-grid {
+  position: fixed; inset: 0; z-index: -1; pointer-events: none;
+  background-image: 
+    linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px);
+  background-size: 50px 50px;
+  mask-image: radial-gradient(ellipse at 50% 50%, black 20%, transparent 80%);
+  -webkit-mask-image: radial-gradient(ellipse at 50% 50%, black 20%, transparent 80%);
+}
+
+/* Utilities */
+.wrap { max-width: 1280px; margin: 0 auto; padding: 0 24px; }
+.btn {
+  display: inline-flex; align-items: center; justify-content: center;
+  padding: 12px 24px; border-radius: 8px; font-weight: 600; font-size: 14px;
+  transition: all 0.3s ease; cursor: pointer; border: none; gap: 8px;
+}
+.btn-primary {
+  background: var(--brand-grad); color: #000;
+  box-shadow: 0 4px 20px var(--purple-g);
+}
+.btn-primary:hover {
+  transform: translateY(-2px); box-shadow: 0 8px 30px var(--cyan-g); filter: brightness(1.1);
+}
+.btn-glass {
+  background: var(--glass); border: 1px solid var(--glass-border); color: #fff;
+  backdrop-filter: blur(12px);
+}
+.btn-glass:hover {
+  background: var(--glass-hover); border-color: var(--cyan);
+}
+
+/* ===========================
+   AUTOMEX-STYLE HEADER
+   =========================== */
+header {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+  background: rgba(2, 2, 5, 0.7); backdrop-filter: blur(16px);
+  border-bottom: 1px solid var(--glass-border);
+  transition: all 0.3s ease;
+}
+.nav-container {
+  display: grid; grid-template-columns: auto 1fr auto;
+  align-items: center; gap: 24px; height: 80px;
+  max-width: 1400px; margin: 0 auto; padding: 0 32px;
+}
+.logo {
+  font-weight: 800; font-size: 22px; color: #fff;
+  display: flex; align-items: center; gap: 12px; letter-spacing: -0.03em;
+}
+.logo-img {
+  height: 48px;
+  width: auto;
+  display: block;
+}
+.nav-links {
+  display: flex; align-items: center; justify-content: center; gap: 8px;
+}
+.nav-item {
+  position: relative;
+}
+.nav-link {
+  padding: 10px 16px; border-radius: 6px; font-size: 14px; font-weight: 500;
+  color: var(--t2); transition: all 0.2s; display: flex; align-items: center; gap: 6px;
+}
+.nav-link:hover {
+  color: #fff; background: var(--glass);
+}
+/* Mega Menu Dropdown */
+.mega-menu {
+  position: absolute; top: 100%; left: 50%; transform: translateX(-50%) translateY(10px);
+  width: 600px; background: rgba(10,10,15,0.95); backdrop-filter: blur(24px);
+  border: 1px solid var(--glass-border); border-radius: 16px;
+  padding: 24px; opacity: 0; visibility: hidden; transition: all 0.3s ease;
+  box-shadow: 0 20px 40px rgba(0,0,0,0.5), 0 0 0 1px inset rgba(255,255,255,0.05);
+  display: grid; grid-template-columns: 1fr 1fr; gap: 16px;
+  pointer-events: none;
+}
+.nav-item:hover .mega-menu {
+  opacity: 1; visibility: visible; transform: translateX(-70%) translateY(0);
+  pointer-events: auto;
+}
+.mega-col h4 {
+  font-family: 'JetBrains Mono', monospace; font-size: 11px; text-transform: uppercase;
+  letter-spacing: 0.1em; color: var(--t3); margin-bottom: 16px; padding-bottom: 8px;
+  border-bottom: 1px solid var(--glass-border);
+}
+.mega-link {
+  display: flex; align-items: flex-start; gap: 12px; padding: 12px;
+  border-radius: 8px; transition: all 0.2s;
+}
+.mega-link:hover {
+  background: var(--glass-hover); border-color: var(--cyan);
+}
+.mega-icon {
+  width: 32px; height: 32px; border-radius: 6px; background: var(--glass);
+  display: flex; align-items: center; justify-content: center;
+  color: var(--cyan); flex-shrink: 0; font-size: 14px; border: 1px solid var(--glass-border);
+}
+.mega-link:hover .mega-icon {
+  background: var(--cyan-g); border-color: var(--cyan); color: #fff;
+}
+.mega-text {
+  display: flex; flex-direction: column; gap: 4px;
+}
+.mega-title { font-size: 14px; font-weight: 600; color: #fff; }
+.mega-desc { font-size: 12px; color: var(--t2); line-height: 1.4; }
+
+.nav-right {
+  display: flex; align-items: center; gap: 16px;
+}
+.lang-toggle {
+  display: flex; background: var(--glass); border: 1px solid var(--glass-border);
+  border-radius: 6px; padding: 4px;
+}
+.lang-toggle button {
+  background: transparent; border: none; color: var(--t3); font-family: 'JetBrains Mono', monospace;
+  font-size: 12px; padding: 6px 12px; border-radius: 4px; cursor: pointer; font-weight: 600;
+}
+.lang-toggle button.active {
+  background: rgba(255,255,255,0.1); color: #fff; box-shadow: 0 0 10px rgba(255,255,255,0.05);
+}
+
+/* ===========================
+   CENTERED HERO (FULL SCREEN)
+   =========================== */
+.hero {
+  height: 100vh;
+  display: flex; align-items: center; justify-content: center;
+  text-align: center; padding: 80px 24px 0;
+  position: relative; overflow: hidden;
+}
+.hero-content {
+  max-width: 900px; display: flex; flex-direction: column; align-items: center;
+  z-index: 2;
+}
+.hero-badge {
+  display: inline-flex; align-items: center; gap: 10px;
+  font-family: 'JetBrains Mono', monospace; font-size: 12px; font-weight: 600;
+  letter-spacing: 0.1em; text-transform: uppercase;
+  color: var(--cyan); background: var(--cyan-g);
+  border: 1px solid rgba(0,240,255,0.3); border-radius: 100px;
+  padding: 6px 16px; margin-bottom: 32px;
+}
+.hero-badge .dot {
+  width: 6px; height: 6px; border-radius: 50%; background: var(--cyan);
+  box-shadow: 0 0 10px var(--cyan); animation: pulse 2s infinite;
+}
+@keyframes pulse { 50% { opacity: 0.5; box-shadow: 0 0 20px var(--cyan); } }
+
+.hero h1 {
+  font-size: clamp(48px, 6vw, 85px); line-height: 1.05; letter-spacing: -0.04em;
+  font-weight: 800; margin-bottom: 24px;
+}
+.hero h1 .gradient-text {
+  background: linear-gradient(to right, #fff, var(--t2));
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+}
+.hero h1 .brand-text {
+  background: var(--brand-grad);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  display: inline-block; padding-bottom: 10px;
+}
+.hero p {
+  font-size: clamp(16px, 2vw, 20px); color: var(--t2); max-width: 650px;
+  margin: 0 auto 40px; line-height: 1.6;
+}
+.hero-actions {
+  display: flex; gap: 16px; justify-content: center;
+}
+
+/* ===========================
+   SPACIOUS SERVICES GRID
+   =========================== */
+.services-section {
+  padding: 160px 0;
+  background: linear-gradient(to bottom, transparent, var(--bg2));
+  position: relative;
+}
+.section-header {
+  text-align: center; margin-bottom: 80px;
+}
+.section-header h2 {
+  font-size: clamp(32px, 4vw, 48px); margin-bottom: 16px;
+}
+.section-header p {
+  color: var(--t2); font-size: 18px; max-width: 600px; margin: 0 auto;
+}
+
+.services-grid {
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: 32px;
+}
+@media (max-width: 1024px) { .services-grid { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 768px) { .services-grid { grid-template-columns: 1fr; } }
+
+.service-card {
+  background: var(--bg3); border: 1px solid var(--glass-border);
+  border-radius: 16px; padding: 40px; transition: all 0.4s ease;
+  position: relative; overflow: hidden; display: flex; flex-direction: column;
+}
+.service-card::before {
+  content: ""; position: absolute; inset: 0; background: var(--brand-grad);
+  opacity: 0; transition: opacity 0.4s ease; z-index: 0; mix-blend-mode: overlay;
+}
+.service-card:hover {
+  transform: translateY(-8px); border-color: var(--cyan);
+  box-shadow: 0 20px 40px rgba(0,0,0,0.5), 0 0 30px var(--cyan-g);
+}
+.service-card:hover::before { opacity: 0.1; }
+.service-content { position: relative; z-index: 1; flex-grow: 1; display: flex; flex-direction: column; }
+.sc-icon {
+  width: 56px; height: 56px; border-radius: 12px; background: var(--glass);
+  display: flex; align-items: center; justify-content: center; font-size: 24px;
+  border: 1px solid var(--glass-border); margin-bottom: 24px; color: var(--cyan);
+  transition: all 0.4s ease;
+}
+.service-card:hover .sc-icon {
+  background: var(--brand-grad); color: #000; border-color: transparent;
+  box-shadow: 0 0 20px var(--cyan-g);
+}
+.service-card h3 {
+  font-size: 22px; margin-bottom: 16px; letter-spacing: -0.01em;
+}
+.service-card p {
+  color: var(--t2); font-size: 15px; margin-bottom: 24px; line-height: 1.7; flex-grow: 1;
+}
+.sc-link {
+  font-family: 'JetBrains Mono', monospace; font-size: 12px; font-weight: 600;
+  text-transform: uppercase; letter-spacing: 0.1em; color: var(--cyan);
+  display: inline-flex; align-items: center; gap: 8px; margin-top: auto;
+}
+.sc-link span { transition: transform 0.3s ease; }
+.service-card:hover .sc-link span { transform: translateX(5px); }
+
+
+.sc-extra {
+  max-height: 0; opacity: 0; overflow: hidden;
+  transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  margin-top: 0;
+}
+.sc-extra ul {
+  padding-left: 20px; margin: 0 0 12px 0; color: var(--t2); font-size: 14px;
+}
+.sc-extra ul li { margin-bottom: 6px; }
+.sc-extra p { font-size: 14px; color: var(--t1); margin: 0; }
+.sc-extra strong { color: var(--cyan); }
+.service-card:hover .sc-extra {
+  max-height: 300px; opacity: 1; margin-top: 16px;
+}
+
+
+
+/* Calendly Modal Overrides */
+.modal-content { max-width: 800px !important; padding: 20px !important; overflow: hidden; }
+.modal-title { margin-bottom: 5px !important; }
+.modal-sub { margin-bottom: 0 !important; }
+
+/* ===========================
+   MODAL
+   =========================== */
+.modal-overlay {
+  position: fixed; inset: 0; background: rgba(0,0,0,0.8); backdrop-filter: blur(8px);
+  z-index: 1000; display: flex; align-items: center; justify-content: center;
+  opacity: 0; visibility: hidden; transition: all 0.3s ease;
+}
+.modal-overlay.active {
+  opacity: 1; visibility: visible;
+}
+.modal-content {
+  background: var(--bg3); border: 1px solid var(--glass-border);
+  border-radius: 16px; width: 100%; max-width: 500px; padding: 40px;
+  position: relative; transform: translateY(20px); transition: all 0.3s ease;
+  box-shadow: 0 30px 60px rgba(0,0,0,0.8), 0 0 30px var(--cyan-g);
+}
+.modal-overlay.active .modal-content {
+  transform: translateY(0);
+}
+.modal-close {
+  position: absolute; top: 16px; right: 16px; background: transparent;
+  border: none; color: var(--t2); font-size: 24px; cursor: pointer; transition: color 0.2s;
+}
+.modal-close:hover { color: #fff; }
+.modal-title {
+  font-size: 24px; margin-bottom: 8px; color: #fff;
+}
+.modal-title span { color: var(--cyan); }
+.modal-sub {
+  color: var(--t2); font-size: 14px; margin-bottom: 24px;
+}
+.form-group {
+  margin-bottom: 16px;
+}
+.form-group label {
+  display: block; font-size: 12px; font-weight: 600; color: var(--t3);
+  margin-bottom: 8px; font-family: 'JetBrains Mono', monospace; text-transform: uppercase;
+}
+.form-control {
+  width: 100%; background: var(--bg2); border: 1px solid var(--glass-border);
+  border-radius: 8px; padding: 12px 16px; color: #fff; font-family: 'Inter', sans-serif;
+  transition: border-color 0.2s;
+}
+.form-control:focus {
+  outline: none; border-color: var(--cyan); background: rgba(255,255,255,0.02);
+}
+textarea.form-control { resize: vertical; min-height: 100px; }
+.modal-submit { width: 100%; margin-top: 8px; }
+
+/* ===========================
+   DEMO PIPELINE (Centered & Wide)
+   =========================== */
+.demo-section {
+  padding: 160px 0; border-top: 1px solid var(--glass-border);
+  background: #000;
+}
+.terminal-wrapper {
+  background: var(--bg3); border: 1px solid var(--glass-border); border-radius: 12px;
+  max-width: 900px; margin: 0 auto; text-align: left;
+  box-shadow: 0 30px 80px rgba(0,0,0,0.8), 0 0 40px rgba(0,240,255,0.05);
+  overflow: hidden; font-family: 'JetBrains Mono', monospace;
+  display: flex; flex-direction: column;
+}
+.term-header {
+  background: var(--bg2); padding: 12px 20px; border-bottom: 1px solid var(--glass-border);
+  display: flex; align-items: center; gap: 8px;
+}
+.term-dot { width: 12px; height: 12px; border-radius: 50%; }
+.dot-r { background: #ff5f56; } .dot-y { background: #ffbd2e; } .dot-g { background: #27c93f; }
+.term-title { margin-left: 12px; color: var(--t3); font-size: 12px; }
+.term-body {
+  padding: 30px; font-size: 14px; min-height: 350px; color: var(--t2); line-height: 1.6;
+}
+.term-line { margin-bottom: 12px; }
+.term-user { color: #fff; }
+.term-user::before { content: "user@farvex:~$ "; color: var(--cyan); }
+.term-ai { color: #a3e635; display: none; }
+.term-ai::before { content: "AI Agent: "; color: var(--purple); }
+.term-spinner { display: none; color: var(--t3); margin-bottom: 12px; }
+.cursor {
+  display: inline-block; width: 8px; height: 16px; background: #fff;
+  animation: blink 1s step-end infinite; vertical-align: middle;
+}
+@keyframes blink { 50% { opacity: 0; } }
+
+.term-btn-wrap { text-align: center; margin-top: 40px; }
+
+
+/* ===========================
+   NEW SECTIONS (Marquee, Industries, Process, Testimonials)
+   =========================== */
+/* Layout structure */
+.section { padding: 120px 0; border-top: 1px solid var(--glass-border); position: relative; }
+.section.bg-darker { background: #050505; }
+.sec-title { text-align: center; margin-bottom: 60px; }
+.sec-title h2 { font-size: 36px; margin-bottom: 16px; font-weight: 700; color: #fff; }
+.sec-title p { color: var(--t2); max-width: 600px; margin: 0 auto; font-size: 16px; line-height: 1.6; }
+
+/* Marquee */
+.marquee-container {
+  overflow: hidden; white-space: nowrap; padding: 40px 0; border-top: 1px solid var(--glass-border); border-bottom: 1px solid var(--glass-border);
+  background: var(--bg2); display: flex; align-items: center;
+}
+.marquee-content {
+  display: inline-block; animation: marquee 30s linear infinite; padding-left: 100%;
+}
+.marquee-content span {
+  display: inline-block; padding: 0 40px; font-size: 24px; font-weight: 700; color: var(--t3); letter-spacing: 2px; text-transform: uppercase;
+}
+@keyframes marquee { 0% { transform: translateX(0); } 100% { transform: translateX(-100%); } }
+
+/* Industries Grid */
+.industries-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 24px; margin-top: 40px; }
+.industry-card {
+  background: var(--bg2); border: 1px solid var(--glass-border); border-radius: 12px; padding: 30px 24px;
+  text-align: center; transition: all 0.3s;
+}
+.industry-card:hover { transform: translateY(-5px); border-color: var(--cyan); box-shadow: 0 10px 30px rgba(0, 240, 255, 0.1); }
+.industry-icon { font-size: 40px; margin-bottom: 16px; display: block; }
+.industry-title { font-size: 18px; font-weight: 600; color: #fff; margin-bottom: 8px; }
+.industry-desc { font-size: 14px; color: var(--t2); line-height: 1.5; }
+
+/* Process Timeline */
+.process-wrapper {
+  display: flex; justify-content: space-between; gap: 20px; margin-top: 60px; position: relative;
+}
+.process-wrapper::before {
+  content: ''; position: absolute; top: 30px; left: 0; width: 100%; height: 2px; background: var(--glass-border); z-index: 0;
+}
+.process-step {
+  flex: 1; text-align: center; position: relative; z-index: 1;
+}
+.process-number {
+  width: 60px; height: 60px; line-height: 60px; margin: 0 auto 20px; background: var(--bg1); border: 2px solid var(--cyan);
+  border-radius: 50%; font-size: 24px; font-weight: 700; color: var(--cyan); box-shadow: 0 0 20px var(--cyan-g);
+}
+.process-title { font-size: 18px; font-weight: 600; color: #fff; margin-bottom: 12px; }
+.process-desc { font-size: 14px; color: var(--t2); }
+@media (max-width: 768px) {
+  .process-wrapper { flex-direction: column; gap: 40px; }
+  .process-wrapper::before { display: none; }
+}
+
+/* Testimonials */
+.testi-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 24px; margin-top: 40px; }
+.testi-card { background: var(--bg2); border: 1px solid var(--glass-border); border-radius: 12px; padding: 30px; position: relative; }
+.testi-quote { font-size: 16px; color: var(--t1); font-style: italic; margin-bottom: 24px; line-height: 1.6; }
+.testi-author { font-size: 14px; font-weight: 600; color: var(--cyan); }
+.testi-company { font-size: 12px; color: var(--t3); }
+
+/* Expanded Footer */
+.footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 40px; margin-bottom: 40px; }
+.f-brand h3 { font-size: 24px; font-weight: 700; margin-bottom: 16px; color: #fff; }
+.f-brand p { color: var(--t2); font-size: 14px; line-height: 1.6; max-width: 300px; }
+.f-col h4 { font-size: 16px; color: #fff; margin-bottom: 20px; font-weight: 600; }
+.f-col ul { list-style: none; }
+.f-col ul li { margin-bottom: 12px; }
+.f-col ul li a { color: var(--t2); text-decoration: none; font-size: 14px; transition: color 0.2s; }
+.f-col ul li a:hover { color: var(--cyan); }
+@media (max-width: 768px) { .footer-grid { grid-template-columns: 1fr; } }
+
+
+/* ===========================
+   PHASE 2 SECTIONS (About, Tech Stack, FAQ, CTA)
+   =========================== */
+/* About Section */
+.about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: center; margin-top: 40px; }
+.about-text h3 { font-size: 28px; font-weight: 700; color: #fff; margin-bottom: 20px; }
+.about-text p { font-size: 16px; color: var(--t2); line-height: 1.7; margin-bottom: 20px; }
+.about-visual { 
+  background: linear-gradient(135deg, rgba(0,240,255,0.1), rgba(163,230,53,0.1));
+  border: 1px solid var(--cyan-g); border-radius: 24px; padding: 60px; text-align: center;
+  box-shadow: 0 0 50px rgba(0,240,255,0.05);
+}
+.about-visual h4 { font-size: 48px; color: var(--cyan); margin-bottom: 10px; font-weight: 800; text-shadow: 0 0 20px var(--cyan); }
+.about-visual p { color: #fff; font-size: 18px; font-weight: 600; }
+@media (max-width: 900px) { .about-grid { grid-template-columns: 1fr; } }
+
+/* Tech Stack */
+.stack-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; margin-top: 40px; }
+.stack-card { background: var(--bg3); border: 1px solid var(--glass-border); border-radius: 16px; padding: 40px 30px; }
+.stack-title { font-size: 20px; font-weight: 700; color: #fff; margin-bottom: 20px; display: flex; align-items: center; gap: 10px; }
+.stack-tags { display: flex; flex-wrap: wrap; gap: 10px; }
+.stack-tag { background: var(--bg2); border: 1px solid var(--glass-border); padding: 8px 16px; border-radius: 20px; font-size: 13px; color: var(--t1); font-weight: 500; }
+
+/* FAQ */
+.faq-wrapper { max-width: 800px; margin: 40px auto 0; text-align: left; }
+.faq-item { background: var(--bg2); border: 1px solid var(--glass-border); border-radius: 12px; margin-bottom: 16px; overflow: hidden; }
+.faq-btn { 
+  width: 100%; text-align: left; background: none; border: none; padding: 24px; font-size: 18px; font-weight: 600; color: #fff; 
+  cursor: pointer; display: flex; justify-content: space-between; align-items: center; font-family: 'Inter', sans-serif;
+}
+.faq-content { padding: 0 24px; max-height: 0; overflow: hidden; transition: max-height 0.3s ease; }
+.faq-content p { padding-bottom: 24px; color: var(--t2); line-height: 1.6; }
+.faq-item.active .faq-content { max-height: 200px; }
+.faq-item.active .faq-btn { color: var(--cyan); }
+.faq-icon { transition: transform 0.3s; }
+.faq-item.active .faq-icon { transform: rotate(45deg); }
+
+/* CTA Banner */
+.cta-banner { 
+  background: linear-gradient(90deg, #0f172a, #001220); border: 1px solid var(--glass-border);
+  border-radius: 24px; padding: 80px 40px; text-align: center; margin: 80px auto; max-width: 1000px;
+  position: relative; overflow: hidden;
+}
+.cta-banner::before {
+  content: ''; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%;
+  background: radial-gradient(circle, rgba(0,240,255,0.1) 0%, transparent 60%); z-index: 0;
+}
+.cta-content { position: relative; z-index: 1; }
+.cta-content h2 { font-size: 40px; font-weight: 800; color: #fff; margin-bottom: 24px; }
+.cta-content p { font-size: 18px; color: var(--t2); margin-bottom: 40px; max-width: 600px; margin-left: auto; margin-right: auto; }
+
+/* ===========================
+   FOOTER
+   =========================== */
+footer {
+  background: var(--bg2); padding: 60px 0 40px; border-top: 1px solid var(--glass-border);
+}
+.footer-grid {
+  display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 40px; margin-bottom: 60px;
+}
+@media (max-width: 768px) { .footer-grid { grid-template-columns: 1fr; } }
+.f-col p { color: var(--t2); font-size: 14px; margin-top: 16px; max-width: 300px; }
+.f-col h4 { font-size: 16px; margin-bottom: 20px; }
+.f-col ul { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 12px; }
+.f-col ul a { color: var(--t2); font-size: 14px; transition: color 0.2s; }
+.f-col ul a:hover { color: #fff; }
+.f-bottom {
+  border-top: 1px solid var(--glass-border); padding-top: 24px;
+  display: flex; justify-content: space-between; align-items: center;
+  font-family: 'JetBrains Mono', monospace; font-size: 12px; color: var(--t3);
+}
+
+</style>
+</head>
+<body>
+<div class="bg-mesh"></div>
+<div class="bg-grid"></div>
+
+<!-- HEADER -->
+<header>
+  <div class="nav-container">
+    <a href="#" class="logo"><img src="farvex-logo-kit\app-icon\farvex-icon-1024.png" alt="Farvex Ai" class="logo-img"> Farvex AI</a>
+    
+    <nav class="nav-links">
+      <div class="nav-item">
+        <a href="#services" class="nav-link" data-i18n="nav.services">Services ▼</a>
+        <div class="mega-menu">
+          <div class="mega-col">
+            <h4 data-i18n="menu.automation">AI & Automation</h4>
+            <a href="#" class="mega-link">
+              <div class="mega-icon">🤖</div>
+              <div class="mega-text">
+                <span class="mega-title" data-i18n="menu.agents.title">AI Agents & Chatbots</span>
+                <span class="mega-desc" data-i18n="menu.agents.desc">Intelligent conversational interfaces</span>
+              </div>
+            </a>
+            <a href="#" class="mega-link">
+              <div class="mega-icon">⚡</div>
+              <div class="mega-text">
+                <span class="mega-title" data-i18n="menu.process.title">Business Process Automation</span>
+                <span class="mega-desc" data-i18n="menu.process.desc">End-to-end workflow streamlining</span>
+              </div>
+            </a>
+          </div>
+          <div class="mega-col">
+            <h4 data-i18n="menu.data">Data & Insights</h4>
+            <a href="#" class="mega-link">
+              <div class="mega-icon">👁️</div>
+              <div class="mega-text">
+                <span class="mega-title" data-i18n="menu.cv.title">Computer Vision</span>
+                <span class="mega-desc" data-i18n="menu.cv.desc">Image and document data extraction</span>
+              </div>
+            </a>
+            <a href="#" class="mega-link">
+              <div class="mega-icon">📊</div>
+              <div class="mega-text">
+                <span class="mega-title" data-i18n="menu.nlp.title">Natural Language Processing</span>
+                <span class="mega-desc" data-i18n="menu.nlp.desc">Text classification and semantic search</span>
+              </div>
+            </a>
+          </div>
+        </div>
+      </div>
+      <div class="nav-item">
+        <a href="#demo" class="nav-link" data-i18n="nav.demo">Demo</a>
+      </div>
+      <div class="nav-item">
+        <a href="#cases" class="nav-link" data-i18n="nav.cases">Cases</a>
+      </div>
+    </nav>
+
+    <div class="nav-right">
+      <div class="lang-toggle">
+        <button id="btnEN" class="active" onclick="setLang('en')">EN</button>
+        <button id="btnNL" onclick="setLang('nl')">NL</button>
+      </div>
+      <a href="book.html" class="btn btn-primary" data-i18n="nav.cta">Book a call</a>
+    </div>
+  </div>
+</header>
+
+<!-- HERO (Perfectly Centered) -->
+<section class="hero snap-section">
+  <div class="hero-content">
+    <div class="hero-badge">
+      <span class="dot"></span>
+      <span data-i18n="hero.badge">Enterprise AI Solutions</span>
+    </div>
+    <h1 data-i18n="hero.h1">
+      <span class="gradient-text">Automate your operations.</span><br>
+      <span class="brand-text">Transform your business.</span>
+    </h1>
+    <p data-i18n="hero.sub">We build custom AI systems and robust software solutions that turn repetitive administrative tasks into instant, reliable output.</p>
+    <div class="hero-actions">
+      <a href="book.html" class="btn btn-primary" data-i18n="hero.cta1">Schedule Consultation</a>
+      <a href="#services" class="btn btn-glass" data-i18n="hero.cta2">Explore Services</a>
+    </div>
+  </div>
+</section>
+
+<!-- SERVICES GRID -->
+<section class="services-section snap-section" id="services">
+  <div class="wrap">
+    <div class="section-header">
+      <h2 data-i18n="services.h2">End-to-End Digital Solutions</h2>
+      <p data-i18n="services.sub">Cutting-edge AI and software solutions that automate, scale, and transform your business operations.</p>
+    </div>
+    
+    
+    <div class="services-grid">
+      <!-- Card 1 -->
+      <div class="service-card">
+        <div class="service-content">
+          <div class="sc-icon">⚡</div>
+          <h3 data-i18n="s1.title">Workflow Automation</h3>
+          <p data-i18n="s1.desc">Connect email, CRM, spreadsheets, and storage into seamless, self-executing pipelines. Eliminate manual data entry and human error.</p>
+          <div class="sc-extra">
+            <ul>
+              <li data-i18n="s1.f1">API integrations & custom scripts</li>
+              <li data-i18n="s1.f2">Zapier / Make replacements</li>
+            </ul>
+            <p><strong data-i18n="uc">Use Case:</strong> <span data-i18n="s1.uc">Automatically extract invoice data from emails and sync it directly to your CRM without human intervention.</span></p>
+          </div>
+          <a href="book.html" class="sc-link" data-service-key="s1.title" data-i18n="s.learn">Learn more <span>→</span></a>
+        </div>
+      </div>
+      <!-- Card 2 -->
+      <div class="service-card">
+        <div class="service-content">
+          <div class="sc-icon">👁️</div>
+          <h3 data-i18n="s2.title">Computer Vision & OCR</h3>
+          <p data-i18n="s2.desc">Extract structured data from scanned documents, invoices, and photos automatically using state-of-the-art vision models.</p>
+          <div class="sc-extra">
+            <ul>
+              <li data-i18n="s2.f1">Handwriting recognition</li>
+              <li data-i18n="s2.f2">Defect detection & document parsing</li>
+            </ul>
+            <p><strong data-i18n="uc">Use Case:</strong> <span data-i18n="s2.uc">Process thousands of scanned forms per minute, turning messy images into clean SQL databases.</span></p>
+          </div>
+          <a href="book.html" class="sc-link" data-service-key="s2.title" data-i18n="s.learn">Learn more <span>→</span></a>
+        </div>
+      </div>
+      <!-- Card 3 -->
+      <div class="service-card">
+        <div class="service-content">
+          <div class="sc-icon">🤖</div>
+          <h3 data-i18n="s3.title">AI Agents & Chatbots</h3>
+          <p data-i18n="s3.desc">Deploy intelligent agents capable of customer support, data retrieval, and complex task execution natively within your ecosystem.</p>
+          <div class="sc-extra">
+            <ul>
+              <li data-i18n="s3.f1">RAG (Retrieval-Augmented Generation)</li>
+              <li data-i18n="s3.f2">24/7 autonomous support bots</li>
+            </ul>
+            <p><strong data-i18n="uc">Use Case:</strong> <span data-i18n="s3.uc">An internal HR bot that can instantly answer employee questions by reading company handbooks.</span></p>
+          </div>
+          <a href="book.html" class="sc-link" data-service-key="s3.title" data-i18n="s.learn">Learn more <span>→</span></a>
+        </div>
+      </div>
+      <!-- Card 4 -->
+      <div class="service-card">
+        <div class="service-content">
+          <div class="sc-icon">📊</div>
+          <h3 data-i18n="s4.title">Predictive Analytics</h3>
+          <p data-i18n="s4.desc">Leverage historical data to forecast trends, detect anomalies, and make proactive, data-driven decisions.</p>
+          <div class="sc-extra">
+            <ul>
+              <li data-i18n="s4.f1">Churn prediction & risk analysis</li>
+              <li data-i18n="s4.f2">Inventory forecasting</li>
+            </ul>
+            <p><strong data-i18n="uc">Use Case:</strong> <span data-i18n="s4.uc">Analyze past sales data to predict future demand, automatically adjusting supply chain orders.</span></p>
+          </div>
+          <a href="book.html" class="sc-link" data-service-key="s4.title" data-i18n="s.learn">Learn more <span>→</span></a>
+        </div>
+      </div>
+      <!-- Card 5 -->
+      <div class="service-card">
+        <div class="service-content">
+          <div class="sc-icon">🧠</div>
+          <h3 data-i18n="s5.title">NLP & Semantic Search</h3>
+          <p data-i18n="s5.desc">Transform unstructured text into structured insights. Build powerful internal search engines over massive knowledge bases.</p>
+          <div class="sc-extra">
+            <ul>
+              <li data-i18n="s5.f1">Sentiment analysis</li>
+              <li data-i18n="s5.f2">Semantic search engines</li>
+            </ul>
+            <p><strong data-i18n="uc">Use Case:</strong> <span data-i18n="s5.uc">Search through 10,000+ legal contracts using natural language instead of exact keyword matches.</span></p>
+          </div>
+          <a href="book.html" class="sc-link" data-service-key="s5.title" data-i18n="s.learn">Learn more <span>→</span></a>
+        </div>
+      </div>
+      <!-- Card 6 -->
+      <div class="service-card">
+        <div class="service-content">
+          <div class="sc-icon">⚙️</div>
+          <h3 data-i18n="s6.title">MLOps & Monitoring</h3>
+          <p data-i18n="s6.desc">Robust deployment, scaling, and continuous monitoring of machine learning models in production environments.</p>
+          <div class="sc-extra">
+            <ul>
+              <li data-i18n="s6.f1">CI/CD for AI models</li>
+              <li data-i18n="s6.f2">Model drift detection</li>
+            </ul>
+            <p><strong data-i18n="uc">Use Case:</strong> <span data-i18n="s6.uc">Ensure production AI models remain accurate over time by automatically retraining them on fresh data.</span></p>
+          </div>
+          <a href="book.html" class="sc-link" data-service-key="s6.title" data-i18n="s.learn">Learn more <span>→</span></a>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+
+<!-- INDUSTRIES -->
+<section class="section snap-section bg-darker" id="industries">
+  <div class="wrap">
+    <div class="sec-title">
+      <h2 data-i18n="ind.h2">Industries We Serve</h2>
+      <p data-i18n="ind.sub">Tailored AI solutions engineered for the unique challenges of your sector.</p>
+    </div>
+    <div class="industries-grid">
+      <div class="industry-card">
+        <span class="industry-icon">⚕️</span>
+        <div class="industry-title" data-i18n="ind.1.t">Healthcare</div>
+        <div class="industry-desc" data-i18n="ind.1.d">Automate patient onboarding and medical record extraction.</div>
+      </div>
+      <div class="industry-card">
+        <span class="industry-icon">🏦</span>
+        <div class="industry-title" data-i18n="ind.2.t">Financial Services</div>
+        <div class="industry-desc" data-i18n="ind.2.d">Fraud detection, algorithmic risk analysis, and automated reporting.</div>
+      </div>
+      <div class="industry-card">
+        <span class="industry-icon">🏭</span>
+        <div class="industry-title" data-i18n="ind.3.t">Manufacturing</div>
+        <div class="industry-desc" data-i18n="ind.3.d">Predictive maintenance and computer vision for quality control.</div>
+      </div>
+      <div class="industry-card">
+        <span class="industry-icon">🛒</span>
+        <div class="industry-title" data-i18n="ind.4.t">Retail & E-Commerce</div>
+        <div class="industry-desc" data-i18n="ind.4.d">Demand forecasting and dynamic pricing optimization.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- DEMO PIPELINE -->
+
+<section class="demo-section snap-section" id="demo">
+  <div class="wrap">
+    <div style="text-align: center;">
+      <h2 data-i18n="demo.h2" style="font-size: 36px; margin-bottom: 16px;">See Farvex AI in Action</h2>
+      <p data-i18n="demo.sub" style="color: var(--t2); margin-bottom: 40px;">Run the interactive terminal below to watch our AI extract structured insights from unstructured commands.</p>
+    </div>
+    
+    <div class="terminal-wrapper">
+      <div class="term-header">
+        <div class="term-dot dot-r"></div><div class="term-dot dot-y"></div><div class="term-dot dot-g"></div>
+        <div class="term-title">farvex-agent-v2.0 &mdash; bash</div>
+      </div>
+      <div class="term-body" id="termBody">
+        <div class="term-line term-user" id="termPrompt"><span class="cursor" id="termCursor"></span></div>
+        <div class="term-spinner" id="termSpinner">[Processing...] <span id="spinChar">|</span></div>
+        <div class="term-line term-ai" id="termAi"><span id="termAiText"></span></div>
+      </div>
+    </div>
+    
+    <div class="term-btn-wrap">
+      <button class="btn btn-primary" onclick="runTerminalDemo()" id="demoBtn" data-i18n="demo.btn">▶ Run AI Agent</button>
+    </div>
+  </div>
+</section>
+
+
+
+
+<!-- PROCESS -->
+<section class="section snap-section" id="process">
+  <div class="wrap">
+    <div class="sec-title">
+      <h2 data-i18n="proc.h2">How We Work</h2>
+      <p data-i18n="proc.sub">A streamlined, transparent process from concept to deployment.</p>
+    </div>
+    <div class="process-wrapper">
+      <div class="process-step">
+        <div class="process-number">1</div>
+        <div class="process-title" data-i18n="proc.1.t">Discovery & Audit</div>
+        <div class="process-desc" data-i18n="proc.1.d">We analyze your workflows to identify AI automation opportunities.</div>
+      </div>
+      <div class="process-step">
+        <div class="process-number">2</div>
+        <div class="process-title" data-i18n="proc.2.t">Architecture</div>
+        <div class="process-desc" data-i18n="proc.2.d">We design a secure, scalable blueprint integrating with your tech stack.</div>
+      </div>
+      <div class="process-step">
+        <div class="process-number">3</div>
+        <div class="process-title" data-i18n="proc.3.t">Implementation</div>
+        <div class="process-desc" data-i18n="proc.3.d">Rapid development, model training, and seamless API integration.</div>
+      </div>
+      <div class="process-step">
+        <div class="process-number">4</div>
+        <div class="process-title" data-i18n="proc.4.t">Scale & Support</div>
+        <div class="process-desc" data-i18n="proc.4.d">Continuous monitoring, MLOps, and 24/7 technical support.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+
+
+<!-- ABOUT US -->
+<section class="section snap-section bg-darker" id="about">
+  <div class="wrap">
+    <div class="sec-title">
+      <h2 data-i18n="abt.h2">Why Farvex AI?</h2>
+      <p data-i18n="abt.sub">We don't just build software. We engineer automated ecosystems that scale your business.</p>
+    </div>
+    <div class="about-grid">
+      <div class="about-text">
+        <h3 data-i18n="abt.t1">Bridging the gap between AI research and real-world application.</h3>
+        <p data-i18n="abt.p1">Most businesses are sitting on goldmines of unstructured data and inefficient manual workflows. Our mission is to seamlessly integrate state-of-the-art artificial intelligence into your existing infrastructure.</p>
+        <p data-i18n="abt.p2">Whether it's deploying autonomous agents to handle customer support or building custom computer vision models to parse legacy documents, we deliver solutions that provide immediate, measurable ROI.</p>
+      </div>
+      <div class="about-visual">
+        <h4 data-i18n="abt.v1">10x</h4>
+        <p data-i18n="abt.v2">Faster Workflows</p>
+        <div style="height: 40px;"></div>
+        <h4 data-i18n="abt.v3">99%</h4>
+        <p data-i18n="abt.v4">Data Accuracy</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TECH STACK -->
+<section class="section snap-section" id="tech">
+  <div class="wrap">
+    <div class="sec-title">
+      <h2 data-i18n="tech.h2">Our Technology Stack</h2>
+      <p data-i18n="tech.sub">Built with enterprise-grade tools for maximum security, speed, and reliability.</p>
+    </div>
+    <div class="stack-grid">
+      <div class="stack-card">
+        <div class="stack-title">🧠 <span data-i18n="tech.c1">AI & Machine Learning</span></div>
+        <div class="stack-tags">
+          <span class="stack-tag">OpenAI GPT-4</span> <span class="stack-tag">Anthropic Claude</span> 
+          <span class="stack-tag">PyTorch</span> <span class="stack-tag">TensorFlow</span>
+          <span class="stack-tag">Hugging Face</span> <span class="stack-tag">LangChain</span>
+        </div>
+      </div>
+      <div class="stack-card">
+        <div class="stack-title">☁️ <span data-i18n="tech.c2">Cloud & Infrastructure</span></div>
+        <div class="stack-tags">
+          <span class="stack-tag">AWS</span> <span class="stack-tag">Google Cloud</span> 
+          <span class="stack-tag">Microsoft Azure</span> <span class="stack-tag">Docker</span>
+          <span class="stack-tag">Kubernetes</span> <span class="stack-tag">Vercel</span>
+        </div>
+      </div>
+      <div class="stack-card">
+        <div class="stack-title">⚙️ <span data-i18n="tech.c3">Backend & Data</span></div>
+        <div class="stack-tags">
+          <span class="stack-tag">Python (FastAPI)</span> <span class="stack-tag">Node.js</span> 
+          <span class="stack-tag">PostgreSQL</span> <span class="stack-tag">Pinecone (Vector DB)</span>
+          <span class="stack-tag">Snowflake</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section class="section snap-section bg-darker" id="faq">
+  <div class="wrap">
+    <div class="sec-title">
+      <h2 data-i18n="faq.h2">Frequently Asked Questions</h2>
+      <p data-i18n="faq.sub">Everything you need to know about partnering with Farvex AI.</p>
+    </div>
+    <div class="faq-wrapper">
+      
+      <div class="faq-item">
+        <button class="faq-btn" onclick="this.parentElement.classList.toggle('active')">
+          <span data-i18n="faq.q1">How long does a typical implementation take?</span>
+          <span class="faq-icon">+</span>
+        </button>
+        <div class="faq-content"><p data-i18n="faq.a1">Depending on the complexity of your infrastructure and the scope of the AI model, an initial MVP (Minimum Viable Product) can be deployed within 2 to 4 weeks. Full enterprise rollouts typically take 2 to 3 months.</p></div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-btn" onclick="this.parentElement.classList.toggle('active')">
+          <span data-i18n="faq.q2">Is our proprietary data secure?</span>
+          <span class="faq-icon">+</span>
+        </button>
+        <div class="faq-content"><p data-i18n="faq.a2">Absolutely. We adhere to strict data privacy regulations (including GDPR). Your proprietary data is never used to train public models. We use private, isolated instances and enterprise-grade encryption to ensure your data never leaves your control.</p></div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-btn" onclick="this.parentElement.classList.toggle('active')">
+          <span data-i18n="faq.q3">Do we need an internal tech team to maintain the AI?</span>
+          <span class="faq-icon">+</span>
+        </button>
+        <div class="faq-content"><p data-i18n="faq.a3">No. Farvex AI provides end-to-end MLOps and continuous support. We monitor the models, handle updates, and ensure everything runs smoothly so your team can focus on their core work.</p></div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- FINAL CTA -->
+<section class="section snap-section">
+  <div class="wrap">
+    <div class="cta-banner">
+      <div class="cta-content">
+        <h2 data-i18n="cta.h2">Ready to automate your workflows?</h2>
+        <p data-i18n="cta.sub">Join industry leaders who are transforming their operations with bespoke AI solutions.</p>
+        <button class="btn btn-primary" onclick="window.location.href='book.html'" data-i18n="cta.btn">Book Your Free Consultation</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+
+<!-- FOOTER -->
+<footer class="snap-section">
+  <div class="wrap">
+    <div class="footer-grid">
+      <div class="f-col">
+        <div class="logo"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAIAAAACACAYAAADDPmHLAAAFmUlEQVR4nO3cT2zbZBgG8Oe1k9Bs7RjRtGmbKGo2BFPRJm3jhFDprojLRIuExAEO3KZd4UI1MSGOMCQkhNhAXKDlwoFdp2ocyw5saneYWjYYVIMma9I2/ZP45WA7q8KQkrax47zPT7IcpXa+z/Xjz86XzwaIiIiIiIiIiIiIiIiIiIiIiIiIqBuIkTIbadwVIOoIcRyNWQA9MZQbUgCLYCsAAEhFXFYVwDkA7wWvoyxf4Qf+IYCTwVxgPAhR7oDQbgBPxVBuKIXOuA7pCHEEoAb/qIurBdiIsMyOF0cApGGKo2wKOHFXgOLFABjHABjHABjHABjHABjHABgXRz/Adij8jqStrivwO6AokLQACLZf531gZ1BdUgLgwT9d/Qzgq+C11+JnhC3AGoClTe+ZlrQATAP4Ot6qdJekBCD0BPw6hz8tbxWvAwJJC0D4KyLAnbgj+DXQOAbAOAbAOAbAOAbAOAbAOAbAOAbAOAbAOAbAOAbAOAbAOAbAOAbAOAbAuKSNBwjHBLZabw+tDyEzIWktwBr8gSCrwbzZKdqdr+pgXN1Iy9yipLQAYVDPALiC5geFNg4mdbH1YeXNE/HrpuoC8CBifvAp8ChsY/CHdm0E8/ZOIgrHmYCqg5GRDFSddk1DqimoOvmbxbP5W8Uz4YYPXdOkHGhttRMB8IL1mp0qwfyLdm/cZkduFT98dl41P1269PTM34fqf/i/04JqbPcpJC2ZTd8YIo4L9Wru3nfOS98bb7/m7j90VFxX2tocCwQK9VT7tVBWZ3fvuUzFHc3PlD+a/W7qc4xKFePjLkZGFCJefceLKFSdoG6Rni6SFoDmiQCAZI4dR/b0iYO1wupBcaPZXN1Yg66tobZYrDqp9AGnt+/TI2+++JaOLo7NDj55FfBPC5MiVQA4+o/uuSNSiqRyDbo3AAGtrMBbrKq3XPLEafPmhg+dExGIOAKktLqh3sNCzdm1+7STSv+Uv730g7OyOjZ5UqYP3tddPaXSt1hef2ngZuHHrPx5bnpisIoL0bUEXR8AOA7gugKIG7QK7dVYhIgIkNKVJU8hcHr7XldHXs3fXPgEC4U97v7c2dqDgqYP5N5dm9cpXJAvh65panJYIrnvIWn9AAkmooCnG+uQnmxWRQZUcFjXFapagQKeyD4AwCvR1ar7WwBVwPMUqgqN7PpKII+aG/W8mqTTrtvbl9LKypRXLo/NvZC72n+7OCCVlROp3N6B6kLpBrB+GaoyGUVfRaDrAyCZDGSXK7KalaguAlGrQqsbgKoHCNy9OderLBdqS+WLc9/f+AwXhqtD1zQ1+bzM9V+/eyo12D9Yu1OYujs8sArV9n5TadDFAVAA0Opff8j6b/cXnUx6Hql2b65/FaiQnIiTk2zWhSq0svwNlkofzJ0+fA8AMK7u5LBUMTbm3Hv5mSL8nkpEvfOjtlMdQbUWprVgfrmhDm1xSjUNAPlfFy4+V1LNz5SvH5kpD9cXeFyPoKpA1Y2rMyhpLUCrj3rNNMzbKj8B7xcAgDyozS+/P3us72MAm38T+O+VvX/ER3bOb5SUAIRP91gEMN/CesEDqeV3oH6Ete1ImxiVGgCZPZ67VH9zXF2IxLaDO8l2TgHhslcaPqtzqbqbQtexOv8f+Xidf6GUkKM+iQFo5VHz4amj8wMTkyQGQBvmzS5Pj8GuYOMYAOMYAOMYAOMYAOMYAOMYAOMYAOMYAOMYAOMYAOMYAOMYAOMYAOMYAOMYAOMYAOMYAOMYAOMYAOMYAOMYAOMYAOMYAOMYAOMYAOMYAOPiuDew8dbvVtehHRRHAFz4d+ymW1gnXDaJN7N2tDj+ocsAiqg/vaMp4bKxPE61m8XxBIssgJ4trrsOP0BEtBPiaAG2WyYvBImIiIiIiIiIiIiIiIiIiIiIiIiIGvwLqRI1KwxbGt8AAAAASUVORK5CYII=" alt="Farvex Ai Mark" class="logo-img"> Farvex AI</div>
+        <p data-i18n="footer.desc">Cutting-edge AI solutions, custom software, and digital transformation services.</p>
+      </div>
+      <div class="f-col">
+        <h4 data-i18n="footer.s">Services</h4>
+        <ul>
+          <li><a href="#" data-i18n="s1.title">Workflow Automation</a></li>
+          <li><a href="#" data-i18n="s3.title">AI Agents & Chatbots</a></li>
+          <li><a href="#" data-i18n="s2.title">Computer Vision</a></li>
+        </ul>
+      </div>
+      <div class="f-col">
+        <h4 data-i18n="footer.c">Company</h4>
+        <ul>
+          <li><a href="#" data-i18n="nav.about">About</a></li>
+          <li><a href="#" data-i18n="nav.cases">Cases</a></li>
+          <li><a href="#contact" data-i18n="nav.contact">Contact</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="f-bottom">
+      <span data-i18n="footer.rights">© 2026 Farvex Ai. All rights reserved.</span>
+      <span data-i18n="footer.location">Vlaardingen, Netherlands</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+/* ===== i18n ===== */
+const T = {
+en: {
+  "nav.services": "Services ▼", "nav.demo": "Demo", "nav.cases": "Cases", "nav.about": "About", "nav.contact": "Contact", "nav.cta": "Book a call",
+  "menu.automation": "AI & Automation", "menu.agents.title": "AI Agents & Chatbots", "menu.agents.desc": "Intelligent conversational interfaces",
+  "menu.process.title": "Business Process Automation", "menu.process.desc": "End-to-end workflow streamlining",
+  "menu.data": "Data & Insights", "menu.cv.title": "Computer Vision", "menu.cv.desc": "Image and document data extraction",
+  "menu.nlp.title": "Natural Language Processing", "menu.nlp.desc": "Text classification and semantic search",
+  "hero.badge": "Enterprise AI Solutions",
+  "hero.h1": '<span class="gradient-text">Automate your operations.</span><br><span class="brand-text">Transform your business.</span>',
+  "hero.sub": "We build custom AI systems and robust software solutions that turn repetitive administrative tasks into instant, reliable output.",
+  "hero.cta1": "Schedule Consultation", "hero.cta2": "Explore Services",
+  "services.h2": "End-to-End Digital Solutions", "services.sub": "Cutting-edge AI and software solutions that automate, scale, and transform your business operations.",
+  "s1.title": "Workflow Automation", "s1.desc": "Connect email, CRM, spreadsheets, and storage into seamless, self-executing pipelines. Eliminate manual data entry and human error.",
+  "s2.title": "Computer Vision & OCR", "s2.desc": "Extract structured data from scanned documents, invoices, and photos automatically using state-of-the-art vision models.",
+  "s3.title": "AI Agents & Chatbots", "s3.desc": "Deploy intelligent agents capable of customer support, data retrieval, and complex task execution natively within your ecosystem.",
+  "s4.title": "Predictive Analytics", "s4.desc": "Leverage historical data to forecast trends, detect anomalies, and make proactive, data-driven decisions.",
+  "s5.title": "NLP & Semantic Search", "s5.desc": "Transform unstructured text into structured insights. Build powerful internal search engines over massive knowledge bases.",
+  "s6.title": "MLOps & Monitoring", "s6.desc": "Robust deployment, scaling, and continuous monitoring of machine learning models in production environments.",
+  "s.learn": "Learn more <span>→</span>",
+
+  "uc": "Use Case:",
+  "s1.f1": "API integrations & custom scripts", "s1.f2": "Zapier / Make replacements", "s1.uc": "Automatically extract invoice data from emails and sync it directly to your CRM without human intervention.",
+  "s2.f1": "Handwriting recognition", "s2.f2": "Defect detection & document parsing", "s2.uc": "Process thousands of scanned forms per minute, turning messy images into clean SQL databases.",
+  "s3.f1": "RAG (Retrieval-Augmented Generation)", "s3.f2": "24/7 autonomous support bots", "s3.uc": "An internal HR bot that can instantly answer employee questions by reading company handbooks.",
+  "s4.f1": "Churn prediction & risk analysis", "s4.f2": "Inventory forecasting", "s4.uc": "Analyze past sales data to predict future demand, automatically adjusting supply chain orders.",
+  "s5.f1": "Sentiment analysis", "s5.f2": "Semantic search engines", "s5.uc": "Search through 10,000+ legal contracts using natural language instead of exact keyword matches.",
+  "s6.f1": "CI/CD for AI models", "s6.f2": "Model drift detection", "s6.uc": "Ensure production AI models remain accurate over time by automatically retraining them on fresh data.",
+
+  
+  "demo.h2": "See Farvex AI in Action",
+  "demo.sub": "Run the interactive terminal below to watch our AI extract structured insights from unstructured commands.",
+  
+  "demo.btn": "▶ Run AI Agent",
+
+  "nav.industries": "Industries",
+  "nav.process": "Process",
+
+  "ind.h2": "Industries We Serve",
+  "ind.sub": "Tailored AI solutions engineered for the unique challenges of your sector.",
+  "ind.1.t": "Healthcare", "ind.1.d": "Automate patient onboarding and medical record extraction.",
+  "ind.2.t": "Financial Services", "ind.2.d": "Fraud detection, algorithmic risk analysis, and automated reporting.",
+  "ind.3.t": "Manufacturing", "ind.3.d": "Predictive maintenance and computer vision for quality control.",
+  "ind.4.t": "Retail & E-Commerce", "ind.4.d": "Demand forecasting and dynamic pricing optimization.",
+
+  "proc.h2": "How We Work",
+  "proc.sub": "A streamlined, transparent process from concept to deployment.",
+  "proc.1.t": "Discovery & Audit", "proc.1.d": "We analyze your workflows to identify AI automation opportunities.",
+  "proc.2.t": "Architecture", "proc.2.d": "We design a secure, scalable blueprint integrating with your tech stack.",
+  "proc.3.t": "Implementation", "proc.3.d": "Rapid development, model training, and seamless API integration.",
+  "proc.4.t": "Scale & Support", "proc.4.d": "Continuous monitoring, MLOps, and 24/7 technical support.",
+
+  "testi.h2": "Client Success",
+  "testi.sub": "See how Farvex AI has transformed businesses.",
+  "testi.1.q": "\"Farvex completely automated our invoice processing. What used to take our accounting team 40 hours a week now takes 5 minutes.\"",
+  "testi.1.c": "CFO, Nexus Logistics",
+  "testi.2.q": "\"The internal AI agent they built for our HR department handles 80% of employee queries instantly. Incredible ROI.\"",
+  "testi.2.c": "Director of Operations, Horizon Tech",
+
+  
+  "abt.h2": "Why Farvex AI?",
+  "abt.sub": "We don't just build software. We engineer automated ecosystems that scale your business.",
+  "abt.t1": "Bridging the gap between AI research and real-world application.",
+  "abt.p1": "Most businesses are sitting on goldmines of unstructured data and inefficient manual workflows. Our mission is to seamlessly integrate state-of-the-art artificial intelligence into your existing infrastructure.",
+  "abt.p2": "Whether it's deploying autonomous agents to handle customer support or building custom computer vision models to parse legacy documents, we deliver solutions that provide immediate, measurable ROI.",
+  "abt.v1": "10x", "abt.v2": "Faster Workflows", "abt.v3": "99%", "abt.v4": "Data Accuracy",
+
+  "tech.h2": "Our Technology Stack",
+  "tech.sub": "Built with enterprise-grade tools for maximum security, speed, and reliability.",
+  "tech.c1": "AI & Machine Learning", "tech.c2": "Cloud & Infrastructure", "tech.c3": "Backend & Data",
+
+  "faq.h2": "Frequently Asked Questions",
+  "faq.sub": "Everything you need to know about partnering with Farvex AI.",
+  "faq.q1": "How long does a typical implementation take?",
+  "faq.a1": "Depending on the complexity of your infrastructure and the scope of the AI model, an initial MVP (Minimum Viable Product) can be deployed within 2 to 4 weeks. Full enterprise rollouts typically take 2 to 3 months.",
+  "faq.q2": "Is our proprietary data secure?",
+  "faq.a2": "Absolutely. We adhere to strict data privacy regulations (including GDPR). Your proprietary data is never used to train public models. We use private, isolated instances and enterprise-grade encryption to ensure your data never leaves your control.",
+  "faq.q3": "Do we need an internal tech team to maintain the AI?",
+  "faq.a3": "No. Farvex AI provides end-to-end MLOps and continuous support. We monitor the models, handle updates, and ensure everything runs smoothly so your team can focus on their core work.",
+
+  "cta.h2": "Ready to automate your workflows?",
+  "cta.sub": "Join industry leaders who are transforming their operations with bespoke AI solutions.",
+  "cta.btn": "Book Your Free Consultation",
+
+  "footer.l": "Legal",
+ "footer.p": "Privacy Policy", "footer.t": "Terms of Service",
+
+
+
+  "modal.sub": "Pick a time below that works for you to discuss a tailored solution.",
+  "modal.name": "Name", "modal.email": "Email", "modal.msg": "Message", "modal.btn": "Request Consultation",
+
+  "footer.desc": "Cutting-edge AI solutions, custom software, and digital transformation services.",
+  "footer.s": "Services", "footer.c": "Company",
+  "footer.rights": "© 2026 Farvex Ai. All rights reserved.", "footer.location": "Vlaardingen, Netherlands"
+},
+nl: {
+  "nav.services": "Diensten ▼", "nav.demo": "Demo", "nav.cases": "Cases", "nav.about": "Over ons", "nav.contact": "Contact", "nav.cta": "Plan een gesprek",
+  "menu.automation": "AI & Automatisering", "menu.agents.title": "AI Agents & Chatbots", "menu.agents.desc": "Intelligente conversationele interfaces",
+  "menu.process.title": "Bedrijfsproces Automatisering", "menu.process.desc": "End-to-end workflow stroomlijning",
+  "menu.data": "Data & Inzichten", "menu.cv.title": "Computer Vision", "menu.cv.desc": "Extractie van beeld- en documentgegevens",
+  "menu.nlp.title": "Natuurlijke Taalverwerking", "menu.nlp.desc": "Tekstclassificatie en semantisch zoeken",
+  "hero.badge": "Enterprise AI Oplossingen",
+  "hero.h1": '<span class="gradient-text">Automatiseer uw operaties.</span><br><span class="brand-text">Transformeer uw bedrijf.</span>',
+  "hero.sub": "Wij bouwen op maat gemaakte AI-systemen en robuuste softwareoplossingen die repetitieve administratieve taken omzetten in directe, betrouwbare output.",
+  "hero.cta1": "Plan een Consultatie", "hero.cta2": "Ontdek Diensten",
+  "services.h2": "End-to-End Digitale Oplossingen", "services.sub": "Geavanceerde AI- en softwareoplossingen die uw bedrijfsactiviteiten automatiseren, schalen en transformeren.",
+  "s1.title": "Workflow Automatisering", "s1.desc": "Verbind e-mail, CRM, spreadsheets en opslag in naadloze, zelfuitvoerende pijplijnen. Elimineer handmatige gegevensinvoer en menselijke fouten.",
+  "s2.title": "Computer Vision & OCR", "s2.desc": "Extraheer gestructureerde gegevens uit gescande documenten, facturen en foto's automatisch met behulp van state-of-the-art vision-modellen.",
+  "s3.title": "AI Agents & Chatbots", "s3.desc": "Zet intelligente agenten in die in staat zijn tot klantenondersteuning, gegevensopvraging en complexe taakuitvoering binnen uw ecosysteem.",
+  "s4.title": "Voorspellende Analyses", "s4.desc": "Benut historische gegevens om trends te voorspellen, anomalieën te detecteren en proactieve, datagestuurde beslissingen te nemen.",
+  "s5.title": "NLP & Semantisch Zoeken", "s5.desc": "Transformeer ongestructureerde tekst in gestructureerde inzichten. Bouw krachtige interne zoekmachines voor enorme kennisbanken.",
+  "s6.title": "MLOps & Monitoring", "s6.desc": "Robuuste implementatie, schaling en continue monitoring van machine learning-modellen in productieomgevingen.",
+  "s.learn": "Lees meer <span>→</span>",
+
+  "uc": "Use Case:",
+  "s1.f1": "API-integraties & maatwerk scripts", "s1.f2": "Zapier / Make alternatieven", "s1.uc": "Extraheer automatisch factuurgegevens uit e-mails en synchroniseer deze direct met uw CRM zonder menselijke tussenkomst.",
+  "s2.f1": "Handschriftherkenning", "s2.f2": "Defectdetectie & document parsing", "s2.uc": "Verwerk duizenden gescande formulieren per minuut en verander rommelige afbeeldingen in schone SQL-databases.",
+  "s3.f1": "RAG (Retrieval-Augmented Generation)", "s3.f2": "24/7 autonome support bots", "s3.uc": "Een interne HR-bot die direct werknemersvragen kan beantwoorden door bedrijfshandboeken te lezen.",
+  "s4.f1": "Churn-voorspelling & risicoanalyse", "s4.f2": "Voorraadprognose", "s4.uc": "Analyseer verkoopgegevens uit het verleden om de toekomstige vraag te voorspellen en pas automatisch supply chain-bestellingen aan.",
+  "s5.f1": "Sentimentanalyse", "s5.f2": "Semantische zoekmachines", "s5.uc": "Doorzoek 10.000+ juridische contracten met natuurlijke taal in plaats van exacte trefwoordovereenkomsten.",
+  "s6.f1": "CI/CD voor AI-modellen", "s6.f2": "Model drift detectie", "s6.uc": "Zorg ervoor dat productie-AI-modellen na verloop van tijd nauwkeurig blijven door ze automatisch opnieuw te trainen op verse data.",
+
+  "demo.h2": "Bekijk hoe een workflow zichzelf uitvoert", "demo.sub": "Er komt een e-mail binnen. AI leest het, extraheert de gegevens en stuurt deze door naar uw CRM en spreadsheet.",
+  "demo.btn": "▶ Initialiseer Pijplijn",
+
+  "modal.sub": "Laat uw gegevens achter en onze experts nemen contact met u op voor een oplossing op maat.",
+  "modal.name": "Naam", "modal.email": "E-mail", "modal.msg": "Bericht", "modal.btn": "Consultatie Aanvragen",
+
+  "footer.desc": "Geavanceerde AI-oplossingen, maatwerksoftware en digitale transformatiediensten.",
+  "footer.s": "Diensten", "footer.c": "Bedrijf",
+  "footer.rights": "© 2026 Farvex Ai. Alle rechten voorbehouden.", "footer.location": "Vlaardingen, Nederland"
+}
+};
+
+function setLang(l) {
+  document.documentElement.setAttribute('data-lang', l);
+  document.documentElement.setAttribute('lang', l);
+  document.getElementById('btnEN').classList.toggle('active', l==='en');
+  document.getElementById('btnNL').classList.toggle('active', l==='nl');
+  
+  const d = T[l];
+  document.querySelectorAll('[data-i18n]').forEach(el => {
+    const k = el.getAttribute('data-i18n');
+    if(d[k] !== undefined) el.innerHTML = d[k];
+  });
+}
+
+
+// Modal Logic
+</span>?` : `Interested in <span>${serviceName}</span>?`;
+  } else {
+    titleEl.innerHTML = lang === 'nl' ? `Plan een <span>Consultatie</span>` : `Schedule a <span>Consultation</span>`;
+  }
+  
+  document.getElementById('contactModal').classList.add('active');
+}
+
+function closeModal() {
+  document.getElementById('contactModal').classList.remove('active');
+}
+
+, 1500);
+  }, 1000);
+}
+
+// Minimal Demo Logic
+
+// Terminal Demo Logic
+function runTerminalDemo() {
+  const btn = document.getElementById('demoBtn');
+  if(btn.disabled) return;
+  btn.disabled = true;
+  
+  const lang = document.documentElement.getAttribute('data-lang') || 'en';
+  const promptText = lang === 'nl' 
+    ? "Analyseer financieel rapport Q3 en haal omzet en marge eruit." 
+    : "Analyze Q3 financial report and extract revenue and margin.";
+    
+  const aiJson = `{
+  "status": "success",
+  "data": {
+    "document": "Q3_Financial_Report.pdf",
+    "metrics": {
+      "revenue": "$4.2M",
+      "margin": "22.5%"
+    },
+    "sentiment": "Positive"
+  },
+  "confidence": 0.98
+}`;
+
+  const promptEl = document.getElementById('termPrompt');
+  const cursorEl = document.getElementById('termCursor');
+  const spinnerEl = document.getElementById('termSpinner');
+  const aiEl = document.getElementById('termAi');
+  const aiTextEl = document.getElementById('termAiText');
+  const spinChar = document.getElementById('spinChar');
+  
+  // Reset
+  promptEl.innerHTML = '';
+  promptEl.appendChild(cursorEl);
+  aiEl.style.display = 'none';
+  spinnerEl.style.display = 'none';
+  aiTextEl.innerHTML = '';
+  
+  // 1. Type the prompt
+  let i = 0;
+  function typePrompt() {
+    if (i < promptText.length) {
+      cursorEl.insertAdjacentText('beforebegin', promptText.charAt(i));
+      i++;
+      setTimeout(typePrompt, 30);
+    } else {
+      // Done typing prompt
+      setTimeout(startSpinner, 300);
+    }
+  }
+  
+  // 2. Spinner
+  let spinInterval;
+  function startSpinner() {
+    spinnerEl.style.display = 'block';
+    const chars = ['|', '/', '-', '\\\\'];
+    let c = 0;
+    spinInterval = setInterval(() => {
+      spinChar.innerText = chars[c % chars.length];
+      c++;
+    }, 100);
+    
+    setTimeout(() => {
+      clearInterval(spinInterval);
+      spinnerEl.style.display = 'none';
+      startAiResponse();
+    }, 1500);
+  }
+  
+  // 3. Stream JSON
+  let j = 0;
+  function startAiResponse() {
+    aiEl.style.display = 'block';
+    
+    function typeJson() {
+      if (j < aiJson.length) {
+        let char = aiJson.charAt(j);
+        if (char === '\n') {
+          aiTextEl.innerHTML += '<br>';
+          // Replace spaces with non-breaking spaces for indentation
+          aiTextEl.innerHTML += '&nbsp;&nbsp;'; 
+        } else if (char === ' ') {
+           aiTextEl.innerHTML += '&nbsp;';
+        } else {
+          aiTextEl.innerHTML += char;
+        }
+        j++;
+        setTimeout(typeJson, 15);
+      } else {
+        btn.disabled = false;
+      }
+    }
+    typeJson();
+  }
+  
+  typePrompt();
+}
+
+</script>
+</body>
+</html>
