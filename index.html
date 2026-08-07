@@ -1316,8 +1316,8 @@ footer {
 
   // Terminal Demo Logic
   function runTerminalDemo() {
-    const btn = document.querySelector('.demo-terminal button');
-    if(btn.disabled) return;
+    const btn = document.getElementById('demoBtn');
+    if(!btn || btn.disabled) return;
     btn.disabled = true;
     
     const lang = document.documentElement.getAttribute('data-lang') || 'en';
