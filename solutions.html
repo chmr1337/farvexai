@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
 <title>Solutions Suite // Farvex AI Enterprise Neural Systems</title>
 <meta name="description" content="Explore Farvex AI's 6 industrial-grade solution pillars: Workflow Orchestration, Vision OCR, Autonomous Agents, Predictive Risk, Vector RAG, and Sovereign MLOps.">
+<link rel="canonical" href="https://farvex.ai/solutions.html">
 <link rel="icon" type="image/svg+xml" href="farvex-logo-kit/svg/farvex-mark-dark.svg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -323,6 +324,9 @@ footer.site-footer {
       <a href="case-studies.html" class="mobile-nav-link" onclick="toggleMobileNav()" data-i18n="nav.cases">Case Studies <span>➔</span></a>
       <a href="architecture.html" class="mobile-nav-link" onclick="toggleMobileNav()" data-i18n="nav.arch">Architecture <span>➔</span></a>
       <a href="security.html" class="mobile-nav-link" onclick="toggleMobileNav()" data-i18n="nav.security">Security Vault <span>➔</span></a>
+      <a href="privacy.html" class="mobile-nav-link" onclick="toggleMobileNav()">Privacy Statement (GDPR) <span>➔</span></a>
+      <a href="terms.html" class="mobile-nav-link" onclick="toggleMobileNav()">Terms of Service (B2B) <span>➔</span></a>
+      <a href="cookies.html" class="mobile-nav-link" onclick="toggleMobileNav()">Cookie Preferences <span>➔</span></a>
       <a href="contact.html" class="mobile-nav-link" onclick="toggleMobileNav()">Direct Uplink / Contact <span>➔</span></a>
       <a href="book.html" class="btn-core btn-cyan" style="width:100%; margin-top:10px;" data-i18n="nav.cta">⚡ Book Consultation</a>
     </div>
@@ -628,19 +632,20 @@ footer.site-footer {
       </div>
 
       <div class="footer-col">
-        <h5 data-i18n="footer.col2">Client Portal</h5>
+        <h5 data-i18n="footer.col2">Legal & Governance</h5>
         <ul>
+          <li><a href="privacy.html">Privacy Statement (GDPR)</a></li>
+          <li><a href="terms.html">Terms of Service (B2B)</a></li>
+          <li><a href="cookies.html">Cookie Preferences</a></li>
+          <li><a href="security.html">Data Sovereignty Vault</a></li>
           <li><a href="case-studies.html">Enterprise Case Studies</a></li>
-          <li><a href="architecture.html">Technical Architecture</a></li>
-          <li><a href="security.html">Data Sovereignty & Security</a></li>
-          <li><a href="contact.html">Direct Engineering Uplink</a></li>
-          <li><a href="book.html">Book Architecture Call</a></li>
         </ul>
       </div>
 
       <div class="footer-col">
         <h5 data-i18n="footer.col3">Coordinates</h5>
-        <p class="mono" style="font-size: 12.5px; color: var(--text-muted); margin-bottom: 6px;">Vlaardingen, Netherlands</p>
+        <p class="mono" style="font-size: 12px; color: var(--text-muted); margin-bottom: 4px;">KvK: 89412084 // BTW: NL864982103B01</p>
+        <p class="mono" style="font-size: 12px; color: var(--text-muted); margin-bottom: 6px;">Vlaardingen, Netherlands</p>
         <p class="mono" style="font-size: 11.5px; color: var(--cyan-bright);">STATUS: SOVEREIGN EU NODE</p>
       </div>
     </div>
@@ -671,7 +676,7 @@ footer.site-footer {
       "s5.p": "Convert thousands of technical manuals, internal policy documents, safety protocols, and past client tickets into an instant, hallucination-free semantic search engine for your employees.",
       "sol.btnBook": "⚡ Schedule Technical Briefing",
       "footer.desc": "Bespoke enterprise AI systems engineering, high-throughput autonomous agents, and industrial automation.",
-      "footer.col1": "Solutions Suite", "footer.col2": "Client Portal", "footer.col3": "Coordinates"
+      "footer.col1": "Solutions Suite", "footer.col2": "Legal & Governance", "footer.col3": "Coordinates"
     },
     'nl': {
       "hud.cluster": "ORBITALE CLUSTER: ONLINE",
@@ -695,7 +700,7 @@ footer.site-footer {
       "s5.p": "Maak handleidingen, contracten en veiligheidsvoorschriften direct semantisch doorzoekbaar voor medewerkers zonder data aan publieke modellen te lekken.",
       "sol.btnBook": "⚡ Plan Technische Briefing",
       "footer.desc": "Maatwerk enterprise AI engineering, snelle autonome agenten en industriële automatisering.",
-      "footer.col1": "Oplossingen Suite", "footer.col2": "Klantportaal", "footer.col3": "Coördinaten"
+      "footer.col1": "Oplossingen Suite", "footer.col2": "Juridisch & Beheer", "footer.col3": "Coördinaten"
     }
   };
 
@@ -739,7 +744,6 @@ footer.site-footer {
     });
   }
 
-  // Particle canvas
   const canvas = document.getElementById('matrixCanvas');
   const ctx = canvas.getContext('2d');
   let width, height;

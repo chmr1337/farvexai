@@ -4,6 +4,8 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
   <title>Schedule Architecture Briefing // Farvex AI</title>
+  <meta name="description" content="Schedule a 1-on-1 technical architecture briefing with Farvex AI systems architects to evaluate your enterprise workflow automation scope.">
+  <link rel="canonical" href="https://farvex.ai/book.html">
   <link rel="icon" type="image/svg+xml" href="farvex-logo-kit/svg/farvex-mark-dark.svg">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -71,26 +73,12 @@
 
     /* Mobile Menu Button */
     .mobile-menu-btn {
-      display: none;
-      background: rgba(255, 255, 255, 0.05);
-      border: 1px solid var(--border-glass);
-      border-radius: 8px;
-      width: 40px;
-      height: 40px;
-      padding: 9px;
-      cursor: pointer;
-      flex-direction: column;
-      justify-content: space-between;
-      align-items: center;
-      z-index: 1005;
+      display: none; background: rgba(255, 255, 255, 0.05); border: 1px solid var(--border-glass);
+      border-radius: 8px; width: 40px; height: 40px; padding: 9px; cursor: pointer;
+      flex-direction: column; justify-content: space-between; align-items: center; z-index: 1005;
     }
     .mobile-menu-btn span {
-      display: block;
-      width: 100%;
-      height: 2px;
-      background: #fff;
-      border-radius: 2px;
-      transition: all 0.3s;
+      display: block; width: 100%; height: 2px; background: #fff; border-radius: 2px; transition: all 0.3s;
     }
     .mobile-menu-btn.active span:nth-child(1) { transform: translateY(7px) rotate(45deg); background: var(--cyan-bright); }
     .mobile-menu-btn.active span:nth-child(2) { opacity: 0; }
@@ -98,21 +86,10 @@
 
     /* Mobile Slide Drawer */
     .mobile-nav-drawer {
-      display: none;
-      position: fixed;
-      top: 103px;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      background: rgba(3, 7, 18, 0.98);
-      backdrop-filter: blur(24px);
-      z-index: 999;
-      padding: 24px 20px 40px;
-      overflow-y: auto;
-      flex-direction: column;
-      justify-content: space-between;
-      border-bottom: 1px solid var(--border-glass);
-      animation: fadeInDrawer 0.25s ease-out;
+      display: none; position: fixed; top: 103px; left: 0; right: 0; bottom: 0;
+      background: rgba(3, 7, 18, 0.98); backdrop-filter: blur(24px); z-index: 999;
+      padding: 24px 20px 40px; overflow-y: auto; flex-direction: column; justify-content: space-between;
+      border-bottom: 1px solid var(--border-glass); animation: fadeInDrawer 0.25s ease-out;
     }
     .mobile-nav-drawer.open { display: flex; }
 
@@ -132,7 +109,7 @@
     }
 
     .booking-wrapper {
-      max-width: 1000px; margin: 50px auto; padding: 0 20px;
+      max-width: 1000px; margin: 50px auto 70px; padding: 0 20px;
     }
     .booking-card-deck {
       background: var(--bg-panel); border: 1px solid var(--border-glass); border-radius: 20px;
@@ -167,6 +144,15 @@
     .mono { font-family: var(--font-mono); }
     .cyan { color: var(--cyan-bright); }
 
+    footer.site-footer {
+      background: #02050e; border-top: 1px solid var(--border-glass); padding: 50px 0 30px;
+    }
+    .footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1.2fr; gap: 36px; margin-bottom: 36px; max-width: 1380px; margin-left: auto; margin-right: auto; padding: 0 24px; }
+    .footer-col h5 { font-family: var(--font-mono); font-size: 11.5px; color: #fff; margin-bottom: 14px; text-transform: uppercase; }
+    .footer-col ul { list-style: none; display: flex; flex-direction: column; gap: 8px; }
+    .footer-col a { color: var(--text-muted); text-decoration: none; font-size: 13px; }
+    .footer-col a:hover { color: var(--cyan-bright); }
+
     @media (max-width: 768px) {
       .form-grid { grid-template-columns: 1fr; }
       .nav-links { display: none; }
@@ -175,7 +161,8 @@
       .mobile-nav-drawer { top: 103px; }
       .booking-card-deck { padding: 24px 16px; }
       .booking-h1 { font-size: 1.85rem; }
-      .booking-wrapper { margin: 30px auto; padding: 0 14px; }
+      .booking-wrapper { margin: 30px auto 50px; padding: 0 14px; }
+      .footer-grid { grid-template-columns: 1fr; gap: 24px; }
     }
   </style>
 </head>
@@ -235,6 +222,9 @@
       <a href="case-studies.html" class="mobile-nav-link" onclick="toggleMobileNav()" data-i18n="nav.cases">Case Studies <span>➔</span></a>
       <a href="architecture.html" class="mobile-nav-link" onclick="toggleMobileNav()" data-i18n="nav.arch">Architecture <span>➔</span></a>
       <a href="security.html" class="mobile-nav-link" onclick="toggleMobileNav()" data-i18n="nav.security">Security Vault <span>➔</span></a>
+      <a href="privacy.html" class="mobile-nav-link" onclick="toggleMobileNav()">Privacy Statement (GDPR) <span>➔</span></a>
+      <a href="terms.html" class="mobile-nav-link" onclick="toggleMobileNav()">Terms of Service (B2B) <span>➔</span></a>
+      <a href="cookies.html" class="mobile-nav-link" onclick="toggleMobileNav()">Cookie Preferences <span>➔</span></a>
       <a href="contact.html" class="mobile-nav-link" onclick="toggleMobileNav()">Direct Uplink / Contact <span>➔</span></a>
     </div>
   </div>
@@ -293,6 +283,49 @@
   </div>
 </main>
 
+<footer class="site-footer">
+  <div class="footer-grid">
+    <div class="footer-col">
+      <a href="index.html" class="brand" style="margin-bottom: 14px;">
+        <div class="brand-box">
+          <img src="farvex-logo-kit/svg/farvex-mark-dark.svg" alt="Farvex AI Logo">
+        </div>
+        <div class="brand-text">FARVEX<span>.AI</span></div>
+      </a>
+      <p style="font-size: 13px; color: var(--text-muted); line-height: 1.6;" data-i18n="footer.desc">
+        Bespoke enterprise AI systems engineering, high-throughput autonomous agents, and industrial automation.
+      </p>
+    </div>
+
+    <div class="footer-col">
+      <h5 data-i18n="footer.col1">Solutions Suite</h5>
+      <ul>
+        <li><a href="solutions.html#workflow">Workflow Orchestration</a></li>
+        <li><a href="solutions.html#vision">Computer Vision & OCR</a></li>
+        <li><a href="solutions.html#agents">Mission Agents</a></li>
+        <li><a href="solutions.html#predictive">Predictive Risk</a></li>
+      </ul>
+    </div>
+
+    <div class="footer-col">
+      <h5 data-i18n="footer.col2">Legal & Governance</h5>
+      <ul>
+        <li><a href="privacy.html">Privacy Statement (GDPR)</a></li>
+        <li><a href="terms.html">Terms of Service (B2B)</a></li>
+        <li><a href="cookies.html">Cookie Preferences</a></li>
+        <li><a href="security.html">Data Sovereignty Vault</a></li>
+      </ul>
+    </div>
+
+    <div class="footer-col">
+      <h5 data-i18n="footer.col3">Coordinates</h5>
+      <p class="mono" style="font-size: 12px; color: var(--text-muted); margin-bottom: 4px;">KvK: 89412084 // BTW: NL864982103B01</p>
+      <p class="mono" style="font-size: 12px; color: var(--text-muted); margin-bottom: 6px;">Vlaardingen, Netherlands</p>
+      <p class="mono" style="font-size: 11.5px; color: var(--cyan-bright);">STATUS: SOVEREIGN EU NODE</p>
+    </div>
+  </div>
+</footer>
+
 <script>
   const T = {
     'en': {
@@ -305,7 +338,9 @@
       "f.company": "Company / Organization", "f.scope": "Primary Automation Scope",
       "f.notes": "Current Bottlenecks / Tech Stack (Optional)",
       "f.submit": "⚡ Confirm & Reserve Architecture Session",
-      "f.ack": "✓ BRIEFING RESERVED // A Farvex systems architect will dispatch a direct calendar invitation within 2 hours."
+      "f.ack": "✓ BRIEFING RESERVED // A Farvex systems architect will dispatch a direct calendar invitation within 2 hours.",
+      "footer.desc": "Bespoke enterprise AI systems engineering, high-throughput autonomous agents, and industrial automation.",
+      "footer.col1": "Solutions Suite", "footer.col2": "Legal & Governance", "footer.col3": "Coordinates"
     },
     'nl': {
       "nav.home": "← Home (Chaos/Orde)", "nav.solutions": "Oplossingen Suite",
@@ -317,7 +352,9 @@
       "f.company": "Bedrijf / Organisatie", "f.scope": "Primaire Automatiseringsdoel",
       "f.notes": "Huidige Knelpunten / Software Stack (Optioneel)",
       "f.submit": "⚡ Bevestig & Reserveer Architectuursessie",
-      "f.ack": "✓ SESSIE GERESERVEERD // Een Farvex architect stuurt binnen 2 uur een directe kalenderuitnodiging."
+      "f.ack": "✓ SESSIE GERESERVEERD // Een Farvex architect stuurt binnen 2 uur een directe kalenderuitnodiging.",
+      "footer.desc": "Maatwerk enterprise AI engineering, snelle autonome agenten en industriële automatisering.",
+      "footer.col1": "Oplossingen Suite", "footer.col2": "Juridisch & Beheer", "footer.col3": "Coördinaten"
     }
   };
 

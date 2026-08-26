@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">
+  <url>
+    <loc>https://farvex.ai/</loc>
+    <lastmod>2026-08-26</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://farvex.ai/"/>
+    <xhtml:link rel="alternate" hreflang="nl" href="https://farvex.ai/?lang=nl"/>
+  </url>
+  <url>
+    <loc>https://farvex.ai/solutions.html</loc>
+    <lastmod>2026-08-26</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://farvex.ai/solutions.html"/>
+    <xhtml:link rel="alternate" hreflang="nl" href="https://farvex.ai/solutions.html?lang=nl"/>
+  </url>
+  <url>
+    <loc>https://farvex.ai/case-studies.html</loc>
+    <lastmod>2026-08-26</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.85</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://farvex.ai/case-studies.html"/>
+    <xhtml:link rel="alternate" hreflang="nl" href="https://farvex.ai/case-studies.html?lang=nl"/>
+  </url>
+  <url>
+    <loc>https://farvex.ai/architecture.html</loc>
+    <lastmod>2026-08-26</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://farvex.ai/architecture.html"/>
+    <xhtml:link rel="alternate" hreflang="nl" href="https://farvex.ai/architecture.html?lang=nl"/>
+  </url>
+  <url>
+    <loc>https://farvex.ai/security.html</loc>
+    <lastmod>2026-08-26</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://farvex.ai/security.html"/>
+    <xhtml:link rel="alternate" hreflang="nl" href="https://farvex.ai/security.html?lang=nl"/>
+  </url>
+  <url>
+    <loc>https://farvex.ai/book.html</loc>
+    <lastmod>2026-08-26</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://farvex.ai/contact.html</loc>
+    <lastmod>2026-08-26</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://farvex.ai/privacy.html</loc>
+    <lastmod>2026-08-26</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>https://farvex.ai/terms.html</loc>
+    <lastmod>2026-08-26</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>https://farvex.ai/cookies.html</loc>
+    <lastmod>2026-08-26</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.4</priority>
+  </url>
+</urlset>

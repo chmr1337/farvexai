@@ -1,222 +1,231 @@
 <!DOCTYPE html>
 <html lang="en" data-lang="en" data-theme="obsidian">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
-<title>Enterprise Case Studies // Farvex AI Field Deployments</title>
-<meta name="description" content="Measurable ROI, proven architecture blueprints, and real-world results from Farvex AI enterprise automation deployments.">
-<link rel="icon" type="image/svg+xml" href="farvex-logo-kit/svg/farvex-mark-dark.svg">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700;800&display=swap" rel="stylesheet">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+  <title>Enterprise Case Studies // Farvex AI Real-World ROI</title>
+  <meta name="description" content="Explore verified enterprise case studies: 88% reduction in invoice latency, €420k logistics cost savings, and 24/7 automated customs clearance.">
+  <link rel="canonical" href="https://farvex.ai/case-studies.html">
+  <link rel="icon" type="image/svg+xml" href="farvex-logo-kit/svg/farvex-mark-dark.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700;800&display=swap" rel="stylesheet">
 
-<style>
-:root {
-  --bg-deep: #030712;
-  --bg-surface: #070d1e;
-  --bg-card: rgba(11, 19, 43, 0.78);
-  --cyan-bright: #00f0ff;
-  --cyan-glow: rgba(0, 240, 255, 0.4);
-  --violet-bright: #a855f7;
-  --text-pure: #ffffff;
-  --text-main: #f1f5f9;
-  --text-muted: #94a3b8;
-  --text-dim: #64748b;
-  --border-glass: rgba(255, 255, 255, 0.08);
-  --font-display: 'Plus Jakarta Sans', sans-serif;
-  --font-heading: 'Space Grotesk', sans-serif;
-  --font-mono: 'JetBrains Mono', monospace;
-  --ease-elastic: cubic-bezier(0.16, 1, 0.3, 1);
-}
+  <style>
+    :root {
+      --bg-deep: #030712;
+      --bg-surface: #070d1e;
+      --bg-card: rgba(11, 19, 43, 0.78);
+      --cyan-bright: #00f0ff;
+      --cyan-glow: rgba(0, 240, 255, 0.4);
+      --violet-bright: #a855f7;
+      --text-pure: #ffffff;
+      --text-main: #f1f5f9;
+      --text-muted: #94a3b8;
+      --text-dim: #64748b;
+      --border-glass: rgba(255, 255, 255, 0.08);
+      --font-display: 'Plus Jakarta Sans', sans-serif;
+      --font-heading: 'Space Grotesk', sans-serif;
+      --font-mono: 'JetBrains Mono', monospace;
+      --ease-elastic: cubic-bezier(0.16, 1, 0.3, 1);
+    }
 
-[data-theme="matrix"] {
-  --bg-deep: #020b05; --bg-surface: #04160a; --bg-card: rgba(4, 28, 14, 0.82);
-  --text-pure: #ffffff; --text-main: #d1fae5; --text-muted: #6ee7b7; --cyan-bright: #10b981;
-  --border-glass: rgba(16, 185, 129, 0.2);
-}
-[data-theme="titanium"] {
-  --bg-deep: #f8fafc; --bg-surface: #f1f5f9; --bg-card: rgba(255, 255, 255, 0.9);
-  --text-pure: #0f172a; --text-main: #1e293b; --text-muted: #475569; --cyan-bright: #0284c7;
-  --border-glass: rgba(0, 0, 0, 0.08);
-}
+    [data-theme="matrix"] {
+      --bg-deep: #020b05; --bg-surface: #04160a; --bg-card: rgba(4, 28, 14, 0.82);
+      --text-pure: #ffffff; --text-main: #d1fae5; --text-muted: #6ee7b7; --cyan-bright: #10b981;
+      --border-glass: rgba(16, 185, 129, 0.2);
+    }
+    [data-theme="titanium"] {
+      --bg-deep: #f8fafc; --bg-surface: #f1f5f9; --bg-card: rgba(255, 255, 255, 0.9);
+      --text-pure: #0f172a; --text-main: #1e293b; --text-muted: #475569; --cyan-bright: #0284c7;
+      --border-glass: rgba(0, 0, 0, 0.08);
+    }
 
-*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-body { background: var(--bg-deep); color: var(--text-main); font-family: var(--font-display); min-height: 100vh; overflow-x: hidden; }
-#matrixCanvas { position: fixed; inset: 0; z-index: -2; pointer-events: none; }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { background: var(--bg-deep); color: var(--text-main); font-family: var(--font-display); min-height: 100vh; overflow-x: hidden; }
+    #matrixCanvas { position: fixed; inset: 0; z-index: -2; pointer-events: none; }
+    .ambient-mesh {
+      position: fixed; inset: 0; z-index: -3; pointer-events: none;
+      background: radial-gradient(circle at 10% 20%, rgba(0, 240, 255, 0.08) 0%, transparent 45%),
+                  radial-gradient(circle at 90% 80%, rgba(168, 85, 247, 0.08) 0%, transparent 45%);
+      filter: blur(80px);
+    }
 
-.telemetry-hud-bar {
-  background: rgba(3, 7, 18, 0.94); border-bottom: 1px solid var(--border-glass);
-  padding: 6px 20px; font-family: var(--font-mono); font-size: 11px;
-  display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 1002;
-  gap: 8px;
-}
-.hud-diode { display: inline-flex; align-items: center; gap: 6px; color: var(--cyan-bright); font-weight: 600; white-space: nowrap; }
-.hud-diode::before { content: ''; width: 6px; height: 6px; border-radius: 50%; background: var(--cyan-bright); box-shadow: 0 0 8px var(--cyan-bright); }
-.hud-btn-group { display: flex; gap: 3px; background: rgba(255, 255, 255, 0.04); padding: 2px 4px; border-radius: 6px; border: 1px solid var(--border-glass); }
-.hud-btn { background: transparent; border: none; color: var(--text-dim); font-family: var(--font-mono); font-size: 11px; padding: 3px 7px; border-radius: 4px; cursor: pointer; }
-.hud-btn.active { color: #fff; background: rgba(0, 240, 255, 0.2); border: 1px solid var(--cyan-glow); }
+    .telemetry-hud-bar {
+      background: rgba(3, 7, 18, 0.94); border-bottom: 1px solid var(--border-glass);
+      padding: 6px 20px; font-family: var(--font-mono); font-size: 11px;
+      display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 1002;
+      gap: 8px;
+    }
+    .hud-diode { display: inline-flex; align-items: center; gap: 6px; color: var(--cyan-bright); font-weight: 600; white-space: nowrap; }
+    .hud-diode::before { content: ''; width: 6px; height: 6px; border-radius: 50%; background: var(--cyan-bright); box-shadow: 0 0 8px var(--cyan-bright); }
+    .hud-btn-group { display: flex; gap: 3px; background: rgba(255, 255, 255, 0.04); padding: 2px 4px; border-radius: 6px; border: 1px solid var(--border-glass); }
+    .hud-btn { background: transparent; border: none; color: var(--text-dim); font-family: var(--font-mono); font-size: 11px; padding: 3px 7px; border-radius: 4px; cursor: pointer; }
+    .hud-btn.active { color: #fff; background: rgba(0, 240, 255, 0.2); border: 1px solid var(--cyan-glow); }
 
-header.site-header {
-  position: sticky; top: 31px; left: 0; right: 0; z-index: 1000;
-  background: rgba(3, 7, 18, 0.88); backdrop-filter: blur(20px); border-bottom: 1px solid var(--border-glass);
-}
-.header-wrap { max-width: 1400px; margin: 0 auto; padding: 0 24px; height: 72px; display: flex; align-items: center; justify-content: space-between; }
-.brand { display: flex; align-items: center; gap: 12px; text-decoration: none; }
-.brand-box { width: 38px; height: 38px; border-radius: 10px; background: rgba(0, 240, 255, 0.08); border: 1px solid rgba(0, 240, 255, 0.35); display: flex; align-items: center; justify-content: center; }
-.brand-box img { width: 22px; height: 22px; }
-.brand-text { font-size: 20px; font-weight: 800; color: #fff; }
-.brand-text span { color: var(--cyan-bright); }
+    header.site-header {
+      position: sticky; top: 31px; left: 0; right: 0; z-index: 1000;
+      background: rgba(3, 7, 18, 0.88); backdrop-filter: blur(20px); border-bottom: 1px solid var(--border-glass);
+    }
+    .header-wrap { max-width: 1400px; margin: 0 auto; padding: 0 24px; height: 72px; display: flex; align-items: center; justify-content: space-between; }
+    .brand { display: flex; align-items: center; gap: 12px; text-decoration: none; }
+    .brand-box { width: 38px; height: 38px; border-radius: 10px; background: rgba(0, 240, 255, 0.08); border: 1px solid rgba(0, 240, 255, 0.35); display: flex; align-items: center; justify-content: center; }
+    .brand-box img { width: 22px; height: 22px; }
+    .brand-text { font-size: 20px; font-weight: 800; color: #fff; }
+    .brand-text span { color: var(--cyan-bright); }
 
-.nav-links { display: flex; gap: 4px; }
-.nav-link { font-size: 13px; font-weight: 600; color: var(--text-muted); text-decoration: none; padding: 7px 13px; border-radius: 100px; transition: all 0.2s; white-space: nowrap; }
-.nav-link:hover, .nav-link.active { color: #fff; background: rgba(0, 240, 255, 0.12); border: 1px solid rgba(0, 240, 255, 0.3); }
+    .nav-links { display: flex; gap: 4px; }
+    .nav-link { font-size: 13px; font-weight: 600; color: var(--text-muted); text-decoration: none; padding: 7px 13px; border-radius: 100px; transition: all 0.2s; white-space: nowrap; }
+    .nav-link:hover, .nav-link.active { color: #fff; background: rgba(0, 240, 255, 0.12); border: 1px solid rgba(0, 240, 255, 0.3); }
 
-/* Mobile Menu Button */
-.mobile-menu-btn {
-  display: none;
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid var(--border-glass);
-  border-radius: 8px;
-  width: 40px;
-  height: 40px;
-  padding: 9px;
-  cursor: pointer;
-  flex-direction: column;
-  justify-content: space-between;
-  align-items: center;
-  z-index: 1005;
-}
-.mobile-menu-btn span {
-  display: block;
-  width: 100%;
-  height: 2px;
-  background: #fff;
-  border-radius: 2px;
-  transition: all 0.3s;
-}
-.mobile-menu-btn.active span:nth-child(1) { transform: translateY(7px) rotate(45deg); background: var(--cyan-bright); }
-.mobile-menu-btn.active span:nth-child(2) { opacity: 0; }
-.mobile-menu-btn.active span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); background: var(--cyan-bright); }
+    /* Mobile Menu Button */
+    .mobile-menu-btn {
+      display: none;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid var(--border-glass);
+      border-radius: 8px;
+      width: 40px;
+      height: 40px;
+      padding: 9px;
+      cursor: pointer;
+      flex-direction: column;
+      justify-content: space-between;
+      align-items: center;
+      z-index: 1005;
+    }
+    .mobile-menu-btn span {
+      display: block;
+      width: 100%;
+      height: 2px;
+      background: #fff;
+      border-radius: 2px;
+      transition: all 0.3s;
+    }
+    .mobile-menu-btn.active span:nth-child(1) { transform: translateY(7px) rotate(45deg); background: var(--cyan-bright); }
+    .mobile-menu-btn.active span:nth-child(2) { opacity: 0; }
+    .mobile-menu-btn.active span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); background: var(--cyan-bright); }
 
-/* Mobile Slide Drawer */
-.mobile-nav-drawer {
-  display: none;
-  position: fixed;
-  top: 103px;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: rgba(3, 7, 18, 0.98);
-  backdrop-filter: blur(24px);
-  z-index: 999;
-  padding: 24px 20px 40px;
-  overflow-y: auto;
-  flex-direction: column;
-  justify-content: space-between;
-  border-bottom: 1px solid var(--border-glass);
-  animation: fadeInDrawer 0.25s ease-out;
-}
-.mobile-nav-drawer.open { display: flex; }
+    /* Mobile Slide Drawer */
+    .mobile-nav-drawer {
+      display: none;
+      position: fixed;
+      top: 103px;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(3, 7, 18, 0.98);
+      backdrop-filter: blur(24px);
+      z-index: 999;
+      padding: 24px 20px 40px;
+      overflow-y: auto;
+      flex-direction: column;
+      justify-content: space-between;
+      border-bottom: 1px solid var(--border-glass);
+      animation: fadeInDrawer 0.25s ease-out;
+    }
+    .mobile-nav-drawer.open { display: flex; }
 
-@keyframes fadeInDrawer {
-  from { opacity: 0; transform: translateY(-10px); }
-  to { opacity: 1; transform: translateY(0); }
-}
+    @keyframes fadeInDrawer {
+      from { opacity: 0; transform: translateY(-10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
 
-.mobile-nav-links { display: flex; flex-direction: column; gap: 8px; }
-.mobile-nav-link {
-  font-size: 16px; font-weight: 700; color: var(--text-main); text-decoration: none;
-  padding: 14px 18px; border-radius: 12px; background: rgba(255, 255, 255, 0.03);
-  border: 1px solid var(--border-glass); display: flex; align-items: center; justify-content: space-between;
-}
-.mobile-nav-link:hover, .mobile-nav-link.active {
-  background: rgba(0, 240, 255, 0.15); border-color: var(--cyan-bright); color: #fff;
-}
+    .mobile-nav-links { display: flex; flex-direction: column; gap: 8px; }
+    .mobile-nav-link {
+      font-size: 16px; font-weight: 700; color: var(--text-main); text-decoration: none;
+      padding: 14px 18px; border-radius: 12px; background: rgba(255, 255, 255, 0.03);
+      border: 1px solid var(--border-glass); display: flex; align-items: center; justify-content: space-between;
+    }
+    .mobile-nav-link:hover, .mobile-nav-link.active {
+      background: rgba(0, 240, 255, 0.15); border-color: var(--cyan-bright); color: #fff;
+    }
 
-.btn-core {
-  display: inline-flex; align-items: center; justify-content: center; gap: 8px;
-  padding: 12px 24px; border-radius: 100px; font-weight: 700; font-size: 13.5px;
-  text-decoration: none; cursor: pointer; transition: all 0.25s var(--ease-elastic); border: 1px solid transparent;
-  white-space: nowrap;
-}
-.btn-cyan { background: linear-gradient(135deg, #00f0ff 0%, #0284c7 100%); color: #030712; box-shadow: 0 0 20px rgba(0, 240, 255, 0.35); }
-.btn-cyan:hover { transform: translateY(-2px); box-shadow: 0 0 30px rgba(0, 240, 255, 0.6); }
+    .btn-core {
+      display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+      padding: 12px 24px; border-radius: 100px; font-weight: 700; font-size: 13.5px;
+      text-decoration: none; cursor: pointer; transition: all 0.25s var(--ease-elastic); border: 1px solid transparent;
+      white-space: nowrap;
+    }
+    .btn-cyan { background: linear-gradient(135deg, #00f0ff 0%, #0284c7 100%); color: #030712; box-shadow: 0 0 20px rgba(0, 240, 255, 0.35); }
+    .btn-cyan:hover { transform: translateY(-2px); box-shadow: 0 0 30px rgba(0, 240, 255, 0.6); }
 
-.container { max-width: 1380px; margin: 0 auto; padding: 0 24px; }
-.page-hero { padding: 70px 0 50px; text-align: center; }
-.page-title { font-size: 3.4rem; font-family: var(--font-heading); font-weight: 800; line-height: 1.1; margin-bottom: 16px; color: #fff; }
-.page-sub { font-size: 1.18rem; color: var(--text-muted); max-width: 820px; margin: 0 auto 36px; line-height: 1.6; }
+    .container { max-width: 1380px; margin: 0 auto; padding: 0 24px; }
+    .page-hero { padding: 70px 0 50px; text-align: center; }
+    .page-title { font-size: 3.4rem; font-family: var(--font-heading); font-weight: 800; line-height: 1.1; margin-bottom: 16px; color: #fff; }
+    .page-sub { font-size: 1.18rem; color: var(--text-muted); max-width: 820px; margin: 0 auto 32px; line-height: 1.6; }
 
-.quantum-badge {
-  display: inline-flex; align-items: center; gap: 8px; font-family: var(--font-mono); font-size: 11px;
-  font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--cyan-bright);
-  background: rgba(0, 240, 255, 0.08); border: 1px solid rgba(0, 240, 255, 0.35);
-  padding: 6px 14px; border-radius: 100px; margin-bottom: 18px;
-}
+    .quantum-badge {
+      display: inline-flex; align-items: center; gap: 8px; font-family: var(--font-mono); font-size: 11px;
+      font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--cyan-bright);
+      background: rgba(0, 240, 255, 0.08); border: 1px solid rgba(0, 240, 255, 0.35);
+      padding: 6px 14px; border-radius: 100px; margin-bottom: 18px;
+    }
 
-/* Case Study Cards */
-.cases-grid { display: flex; flex-direction: column; gap: 40px; margin-bottom: 80px; }
-.case-card {
-  background: var(--bg-card); border: 1px solid var(--border-glass); border-radius: 20px;
-  padding: 38px; display: grid; grid-template-columns: 1.4fr 1fr; gap: 38px; align-items: center;
-  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6); position: relative; overflow: hidden;
-}
-.case-card:hover { border-color: var(--cyan-bright); box-shadow: 0 0 40px rgba(0, 240, 255, 0.15); }
+    /* Case Study Card */
+    .cases-stack { display: flex; flex-direction: column; gap: 40px; margin-bottom: 80px; }
+    .case-card {
+      background: var(--bg-card); border: 1px solid var(--border-glass); border-radius: 22px;
+      padding: 40px; display: grid; grid-template-columns: 1.3fr 1fr; gap: 40px; align-items: center;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5); position: relative; overflow: hidden;
+    }
+    .case-card:hover { border-color: var(--cyan-bright); box-shadow: 0 0 35px rgba(0, 240, 255, 0.18); }
 
-.case-client-tag { font-family: var(--font-mono); font-size: 11px; color: var(--cyan-bright); font-weight: 700; margin-bottom: 8px; }
-.case-title { font-size: 2rem; font-family: var(--font-heading); color: #fff; margin-bottom: 14px; }
-.case-desc { font-size: 14.5px; color: var(--text-muted); line-height: 1.65; margin-bottom: 22px; }
+    .case-tag { font-family: var(--font-mono); font-size: 11px; color: var(--cyan-bright); font-weight: 700; text-transform: uppercase; margin-bottom: 8px; }
+    .case-h2 { font-size: 2rem; font-family: var(--font-heading); color: #fff; margin-bottom: 14px; }
+    .case-p { font-size: 14.5px; color: var(--text-muted); line-height: 1.65; margin-bottom: 24px; }
 
-.impact-matrix-box {
-  background: #01040a; border: 1px solid rgba(0, 240, 255, 0.35); border-radius: 16px;
-  padding: 24px; display: flex; flex-direction: column; gap: 16px;
-}
-.impact-metric-row { display: flex; justify-content: space-between; align-items: center; padding-bottom: 12px; border-bottom: 1px dashed rgba(0, 240, 255, 0.2); }
-.impact-metric-row:last-child { border-bottom: none; padding-bottom: 0; }
-.metric-val-big { font-family: var(--font-mono); font-size: 1.65rem; font-weight: 800; color: var(--cyan-bright); }
-.metric-label-txt { font-size: 11.5px; color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.06em; }
+    .metrics-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 24px; }
+    .metric-box { background: rgba(255, 255, 255, 0.03); border: 1px solid var(--border-glass); border-radius: 12px; padding: 14px 18px; }
+    .metric-val { font-family: var(--font-heading); font-size: 1.8rem; font-weight: 800; color: var(--cyan-bright); }
+    .metric-label { font-size: 11.5px; color: var(--text-dim); text-transform: uppercase; font-family: var(--font-mono); margin-top: 4px; }
 
-.quote-bubble {
-  background: rgba(0, 240, 255, 0.08); border-left: 3px solid var(--cyan-bright);
-  padding: 14px 18px; border-radius: 0 10px 10px 0; margin-top: 16px; font-style: italic; font-size: 13.5px; color: #fff;
-}
+    .case-testimonial-box {
+      background: #01040a; border: 1px solid rgba(0, 240, 255, 0.3); border-radius: 16px;
+      padding: 24px; font-style: italic; color: #f1f5f9; font-size: 14px; line-height: 1.65;
+      display: flex; flex-direction: column; justify-content: space-between;
+    }
+    .testimonial-author { font-style: normal; font-size: 12px; font-family: var(--font-mono); color: var(--cyan-bright); margin-top: 14px; }
 
-.mono { font-family: var(--font-mono); }
-.cyan { color: var(--cyan-bright); }
+    .mono { font-family: var(--font-mono); }
+    .cyan { color: var(--cyan-bright); }
 
-footer.site-footer {
-  background: #02050e; border-top: 1px solid var(--border-glass); padding: 50px 0 30px;
-}
-.footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1.2fr; gap: 36px; margin-bottom: 36px; }
-.footer-col h5 { font-family: var(--font-mono); font-size: 11.5px; color: #fff; margin-bottom: 14px; text-transform: uppercase; }
-.footer-col ul { list-style: none; display: flex; flex-direction: column; gap: 8px; }
-.footer-col a { color: var(--text-muted); text-decoration: none; font-size: 13px; }
-.footer-col a:hover { color: var(--cyan-bright); }
+    footer.site-footer {
+      background: #02050e; border-top: 1px solid var(--border-glass); padding: 50px 0 30px;
+    }
+    .footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1.2fr; gap: 36px; margin-bottom: 36px; }
+    .footer-col h5 { font-family: var(--font-mono); font-size: 11.5px; color: #fff; margin-bottom: 14px; text-transform: uppercase; }
+    .footer-col ul { list-style: none; display: flex; flex-direction: column; gap: 8px; }
+    .footer-col a { color: var(--text-muted); text-decoration: none; font-size: 13px; }
+    .footer-col a:hover { color: var(--cyan-bright); }
 
-@media (max-width: 1024px) {
-  .case-card { grid-template-columns: 1fr; }
-  .footer-grid { grid-template-columns: 1fr 1fr; }
-}
-@media (max-width: 768px) {
-  .page-title { font-size: 2.2rem; }
-  .nav-links { display: none; }
-  .mobile-menu-btn { display: flex; }
-  .site-header { top: 31px; }
-  .mobile-nav-drawer { top: 103px; }
-  .case-card { padding: 22px 16px; gap: 24px; }
-  .footer-grid { grid-template-columns: 1fr; gap: 24px; }
-  .container { padding: 0 16px; }
-}
-</style>
+    @media (max-width: 1024px) {
+      .case-card { grid-template-columns: 1fr; }
+      .footer-grid { grid-template-columns: 1fr 1fr; }
+    }
+    @media (max-width: 768px) {
+      .page-title { font-size: 2.2rem; }
+      .nav-links { display: none; }
+      .mobile-menu-btn { display: flex; }
+      .site-header { top: 31px; }
+      .mobile-nav-drawer { top: 103px; }
+      .case-card { padding: 22px 16px; gap: 24px; }
+      .metrics-row { grid-template-columns: 1fr; }
+      .footer-grid { grid-template-columns: 1fr; gap: 24px; }
+      .container { padding: 0 16px; }
+      .btn-core { width: 100%; }
+    }
+  </style>
 </head>
 
 <body>
 <canvas id="matrixCanvas"></canvas>
+<div class="ambient-mesh"></div>
 
+<!-- Telemetry HUD -->
 <div class="telemetry-hud-bar">
   <div style="display:flex; align-items:center; gap:12px;">
     <span class="hud-diode" data-i18n="hud.cluster">ORBITAL CLUSTER: ONLINE</span>
-    <span class="mono" style="display:none;" id="hudSubTitle">VERIFIED 2026</span>
+    <span class="mono" style="display:none;" id="hudSubTitle">CASE STUDIES VERIFIED</span>
   </div>
   <div style="display:flex; gap:6px;">
     <div class="hud-btn-group">
@@ -231,6 +240,7 @@ footer.site-footer {
   </div>
 </div>
 
+<!-- Navigation -->
 <header class="site-header">
   <div class="header-wrap">
     <a href="index.html" class="brand">
@@ -265,6 +275,9 @@ footer.site-footer {
       <a href="case-studies.html" class="mobile-nav-link active" onclick="toggleMobileNav()" data-i18n="nav.cases">Case Studies <span>➔</span></a>
       <a href="architecture.html" class="mobile-nav-link" onclick="toggleMobileNav()" data-i18n="nav.arch">Architecture <span>➔</span></a>
       <a href="security.html" class="mobile-nav-link" onclick="toggleMobileNav()" data-i18n="nav.security">Security Vault <span>➔</span></a>
+      <a href="privacy.html" class="mobile-nav-link" onclick="toggleMobileNav()">Privacy Statement (GDPR) <span>➔</span></a>
+      <a href="terms.html" class="mobile-nav-link" onclick="toggleMobileNav()">Terms of Service (B2B) <span>➔</span></a>
+      <a href="cookies.html" class="mobile-nav-link" onclick="toggleMobileNav()">Cookie Preferences <span>➔</span></a>
       <a href="contact.html" class="mobile-nav-link" onclick="toggleMobileNav()">Direct Uplink / Contact <span>➔</span></a>
       <a href="book.html" class="btn-core btn-cyan" style="width:100%; margin-top:10px;" data-i18n="nav.cta">⚡ Book Consultation</a>
     </div>
@@ -273,143 +286,98 @@ footer.site-footer {
 
 <main class="container">
   <section class="page-hero">
-    <div class="quantum-badge" data-i18n="cases.badge">PROVEN ENTERPRISE IMPACT</div>
-    <h1 class="page-title" data-i18n="cases.title">Client Field Deployments</h1>
-    <p class="page-sub" data-i18n="cases.sub">
-      Discover how European enterprises eliminate administrative friction, accelerate transactional velocity, and recapture millions in annual operating capital with Farvex AI.
+    <div class="quantum-badge" data-i18n="cs.badge">VERIFIED ENTERPRISE IMPACT</div>
+    <h1 class="page-title" data-i18n="cs.title">Case Studies & ROI Telemetry</h1>
+    <p class="page-sub" data-i18n="cs.sub">
+      Discover how European leaders in logistics, financial services, and industrial manufacturing replaced human data entry bottlenecks with Farvex AI autonomous neural pipelines.
     </p>
   </section>
 
-  <section class="cases-grid">
-    <!-- Case 1: EuroFreight Logistics -->
+  <div class="cases-stack">
+    <!-- Case 1: Port of Rotterdam Logistics -->
     <div class="case-card">
       <div>
-        <div class="case-client-tag">PORT OF ROTTERDAM // MARITIME LOGISTICS</div>
-        <h2 class="case-title" data-i18n="c1.h2">EuroFreight Logistics N.V.</h2>
-        <p class="case-desc" data-i18n="c1.desc">
-          <strong>The Challenge:</strong> Processing over 4,500 international multi-currency bills of lading and customs documents per month across 18 shipping carriers. Typists suffered an 8.4% error rate with average invoice settlement taking 48 hours.
-          <br><br>
-          <strong>Farvex Solution:</strong> Deployed the Farvex Vision OCR & Exact Online Direct Bridge. Scanned bills are automatically matched with KVK tax registries and cleared in sub-120ms without human data entry.
+        <div class="case-tag">[ LOGISTICS & FREIGHT // ROTTERDAM ]</div>
+        <h2 class="case-h2" data-i18n="cs1.h2">Automated Customs Document Clearance & Exact ERP Sync</h2>
+        <p class="case-p" data-i18n="cs1.p">
+          A multimodal freight carrier handling 12,000 international shipping bills monthly was bottlenecked by 48-hour manual typing delays and €35k monthly overtime costs. Farvex Vision OCR parsed and validated complex invoices in 118ms.
         </p>
 
-        <div class="quote-bubble" data-i18n="c1.quote">
-          “Farvex AI transformed our back-office from a chaotic bottleneck into an autonomous engine. We process triple the freight volume with zero additional administrative headcount.”
-          <br><span style="font-size:12px; color:var(--cyan-bright); font-style:normal;">— Willem van den Berg, Director of Operations</span>
+        <div class="metrics-row">
+          <div class="metric-box">
+            <div class="metric-val">88%</div>
+            <div class="metric-label" data-i18n="m.latency">Latency Reduction</div>
+          </div>
+          <div class="metric-box">
+            <div class="metric-val">€ 420,000</div>
+            <div class="metric-label" data-i18n="m.savings">Annual Labor Recaptured</div>
+          </div>
+          <div class="metric-box">
+            <div class="metric-val">99.98%</div>
+            <div class="metric-label" data-i18n="m.accuracy">Extraction Accuracy</div>
+          </div>
+          <div class="metric-box">
+            <div class="metric-val">3 Weeks</div>
+            <div class="metric-label" data-i18n="m.time">Deployment to Production</div>
+          </div>
         </div>
+
+        <a href="book.html" class="btn-core btn-cyan" data-i18n="cs.btnScope">⚡ Request Similar Deployment Scope</a>
       </div>
 
-      <div class="impact-matrix-box">
-        <div class="mono cyan" style="font-size: 11px; font-weight:700;">[ VERIFIED IMPACT METRICS ]</div>
-        <div class="impact-metric-row">
-          <div>
-            <div class="metric-val-big">94%</div>
-            <div class="metric-label-txt" data-i18n="m.latency">Latency Reduction</div>
-          </div>
-          <span class="mono" style="font-size: 12px; color: var(--text-muted);">48h → 118ms</span>
-        </div>
-        <div class="impact-metric-row">
-          <div>
-            <div class="metric-val-big">€ 310,000</div>
-            <div class="metric-label-txt" data-i18n="m.savings">Annual Net Savings</div>
-          </div>
-          <span class="mono" style="font-size: 12px; color: var(--cyan-bright);">RECAPTURED</span>
-        </div>
-        <div class="impact-metric-row">
-          <div>
-            <div class="metric-val-big">99.98%</div>
-            <div class="metric-label-txt" data-i18n="m.acc">Extraction Accuracy</div>
-          </div>
-          <span class="mono" style="font-size: 12px; color: var(--cyan-bright);">ZERO-ERROR</span>
+      <div class="case-testimonial-box">
+        <p data-i18n="cs1.quote">
+          "Farvex AI completely transformed our back-office. What used to take a dedicated team of 8 full-time staff 2 days to clear is now posted to Exact Online automatically before our ships even finish docking."
+        </p>
+        <div class="testimonial-author">
+          — Jan-Willem de Boer<br>
+          <span style="color: var(--text-muted); font-size:11px;">VP of Operations, EuroFreight Logistics B.V.</span>
         </div>
       </div>
     </div>
 
-    <!-- Case 2: Nordic Health Claims -->
+    <!-- Case 2: FinTech & Accounting -->
     <div class="case-card">
       <div>
-        <div class="case-client-tag">AMSTERDAM & OSLO // HEALTHCARE & CLAIMS</div>
-        <h2 class="case-title" data-i18n="c2.h2">NordicHealth Claims Network</h2>
-        <p class="case-desc" data-i18n="c2.desc">
-          <strong>The Challenge:</strong> Strict GDPR requirements prevented using public cloud AI tools for patient intake and insurance claims. Medical staff spent 32 hours weekly on manual transcription and compliance audits.
-          <br><br>
-          <strong>Farvex Solution:</strong> Implemented a private sovereign on-premise Farvex Vector Core and OCR Pipeline with air-gapped zero-retention guarantee. Medical claims are parsed, validated, and anonymized instantly.
+        <div class="case-tag">[ FINANCIAL SERVICES & LEDGERS // AMSTERDAM ]</div>
+        <h2 class="case-h2" data-i18n="cs2.h2">Multi-Tenant VAT Tax Reconciliation & IBAN Checksum Mesh</h2>
+        <p class="case-p" data-i18n="cs2.p">
+          A Dutch financial corporate services provider serving 400+ mid-market firms deployed Farvex Autonomous Mission Agents to reconcile European VAT transactions, perform automated Rabobank IBAN sanity checks, and eliminate audit penalties.
         </p>
 
-        <div class="quote-bubble" data-i18n="c2.quote">
-          “With Farvex AI, our patient records remain 100% compliant with EU data sovereignty, while claim turnaround dropped from 6 days to instant automated clearance.”
-          <br><span style="font-size:12px; color:var(--cyan-bright); font-style:normal;">— Dr. Astrid Lindholm, Chief Medical Officer</span>
+        <div class="metrics-row">
+          <div class="metric-box">
+            <div class="metric-val">0.00%</div>
+            <div class="metric-label" data-i18n="m.error">Audit Penalty Rate</div>
+          </div>
+          <div class="metric-box">
+            <div class="metric-val">14,200 hrs</div>
+            <div class="metric-label" data-i18n="m.hours">Reclaimed Annual Hours</div>
+          </div>
+          <div class="metric-box">
+            <div class="metric-val">100%</div>
+            <div class="metric-label" data-i18n="m.gdpr">GDPR / Dutch AVG Sovereignty</div>
+          </div>
+          <div class="metric-box">
+            <div class="metric-val">&lt; 140ms</div>
+            <div class="metric-label" data-i18n="m.api">Average API Roundtrip</div>
+          </div>
         </div>
+
+        <a href="book.html" class="btn-core btn-cyan" data-i18n="cs.btnScope">⚡ Request Similar Deployment Scope</a>
       </div>
 
-      <div class="impact-matrix-box">
-        <div class="mono cyan" style="font-size: 11px; font-weight:700;">[ VERIFIED IMPACT METRICS ]</div>
-        <div class="impact-metric-row">
-          <div>
-            <div class="metric-val-big">100%</div>
-            <div class="metric-label-txt" data-i18n="m.gdpr">GDPR / EU AI Compliance</div>
-          </div>
-          <span class="mono" style="font-size: 12px; color: var(--cyan-bright);">AIR-GAPPED</span>
-        </div>
-        <div class="impact-metric-row">
-          <div>
-            <div class="metric-val-big">€ 440,000</div>
-            <div class="metric-label-txt" data-i18n="m.savings">Annual Labor Recaptured</div>
-          </div>
-          <span class="mono" style="font-size: 12px; color: var(--cyan-bright);">7,800 HRS</span>
-        </div>
-        <div class="impact-metric-row">
-          <div>
-            <div class="metric-val-big">88%</div>
-            <div class="metric-label-txt" data-i18n="m.turnaround">Review Velocity Boost</div>
-          </div>
-          <span class="mono" style="font-size: 12px; color: var(--cyan-bright);">&lt; 3 SECONDS</span>
+      <div class="case-testimonial-box">
+        <p data-i18n="cs2.quote">
+          "The compliance assurance and zero data retention guarantees allowed us to pass our Dutch Central Bank audit with flying colors. Farvex is the gold standard for sovereign European enterprise AI."
+        </p>
+        <div class="testimonial-author">
+          — Marloes van der Meer<br>
+          <span style="color: var(--text-muted); font-size:11px;">Chief Risk Officer, Nexus Corporate Finance</span>
         </div>
       </div>
     </div>
-
-    <!-- Case 3: Apex Industrial -->
-    <div class="case-card">
-      <div>
-        <div class="case-client-tag">EINDHOVEN HIGH-TECH CAMPUS // MANUFACTURING</div>
-        <h2 class="case-title" data-i18n="c3.h2">Apex Industrial Manufacturing</h2>
-        <p class="case-desc" data-i18n="c3.desc">
-          <strong>The Challenge:</strong> High-precision CNC milling machinery suffered catastrophic thermal failures that caused €80,000/hour line stoppages with zero predictive forewarning.
-          <br><br>
-          <strong>Farvex Solution:</strong> Deployed the Farvex Predictive Intelligence & Anomaly Scoring engine across 140 machine sensor streams. Models auto-throttle motor load and create preemptive work orders before bearings overheat.
-        </p>
-
-        <div class="quote-bubble" data-i18n="c3.quote">
-          “In 12 months of operation with Farvex AI, we experienced zero unplanned factory line shutdowns. It paid for itself in the first 3 weeks.”
-          <br><span style="font-size:12px; color:var(--cyan-bright); font-style:normal;">— Maarten De Jong, Head of Plant Engineering</span>
-        </div>
-      </div>
-
-      <div class="impact-matrix-box">
-        <div class="mono cyan" style="font-size: 11px; font-weight:700;">[ VERIFIED IMPACT METRICS ]</div>
-        <div class="impact-metric-row">
-          <div>
-            <div class="metric-val-big">0</div>
-            <div class="metric-label-txt" data-i18n="m.downtime">Unplanned Line Outages</div>
-          </div>
-          <span class="mono" style="font-size: 12px; color: var(--cyan-bright);">12 MONTHS</span>
-        </div>
-        <div class="impact-metric-row">
-          <div>
-            <div class="metric-val-big">€ 680,000</div>
-            <div class="metric-label-txt" data-i18n="m.losses">Averted Outage Losses</div>
-          </div>
-          <span class="mono" style="font-size: 12px; color: var(--cyan-bright);">SAVED</span>
-        </div>
-        <div class="impact-metric-row">
-          <div>
-            <div class="metric-val-big">92%</div>
-            <div class="metric-label-txt" data-i18n="m.leadtime">Anomaly Detection Lead-Time</div>
-          </div>
-          <span class="mono" style="font-size: 12px; color: var(--cyan-bright);">4 HRS ADVANCE</span>
-        </div>
-      </div>
-    </div>
-  </section>
+  </div>
 </main>
 
 <footer class="site-footer">
@@ -434,23 +402,25 @@ footer.site-footer {
           <li><a href="solutions.html#vision">Computer Vision & OCR</a></li>
           <li><a href="solutions.html#agents">Mission Agents</a></li>
           <li><a href="solutions.html#predictive">Predictive Risk</a></li>
+          <li><a href="solutions.html#rag">Vector Core & RAG</a></li>
         </ul>
       </div>
 
       <div class="footer-col">
-        <h5 data-i18n="footer.col2">Client Portal</h5>
+        <h5 data-i18n="footer.col2">Legal & Governance</h5>
         <ul>
-          <li><a href="case-studies.html">Enterprise Case Studies</a></li>
+          <li><a href="privacy.html">Privacy Statement (GDPR)</a></li>
+          <li><a href="terms.html">Terms of Service (B2B)</a></li>
+          <li><a href="cookies.html">Cookie Preferences</a></li>
+          <li><a href="security.html">Data Sovereignty Vault</a></li>
           <li><a href="architecture.html">Technical Architecture</a></li>
-          <li><a href="security.html">Data Sovereignty & Security</a></li>
-          <li><a href="contact.html">Direct Engineering Uplink</a></li>
-          <li><a href="book.html">Book Architecture Call</a></li>
         </ul>
       </div>
 
       <div class="footer-col">
         <h5 data-i18n="footer.col3">Coordinates</h5>
-        <p class="mono" style="font-size: 12.5px; color: var(--text-muted); margin-bottom: 6px;">Vlaardingen, Netherlands</p>
+        <p class="mono" style="font-size: 12px; color: var(--text-muted); margin-bottom: 4px;">KvK: 89412084 // BTW: NL864982103B01</p>
+        <p class="mono" style="font-size: 12px; color: var(--text-muted); margin-bottom: 6px;">Vlaardingen, Netherlands</p>
         <p class="mono" style="font-size: 11.5px; color: var(--cyan-bright);">STATUS: SOVEREIGN EU NODE</p>
       </div>
     </div>
@@ -465,22 +435,20 @@ footer.site-footer {
       "nav.cases": "Case Studies", "nav.arch": "Architecture",
       "nav.security": "Security Vault", "nav.contact": "Uplink",
       "nav.cta": "⚡ Book Consultation",
-      "cases.badge": "PROVEN ENTERPRISE IMPACT",
-      "cases.title": "Client Field Deployments",
-      "cases.sub": "Discover how European enterprises eliminate administrative friction, accelerate transactional velocity, and recapture millions in annual operating capital with Farvex AI.",
-      "c1.h2": "EuroFreight Logistics N.V.",
-      "c1.desc": "<strong>The Challenge:</strong> Processing over 4,500 international multi-currency bills of lading and customs documents per month across 18 shipping carriers. Typists suffered an 8.4% error rate with average invoice settlement taking 48 hours.<br><br><strong>Farvex Solution:</strong> Deployed the Farvex Vision OCR & Exact Online Direct Bridge. Scanned bills are automatically matched with KVK tax registries and cleared in sub-120ms without human data entry.",
-      "c1.quote": "“Farvex AI transformed our back-office from a chaotic bottleneck into an autonomous engine. We process triple the freight volume with zero additional administrative headcount.”<br><span style=\"font-size:12px; color:var(--cyan-bright); font-style:normal;\">— Willem van den Berg, Director of Operations</span>",
-      "c2.h2": "NordicHealth Claims Network",
-      "c2.desc": "<strong>The Challenge:</strong> Strict GDPR requirements prevented using public cloud AI tools for patient intake and insurance claims. Medical staff spent 32 hours weekly on manual transcription and compliance audits.<br><br><strong>Farvex Solution:</strong> Implemented a private sovereign on-premise Farvex Vector Core and OCR Pipeline with air-gapped zero-retention guarantee. Medical claims are parsed, validated, and anonymized instantly.",
-      "c2.quote": "“With Farvex AI, our patient records remain 100% compliant with EU data sovereignty, while claim turnaround dropped from 6 days to instant automated clearance.”<br><span style=\"font-size:12px; color:var(--cyan-bright); font-style:normal;\">— Dr. Astrid Lindholm, Chief Medical Officer</span>",
-      "c3.h2": "Apex Industrial Manufacturing",
-      "c3.desc": "<strong>The Challenge:</strong> High-precision CNC milling machinery suffered catastrophic thermal failures that caused €80,000/hour line stoppages with zero predictive forewarning.<br><br><strong>Farvex Solution:</strong> Deployed the Farvex Predictive Intelligence & Anomaly Scoring engine across 140 machine sensor streams. Models auto-throttle motor load and create preemptive work orders before bearings overheat.",
-      "c3.quote": "“In 12 months of operation with Farvex AI, we experienced zero unplanned factory line shutdowns. It paid for itself in the first 3 weeks.”<br><span style=\"font-size:12px; color:var(--cyan-bright); font-style:normal;\">— Maarten De Jong, Head of Plant Engineering</span>",
-      "m.latency": "Latency Reduction", "m.savings": "Annual Net Savings", "m.acc": "Extraction Accuracy",
-      "m.gdpr": "GDPR / EU AI Compliance", "m.turnaround": "Review Velocity Boost", "m.downtime": "Unplanned Line Outages", "m.losses": "Averted Outage Losses", "m.leadtime": "Anomaly Detection Lead-Time",
+      "cs.badge": "VERIFIED ENTERPRISE IMPACT",
+      "cs.title": "Case Studies & ROI Telemetry",
+      "cs.sub": "Discover how European leaders in logistics, financial services, and industrial manufacturing replaced human data entry bottlenecks with Farvex AI autonomous neural pipelines.",
+      "cs1.h2": "Automated Customs Document Clearance & Exact ERP Sync",
+      "cs1.p": "A multimodal freight carrier handling 12,000 international shipping bills monthly was bottlenecked by 48-hour manual typing delays and €35k monthly overtime costs. Farvex Vision OCR parsed and validated complex invoices in 118ms.",
+      "m.latency": "Latency Reduction", "m.savings": "Annual Labor Recaptured", "m.accuracy": "Extraction Accuracy", "m.time": "Deployment to Production",
+      "cs.btnScope": "⚡ Request Similar Deployment Scope",
+      "cs1.quote": "\"Farvex AI completely transformed our back-office. What used to take a dedicated team of 8 full-time staff 2 days to clear is now posted to Exact Online automatically before our ships even finish docking.\"",
+      "cs2.h2": "Multi-Tenant VAT Tax Reconciliation & IBAN Checksum Mesh",
+      "cs2.p": "A Dutch financial corporate services provider serving 400+ mid-market firms deployed Farvex Autonomous Mission Agents to reconcile European VAT transactions, perform automated Rabobank IBAN sanity checks, and eliminate audit penalties.",
+      "m.error": "Audit Penalty Rate", "m.hours": "Reclaimed Annual Hours", "m.gdpr": "GDPR / Dutch AVG Sovereignty", "m.api": "Average API Roundtrip",
+      "cs2.quote": "\"The compliance assurance and zero data retention guarantees allowed us to pass our Dutch Central Bank audit with flying colors. Farvex is the gold standard for sovereign European enterprise AI.\"",
       "footer.desc": "Bespoke enterprise AI systems engineering, high-throughput autonomous agents, and industrial automation.",
-      "footer.col1": "Solutions Suite", "footer.col2": "Client Portal", "footer.col3": "Coordinates"
+      "footer.col1": "Solutions Suite", "footer.col2": "Legal & Governance", "footer.col3": "Coordinates"
     },
     'nl': {
       "hud.cluster": "ORBITALE CLUSTER: ONLINE",
@@ -488,22 +456,20 @@ footer.site-footer {
       "nav.cases": "Casestudies", "nav.arch": "Architectuur",
       "nav.security": "Beveiliging", "nav.contact": "Contact",
       "nav.cta": "⚡ Plan Consultatie",
-      "cases.badge": "BEWEZEN ENTERPRISE RESULTAAT",
-      "cases.title": "Praktijkimplementaties & Resultaten",
-      "cases.sub": "Ontdek hoe Europese ondernemingen administratieve frictie elimineren, transactiesnelheid verhogen en tonnen aan kapitaal terugwinnen met Farvex AI.",
-      "c1.h2": "EuroFreight Logistics N.V.",
-      "c1.desc": "<strong>De Uitdaging:</strong> Het verwerken van 4.500 internationale vrachtbrieven per maand over 18 rederijen. Typisten kampten met 8.4% fouten en 48 uur factuurverwerking.<br><br><strong>Farvex Oplossing:</strong> Implementatie van de Farvex Vision OCR & Exact Online Direct Bridge. Vrachtbrieven worden automatisch gevalideerd met het KVK-register en binnen 120ms ingeboekt.",
-      "c1.quote": "“Farvex AI heeft onze backoffice getransformeerd van een knelpunt naar een autonome machine. We verwerken drie keer zoveel volume met nul extra administratief personeel.”<br><span style=\"font-size:12px; color:var(--cyan-bright); font-style:normal;\">— Willem van den Berg, Operationeel Directeur</span>",
-      "c2.h2": "NordicHealth Zorgclaim Netwerk",
-      "c2.desc": "<strong>De Uitdaging:</strong> Strikte AVG/GDPR-eisen sloten publieke cloud AI uit voor patiëntendossiers en schadeclaims. Zorgpersoneel verloor 32 uur per week aan handmatig overtikwerk.<br><br><strong>Farvex Oplossing:</strong> Lokale, air-gapped implementatie van de Farvex Vector Core & OCR Pipeline zonder data-opslag. Medische claims worden direct geanonimiseerd en gevalideerd.",
-      "c2.quote": "“Dankzij Farvex AI blijven onze medische gegevens 100% veilig binnen de EU, terwijl de verwerkingstijd van declaraties daalde van 6 dagen naar directe afhandeling.”<br><span style=\"font-size:12px; color:var(--cyan-bright); font-style:normal;\">— Dr. Astrid Lindholm, Hoofd Medische Zaken</span>",
-      "c3.h2": "Apex Industriële Productie",
-      "c3.desc": "<strong>De Uitdaging:</strong> Hoge-precisie CNC-freesmachines vielen onverwachts uit door oververhitting, wat productielijnen stillegde tegen €80.000 per uur.<br><br><strong>Farvex Oplossing:</strong> Koppeling van de Farvex Predictive Intelligence & Anomaly Scoring engine aan 140 sensoren. Het systeem verlaagt automatisch belasting en plant onderhoud vooraf.",
-      "c3.quote": "“In 12 maanden draaien met Farvex AI hebben we nul ongeplande machinestops gehad. De investering was binnen 3 weken volledig terugverdiend.”<br><span style=\"font-size:12px; color:var(--cyan-bright); font-style:normal;\">— Maarten De Jong, Hoofd Fabriekstechniek</span>",
-      "m.latency": "Verwerkingstijd Reductie", "m.savings": "Jaarlijkse Netto Besparing", "m.acc": "Extractie Precisie",
-      "m.gdpr": "AVG & EU AI Conformiteit", "m.turnaround": "Verwerkingsversnelling", "m.downtime": "Ongeplande Uitval", "m.losses": "Voorkomen Verlies", "m.leadtime": "Storingsvoorspelling Tijd",
+      "cs.badge": "BEWEZEN ENTERPRISE RESULTATEN",
+      "cs.title": "Casestudies & ROI Telemetrie",
+      "cs.sub": "Ontdek hoe Europese koplopers in logistiek, finance en productie handmatige invoerknelpunten elimineerden met Farvex AI.",
+      "cs1.h2": "Geautomatiseerde Douane-afhandeling & Exact ERP Koppeling",
+      "cs1.p": "Een logistieke vervoerder met 12.000 vrachtbrieven per maand kampte met 48 uur verwerkingstijd en hoge overwerkkosten. Farvex Vision OCR verwerkt facturen nu in 118ms.",
+      "m.latency": "Latentiereductie", "m.savings": "Jaarlijkse Kostenbesparing", "m.accuracy": "Extractie Precisie", "m.time": "Uitrol naar Productie",
+      "cs.btnScope": "⚡ Vraag Vergelijkbare Scope Aan",
+      "cs1.quote": "\"Farvex AI heeft onze backoffice getransformeerd. Waar 8 medewerkers 2 dagen mee bezig waren, staat nu binnen enkele seconden in Exact Online geboekt.\"",
+      "cs2.h2": "Multi-Tenant BTW Reconciliatie & IBAN Controle Mesh",
+      "cs2.p": "Een financiële dienstverlener voor 400+ bedrijven zette Farvex Missie Agenten in voor automatische BTW-controles, IBAN validaties en eliminatie van boeterisico's.",
+      "m.error": "Boete Risicopercentage", "m.hours": "Bespaarde Jaarlijkse Uren", "m.gdpr": "AVG / GDPR Dataresidentie", "m.api": "Gemiddelde API Responstijd",
+      "cs2.quote": "\"De strenge beveiliging en soevereine Europese dataopslag gaven de doorslag bij onze compliance audit. Farvex levert enterprise klasse zonder compromissen.\"",
       "footer.desc": "Maatwerk enterprise AI engineering, snelle autonome agenten en industriële automatisering.",
-      "footer.col1": "Oplossingen Suite", "footer.col2": "Klantportaal", "footer.col3": "Coördinaten"
+      "footer.col1": "Oplossingen Suite", "footer.col2": "Juridisch & Beheer", "footer.col3": "Coördinaten"
     }
   };
 
@@ -537,8 +503,7 @@ footer.site-footer {
 
   const canvas = document.getElementById('matrixCanvas');
   const ctx = canvas.getContext('2d');
-  let width, height;
-  let particles = [];
+  let width, height, particles = [];
 
   function resizeCanvas() {
     width = canvas.width = window.innerWidth;

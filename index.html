@@ -5,6 +5,53 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
 <title>Farvex AI // Autonomous Enterprise Intelligence & Neural Systems</title>
 <meta name="description" content="Turn enterprise chaos into autonomous precision. Bespoke AI neural pipelines, instant vision document intelligence, and multi-agent workflow automation.">
+<meta name="keywords" content="Enterprise AI, Autonomous Agents, Document Vision OCR, Exact Online AI, SAP AI, Dutch AI Agency, Workflow Automation">
+<meta name="author" content="Farvex AI">
+<link rel="canonical" href="https://farvex.ai/">
+
+<!-- Open Graph / Social Sharing -->
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://farvex.ai/">
+<meta property="og:title" content="Farvex AI // Autonomous Enterprise Intelligence & Neural Systems">
+<meta property="og:description" content="Turn enterprise chaos into autonomous precision. Bespoke AI neural pipelines, instant document OCR, and multi-agent workflow automation.">
+<meta property="og:image" content="https://farvex.ai/farvex-logo-kit/png/farvex-logo-dark.png">
+
+<!-- Twitter Card -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Farvex AI // Autonomous Enterprise Intelligence">
+<meta name="twitter:description" content="Turn enterprise chaos into autonomous precision. Bespoke AI neural pipelines and industrial automation.">
+<meta name="twitter:image" content="https://farvex.ai/farvex-logo-kit/png/farvex-logo-dark.png">
+
+<!-- Structured Data Schema (JSON-LD) for Commercial B2B Entity -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Organization",
+      "@id": "https://farvex.ai/#organization",
+      "name": "Farvex AI",
+      "url": "https://farvex.ai",
+      "logo": "https://farvex.ai/farvex-logo-kit/svg/farvex-mark-dark.svg",
+      "email": "farvexai@gmail.com",
+      "telephone": "+31639760295",
+      "address": {
+        "@type": "PostalAddress",
+        "addressLocality": "Vlaardingen",
+        "addressCountry": "NL"
+      },
+      "sameAs": []
+    },
+    {
+      "@type": "SoftwareApplication",
+      "name": "Farvex Enterprise Neural Platform",
+      "applicationCategory": "BusinessApplication",
+      "operatingSystem": "Cloud / On-Premise"
+    }
+  ]
+}
+</script>
+
 <link rel="icon" type="image/svg+xml" href="farvex-logo-kit/svg/farvex-mark-dark.svg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -1365,6 +1412,40 @@ footer.quantum-footer {
 }
 
 /* ==========================================================================
+   COOKIE CONSENT POPUP BANNER (GDPR / DUTCH TELECOM ACT)
+   ========================================================================== */
+.cookie-banner-popup {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  max-width: 460px;
+  background: rgba(7, 13, 30, 0.96);
+  border: 1px solid rgba(0, 240, 255, 0.45);
+  border-radius: 16px;
+  padding: 24px;
+  z-index: 9999;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.8), 0 0 30px rgba(0, 240, 255, 0.2);
+  backdrop-filter: blur(20px);
+  display: none;
+  animation: slideUpCookie 0.35s var(--ease-elastic);
+}
+@keyframes slideUpCookie {
+  from { opacity: 0; transform: translateY(30px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.cookie-banner-title {
+  font-size: 14.5px;
+  font-weight: 700;
+  color: #fff;
+  margin-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.cookie-banner-text { font-size: 12.5px; color: var(--text-muted); line-height: 1.55; margin-bottom: 16px; }
+.cookie-banner-btns { display: flex; gap: 8px; flex-wrap: wrap; }
+
+/* ==========================================================================
    MOBILE & TABLET RESPONSIVE MEDIA QUERIES
    ========================================================================== */
 @media (max-width: 1080px) {
@@ -1378,7 +1459,6 @@ footer.quantum-footer {
 }
 
 @media (max-width: 768px) {
-  /* Navigation & HUD */
   .nav-menu-deck { display: none; }
   .mobile-menu-btn { display: flex; }
   .telemetry-hud-bar { padding: 6px 14px; }
@@ -1386,7 +1466,6 @@ footer.quantum-footer {
   .nav-wrap { padding: 0 16px; height: 64px; }
   .mobile-nav-drawer { top: 96px; }
 
-  /* Hero & Typography */
   .hero-quantum { padding: 40px 0 60px; }
   .hero-main-title { font-size: 2.2rem; line-height: 1.15; }
   .hero-subtext { font-size: 1rem; margin-bottom: 24px; }
@@ -1394,7 +1473,6 @@ footer.quantum-footer {
   .section-space { padding: 60px 0; }
   .container { padding: 0 16px; }
 
-  /* Scrubber Mobile Alignment */
   .scrubber-top-hud { padding: 12px 14px; flex-direction: column; align-items: flex-start; gap: 8px; }
   .entropy-slider-control-bar { width: 100%; justify-content: space-between; }
   .entropy-range-input { flex: 1; margin: 0 8px; width: auto; }
@@ -1403,31 +1481,27 @@ footer.quantum-footer {
   .stage-order-inner { width: 100%; grid-template-columns: 1fr; padding: 16px; gap: 14px; overflow-y: auto; }
   .chaos-metric-board, .order-metric-board { padding: 14px; }
 
-  /* Studio Mobile */
   .workflow-studio-box { padding: 18px 14px; }
   .studio-col-card { padding: 14px; }
   .studio-execution-footer { flex-direction: column; align-items: stretch; text-align: center; }
 
-  /* Laser OCR Mobile */
   .document-inspection-pane, .json-output-terminal { padding: 18px 14px; }
   .doc-paper-mock { padding: 16px; font-size: 11.5px; }
 
-  /* ROI Mobile */
   .roi-aircraft-deck { padding: 20px 14px; }
   .odometer-number-large { font-size: 2.3rem; }
   .roi-impact-dashboard { padding: 20px 16px; }
 
-  /* Bento & Matrix Mobile */
   .bento-grid-capabilities { grid-template-columns: 1fr; }
   .bento-card-node { padding: 20px 16px; }
   .matrix-deck { padding: 20px 14px; }
   .matrix-column-card { padding: 18px 14px; }
 
-  /* CTA & Footer Mobile */
   .cta-banner-deck { padding: 40px 18px; }
   .cta-banner-deck h2 { font-size: 2rem !important; }
   .footer-top-grid { grid-template-columns: 1fr; gap: 24px; }
   .footer-bottom-row { flex-direction: column; gap: 10px; text-align: center; }
+  .cookie-banner-popup { left: 16px; right: 16px; bottom: 16px; max-width: none; }
 }
 
 @media (max-width: 480px) {
@@ -1481,7 +1555,6 @@ footer.quantum-footer {
       <a href="architecture.html" class="nav-node" data-i18n="nav.arch">Architecture ↗</a>
       <a href="security.html" class="nav-node" data-i18n="nav.security">Security Vault ↗</a>
       <a href="#roi-engine" class="nav-node" data-i18n="nav.roi">ROI Matrix</a>
-      <a href="#faq" class="nav-node" data-i18n="nav.faq">FAQ</a>
     </nav>
 
     <div class="nav-cta-deck">
@@ -1502,6 +1575,7 @@ footer.quantum-footer {
       <a href="architecture.html" class="mobile-nav-link" onclick="toggleMobileNav()" data-i18n="nav.arch">Architecture ↗ <span>➔</span></a>
       <a href="security.html" class="mobile-nav-link" onclick="toggleMobileNav()" data-i18n="nav.security">Security Vault ↗ <span>➔</span></a>
       <a href="contact.html" class="mobile-nav-link" onclick="toggleMobileNav()">Direct Uplink / Contact <span>➔</span></a>
+      <a href="privacy.html" class="mobile-nav-link" onclick="toggleMobileNav()">Privacy Statement (GDPR) <span>➔</span></a>
       <a href="book.html" class="btn-core btn-cyan" style="width: 100%; margin-top: 10px;" data-i18n="nav.cta">⚡ Book Architecture Briefing</a>
     </div>
   </div>
@@ -1786,7 +1860,7 @@ footer.quantum-footer {
 </section>
 
 <!-- PRECISION ROTARY ROI CONSOLE -->
-<section class="section-space section-dark-panel" id="roi-engine">
+<section class="section-space" id="roi-engine">
   <div class="container">
     <div class="section-intro">
       <div class="quantum-badge" data-i18n="roi.badge">FINANCIAL IMPACT ENGINE</div>
@@ -1848,7 +1922,7 @@ footer.quantum-footer {
 </section>
 
 <!-- CAPABILITIES BENTO GRID WITH SUBPAGE LINKS -->
-<section class="section-space" id="capabilities">
+<section class="section-space section-dark-panel" id="capabilities">
   <div class="container">
     <div class="section-intro">
       <div class="quantum-badge" data-i18n="cap.badge">NEURAL SUITE</div>
@@ -1945,7 +2019,7 @@ footer.quantum-footer {
 </section>
 
 <!-- PARADIGM MATRIX -->
-<section class="section-space section-dark-panel" id="comparison">
+<section class="section-space" id="comparison">
   <div class="container">
     <div class="section-intro">
       <div class="quantum-badge" data-i18n="comp.badge">PARADIGM SHIFT</div>
@@ -2004,7 +2078,7 @@ footer.quantum-footer {
 </section>
 
 <!-- FAQ ACCORDION -->
-<section class="section-space" id="faq">
+<section class="section-space section-dark-panel" id="faq">
   <div class="container">
     <div class="section-intro">
       <div class="quantum-badge" data-i18n="faq.badge">SYSTEM INTELLIGENCE</div>
@@ -2107,32 +2181,50 @@ footer.quantum-footer {
       </div>
 
       <div class="footer-col">
-        <h5 data-i18n="footer.col2">Client Portal</h5>
+        <h5 data-i18n="footer.col2">Legal & Governance</h5>
         <ul>
-          <li><a href="case-studies.html">Enterprise Case Studies</a></li>
+          <li><a href="privacy.html">Privacy Statement (GDPR)</a></li>
+          <li><a href="terms.html">Terms of Service (B2B)</a></li>
+          <li><a href="cookies.html">Cookie Preferences</a></li>
+          <li><a href="security.html">Data Sovereignty Vault</a></li>
           <li><a href="architecture.html">Technical Architecture</a></li>
-          <li><a href="security.html">Data Sovereignty & Security</a></li>
-          <li><a href="contact.html">Direct Engineering Uplink</a></li>
-          <li><a href="book.html">Book Architecture Call</a></li>
         </ul>
       </div>
 
       <div class="footer-col">
         <h5 data-i18n="footer.col3">Coordinates</h5>
-        <p class="mono" style="font-size: 12.5px; color: var(--text-muted); margin-bottom: 6px;">Vlaardingen, Netherlands</p>
+        <p class="mono" style="font-size: 12px; color: var(--text-muted); margin-bottom: 4px;">KvK: 89412084 // BTW: NL864982103B01</p>
+        <p class="mono" style="font-size: 12px; color: var(--text-muted); margin-bottom: 6px;">Vlaardingen, Netherlands</p>
         <p class="mono" style="font-size: 11.5px; color: var(--cyan-bright);">STATUS: SOVEREIGN EU NODE</p>
       </div>
     </div>
 
     <div class="footer-bottom-row">
-      <span data-i18n="footer.rights">© 2026 Farvex AI. All rights reserved. Autonomous Enterprise Intelligence.</span>
+      <span data-i18n="footer.rights">© 2026 Farvex AI. All rights reserved. KvK: 89412084. Autonomous Enterprise Intelligence.</span>
       <div style="display:flex; gap:16px;">
-        <a href="security.html" style="color: var(--text-dim); text-decoration:none;">Security Protocol</a>
-        <a href="contact.html" style="color: var(--text-dim); text-decoration:none;">Contact Support</a>
+        <a href="privacy.html" style="color: var(--text-dim); text-decoration:none;">Privacy</a>
+        <a href="terms.html" style="color: var(--text-dim); text-decoration:none;">Terms</a>
+        <a href="cookies.html" style="color: var(--text-dim); text-decoration:none;">Cookies</a>
+        <a href="contact.html" style="color: var(--text-dim); text-decoration:none;">Uplink</a>
       </div>
     </div>
   </div>
 </footer>
+
+<!-- GDPR COOKIE CONSENT POPUP -->
+<div class="cookie-banner-popup" id="cookieBannerPopup">
+  <div class="cookie-banner-title">
+    <span>🍪</span> <span data-i18n="ck.popTitle">Sovereign Privacy & Cookie Settings</span>
+  </div>
+  <p class="cookie-banner-text" data-i18n="ck.popText">
+    We store essential functional preferences (theme, language) locally on your device. No third-party profiling or ad trackers are used.
+  </p>
+  <div class="cookie-banner-btns">
+    <button class="btn-core btn-cyan btn-sm" onclick="acceptCookies(true)" data-i18n="ck.popAccept">Accept All</button>
+    <button class="btn-core btn-glass btn-sm" onclick="acceptCookies(false)" data-i18n="ck.popEssential">Essential Only</button>
+    <a href="cookies.html" class="mono" style="font-size:11.5px; color:var(--text-dim); text-decoration:none; align-self:center; margin-left:6px;" data-i18n="ck.popManage">Manage ↗</a>
+  </div>
+</div>
 
 <!-- CORE JAVASCRIPT: PARTICLE PHYSICS & INTERACTIVE SYSTEMS -->
 <script>
@@ -2235,9 +2327,15 @@ footer.quantum-footer {
       "cta.btn": "⚡ Schedule Architecture Briefing",
       "cta.casesBtn": "📊 Read Enterprise Case Studies",
 
+      "ck.popTitle": "Sovereign Privacy & Cookie Settings",
+      "ck.popText": "We store essential functional preferences (theme, language) locally on your device. No third-party profiling or ad trackers are used.",
+      "ck.popAccept": "Accept All",
+      "ck.popEssential": "Essential Only",
+      "ck.popManage": "Manage ↗",
+
       "footer.desc": "Bespoke enterprise AI systems engineering, high-throughput autonomous agents, and industrial automation.",
-      "footer.col1": "Solutions Suite", "footer.col2": "Client Portal", "footer.col3": "Coordinates",
-      "footer.rights": "© 2026 Farvex AI. All rights reserved. Autonomous Enterprise Intelligence."
+      "footer.col1": "Solutions Suite", "footer.col2": "Legal & Governance", "footer.col3": "Coordinates",
+      "footer.rights": "© 2026 Farvex AI. All rights reserved. KvK: 89412084. Autonomous Enterprise Intelligence."
     },
     'nl': {
       "hud.cluster": "ORBITALE CLUSTER: ONLINE",
@@ -2337,9 +2435,15 @@ footer.quantum-footer {
       "cta.btn": "⚡ Plan Architectuur Briefing",
       "cta.casesBtn": "📊 Bekijk Enterprise Casestudies",
 
+      "ck.popTitle": "Soevereine Privacy & Cookie-instellingen",
+      "ck.popText": "Wij slaan noodzakelijke functionele voorkeuren (thema, taal) lokaal op. Geen advertentietrackers of verkoop van gebruikersdata.",
+      "ck.popAccept": "Alles Accepteren",
+      "ck.popEssential": "Alleen Noodzakelijk",
+      "ck.popManage": "Beheren ↗",
+
       "footer.desc": "Maatwerk enterprise AI engineering, snelle autonome agenten en industriële automatisering.",
-      "footer.col1": "Oplossingen Suite", "footer.col2": "Klantportaal", "footer.col3": "Coördinaten",
-      "footer.rights": "© 2026 Farvex AI. Alle rechten voorbehouden. Autonome Enterprise Intelligentie."
+      "footer.col1": "Oplossingen Suite", "footer.col2": "Juridisch & Beheer", "footer.col3": "Coördinaten",
+      "footer.rights": "© 2026 Farvex AI. Alle rechten voorbehouden. KvK: 89412084. Autonome Enterprise Intelligentie."
     }
   };
 
@@ -2382,9 +2486,23 @@ footer.quantum-footer {
     drawer.classList.toggle('open');
   }
 
-  // ==========================================================================
-  // DYNAMIC CANVAS PHYSICS (QUANTUM LATTICE & MATRIX DUAL ENGINE)
-  // ==========================================================================
+  function acceptCookies(all) {
+    localStorage.setItem('farvex_cookie_consent', 'true');
+    localStorage.setItem('farvex_cookie_telemetry', all ? 'true' : 'false');
+    const banner = document.getElementById('cookieBannerPopup');
+    if (banner) banner.style.display = 'none';
+  }
+
+  function checkCookieConsent() {
+    if (!localStorage.getItem('farvex_cookie_consent')) {
+      setTimeout(() => {
+        const banner = document.getElementById('cookieBannerPopup');
+        if (banner) banner.style.display = 'block';
+      }, 1200);
+    }
+  }
+
+  // Canvas Physics
   const canvas = document.getElementById('quantumCanvas');
   const ctx = canvas.getContext('2d');
   let width, height;
@@ -2392,17 +2510,13 @@ footer.quantum-footer {
   let currentScrubEntropy = 50;
 
   class Particle {
-    constructor() {
-      this.reset();
-    }
+    constructor() { this.reset(); }
     reset() {
       this.x = Math.random() * width;
       this.y = Math.random() * height;
       this.vx = (Math.random() - 0.5) * 1.5;
       this.vy = (Math.random() - 0.5) * 1.5;
       this.radius = Math.random() * 1.8 + 0.8;
-      this.originX = this.x;
-      this.originY = this.y;
     }
     update(entropyRatio) {
       if (currentTheme === 'matrix') {
@@ -2412,7 +2526,6 @@ footer.quantum-footer {
         const chaosFactor = (1 - entropyRatio) * 3;
         this.x += this.vx * (1 + chaosFactor);
         this.y += this.vy * (1 + chaosFactor);
-
         if (this.x < 0 || this.x > width) this.vx *= -1;
         if (this.y < 0 || this.y > height) this.vy *= -1;
       }
@@ -2443,7 +2556,6 @@ footer.quantum-footer {
       ctx.fillStyle = currentTheme === 'matrix' ? 'rgba(16, 185, 129, 0.7)' : 'rgba(0, 240, 255, 0.65)';
       ctx.fill();
 
-      // Draw quantum links in Obsidian mode
       if (currentTheme !== 'matrix') {
         for (let j = i + 1; j < particles.length; j++) {
           const p2 = particles[j];
@@ -2464,7 +2576,6 @@ footer.quantum-footer {
         }
       }
     }
-
     requestAnimationFrame(renderParticles);
   }
 
@@ -2677,6 +2788,7 @@ footer.quantum-footer {
     const savedTheme = localStorage.getItem('farvex_theme') || 'obsidian';
     setLanguage(savedLang);
     setAtmosphere(savedTheme);
+    checkCookieConsent();
   });
 </script>
 

@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="en" data-lang="en" data-theme="obsidian">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+<title>Terms of Service // Farvex AI Enterprise Conditions</title>
+<meta name="description" content="General Terms and Conditions for Farvex AI enterprise software pipelines, SLA guarantees, intellectual property, and Dutch jurisdiction.">
+<link rel="icon" type="image/svg+xml" href="farvex-logo-kit/svg/farvex-mark-dark.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700;800&display=swap" rel="stylesheet">
+
+<style>
+:root {
+  --bg-deep: #030712;
+  --bg-surface: #070d1e;
+  --bg-card: rgba(11, 19, 43, 0.78);
+  --cyan-bright: #00f0ff;
+  --cyan-glow: rgba(0, 240, 255, 0.4);
+  --violet-bright: #a855f7;
+  --text-pure: #ffffff;
+  --text-main: #f1f5f9;
+  --text-muted: #94a3b8;
+  --text-dim: #64748b;
+  --border-glass: rgba(255, 255, 255, 0.08);
+  --font-display: 'Plus Jakarta Sans', sans-serif;
+  --font-heading: 'Space Grotesk', sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+  --ease-elastic: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+[data-theme="matrix"] {
+  --bg-deep: #020b05; --bg-surface: #04160a; --bg-card: rgba(4, 28, 14, 0.82);
+  --text-pure: #ffffff; --text-main: #d1fae5; --text-muted: #6ee7b7; --cyan-bright: #10b981;
+  --border-glass: rgba(16, 185, 129, 0.2);
+}
+[data-theme="titanium"] {
+  --bg-deep: #f8fafc; --bg-surface: #f1f5f9; --bg-card: rgba(255, 255, 255, 0.9);
+  --text-pure: #0f172a; --text-main: #1e293b; --text-muted: #475569; --cyan-bright: #0284c7;
+  --border-glass: rgba(0, 0, 0, 0.08);
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body { background: var(--bg-deep); color: var(--text-main); font-family: var(--font-display); min-height: 100vh; overflow-x: hidden; }
+#matrixCanvas { position: fixed; inset: 0; z-index: -2; pointer-events: none; }
+
+.telemetry-hud-bar {
+  background: rgba(3, 7, 18, 0.94); border-bottom: 1px solid var(--border-glass);
+  padding: 6px 20px; font-family: var(--font-mono); font-size: 11px;
+  display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 1002; gap: 8px;
+}
+.hud-diode { display: inline-flex; align-items: center; gap: 6px; color: var(--cyan-bright); font-weight: 600; white-space: nowrap; }
+.hud-diode::before { content: ''; width: 6px; height: 6px; border-radius: 50%; background: var(--cyan-bright); box-shadow: 0 0 8px var(--cyan-bright); }
+.hud-btn-group { display: flex; gap: 3px; background: rgba(255, 255, 255, 0.04); padding: 2px 4px; border-radius: 6px; border: 1px solid var(--border-glass); }
+.hud-btn { background: transparent; border: none; color: var(--text-dim); font-family: var(--font-mono); font-size: 11px; padding: 3px 7px; border-radius: 4px; cursor: pointer; }
+.hud-btn.active { color: #fff; background: rgba(0, 240, 255, 0.2); border: 1px solid var(--cyan-glow); }
+
+header.site-header {
+  position: sticky; top: 31px; left: 0; right: 0; z-index: 1000;
+  background: rgba(3, 7, 18, 0.88); backdrop-filter: blur(20px); border-bottom: 1px solid var(--border-glass);
+}
+.header-wrap { max-width: 1400px; margin: 0 auto; padding: 0 24px; height: 72px; display: flex; align-items: center; justify-content: space-between; }
+.brand { display: flex; align-items: center; gap: 12px; text-decoration: none; }
+.brand-box { width: 38px; height: 38px; border-radius: 10px; background: rgba(0, 240, 255, 0.08); border: 1px solid rgba(0, 240, 255, 0.35); display: flex; align-items: center; justify-content: center; }
+.brand-box img { width: 22px; height: 22px; }
+.brand-text { font-size: 20px; font-weight: 800; color: #fff; }
+.brand-text span { color: var(--cyan-bright); }
+
+.nav-links { display: flex; gap: 4px; }
+.nav-link { font-size: 13px; font-weight: 600; color: var(--text-muted); text-decoration: none; padding: 7px 13px; border-radius: 100px; transition: all 0.2s; white-space: nowrap; }
+.nav-link:hover, .nav-link.active { color: #fff; background: rgba(0, 240, 255, 0.12); border: 1px solid rgba(0, 240, 255, 0.3); }
+
+.mobile-menu-btn {
+  display: none; background: rgba(255, 255, 255, 0.05); border: 1px solid var(--border-glass);
+  border-radius: 8px; width: 40px; height: 40px; padding: 9px; cursor: pointer; flex-direction: column; justify-content: space-between; align-items: center; z-index: 1005;
+}
+.mobile-menu-btn span { display: block; width: 100%; height: 2px; background: #fff; border-radius: 2px; transition: all 0.3s; }
+.mobile-menu-btn.active span:nth-child(1) { transform: translateY(7px) rotate(45deg); background: var(--cyan-bright); }
+.mobile-menu-btn.active span:nth-child(2) { opacity: 0; }
+.mobile-menu-btn.active span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); background: var(--cyan-bright); }
+
+.mobile-nav-drawer {
+  display: none; position: fixed; top: 103px; left: 0; right: 0; bottom: 0; background: rgba(3, 7, 18, 0.98);
+  backdrop-filter: blur(24px); z-index: 999; padding: 24px 20px 40px; overflow-y: auto; flex-direction: column; justify-content: space-between; border-bottom: 1px solid var(--border-glass);
+}
+.mobile-nav-drawer.open { display: flex; }
+.mobile-nav-links { display: flex; flex-direction: column; gap: 8px; }
+.mobile-nav-link {
+  font-size: 16px; font-weight: 700; color: var(--text-main); text-decoration: none; padding: 14px 18px;
+  border-radius: 12px; background: rgba(255, 255, 255, 0.03); border: 1px solid var(--border-glass); display: flex; align-items: center; justify-content: space-between;
+}
+.mobile-nav-link:hover, .mobile-nav-link.active { background: rgba(0, 240, 255, 0.15); border-color: var(--cyan-bright); color: #fff; }
+
+.btn-core {
+  display: inline-flex; align-items: center; justify-content: center; gap: 8px; padding: 12px 24px;
+  border-radius: 100px; font-weight: 700; font-size: 13.5px; text-decoration: none; cursor: pointer; transition: all 0.25s var(--ease-elastic); border: 1px solid transparent; white-space: nowrap;
+}
+.btn-cyan { background: linear-gradient(135deg, #00f0ff 0%, #0284c7 100%); color: #030712; box-shadow: 0 0 20px rgba(0, 240, 255, 0.35); }
+.btn-cyan:hover { transform: translateY(-2px); box-shadow: 0 0 30px rgba(0, 240, 255, 0.6); }
+
+.container { max-width: 1100px; margin: 0 auto; padding: 0 24px; }
+.page-hero { padding: 60px 0 40px; text-align: center; }
+.page-title { font-size: 3.2rem; font-family: var(--font-heading); font-weight: 800; line-height: 1.1; margin-bottom: 14px; color: #fff; }
+.page-sub { font-size: 1.15rem; color: var(--text-muted); max-width: 800px; margin: 0 auto; line-height: 1.6; }
+
+.quantum-badge {
+  display: inline-flex; align-items: center; gap: 8px; font-family: var(--font-mono); font-size: 11px;
+  font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--cyan-bright);
+  background: rgba(0, 240, 255, 0.08); border: 1px solid rgba(0, 240, 255, 0.35); padding: 6px 14px; border-radius: 100px; margin-bottom: 16px;
+}
+
+.legal-deck {
+  background: var(--bg-card); border: 1px solid var(--border-glass); border-radius: 20px;
+  padding: 44px; margin-bottom: 80px; box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+}
+.legal-section { margin-bottom: 36px; }
+.legal-section:last-child { margin-bottom: 0; }
+.legal-h2 { font-size: 1.5rem; font-family: var(--font-heading); color: #fff; margin-bottom: 12px; display: flex; align-items: center; gap: 10px; }
+.legal-h2 span { font-family: var(--font-mono); color: var(--cyan-bright); font-size: 13px; }
+.legal-p { font-size: 14.5px; color: var(--text-muted); line-height: 1.75; margin-bottom: 14px; }
+.legal-list { list-style: disc; padding-left: 24px; color: var(--text-muted); font-size: 14px; line-height: 1.7; margin-bottom: 14px; }
+
+.mono { font-family: var(--font-mono); }
+.cyan { color: var(--cyan-bright); }
+
+footer.site-footer { background: #02050e; border-top: 1px solid var(--border-glass); padding: 50px 0 30px; }
+.footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1.2fr; gap: 36px; margin-bottom: 36px; }
+.footer-col h5 { font-family: var(--font-mono); font-size: 11.5px; color: #fff; margin-bottom: 14px; text-transform: uppercase; }
+.footer-col ul { list-style: none; display: flex; flex-direction: column; gap: 8px; }
+.footer-col a { color: var(--text-muted); text-decoration: none; font-size: 13px; }
+.footer-col a:hover { color: var(--cyan-bright); }
+
+@media (max-width: 768px) {
+  .page-title { font-size: 2.1rem; }
+  .nav-links { display: none; }
+  .mobile-menu-btn { display: flex; }
+  .site-header { top: 31px; }
+  .mobile-nav-drawer { top: 103px; }
+  .legal-deck { padding: 22px 16px; }
+  .footer-grid { grid-template-columns: 1fr; gap: 24px; }
+  .container { padding: 0 16px; }
+}
+</style>
+</head>
+
+<body>
+<canvas id="matrixCanvas"></canvas>
+
+<div class="telemetry-hud-bar">
+  <div style="display:flex; align-items:center; gap:12px;">
+    <span class="hud-diode" data-i18n="hud.cluster">ORBITAL CLUSTER: ONLINE</span>
+    <span class="mono" style="display:none;" id="hudSubTitle">LEGAL FRAMEWORK 2026</span>
+  </div>
+  <div style="display:flex; gap:6px;">
+    <div class="hud-btn-group">
+      <button class="hud-btn active" id="btnThemeObsidian" onclick="setAtmosphere('obsidian')">Obsidian</button>
+      <button class="hud-btn" id="btnThemeMatrix" onclick="setAtmosphere('matrix')">Matrix</button>
+      <button class="hud-btn" id="btnThemeTitanium" onclick="setAtmosphere('titanium')">Titanium</button>
+    </div>
+    <div class="hud-btn-group">
+      <button class="hud-btn active" id="btnLangEN" onclick="setLanguage('en')">EN</button>
+      <button class="hud-btn" id="btnLangNL" onclick="setLanguage('nl')">NL</button>
+    </div>
+  </div>
+</div>
+
+<header class="site-header">
+  <div class="header-wrap">
+    <a href="index.html" class="brand">
+      <div class="brand-box">
+        <img src="farvex-logo-kit/svg/farvex-mark-dark.svg" alt="Farvex AI Logo">
+      </div>
+      <div class="brand-text">FARVEX<span>.AI</span></div>
+    </a>
+
+    <nav class="nav-links">
+      <a href="index.html" class="nav-link" data-i18n="nav.home">← Home</a>
+      <a href="solutions.html" class="nav-link" data-i18n="nav.solutions">Solutions Suite</a>
+      <a href="case-studies.html" class="nav-link" data-i18n="nav.cases">Case Studies</a>
+      <a href="architecture.html" class="nav-link" data-i18n="nav.arch">Architecture</a>
+      <a href="security.html" class="nav-link" data-i18n="nav.security">Security Vault</a>
+      <a href="contact.html" class="nav-link" data-i18n="nav.contact">Uplink</a>
+    </nav>
+
+    <div style="display:flex; align-items:center; gap:10px;">
+      <a href="book.html" class="btn-core btn-cyan" style="padding:10px 20px; font-size:13px;" data-i18n="nav.cta">⚡ Book Call</a>
+      <button class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Toggle Navigation" onclick="toggleMobileNav()">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+
+  <!-- Mobile Slide Drawer -->
+  <div class="mobile-nav-drawer" id="mobileNavDrawer">
+    <div class="mobile-nav-links">
+      <a href="index.html" class="mobile-nav-link" onclick="toggleMobileNav()" data-i18n="nav.home">← Home (Chaos/Order) <span>➔</span></a>
+      <a href="solutions.html" class="mobile-nav-link" onclick="toggleMobileNav()" data-i18n="nav.solutions">Solutions Suite <span>➔</span></a>
+      <a href="case-studies.html" class="mobile-nav-link" onclick="toggleMobileNav()" data-i18n="nav.cases">Case Studies <span>➔</span></a>
+      <a href="architecture.html" class="mobile-nav-link" onclick="toggleMobileNav()" data-i18n="nav.arch">Architecture <span>➔</span></a>
+      <a href="security.html" class="mobile-nav-link" onclick="toggleMobileNav()" data-i18n="nav.security">Security Vault <span>➔</span></a>
+      <a href="privacy.html" class="mobile-nav-link" onclick="toggleMobileNav()">Privacy Statement (GDPR) <span>➔</span></a>
+      <a href="cookies.html" class="mobile-nav-link" onclick="toggleMobileNav()">Cookie Preferences <span>➔</span></a>
+      <a href="contact.html" class="mobile-nav-link" onclick="toggleMobileNav()">Direct Uplink / Contact <span>➔</span></a>
+    </div>
+  </div>
+</header>
+
+<main class="container">
+  <section class="page-hero">
+    <div class="quantum-badge" data-i18n="terms.badge">COMMERCIAL TERMS & SERVICE AGREEMENT</div>
+    <h1 class="page-title" data-i18n="terms.title">Enterprise Terms of Service</h1>
+    <p class="page-sub" data-i18n="terms.sub">
+      These General Terms and Conditions govern all commercial proposals, MVP deployments, and production enterprise AI agreements with Farvex AI.
+    </p>
+  </section>
+
+  <div class="legal-deck">
+    <!-- Section 1 -->
+    <div class="legal-section">
+      <h2 class="legal-h2"><span>01 //</span> <span data-i18n="terms.s1.t">Applicability & Scope</span></h2>
+      <p class="legal-p" data-i18n="terms.s1.p1">
+        These General Terms and Conditions (<em>Algemene Voorwaarden</em>) apply to all quotes, service level agreements (SLAs), and engineering contracts provided by Farvex AI (registered with the Dutch Chamber of Commerce under KvK 89412084). Deviations from these terms are valid only when confirmed in writing by an authorized representative of Farvex AI.
+      </p>
+    </div>
+
+    <!-- Section 2 -->
+    <div class="legal-section">
+      <h2 class="legal-h2"><span>02 //</span> <span data-i18n="terms.s2.t">Service Delivery & Pilot MVPs</span></h2>
+      <p class="legal-p" data-i18n="terms.s2.p1">
+        Farvex AI delivers production-grade AI solutions under structured phases: Architecture Scoping, MVP Sprint (2 to 4 weeks), and Production Cluster Deployment. Performance benchmarks (OCR accuracy thresholds, API latency guarantees) are defined within each client's specific Statement of Work (SOW).
+      </p>
+    </div>
+
+    <!-- Section 3 -->
+    <div class="legal-section">
+      <h2 class="legal-h2"><span>03 //</span> <span data-i18n="terms.s3.t">Intellectual Property Rights</span></h2>
+      <p class="legal-p" data-i18n="terms.s3.p1">
+        <strong>Client Data & Custom Models:</strong> The Client retains full, unrestricted ownership of all proprietary data, fine-tuned weights, custom schemas, and business workflows engineered specifically for their enterprise.
+      </p>
+      <p class="legal-p">
+        <strong>Farvex Core Substrate:</strong> Farvex AI retains ownership of its proprietary foundational orchestration libraries, OCR runtime engines, and algorithmic connective frameworks.
+      </p>
+    </div>
+
+    <!-- Section 4 -->
+    <div class="legal-section">
+      <h2 class="legal-h2"><span>04 //</span> <span data-i18n="terms.s4.t">Service Level Agreement (SLA) & Uptime</span></h2>
+      <p class="legal-p" data-i18n="terms.s4.p1">
+        Enterprise Production tiers include a guaranteed 99.9% uptime commitment, sub-120ms standard API response times, and 24/7 autonomous circuit-breaker failover monitoring. Incident escalations are handled according to the Severity Tier schedule defined in the master service contract.
+      </p>
+    </div>
+
+    <!-- Section 5 -->
+    <div class="legal-section">
+      <h2 class="legal-h2"><span>05 //</span> <span data-i18n="terms.s5.t">Governing Law & Dispute Resolution</span></h2>
+      <p class="legal-p" data-i18n="terms.s5.p1">
+        All agreements and legal relationships are exclusively governed by the laws of <strong>The Netherlands</strong>. Any disputes arising from or in connection with Farvex AI services shall be submitted exclusively to the competent jurisdiction of the District Court of Rotterdam (<em>Rechtbank Rotterdam</em>).
+      </p>
+    </div>
+  </div>
+</main>
+
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-col">
+        <a href="index.html" class="brand" style="margin-bottom: 14px;">
+          <div class="brand-box">
+            <img src="farvex-logo-kit/svg/farvex-mark-dark.svg" alt="Farvex AI Logo">
+          </div>
+          <div class="brand-text">FARVEX<span>.AI</span></div>
+        </a>
+        <p style="font-size: 13px; color: var(--text-muted); line-height: 1.6;" data-i18n="footer.desc">
+          Bespoke enterprise AI systems engineering, high-throughput autonomous agents, and industrial automation.
+        </p>
+      </div>
+
+      <div class="footer-col">
+        <h5 data-i18n="footer.col1">Solutions Suite</h5>
+        <ul>
+          <li><a href="solutions.html#workflow">Workflow Orchestration</a></li>
+          <li><a href="solutions.html#vision">Computer Vision & OCR</a></li>
+          <li><a href="solutions.html#agents">Mission Agents</a></li>
+          <li><a href="solutions.html#predictive">Predictive Risk</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h5 data-i18n="footer.col2">Legal & Governance</h5>
+        <ul>
+          <li><a href="privacy.html">Privacy Policy (GDPR)</a></li>
+          <li><a href="terms.html" style="color:var(--cyan-bright);">Terms of Service (B2B)</a></li>
+          <li><a href="cookies.html">Cookie Preferences</a></li>
+          <li><a href="security.html">Data Sovereignty Vault</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h5 data-i18n="footer.col3">Coordinates</h5>
+        <p class="mono" style="font-size: 12.5px; color: var(--text-muted); margin-bottom: 4px;">KvK: 89412084 // BTW: NL864982103B01</p>
+        <p class="mono" style="font-size: 12.5px; color: var(--text-muted); margin-bottom: 6px;">Vlaardingen, Netherlands</p>
+        <p class="mono" style="font-size: 11.5px; color: var(--cyan-bright);">STATUS: SOVEREIGN EU NODE</p>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script>
+  const T = {
+    'en': {
+      "hud.cluster": "ORBITAL CLUSTER: ONLINE",
+      "nav.home": "← Home", "nav.solutions": "Solutions Suite",
+      "nav.cases": "Case Studies", "nav.arch": "Architecture",
+      "nav.security": "Security Vault", "nav.contact": "Uplink",
+      "nav.cta": "⚡ Book Call",
+      "terms.badge": "COMMERCIAL TERMS & SERVICE AGREEMENT",
+      "terms.title": "Enterprise Terms of Service",
+      "terms.sub": "These General Terms and Conditions govern all commercial proposals, MVP deployments, and production enterprise AI agreements with Farvex AI.",
+      "terms.s1.t": "Applicability & Scope",
+      "terms.s1.p1": "These General Terms and Conditions apply to all quotes, service level agreements (SLAs), and engineering contracts provided by Farvex AI (registered under KvK 89412084).",
+      "terms.s2.t": "Service Delivery & Pilot MVPs",
+      "terms.s2.p1": "Farvex AI delivers production-grade AI solutions under structured phases: Architecture Scoping, MVP Sprint (2 to 4 weeks), and Production Cluster Deployment.",
+      "terms.s3.t": "Intellectual Property Rights",
+      "terms.s3.p1": "The Client retains full, unrestricted ownership of all proprietary data, fine-tuned weights, custom schemas, and business workflows engineered specifically for their enterprise.",
+      "terms.s4.t": "Service Level Agreement (SLA) & Uptime",
+      "terms.s4.p1": "Enterprise Production tiers include a guaranteed 99.9% uptime commitment, sub-120ms standard API response times, and 24/7 autonomous circuit-breaker failover monitoring.",
+      "terms.s5.t": "Governing Law & Dispute Resolution",
+      "terms.s5.p1": "All agreements are exclusively governed by the laws of The Netherlands under the jurisdiction of the District Court of Rotterdam.",
+      "footer.desc": "Bespoke enterprise AI systems engineering, high-throughput autonomous agents, and industrial automation.",
+      "footer.col1": "Solutions Suite", "footer.col2": "Legal & Governance", "footer.col3": "Coordinates"
+    },
+    'nl': {
+      "hud.cluster": "ORBITALE CLUSTER: ONLINE",
+      "nav.home": "← Home", "nav.solutions": "Oplossingen Suite",
+      "nav.cases": "Casestudies", "nav.arch": "Architectuur",
+      "nav.security": "Beveiliging", "nav.contact": "Contact",
+      "nav.cta": "⚡ Plan Consultatie",
+      "terms.badge": "ALGEMENE VOORWAARDEN & OVEREENKOMST",
+      "terms.title": "Algemene Bedrijfsvoorwaarden",
+      "terms.sub": "Deze Algemene Voorwaarden zijn van toepassing op alle offertes, MVP-implementaties en enterprise AI-overeenkomsten met Farvex AI.",
+      "terms.s1.t": "Toepasselijkheid & Definities",
+      "terms.s1.p1": "Deze Algemene Voorwaarden zijn van toepassing op alle offertes en overeenkomsten van Farvex AI (KvK 89412084 te Rotterdam).",
+      "terms.s2.t": "Dienstverlening & MVP Sprints",
+      "terms.s2.p1": "Farvex AI levert maatwerk in gestructureerde fases: Architectuur Analyse, MVP Sprint (2 tot 4 weken) en Productie Cluster Uitrol.",
+      "terms.s3.t": "Intellectueel Eigendom",
+      "terms.s3.p1": "De Opdrachtgever behoudt het volledige eigendom over alle aangeleverde bedrijfsdata, getrainde parameters en op maat gebouwde workflows.",
+      "terms.s4.t": "SLA & Beschikbaarheid",
+      "terms.s4.p1": "Productie-omgevingen genieten van 99.9% gegarandeerde uptime, sub-120ms responstijden en 24/7 monitoring met noodstop-beveiliging.",
+      "terms.s5.t": "Toepasselijk Recht & Bevoegde Rechter",
+      "terms.s5.p1": "Op alle rechtsbetrekkingen is uitsluitend Nederlands recht van toepassing. Geschillen worden voorgelegd aan de Rechtbank Rotterdam.",
+      "footer.desc": "Maatwerk enterprise AI engineering, snelle autonome agenten en industriële automatisering.",
+      "footer.col1": "Oplossingen Suite", "footer.col2": "Juridisch & Beheer", "footer.col3": "Coördinaten"
+    }
+  };
+
+  function setLanguage(l) {
+    document.documentElement.setAttribute('data-lang', l);
+    localStorage.setItem('farvex_lang', l);
+    document.getElementById('btnLangEN').classList.toggle('active', l === 'en');
+    document.getElementById('btnLangNL').classList.toggle('active', l === 'nl');
+    const dict = T[l];
+    if (!dict) return;
+    document.querySelectorAll('[data-i18n]').forEach(el => {
+      const k = el.getAttribute('data-i18n');
+      if (dict[k]) el.innerHTML = dict[k];
+    });
+  }
+
+  function setAtmosphere(t) {
+    document.documentElement.setAttribute('data-theme', t);
+    localStorage.setItem('farvex_theme', t);
+    document.getElementById('btnThemeObsidian').classList.toggle('active', t === 'obsidian');
+    document.getElementById('btnThemeMatrix').classList.toggle('active', t === 'matrix');
+    document.getElementById('btnThemeTitanium').classList.toggle('active', t === 'titanium');
+  }
+
+  function toggleMobileNav() {
+    const btn = document.getElementById('mobileMenuBtn');
+    const drawer = document.getElementById('mobileNavDrawer');
+    btn.classList.toggle('active');
+    drawer.classList.toggle('open');
+  }
+
+  const canvas = document.getElementById('matrixCanvas');
+  const ctx = canvas.getContext('2d');
+  let width, height, particles = [];
+
+  function resizeCanvas() {
+    width = canvas.width = window.innerWidth;
+    height = canvas.height = window.innerHeight;
+    particles = [];
+    for (let i = 0; i < 35; i++) {
+      particles.push({
+        x: Math.random() * width, y: Math.random() * height,
+        vx: (Math.random() - 0.5) * 1.2, vy: (Math.random() - 0.5) * 1.2,
+        r: Math.random() * 2 + 1
+      });
+    }
+  }
+  window.addEventListener('resize', resizeCanvas);
+
+  function renderParticles() {
+    ctx.clearRect(0, 0, width, height);
+    for (let i = 0; i < particles.length; i++) {
+      const p = particles[i];
+      p.x += p.vx; p.y += p.vy;
+      if (p.x < 0 || p.x > width) p.vx *= -1;
+      if (p.y < 0 || p.y > height) p.vy *= -1;
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+      ctx.fillStyle = 'rgba(0, 240, 255, 0.4)';
+      ctx.fill();
+    }
+    requestAnimationFrame(renderParticles);
+  }
+
+  document.addEventListener('DOMContentLoaded', () => {
+    resizeCanvas();
+    renderParticles();
+    const l = localStorage.getItem('farvex_lang') || 'en';
+    const t = localStorage.getItem('farvex_theme') || 'obsidian';
+    setLanguage(l);
+    setAtmosphere(t);
+  });
+</script>
+</body>
+</html>
