@@ -256,37 +256,37 @@
       <div class="form-grid">
         <div class="form-group">
           <label class="form-label" data-i18n="f.name">Executive Full Name</label>
-          <input type="text" class="form-input" required placeholder="e.g. Willem van Dijk">
+          <input type="text" id="bName" class="form-input" required placeholder="e.g. Willem van Dijk">
         </div>
 
         <div class="form-group">
           <label class="form-label" data-i18n="f.email">Corporate Work Email</label>
-          <input type="email" class="form-input" required placeholder="willem@logistics.nl">
+          <input type="email" id="bEmail" class="form-input" required placeholder="willem@logistics.nl">
         </div>
 
         <div class="form-group">
           <label class="form-label" data-i18n="f.company">Company / Organization</label>
-          <input type="text" class="form-input" required placeholder="e.g. EuroFreight N.V.">
+          <input type="text" id="bCompany" class="form-input" required placeholder="e.g. EuroFreight N.V.">
         </div>
 
         <div class="form-group">
           <label class="form-label" data-i18n="f.scope">Primary Automation Scope</label>
-          <select class="form-select" required>
-            <option value="ocr">Document Vision OCR & Invoice Clearance</option>
-            <option value="workflow">ERP Workflow Orchestration (Exact / SAP)</option>
-            <option value="agents">Autonomous Mission Agent Swarm</option>
-            <option value="predictive">Predictive Maintenance & Risk Scoring</option>
-            <option value="rag">Private Sovereign Vector RAG Core</option>
+          <select id="bScope" class="form-select" required>
+            <option value="Document Vision OCR & Invoice Clearance">Document Vision OCR & Invoice Clearance</option>
+            <option value="ERP Workflow Orchestration (Exact / SAP)">ERP Workflow Orchestration (Exact / SAP)</option>
+            <option value="Autonomous Mission Agent Swarm">Autonomous Mission Agent Swarm</option>
+            <option value="Predictive Maintenance & Risk Scoring">Predictive Maintenance & Risk Scoring</option>
+            <option value="Private Sovereign Vector RAG Core">Private Sovereign Vector RAG Core</option>
           </select>
         </div>
 
         <div class="form-group full">
           <label class="form-label" data-i18n="f.notes">Current Bottlenecks / Tech Stack (Optional)</label>
-          <textarea class="form-textarea" placeholder="Describe current manual bottlenecks, data volume, and target software (e.g. Exact, SAP, Salesforce)..."></textarea>
+          <textarea id="bNotes" class="form-textarea" placeholder="Describe current manual bottlenecks, data volume, and target software (e.g. Exact, SAP, Salesforce)..."></textarea>
         </div>
       </div>
 
-      <button type="submit" class="btn-submit" data-i18n="f.submit">
+      <button type="submit" id="btnSubmitBooking" class="btn-submit" data-i18n="f.submit">
         ⚡ Confirm & Reserve Architecture Session
       </button>
     </form>
@@ -328,6 +328,7 @@
         <li><a href="terms.html">Terms of Service (B2B)</a></li>
         <li><a href="cookies.html">Cookie Preferences</a></li>
         <li><a href="security.html">Data Sovereignty Vault</a></li>
+        <li><a href="dashboard.html" style="color: var(--cyan-bright); font-size:12px; font-weight:600;">Admin Telemetry ↗</a></li>
       </ul>
     </div>
 
@@ -400,8 +401,59 @@
     drawer.classList.toggle('open');
   }
 
-  function handleBookingSubmit(e) {
+  async function handleBookingSubmit(e) {
     e.preventDefault();
+    const btn = document.getElementById('btnSubmitBooking');
+    const origText = btn.innerHTML;
+    btn.disabled = true;
+    btn.innerHTML = '⚡ Dispatched to Architecture Queue...';
+
+    const name = document.getElementById('bName').value.trim();
+    const email = document.getElementById('bEmail').value.trim();
+    const company = document.getElementById('bCompany').value.trim();
+    const scope = document.getElementById('bScope').value;
+    const notes = document.getElementById('bNotes').value.trim();
+    const trackingId = 'FX-BOOK-' + Math.random().toString(36).substring(2, 6).toUpperCase();
+    const now = new Date().toISOString();
+
+    const newBooking = {
+      id: trackingId,
+      type: 'booking',
+      name: name,
+      email: email,
+      company: company,
+      scope: scope,
+      message: notes || '1-on-1 Architecture Consultation Requested.',
+      timestamp: now,
+      status: 'unread'
+    };
+
+    // 1. Save to local dashboard database
+    try {
+      const STORAGE_KEY = 'farvex_inbound_leads_v1';
+      let current = [];
+      const saved = localStorage.getItem(STORAGE_KEY);
+      if (saved) current = JSON.parse(saved);
+      current.unshift(newBooking);
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(current));
+    } catch (err) {
+      console.warn('LocalStorage save error:', err);
+    }
+
+    // 2. Dispatch to serverless endpoint /api/submit
+    try {
+      await fetch('/api/submit', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(newBooking)
+      });
+    } catch (err) {
+      console.warn('Serverless endpoint fetch notice:', err);
+    }
+
+    btn.disabled = false;
+    btn.innerHTML = origText;
+    document.getElementById('bookingAck').innerHTML = `✓ BRIEFING RESERVED // Reference ID: <strong class="mono cyan">${trackingId}</strong>. A Farvex systems architect will dispatch a calendar invitation within 2 hours.`;
     document.getElementById('bookingAck').style.display = 'block';
     document.getElementById('bookingForm').reset();
   }
