@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html lang="en" data-lang="en" data-theme="obsidian">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Data Sovereignty & Security Vault // Farvex AI</title>
+<meta name="description" content="European enterprise data sovereignty, GDPR & EU AI Act compliance, AES-256 encryption, and air-gapped on-premise AI deployments.">
+<link rel="icon" type="image/svg+xml" href="farvex-logo-kit/svg/farvex-mark-dark.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700;800&display=swap" rel="stylesheet">
+
+<style>
+:root {
+  --bg-deep: #030712;
+  --bg-surface: #070d1e;
+  --bg-card: rgba(11, 19, 43, 0.78);
+  --cyan-bright: #00f0ff;
+  --cyan-glow: rgba(0, 240, 255, 0.4);
+  --violet-bright: #a855f7;
+  --text-pure: #ffffff;
+  --text-main: #f1f5f9;
+  --text-muted: #94a3b8;
+  --text-dim: #64748b;
+  --border-glass: rgba(255, 255, 255, 0.08);
+  --font-display: 'Plus Jakarta Sans', sans-serif;
+  --font-heading: 'Space Grotesk', sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+  --ease-elastic: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+[data-theme="matrix"] {
+  --bg-deep: #020b05; --bg-surface: #04160a; --bg-card: rgba(4, 28, 14, 0.82);
+  --text-pure: #ffffff; --text-main: #d1fae5; --text-muted: #6ee7b7; --cyan-bright: #10b981;
+  --border-glass: rgba(16, 185, 129, 0.2);
+}
+[data-theme="titanium"] {
+  --bg-deep: #f8fafc; --bg-surface: #f1f5f9; --bg-card: rgba(255, 255, 255, 0.9);
+  --text-pure: #0f172a; --text-main: #1e293b; --text-muted: #475569; --cyan-bright: #0284c7;
+  --border-glass: rgba(0, 0, 0, 0.08);
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body { background: var(--bg-deep); color: var(--text-main); font-family: var(--font-display); min-height: 100vh; }
+#matrixCanvas { position: fixed; inset: 0; z-index: -2; pointer-events: none; }
+
+.telemetry-hud-bar {
+  background: rgba(3, 7, 18, 0.94); border-bottom: 1px solid var(--border-glass);
+  padding: 6px 24px; font-family: var(--font-mono); font-size: 11px;
+  display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 1002;
+}
+.hud-diode { display: inline-flex; align-items: center; gap: 6px; color: var(--cyan-bright); font-weight: 600; }
+.hud-diode::before { content: ''; width: 6px; height: 6px; border-radius: 50%; background: var(--cyan-bright); box-shadow: 0 0 8px var(--cyan-bright); }
+.hud-btn-group { display: flex; gap: 4px; background: rgba(255, 255, 255, 0.04); padding: 2px 4px; border-radius: 6px; border: 1px solid var(--border-glass); }
+.hud-btn { background: transparent; border: none; color: var(--text-dim); font-family: var(--font-mono); font-size: 11px; padding: 3px 8px; border-radius: 4px; cursor: pointer; }
+.hud-btn.active { color: #fff; background: rgba(0, 240, 255, 0.2); border: 1px solid var(--cyan-glow); }
+
+header.site-header {
+  position: sticky; top: 31px; left: 0; right: 0; z-index: 1000;
+  background: rgba(3, 7, 18, 0.88); backdrop-filter: blur(20px); border-bottom: 1px solid var(--border-glass);
+}
+.header-wrap { max-width: 1400px; margin: 0 auto; padding: 0 28px; height: 76px; display: flex; align-items: center; justify-content: space-between; }
+.brand { display: flex; align-items: center; gap: 12px; text-decoration: none; }
+.brand-box { width: 40px; height: 40px; border-radius: 10px; background: rgba(0, 240, 255, 0.08); border: 1px solid rgba(0, 240, 255, 0.35); display: flex; align-items: center; justify-content: center; }
+.brand-box img { width: 24px; height: 24px; }
+.brand-text { font-size: 21px; font-weight: 800; color: #fff; }
+.brand-text span { color: var(--cyan-bright); }
+
+.nav-links { display: flex; gap: 6px; }
+.nav-link { font-size: 13.5px; font-weight: 600; color: var(--text-muted); text-decoration: none; padding: 7px 14px; border-radius: 100px; transition: all 0.2s; }
+.nav-link:hover, .nav-link.active { color: #fff; background: rgba(0, 240, 255, 0.12); border: 1px solid rgba(0, 240, 255, 0.3); }
+
+.btn-core {
+  display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+  padding: 12px 26px; border-radius: 100px; font-weight: 700; font-size: 13.5px;
+  text-decoration: none; cursor: pointer; transition: all 0.25s var(--ease-elastic); border: 1px solid transparent;
+}
+.btn-cyan { background: linear-gradient(135deg, #00f0ff 0%, #0284c7 100%); color: #030712; box-shadow: 0 0 20px rgba(0, 240, 255, 0.35); }
+.btn-cyan:hover { transform: translateY(-2px); box-shadow: 0 0 30px rgba(0, 240, 255, 0.6); }
+
+.container { max-width: 1380px; margin: 0 auto; padding: 0 28px; }
+.page-hero { padding: 90px 0 60px; text-align: center; }
+.page-title { font-size: 3.6rem; font-family: var(--font-heading); font-weight: 800; line-height: 1.1; margin-bottom: 20px; color: #fff; }
+.page-sub { font-size: 1.25rem; color: var(--text-muted); max-width: 820px; margin: 0 auto 40px; }
+
+.quantum-badge {
+  display: inline-flex; align-items: center; gap: 8px; font-family: var(--font-mono); font-size: 11px;
+  font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--cyan-bright);
+  background: rgba(0, 240, 255, 0.08); border: 1px solid rgba(0, 240, 255, 0.35);
+  padding: 6px 16px; border-radius: 100px; margin-bottom: 20px;
+}
+
+/* Security Vault Grid */
+.vault-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 28px; margin-bottom: 80px; }
+.vault-card {
+  background: var(--bg-card); border: 1px solid var(--border-glass); border-radius: 20px;
+  padding: 32px; transition: all 0.3s var(--ease-elastic); position: relative; overflow: hidden;
+}
+.vault-card:hover { transform: translateY(-4px); border-color: var(--cyan-bright); box-shadow: 0 0 30px rgba(0, 240, 255, 0.15); }
+
+.vault-tag { font-family: var(--font-mono); font-size: 11px; color: var(--cyan-bright); font-weight: 700; margin-bottom: 12px; }
+.vault-h3 { font-size: 1.35rem; font-family: var(--font-heading); color: #fff; margin-bottom: 12px; }
+.vault-p { font-size: 14px; color: var(--text-muted); line-height: 1.65; }
+
+/* Interactive Compliance Checklist */
+.checklist-deck {
+  background: #01040a; border: 1px solid rgba(0, 240, 255, 0.35); border-radius: 24px;
+  padding: 40px; margin-bottom: 100px;
+}
+.checklist-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 28px; }
+.checklist-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+.checklist-item {
+  background: rgba(11, 19, 43, 0.6); border: 1px solid var(--border-glass); border-radius: 12px;
+  padding: 16px 20px; display: flex; align-items: flex-start; gap: 14px;
+}
+.checklist-icon { color: var(--cyan-bright); font-weight: 800; font-size: 18px; line-height: 1; }
+
+.mono { font-family: var(--font-mono); }
+.cyan { color: var(--cyan-bright); }
+
+footer.site-footer {
+  background: #02050e; border-top: 1px solid var(--border-glass); padding: 60px 0 30px;
+}
+.footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1.2fr; gap: 40px; margin-bottom: 40px; }
+.footer-col h5 { font-family: var(--font-mono); font-size: 12px; color: #fff; margin-bottom: 16px; text-transform: uppercase; }
+.footer-col ul { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+.footer-col a { color: var(--text-muted); text-decoration: none; font-size: 13.5px; }
+.footer-col a:hover { color: var(--cyan-bright); }
+
+@media (max-width: 1024px) {
+  .vault-grid { grid-template-columns: repeat(2, 1fr); }
+  .checklist-grid { grid-template-columns: 1fr; }
+  .footer-grid { grid-template-columns: 1fr 1fr; }
+}
+@media (max-width: 768px) {
+  .vault-grid { grid-template-columns: 1fr; }
+  .page-title { font-size: 2.5rem; }
+  .nav-links { display: none; }
+  .footer-grid { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+
+<body>
+<canvas id="matrixCanvas"></canvas>
+
+<div class="telemetry-hud-bar">
+  <div style="display:flex; align-items:center; gap:14px;">
+    <span class="hud-diode" data-i18n="hud.cluster">ORBITAL CLUSTER: ONLINE</span>
+    <span class="mono">SOVEREIGN EU AIR-GAP ACTIVE</span>
+  </div>
+  <div style="display:flex; gap:12px;">
+    <div class="hud-btn-group">
+      <button class="hud-btn active" id="btnThemeObsidian" onclick="setAtmosphere('obsidian')">Obsidian</button>
+      <button class="hud-btn" id="btnThemeMatrix" onclick="setAtmosphere('matrix')">Matrix</button>
+      <button class="hud-btn" id="btnThemeTitanium" onclick="setAtmosphere('titanium')">Titanium</button>
+    </div>
+    <div class="hud-btn-group">
+      <button class="hud-btn active" id="btnLangEN" onclick="setLanguage('en')">EN</button>
+      <button class="hud-btn" id="btnLangNL" onclick="setLanguage('nl')">NL</button>
+    </div>
+  </div>
+</div>
+
+<header class="site-header">
+  <div class="header-wrap">
+    <a href="index.html" class="brand">
+      <div class="brand-box">
+        <img src="farvex-logo-kit/svg/farvex-mark-dark.svg" alt="Farvex AI Logo">
+      </div>
+      <div class="brand-text">FARVEX<span>.AI</span></div>
+    </a>
+
+    <nav class="nav-links">
+      <a href="index.html" class="nav-link" data-i18n="nav.home">← Home (Chaos/Order)</a>
+      <a href="solutions.html" class="nav-link" data-i18n="nav.solutions">Solutions Suite</a>
+      <a href="case-studies.html" class="nav-link" data-i18n="nav.cases">Case Studies</a>
+      <a href="architecture.html" class="nav-link" data-i18n="nav.arch">Architecture</a>
+      <a href="security.html" class="nav-link active" data-i18n="nav.security">Security Vault</a>
+      <a href="contact.html" class="nav-link" data-i18n="nav.contact">Uplink</a>
+    </nav>
+
+    <div>
+      <a href="book.html" class="btn-core btn-cyan" data-i18n="nav.cta">⚡ Book Consultation</a>
+    </div>
+  </div>
+</header>
+
+<main class="container">
+  <section class="page-hero">
+    <div class="quantum-badge" data-i18n="sec.badge">EUROPEAN DATA SOVEREIGNTY</div>
+    <h1 class="page-title" data-i18n="sec.title">Ironclad Enterprise Security</h1>
+    <p class="page-sub" data-i18n="sec.sub">
+      Engineered for banking, logistics, healthcare, and industrial sectors under strict Dutch and European privacy mandates. Your corporate intelligence remains 100% sovereign and isolated.
+    </p>
+  </section>
+
+  <!-- 6 Security Pillars Grid -->
+  <section class="vault-grid">
+    <div class="vault-card">
+      <div class="vault-tag">[ PILLAR 01 // ZERO RETENTION ]</div>
+      <h3 class="vault-h3" data-i18n="p1.t">No Public Model Training</h3>
+      <p class="vault-p" data-i18n="p1.d">
+        Your proprietary documents, invoices, client records, and databases are strictly isolated. Farvex AI legally guarantees that client data is never used to train public or shared foundation models.
+      </p>
+    </div>
+
+    <div class="vault-card">
+      <div class="vault-tag">[ PILLAR 02 // JURISDICTION ]</div>
+      <h3 class="vault-h3" data-i18n="p2.t">EU Cloud & Dutch Data Residency</h3>
+      <p class="vault-p" data-i18n="p2.d">
+        All compute clusters, neural inference nodes, and database vector indices reside exclusively within ISO-27001 / SOC-2 Type II certified datacenters in the Netherlands and the European Union.
+      </p>
+    </div>
+
+    <div class="vault-card">
+      <div class="vault-tag">[ PILLAR 03 // COMPLIANCE ]</div>
+      <h3 class="vault-h3" data-i18n="p3.t">GDPR & EU AI Act Ready</h3>
+      <p class="vault-p" data-i18n="p3.d">
+        Built from the ground up for strict alignment with the European AI Act risk tiers and GDPR privacy rights (Article 17 right-to-erasure, deterministic data lineage, explainable AI audits).
+      </p>
+    </div>
+
+    <div class="vault-card">
+      <div class="vault-tag">[ PILLAR 04 // CRYPTOGRAPHY ]</div>
+      <h3 class="vault-h3" data-i18n="p4.t">AES-256 & TLS 1.3 Encryption</h3>
+      <p class="vault-p" data-i18n="p4.d">
+        Full envelope encryption at rest using AES-256-GCM and in transit via TLS 1.3 with Perfect Forward Secrecy. Master cryptographic keys can be held directly in your enterprise HSM.
+      </p>
+    </div>
+
+    <div class="vault-card">
+      <div class="vault-tag">[ PILLAR 05 // DEPLOYMENT ]</div>
+      <h3 class="vault-h3" data-i18n="p5.t">Air-Gapped & On-Premise Ready</h3>
+      <p class="vault-p" data-i18n="p5.d">
+        For defense, high-frequency finance, and critical infrastructure, Farvex AI deploys directly into your private VPC, Kubernetes cluster, or on-premise air-gapped server racks.
+      </p>
+    </div>
+
+    <div class="vault-card">
+      <div class="vault-tag">[ PILLAR 06 // AUDITABILITY ]</div>
+      <h3 class="vault-h3" data-i18n="p6.t">Deterministic Audit Logging</h3>
+      <p class="vault-p" data-i18n="p6.d">
+        Every automated decision, OCR entity extraction, and ERP write operation generates an immutable SHA-256 cryptographic audit trail for executive oversight and external compliance reviews.
+      </p>
+    </div>
+  </section>
+
+  <!-- Interactive Compliance Checklist -->
+  <section class="checklist-deck">
+    <div class="checklist-header">
+      <div>
+        <div class="mono cyan" style="font-size: 11px; font-weight:700;">[ ENTERPRISE COMPLIANCE CHECKLIST ]</div>
+        <h2 style="font-size: 1.8rem; font-family: var(--font-heading); color: #fff; margin-top: 4px;" data-i18n="chk.title">
+          Security Specifications at a Glance
+        </h2>
+      </div>
+      <a href="book.html" class="btn-core btn-cyan" data-i18n="chk.btn">Request Security Whitepaper</a>
+    </div>
+
+    <div class="checklist-grid">
+      <div class="checklist-item">
+        <span class="checklist-icon">✓</span>
+        <div>
+          <strong style="color:#fff; font-size:14px;">SOC-2 Type II Certified Infrastructure</strong>
+          <p style="font-size:12.5px; color:var(--text-muted); margin-top:3px;">Continuous external auditing of availability, confidentiality, and data integrity.</p>
+        </div>
+      </div>
+
+      <div class="checklist-item">
+        <span class="checklist-icon">✓</span>
+        <div>
+          <strong style="color:#fff; font-size:14px;">Role-Based Access Control (RBAC) & SAML SSO</strong>
+          <p style="font-size:12.5px; color:var(--text-muted); margin-top:3px;">Seamless integration with Okta, Azure AD, and Microsoft Entra ID with granular permissions.</p>
+        </div>
+      </div>
+
+      <div class="checklist-item">
+        <span class="checklist-icon">✓</span>
+        <div>
+          <strong style="color:#fff; font-size:14px;">Automated Kill-Switch & Circuit Breakers</strong>
+          <p style="font-size:12.5px; color:var(--text-muted); margin-top:3px;">Instant automated failover and rate-limiting if unusual API payload vectors are detected.</p>
+        </div>
+      </div>
+
+      <div class="checklist-item">
+        <span class="checklist-icon">✓</span>
+        <div>
+          <strong style="color:#fff; font-size:14px;">Data Processing Agreement (DPA) Included</strong>
+          <p style="font-size:12.5px; color:var(--text-muted); margin-top:3px;">Standard European Commission Model Clauses and binding confidentiality contracts.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-col">
+        <a href="index.html" class="brand" style="margin-bottom: 14px;">
+          <div class="brand-box">
+            <img src="farvex-logo-kit/svg/farvex-mark-dark.svg" alt="Farvex AI Logo">
+          </div>
+          <div class="brand-text">FARVEX<span>.AI</span></div>
+        </a>
+        <p style="font-size: 13px; color: var(--text-muted); line-height: 1.6;" data-i18n="footer.desc">
+          Bespoke enterprise AI systems engineering, high-throughput autonomous agents, and industrial automation.
+        </p>
+      </div>
+
+      <div class="footer-col">
+        <h5 data-i18n="footer.col1">Solutions Suite</h5>
+        <ul>
+          <li><a href="solutions.html#workflow">Workflow Orchestration</a></li>
+          <li><a href="solutions.html#vision">Computer Vision & OCR</a></li>
+          <li><a href="solutions.html#agents">Mission Agents</a></li>
+          <li><a href="solutions.html#predictive">Predictive Risk</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h5 data-i18n="footer.col2">Client Portal</h5>
+        <ul>
+          <li><a href="case-studies.html">Enterprise Case Studies</a></li>
+          <li><a href="architecture.html">Technical Architecture</a></li>
+          <li><a href="security.html">Data Sovereignty & Security</a></li>
+          <li><a href="book.html">Book Architecture Call</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h5 data-i18n="footer.col3">Coordinates</h5>
+        <p class="mono" style="font-size: 13px; color: var(--text-muted); margin-bottom: 8px;">Vlaardingen, Netherlands</p>
+        <p class="mono" style="font-size: 12px; color: var(--cyan-bright);">STATUS: SOVEREIGN EU NODE</p>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script>
+  const T = {
+    'en': {
+      "hud.cluster": "ORBITAL CLUSTER: ONLINE",
+      "nav.home": "← Home (Chaos/Order)", "nav.solutions": "Solutions Suite",
+      "nav.cases": "Case Studies", "nav.arch": "Architecture",
+      "nav.security": "Security Vault", "nav.contact": "Uplink",
+      "nav.cta": "⚡ Book Consultation",
+      "sec.badge": "EUROPEAN DATA SOVEREIGNTY",
+      "sec.title": "Ironclad Enterprise Security",
+      "sec.sub": "Engineered for banking, logistics, healthcare, and industrial sectors under strict Dutch and European privacy mandates. Your corporate intelligence remains 100% sovereign and isolated.",
+      "p1.t": "No Public Model Training", "p1.d": "Your proprietary documents, invoices, client records, and databases are strictly isolated. Farvex AI legally guarantees that client data is never used to train public or shared foundation models.",
+      "p2.t": "EU Cloud & Dutch Data Residency", "p2.d": "All compute clusters, neural inference nodes, and database vector indices reside exclusively within ISO-27001 / SOC-2 Type II certified datacenters in the Netherlands and the European Union.",
+      "p3.t": "GDPR & EU AI Act Ready", "p3.d": "Built from the ground up for strict alignment with the European AI Act risk tiers and GDPR privacy rights (Article 17 right-to-erasure, deterministic data lineage, explainable AI audits).",
+      "p4.t": "AES-256 & TLS 1.3 Encryption", "p4.d": "Full envelope encryption at rest using AES-256-GCM and in transit via TLS 1.3 with Perfect Forward Secrecy. Master cryptographic keys can be held directly in your enterprise HSM.",
+      "p5.t": "Air-Gapped & On-Premise Ready", "p5.d": "For defense, high-frequency finance, and critical infrastructure, Farvex AI deploys directly into your private VPC, Kubernetes cluster, or on-premise air-gapped server racks.",
+      "p6.t": "Deterministic Audit Logging", "p6.d": "Every automated decision, OCR entity extraction, and ERP write operation generates an immutable SHA-256 cryptographic audit trail for executive oversight and external compliance reviews.",
+      "chk.title": "Security Specifications at a Glance",
+      "chk.btn": "Request Security Whitepaper",
+      "footer.desc": "Bespoke enterprise AI systems engineering, high-throughput autonomous agents, and industrial automation.",
+      "footer.col1": "Solutions Suite", "footer.col2": "Client Portal", "footer.col3": "Coordinates"
+    },
+    'nl': {
+      "hud.cluster": "ORBITALE CLUSTER: ONLINE",
+      "nav.home": "← Home (Chaos/Orde)", "nav.solutions": "Oplossingen Suite",
+      "nav.cases": "Casestudies", "nav.arch": "Architectuur",
+      "nav.security": "Beveiliging", "nav.contact": "Contact",
+      "nav.cta": "⚡ Plan Consultatie",
+      "sec.badge": "EUROPESE DATA SOEVEREINITEIT",
+      "sec.title": "Gepantserde Enterprise Veiligheid",
+      "sec.sub": "Ontworpen voor banken, logistiek, zorg en industrie onder strikte Nederlandse en Europese regelgeving. Uw bedrijfsdata blijft 100% soeverein en afgeschermd.",
+      "p1.t": "Geen Publieke Modeltraining", "p1.d": "Uw vertrouwelijke documenten, facturen en databases worden strikt geïsoleerd en nooit gebruikt om openbare AI-modellen te trainen.",
+      "p2.t": "Europese Cloud & Nederlandse Dataplek", "p2.d": "Alle compute-clusters en neurale nodes draaien exclusief in ISO-27001 gecertificeerde datacenters in Nederland en de EU.",
+      "p3.t": "AVG & EU AI Act Conform", "p3.d": "Volledig conform de Europese AI-verordening en AVG-privacywetgeving inclusief traceerbare beslisbomen en audit-trails.",
+      "p4.t": "AES-256 & TLS 1.3 Versleuteling", "p4.d": "Bank-grade encryptie in rust en transport met Perfect Forward Secrecy. Sleutelbeheer in eigen hardware security module (HSM) mogelijk.",
+      "p5.t": "Air-Gapped & On-Premise Gereed", "p5.d": "Voor gevoelige sectoren installeert Farvex AI direct in uw eigen afgesloten VPC, Kubernetes-cluster of on-premise servers.",
+      "p6.t": "Onveranderbare Audit Logs", "p6.d": "Elke extractie, transactie en ERP-inboeking genereert een onwijzigbare SHA-256 audit log voor externe accountantscontroles.",
+      "chk.title": "Veiligheidsspecificaties in één oogopslag",
+      "chk.btn": "Vraag Beveiligings-Whitepaper Aan",
+      "footer.desc": "Maatwerk enterprise AI engineering, snelle autonome agenten en industriële automatisering.",
+      "footer.col1": "Oplossingen Suite", "footer.col2": "Klantportaal", "footer.col3": "Coördinaten"
+    }
+  };
+
+  function setLanguage(l) {
+    document.documentElement.setAttribute('data-lang', l);
+    localStorage.setItem('farvex_lang', l);
+    document.getElementById('btnLangEN').classList.toggle('active', l === 'en');
+    document.getElementById('btnLangNL').classList.toggle('active', l === 'nl');
+    const dict = T[l];
+    if (!dict) return;
+    document.querySelectorAll('[data-i18n]').forEach(el => {
+      const k = el.getAttribute('data-i18n');
+      if (dict[k]) el.innerHTML = dict[k];
+    });
+  }
+
+  function setAtmosphere(t) {
+    document.documentElement.setAttribute('data-theme', t);
+    localStorage.setItem('farvex_theme', t);
+    document.getElementById('btnThemeObsidian').classList.toggle('active', t === 'obsidian');
+    document.getElementById('btnThemeMatrix').classList.toggle('active', t === 'matrix');
+    document.getElementById('btnThemeTitanium').classList.toggle('active', t === 'titanium');
+  }
+
+  const canvas = document.getElementById('matrixCanvas');
+  const ctx = canvas.getContext('2d');
+  let width, height, particles = [];
+
+  function resizeCanvas() {
+    width = canvas.width = window.innerWidth;
+    height = canvas.height = window.innerHeight;
+    particles = [];
+    for (let i = 0; i < 45; i++) {
+      particles.push({
+        x: Math.random() * width,
+        y: Math.random() * height,
+        vx: (Math.random() - 0.5) * 1.2,
+        vy: (Math.random() - 0.5) * 1.2,
+        r: Math.random() * 2 + 1
+      });
+    }
+  }
+  window.addEventListener('resize', resizeCanvas);
+
+  function renderParticles() {
+    ctx.clearRect(0, 0, width, height);
+    for (let i = 0; i < particles.length; i++) {
+      const p = particles[i];
+      p.x += p.vx;
+      p.y += p.vy;
+      if (p.x < 0 || p.x > width) p.vx *= -1;
+      if (p.y < 0 || p.y > height) p.vy *= -1;
+
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+      ctx.fillStyle = 'rgba(0, 240, 255, 0.4)';
+      ctx.fill();
+
+      for (let j = i + 1; j < particles.length; j++) {
+        const p2 = particles[j];
+        const dist = Math.hypot(p.x - p2.x, p.y - p2.y);
+        if (dist < 120) {
+          ctx.beginPath();
+          ctx.moveTo(p.x, p.y);
+          ctx.lineTo(p2.x, p2.y);
+          ctx.strokeStyle = `rgba(0, 240, 255, ${0.15 * (1 - dist / 120)})`;
+          ctx.stroke();
+        }
+      }
+    }
+    requestAnimationFrame(renderParticles);
+  }
+
+  document.addEventListener('DOMContentLoaded', () => {
+    resizeCanvas();
+    renderParticles();
+    const l = localStorage.getItem('farvex_lang') || 'en';
+    const t = localStorage.getItem('farvex_theme') || 'obsidian';
+    setLanguage(l);
+    setAtmosphere(t);
+  });
+</script>
+</body>
+</html>
