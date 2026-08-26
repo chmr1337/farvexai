@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" data-lang="en" data-theme="obsidian">
+<html lang="en" data-lang="en" data-theme="matrix">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
@@ -45,9 +45,8 @@ body { background: var(--bg-deep); color: var(--text-main); font-family: var(--f
 #matrixCanvas { position: fixed; inset: 0; z-index: -2; pointer-events: none; }
 
 .telemetry-hud-bar {
-  background: rgba(3, 7, 18, 0.94); border-bottom: 1px solid var(--border-glass);
-  padding: 6px 20px; font-family: var(--font-mono); font-size: 11px;
-  display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 1002; gap: 8px;
+  background: rgba(2, 11, 5, 0.96); border-bottom: 1px solid var(--border-glass); padding: 6px 16px; font-family: var(--font-mono); font-size: 11px;
+  display: flex; justify-content: space-between; align-items: center; position: relative; z-index: 1002; gap: 8px;
 }
 .hud-diode { display: inline-flex; align-items: center; gap: 6px; color: var(--cyan-bright); font-weight: 600; white-space: nowrap; }
 .hud-diode::before { content: ''; width: 6px; height: 6px; border-radius: 50%; background: var(--cyan-bright); box-shadow: 0 0 8px var(--cyan-bright); }
@@ -56,10 +55,10 @@ body { background: var(--bg-deep); color: var(--text-main); font-family: var(--f
 .hud-btn.active { color: #fff; background: rgba(0, 240, 255, 0.2); border: 1px solid var(--cyan-glow); }
 
 header.site-header {
-  position: sticky; top: 31px; left: 0; right: 0; z-index: 1000;
-  background: rgba(3, 7, 18, 0.88); backdrop-filter: blur(20px); border-bottom: 1px solid var(--border-glass);
+  position: sticky; top: 0; left: 0; right: 0; z-index: 1000;
+  background: rgba(2, 11, 5, 0.94); backdrop-filter: blur(24px); border-bottom: 1px solid var(--border-glass);
 }
-.header-wrap { max-width: 1400px; margin: 0 auto; padding: 0 24px; height: 72px; display: flex; align-items: center; justify-content: space-between; }
+.header-wrap { max-width: 1400px; margin: 0 auto; padding: 0 20px; height: 64px; display: flex; align-items: center; justify-content: space-between; }
 .brand { display: flex; align-items: center; gap: 12px; text-decoration: none; }
 .brand-box { width: 38px; height: 38px; border-radius: 10px; background: rgba(0, 240, 255, 0.08); border: 1px solid rgba(0, 240, 255, 0.35); display: flex; align-items: center; justify-content: center; }
 .brand-box img { width: 22px; height: 22px; }
@@ -80,13 +79,20 @@ header.site-header {
 .mobile-menu-btn.active span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); background: var(--cyan-bright); }
 
 .mobile-nav-drawer {
-  display: none; position: fixed; top: 103px; left: 0; right: 0; bottom: 0; background: rgba(3, 7, 18, 0.98);
-  backdrop-filter: blur(24px); z-index: 999; padding: 24px 20px 40px; overflow-y: auto; flex-direction: column; justify-content: space-between; border-bottom: 1px solid var(--border-glass);
+  display: none; position: fixed; top: 64px; left: 0; right: 0; bottom: 0; background: rgba(2, 11, 5, 0.98);
+  backdrop-filter: blur(28px); z-index: 999; padding: 20px 16px 36px; overflow-y: auto; flex-direction: column; justify-content: space-between; border-bottom: 1px solid var(--border-glass);
+  animation: fadeInDrawer 0.25s ease-out;
 }
 .mobile-nav-drawer.open { display: flex; }
+
+@keyframes fadeInDrawer {
+  from { opacity: 0; transform: translateY(-10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
 .mobile-nav-links { display: flex; flex-direction: column; gap: 8px; }
 .mobile-nav-link {
-  font-size: 16px; font-weight: 700; color: var(--text-main); text-decoration: none; padding: 14px 18px;
+  font-size: 15px; font-weight: 700; color: var(--text-main); text-decoration: none; padding: 12px 16px;
   border-radius: 12px; background: rgba(255, 255, 255, 0.03); border: 1px solid var(--border-glass); display: flex; align-items: center; justify-content: space-between;
 }
 .mobile-nav-link:hover, .mobile-nav-link.active { background: rgba(0, 240, 255, 0.15); border-color: var(--cyan-bright); color: #fff; }
@@ -99,9 +105,9 @@ header.site-header {
 .btn-cyan:hover { transform: translateY(-2px); box-shadow: 0 0 30px rgba(0, 240, 255, 0.6); }
 
 .container { max-width: 1100px; margin: 0 auto; padding: 0 24px; }
-.page-hero { padding: 60px 0 40px; text-align: center; }
-.page-title { font-size: 3.2rem; font-family: var(--font-heading); font-weight: 800; line-height: 1.1; margin-bottom: 14px; color: #fff; }
-.page-sub { font-size: 1.15rem; color: var(--text-muted); max-width: 800px; margin: 0 auto; line-height: 1.6; }
+.page-hero { padding: 50px 0 32px; text-align: center; }
+.page-title { font-size: 3rem; font-family: var(--font-heading); font-weight: 800; line-height: 1.1; margin-bottom: 14px; color: #fff; }
+.page-sub { font-size: 1.12rem; color: var(--text-muted); max-width: 800px; margin: 0 auto; line-height: 1.6; }
 
 .quantum-badge {
   display: inline-flex; align-items: center; gap: 8px; font-family: var(--font-mono); font-size: 11px;
@@ -111,14 +117,14 @@ header.site-header {
 
 .legal-deck {
   background: var(--bg-card); border: 1px solid var(--border-glass); border-radius: 20px;
-  padding: 44px; margin-bottom: 80px; box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+  padding: 40px; margin-bottom: 80px; box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
 }
-.legal-section { margin-bottom: 36px; }
+.legal-section { margin-bottom: 32px; }
 .legal-section:last-child { margin-bottom: 0; }
-.legal-h2 { font-size: 1.5rem; font-family: var(--font-heading); color: #fff; margin-bottom: 12px; display: flex; align-items: center; gap: 10px; }
+.legal-h2 { font-size: 1.45rem; font-family: var(--font-heading); color: #fff; margin-bottom: 12px; display: flex; align-items: center; gap: 10px; }
 .legal-h2 span { font-family: var(--font-mono); color: var(--cyan-bright); font-size: 13px; }
-.legal-p { font-size: 14.5px; color: var(--text-muted); line-height: 1.75; margin-bottom: 14px; }
-.legal-list { list-style: disc; padding-left: 24px; color: var(--text-muted); font-size: 14px; line-height: 1.7; margin-bottom: 14px; }
+.legal-p { font-size: 14px; color: var(--text-muted); line-height: 1.7; margin-bottom: 14px; }
+.legal-list { list-style: disc; padding-left: 20px; color: var(--text-muted); font-size: 13.5px; line-height: 1.65; margin-bottom: 14px; }
 
 .mono { font-family: var(--font-mono); }
 .cyan { color: var(--cyan-bright); }
@@ -131,14 +137,31 @@ footer.site-footer { background: #02050e; border-top: 1px solid var(--border-gla
 .footer-col a:hover { color: var(--cyan-bright); }
 
 @media (max-width: 768px) {
-  .page-title { font-size: 2.1rem; }
+  .page-hero { padding: 36px 0 24px; }
+  .page-title { font-size: 2rem; line-height: 1.15; }
+  .page-sub { font-size: 0.98rem; }
   .nav-links { display: none; }
   .mobile-menu-btn { display: flex; }
-  .site-header { top: 31px; }
-  .mobile-nav-drawer { top: 103px; }
-  .legal-deck { padding: 22px 16px; }
-  .footer-grid { grid-template-columns: 1fr; gap: 24px; }
-  .container { padding: 0 16px; }
+  .telemetry-hud-bar {
+    padding: 6px 12px;
+    font-size: 10px;
+    gap: 6px;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+  .hud-btn { padding: 3px 6px; font-size: 10px; }
+  .hud-diode { font-size: 10px; }
+  .header-wrap { height: 64px; padding: 0 16px; }
+  .mobile-nav-drawer { top: 64px; }
+  .mobile-nav-link { padding: 12px 14px; font-size: 14px; }
+
+  .legal-deck { padding: 20px 14px; border-radius: 16px; margin-bottom: 40px; }
+  .legal-h2 { font-size: 1.25rem; }
+  .legal-p { font-size: 13px; }
+  .legal-list { font-size: 12.5px; padding-left: 16px; }
+  .footer-grid { grid-template-columns: 1fr; gap: 22px; }
+  .container { padding: 0 14px; }
 }
 </style>
 </head>
@@ -153,8 +176,8 @@ footer.site-footer { background: #02050e; border-top: 1px solid var(--border-gla
   </div>
   <div style="display:flex; gap:6px;">
     <div class="hud-btn-group">
-      <button class="hud-btn active" id="btnThemeObsidian" onclick="setAtmosphere('obsidian')">Obsidian</button>
-      <button class="hud-btn" id="btnThemeMatrix" onclick="setAtmosphere('matrix')">Matrix</button>
+      <button class="hud-btn" id="btnThemeObsidian" onclick="setAtmosphere('obsidian')">Obsidian</button>
+      <button class="hud-btn active" id="btnThemeMatrix" onclick="setAtmosphere('matrix')">Matrix</button>
       <button class="hud-btn" id="btnThemeTitanium" onclick="setAtmosphere('titanium')">Titanium</button>
     </div>
     <div class="hud-btn-group">
@@ -201,6 +224,7 @@ footer.site-footer { background: #02050e; border-top: 1px solid var(--border-gla
       <a href="privacy.html" class="mobile-nav-link" onclick="toggleMobileNav()">Privacy Statement (GDPR) <span>➔</span></a>
       <a href="cookies.html" class="mobile-nav-link" onclick="toggleMobileNav()">Cookie Preferences <span>➔</span></a>
       <a href="contact.html" class="mobile-nav-link" onclick="toggleMobileNav()">Direct Uplink / Contact <span>➔</span></a>
+      <a href="book.html" class="btn-core btn-cyan" style="width: 100%; margin-top: 10px;" data-i18n="nav.cta">⚡ Book Consultation</a>
     </div>
   </div>
 </header>
@@ -401,6 +425,7 @@ footer.site-footer { background: #02050e; border-top: 1px solid var(--border-gla
 
   function renderParticles() {
     ctx.clearRect(0, 0, width, height);
+    const isMatrix = document.documentElement.getAttribute('data-theme') === 'matrix';
     for (let i = 0; i < particles.length; i++) {
       const p = particles[i];
       p.x += p.vx; p.y += p.vy;
@@ -408,7 +433,7 @@ footer.site-footer { background: #02050e; border-top: 1px solid var(--border-gla
       if (p.y < 0 || p.y > height) p.vy *= -1;
       ctx.beginPath();
       ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
-      ctx.fillStyle = 'rgba(0, 240, 255, 0.4)';
+      ctx.fillStyle = isMatrix ? 'rgba(16, 185, 129, 0.6)' : 'rgba(0, 240, 255, 0.4)';
       ctx.fill();
     }
     requestAnimationFrame(renderParticles);
@@ -418,7 +443,7 @@ footer.site-footer { background: #02050e; border-top: 1px solid var(--border-gla
     resizeCanvas();
     renderParticles();
     const l = localStorage.getItem('farvex_lang') || 'en';
-    const t = localStorage.getItem('farvex_theme') || 'obsidian';
+    const t = localStorage.getItem('farvex_theme') || 'matrix';
     setLanguage(l);
     setAtmosphere(t);
   });

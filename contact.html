@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" data-lang="en" data-theme="obsidian">
+<html lang="en" data-lang="en" data-theme="matrix">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
@@ -45,9 +45,9 @@
     #matrixCanvas { position: fixed; inset: 0; z-index: -2; pointer-events: none; }
 
     .telemetry-hud-bar {
-      background: rgba(3, 7, 18, 0.94); border-bottom: 1px solid var(--border-glass);
-      padding: 6px 20px; font-family: var(--font-mono); font-size: 11px;
-      display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 1002;
+      background: rgba(2, 11, 5, 0.96); border-bottom: 1px solid var(--border-glass);
+      padding: 6px 16px; font-family: var(--font-mono); font-size: 11px;
+      display: flex; justify-content: space-between; align-items: center; position: relative; z-index: 1002;
       gap: 8px;
     }
     .hud-diode { display: inline-flex; align-items: center; gap: 6px; color: var(--cyan-bright); font-weight: 600; white-space: nowrap; }
@@ -57,10 +57,10 @@
     .hud-btn.active { color: #fff; background: rgba(0, 240, 255, 0.2); border: 1px solid var(--cyan-glow); }
 
     header.site-header {
-      position: sticky; top: 31px; left: 0; right: 0; z-index: 1000;
-      background: rgba(3, 7, 18, 0.88); backdrop-filter: blur(20px); border-bottom: 1px solid var(--border-glass);
+      position: sticky; top: 0; left: 0; right: 0; z-index: 1000;
+      background: rgba(2, 11, 5, 0.94); backdrop-filter: blur(24px); border-bottom: 1px solid var(--border-glass);
     }
-    .header-wrap { max-width: 1400px; margin: 0 auto; padding: 0 24px; height: 72px; display: flex; align-items: center; justify-content: space-between; }
+    .header-wrap { max-width: 1400px; margin: 0 auto; padding: 0 20px; height: 64px; display: flex; align-items: center; justify-content: space-between; }
     .brand { display: flex; align-items: center; gap: 12px; text-decoration: none; }
     .brand-box { width: 38px; height: 38px; border-radius: 10px; background: rgba(0, 240, 255, 0.08); border: 1px solid rgba(0, 240, 255, 0.35); display: flex; align-items: center; justify-content: center; }
     .brand-box img { width: 22px; height: 22px; }
@@ -86,9 +86,9 @@
 
     /* Mobile Slide Drawer */
     .mobile-nav-drawer {
-      display: none; position: fixed; top: 103px; left: 0; right: 0; bottom: 0;
-      background: rgba(3, 7, 18, 0.98); backdrop-filter: blur(24px); z-index: 999;
-      padding: 24px 20px 40px; overflow-y: auto; flex-direction: column; justify-content: space-between;
+      display: none; position: fixed; top: 64px; left: 0; right: 0; bottom: 0;
+      background: rgba(2, 11, 5, 0.98); backdrop-filter: blur(28px); z-index: 999;
+      padding: 20px 16px 36px; overflow-y: auto; flex-direction: column; justify-content: space-between;
       border-bottom: 1px solid var(--border-glass); animation: fadeInDrawer 0.25s ease-out;
     }
     .mobile-nav-drawer.open { display: flex; }
@@ -100,8 +100,8 @@
 
     .mobile-nav-links { display: flex; flex-direction: column; gap: 8px; }
     .mobile-nav-link {
-      font-size: 16px; font-weight: 700; color: var(--text-main); text-decoration: none;
-      padding: 14px 18px; border-radius: 12px; background: rgba(255, 255, 255, 0.03);
+      font-size: 15px; font-weight: 700; color: var(--text-main); text-decoration: none;
+      padding: 12px 16px; border-radius: 12px; background: rgba(255, 255, 255, 0.03);
       border: 1px solid var(--border-glass); display: flex; align-items: center; justify-content: space-between;
     }
     .mobile-nav-link:hover, .mobile-nav-link.active {
@@ -109,7 +109,7 @@
     }
 
     .contact-container {
-      max-width: 1100px; margin: 50px auto 70px; padding: 0 20px; display: grid; grid-template-columns: 1fr 1.2fr; gap: 32px; align-items: start;
+      max-width: 1100px; margin: 40px auto 60px; padding: 0 20px; display: grid; grid-template-columns: 1fr 1.2fr; gap: 32px; align-items: start;
     }
     .contact-card-deck {
       background: var(--bg-panel); border: 1px solid var(--border-glass); border-radius: 20px;
@@ -118,35 +118,35 @@
     .contact-h1 { font-size: 2.1rem; font-family: var(--font-heading); color: #fff; margin-bottom: 12px; }
     .contact-p { font-size: 14px; color: var(--text-muted); line-height: 1.6; margin-bottom: 28px; }
 
-    .station-info-row { display: flex; flex-direction: column; gap: 16px; }
+    .station-info-row { display: flex; flex-direction: column; gap: 14px; }
     .station-info-box {
       background: rgba(255, 255, 255, 0.03); border: 1px solid var(--border-glass); border-radius: 12px;
-      padding: 14px 18px; display: flex; align-items: center; gap: 14px;
+      padding: 14px 16px; display: flex; align-items: center; gap: 14px;
     }
     .station-info-icon { font-size: 18px; color: var(--cyan-bright); flex-shrink: 0; }
     .station-info-label { font-size: 10.5px; font-family: var(--font-mono); color: var(--text-dim); text-transform: uppercase; }
-    .station-info-val { font-size: 14px; font-weight: 600; color: #fff; text-decoration: none; word-break: break-all; }
+    .station-info-val { font-size: 13.5px; font-weight: 600; color: #fff; text-decoration: none; word-break: break-all; }
     .station-info-val:hover { color: var(--cyan-bright); }
 
-    .form-group { display: flex; flex-direction: column; gap: 8px; margin-bottom: 18px; }
+    .form-group { display: flex; flex-direction: column; gap: 6px; margin-bottom: 16px; }
     .form-label { font-family: var(--font-mono); font-size: 11px; color: var(--cyan-bright); font-weight: 700; text-transform: uppercase; }
     .form-input, .form-textarea {
       background: #01040a; border: 1px solid var(--border-glass); border-radius: 10px;
-      padding: 13px 16px; color: #fff; font-family: var(--font-display); font-size: 14px; outline: none; transition: border-color 0.2s;
+      padding: 12px 14px; color: #fff; font-family: var(--font-display); font-size: 13.5px; outline: none; transition: border-color 0.2s;
     }
     .form-input:focus, .form-textarea:focus { border-color: var(--cyan-bright); }
-    .form-textarea { resize: vertical; min-height: 110px; }
+    .form-textarea { resize: vertical; min-height: 100px; }
 
     .btn-submit {
-      width: 100%; padding: 15px; border-radius: 100px; background: linear-gradient(135deg, #00f0ff 0%, #0284c7 100%);
-      color: #030712; font-size: 14.5px; font-weight: 800; border: none; cursor: pointer; transition: all 0.25s var(--ease-elastic);
+      width: 100%; padding: 14px; border-radius: 100px; background: linear-gradient(135deg, #00f0ff 0%, #0284c7 100%);
+      color: #030712; font-size: 14px; font-weight: 800; border: none; cursor: pointer; transition: all 0.25s var(--ease-elastic);
       box-shadow: 0 0 24px rgba(0, 240, 255, 0.4);
     }
     .btn-submit:hover { transform: translateY(-2px); box-shadow: 0 0 35px rgba(0, 240, 255, 0.7); }
 
     .contact-ack {
       display: none; background: rgba(0, 240, 255, 0.15); border: 1px solid var(--cyan-bright);
-      border-radius: 12px; padding: 18px; color: #fff; font-family: var(--font-mono); font-size: 12.5px; text-align: center; margin-top: 20px;
+      border-radius: 12px; padding: 16px; color: #fff; font-family: var(--font-mono); font-size: 12.5px; text-align: center; margin-top: 18px;
     }
 
     .mono { font-family: var(--font-mono); }
@@ -162,14 +162,27 @@
     .footer-col a:hover { color: var(--cyan-bright); }
 
     @media (max-width: 900px) {
-      .contact-container { grid-template-columns: 1fr; margin: 30px auto 50px; padding: 0 14px; }
+      .contact-container { grid-template-columns: 1fr; margin: 24px auto 40px; padding: 0 14px; gap: 20px; }
       .nav-links { display: none; }
       .mobile-menu-btn { display: flex; }
-      .site-header { top: 31px; }
-      .mobile-nav-drawer { top: 103px; }
-      .contact-card-deck { padding: 24px 16px; }
-      .contact-h1 { font-size: 1.85rem; }
-      .footer-grid { grid-template-columns: 1fr; gap: 24px; }
+      .telemetry-hud-bar {
+        padding: 6px 12px;
+        font-size: 10px;
+        gap: 6px;
+        flex-wrap: nowrap;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+      }
+      .hud-btn { padding: 3px 6px; font-size: 10px; }
+      .hud-diode { font-size: 10px; }
+      .header-wrap { height: 64px; padding: 0 16px; }
+      .mobile-nav-drawer { top: 64px; }
+      .mobile-nav-link { padding: 12px 14px; font-size: 14px; }
+
+      .contact-card-deck { padding: 20px 14px; border-radius: 16px; }
+      .contact-h1 { font-size: 1.75rem; margin-bottom: 8px; }
+      .contact-p { font-size: 13px; margin-bottom: 20px; }
+      .footer-grid { grid-template-columns: 1fr; gap: 22px; }
     }
   </style>
 </head>
@@ -184,8 +197,8 @@
   </div>
   <div style="display:flex; gap:6px;">
     <div class="hud-btn-group">
-      <button class="hud-btn active" id="btnThemeObsidian" onclick="setAtmosphere('obsidian')">Obsidian</button>
-      <button class="hud-btn" id="btnThemeMatrix" onclick="setAtmosphere('matrix')">Matrix</button>
+      <button class="hud-btn" id="btnThemeObsidian" onclick="setAtmosphere('obsidian')">Obsidian</button>
+      <button class="hud-btn active" id="btnThemeMatrix" onclick="setAtmosphere('matrix')">Matrix</button>
       <button class="hud-btn" id="btnThemeTitanium" onclick="setAtmosphere('titanium')">Titanium</button>
     </div>
     <div class="hud-btn-group">
@@ -445,9 +458,10 @@
       if (p.x < 0 || p.x > width) p.vx *= -1;
       if (p.y < 0 || p.y > height) p.vy *= -1;
 
+      const isMatrix = document.documentElement.getAttribute('data-theme') === 'matrix';
       ctx.beginPath();
       ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
-      ctx.fillStyle = 'rgba(0, 240, 255, 0.4)';
+      ctx.fillStyle = isMatrix ? 'rgba(16, 185, 129, 0.6)' : 'rgba(0, 240, 255, 0.4)';
       ctx.fill();
 
       for (let j = i + 1; j < particles.length; j++) {
@@ -457,7 +471,7 @@
           ctx.beginPath();
           ctx.moveTo(p.x, p.y);
           ctx.lineTo(p2.x, p2.y);
-          ctx.strokeStyle = `rgba(0, 240, 255, ${0.15 * (1 - dist / 120)})`;
+          ctx.strokeStyle = isMatrix ? `rgba(16, 185, 129, ${0.2 * (1 - dist / 120)})` : `rgba(0, 240, 255, ${0.15 * (1 - dist / 120)})`;
           ctx.stroke();
         }
       }
@@ -469,7 +483,7 @@
     resizeCanvas();
     renderParticles();
     const l = localStorage.getItem('farvex_lang') || 'en';
-    const t = localStorage.getItem('farvex_theme') || 'obsidian';
+    const t = localStorage.getItem('farvex_theme') || 'matrix';
     setLanguage(l);
     setAtmosphere(t);
   });
