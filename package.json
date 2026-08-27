@@ -19,6 +19,7 @@
   },
   "homepage": "https://github.com/chmr1337/farvexai#readme",
   "dependencies": {
+    "@vercel/analytics": "^2.0.1",
     "@vercel/speed-insights": "^2.0.0"
   }
 }
