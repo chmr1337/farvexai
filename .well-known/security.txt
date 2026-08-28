@@ -1,0 +1,8 @@
+Contact: mailto:security@farvex.ai
+Contact: mailto:farvexai@gmail.com
+Expires: 2027-12-31T23:59:59.000Z
+Preferred-Languages: en, nl
+Canonical: https://farvex.ai/.well-known/security.txt
+Policy: https://farvex.ai/security.html
+Acknowledgments: https://farvex.ai/security.html
+Hiring: https://farvex.ai/contact.html

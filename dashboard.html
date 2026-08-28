@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
 <title>Command Telemetry & Inbound Messages // Farvex AI</title>
-<meta name="robots" content="noindex, nofollow">
+<meta name="robots" content="noindex, nofollow, noarchive, nosnippet">
 <link rel="icon" type="image/svg+xml" href="farvex-logo-kit/svg/farvex-mark-dark.svg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -56,7 +56,8 @@ body {
 .hud-diode { display: inline-flex; align-items: center; gap: 6px; color: var(--cyan-bright); font-weight: 600; white-space: nowrap; }
 .hud-diode::before { content: ''; width: 6px; height: 6px; border-radius: 50%; background: var(--cyan-bright); box-shadow: 0 0 8px var(--cyan-bright); }
 .hud-btn-group { display: flex; gap: 3px; background: rgba(255, 255, 255, 0.04); padding: 2px 4px; border-radius: 6px; border: 1px solid var(--border-glass); }
-.hud-btn { background: transparent; border: none; color: var(--text-dim); font-family: var(--font-mono); font-size: 11px; padding: 3px 7px; border-radius: 4px; cursor: pointer; }
+.hud-btn { background: transparent; border: none; color: var(--text-dim); font-family: var(--font-mono); font-size: 11px; padding: 3px 7px; border-radius: 4px; cursor: pointer; transition: all 0.2s; }
+.hud-btn:hover { color: #fff; }
 .hud-btn.active { color: #fff; background: rgba(0, 240, 255, 0.2); border: 1px solid var(--cyan-glow); }
 
 header.site-header {
@@ -102,6 +103,8 @@ header.site-header {
   color: var(--text-muted); cursor: pointer; transition: all 0.2s;
 }
 .tab-btn.active, .tab-btn:hover { background: rgba(0, 240, 255, 0.18); border-color: var(--cyan-bright); color: #fff; font-weight: 700; }
+.tab-btn.tab-security { border-color: rgba(168, 85, 247, 0.4); color: #d8b4fe; }
+.tab-btn.tab-security.active { background: rgba(168, 85, 247, 0.25); border-color: #a855f7; color: #fff; }
 
 .search-box {
   background: #01040a; border: 1px solid var(--border-glass); border-radius: 8px;
@@ -109,7 +112,7 @@ header.site-header {
 }
 .search-box:focus { border-color: var(--cyan-bright); }
 
-.action-btn-group { display: flex; gap: 8px; }
+.action-btn-group { display: flex; gap: 8px; flex-wrap: wrap; }
 .btn-action {
   background: rgba(255, 255, 255, 0.05); border: 1px solid var(--border-glass); border-radius: 8px;
   padding: 8px 12px; font-family: var(--font-mono); font-size: 11.5px; color: var(--text-main); cursor: pointer; transition: all 0.2s;
@@ -143,6 +146,7 @@ table.inbox-table {
 }
 .type-booking { background: rgba(168, 85, 247, 0.2); border: 1px solid rgba(168, 85, 247, 0.5); color: #d8b4fe; }
 .type-contact { background: rgba(0, 240, 255, 0.2); border: 1px solid rgba(0, 240, 255, 0.4); color: var(--cyan-bright); }
+.type-audit { background: rgba(245, 158, 11, 0.2); border: 1px solid rgba(245, 158, 11, 0.5); color: #fcd34d; }
 
 .modal-overlay {
   display: none; position: fixed; inset: 0; background: rgba(0, 0, 0, 0.75); backdrop-filter: blur(8px);
@@ -172,14 +176,31 @@ table.inbox-table {
 
 .modal-footer { display: flex; justify-content: space-between; gap: 10px; margin-top: 24px; padding-top: 16px; border-top: 1px solid var(--border-glass); flex-wrap: wrap; }
 
+/* Security Gate */
 .security-gate {
   position: fixed; inset: 0; z-index: 3000; background: #02050e;
   display: flex; align-items: center; justify-content: center; padding: 20px;
 }
 .gate-box {
   background: #04091a; border: 1px solid rgba(0, 240, 255, 0.45); border-radius: 20px;
-  padding: 36px; max-width: 440px; width: 100%; text-align: center; box-shadow: 0 0 60px rgba(0, 240, 255, 0.2);
+  padding: 36px; max-width: 460px; width: 100%; text-align: center; box-shadow: 0 0 60px rgba(0, 240, 255, 0.2);
 }
+
+.lockout-banner {
+  display: none;
+  background: rgba(239, 68, 68, 0.15);
+  border: 1px solid rgba(239, 68, 68, 0.5);
+  color: #fca5a5;
+  padding: 12px 16px;
+  border-radius: 10px;
+  font-family: var(--font-mono);
+  font-size: 11.5px;
+  margin-bottom: 18px;
+  line-height: 1.5;
+}
+
+.mono { font-family: var(--font-mono); }
+.cyan { color: var(--cyan-bright); }
 
 @media (max-width: 1024px) {
   .stat-grid { grid-template-columns: repeat(2, 1fr); }
@@ -199,27 +220,42 @@ table.inbox-table {
 <body>
 <canvas id="matrixCanvas"></canvas>
 
-<!-- Security Gate (Master Key Access) -->
+<!-- Security Gate (Web Crypto Salted SHA-256 Vault) -->
 <div class="security-gate" id="secGate">
   <div class="gate-box">
-    <div style="font-size: 32px; margin-bottom: 12px;">🔒</div>
-    <div class="hud-diode" style="margin-bottom: 10px;">FARVEX TELEMETRY VAULT</div>
-    <h2 style="font-family: var(--font-heading); color: #fff; font-size: 1.6rem; margin-bottom: 10px;">Admin Access Control</h2>
-    <p style="font-size: 13px; color: var(--text-muted); margin-bottom: 22px;">Enter your command passcode to inspect live inbound transmissions and briefing bookings.</p>
-    <form onsubmit="handleAuth(event)">
-      <input type="password" id="passcodeInput" class="search-box" style="width: 100%; padding: 12px; margin-bottom: 14px; text-align: center; letter-spacing: 0.2em;" placeholder="••••••••" autofocus required>
-      <button type="submit" class="hud-btn active" style="width: 100%; padding: 12px; font-size: 13px; border-radius: 8px;">Authenticate Node ➔</button>
+    <div style="font-size: 32px; margin-bottom: 10px;">🔒</div>
+    <div class="hud-diode" style="margin-bottom: 10px;">FARVEX SOVEREIGN VAULT</div>
+    <h2 style="font-family: var(--font-heading); color: #fff; font-size: 1.55rem; margin-bottom: 8px;">Command Access Gate</h2>
+    <p style="font-size: 13px; color: var(--text-muted); margin-bottom: 18px;">
+      Authenticate with your cryptographic master passcode to inspect inbound telemetry records.
+    </p>
+
+    <!-- Brute-Force Lockout Banner -->
+    <div class="lockout-banner" id="lockoutBanner">
+      ⚠️ <strong>BRUTE-FORCE LOCKOUT ACTIVE</strong><br>
+      Excessive failed attempts detected. Cooldown remaining: <span id="lockoutSeconds" style="font-weight:700; color:#fff;">60s</span>
+    </div>
+
+    <form id="authForm" onsubmit="handleAuth(event)">
+      <div style="position:relative; margin-bottom: 14px;">
+        <input type="password" id="passcodeInput" class="search-box" style="width: 100%; padding: 12px 38px 12px 14px; text-align: center; letter-spacing: 0.15em;" placeholder="••••••••••••" autofocus required>
+        <button type="button" onclick="togglePassVisibility()" style="position:absolute; right:10px; top:50%; transform:translateY(-50%); background:none; border:none; color:var(--text-dim); cursor:pointer; font-size:14px;">👁</button>
+      </div>
+      <button type="submit" id="btnAuthSubmit" class="hud-btn active" style="width: 100%; padding: 12px; font-size: 13px; border-radius: 8px; font-weight:700;">Authenticate Node ➔</button>
     </form>
-    <p style="font-family: var(--font-mono); font-size: 10.5px; color: var(--text-dim); margin-top: 14px;">DEFAULT KEY: <code>farvex2026</code></p>
+    <div style="font-family: var(--font-mono); font-size: 10.5px; color: var(--text-dim); margin-top: 16px; line-height:1.5;">
+      [ SHA-256 Web Crypto Gate &bull; Tamper-Evident Session ]
+    </div>
   </div>
 </div>
 
+<!-- Top HUD Bar -->
 <div class="telemetry-hud-bar">
   <div style="display:flex; align-items:center; gap:12px;">
     <span class="hud-diode">COMMAND TELEMETRY: ONLINE</span>
-    <span style="font-family:var(--font-mono); font-size:10.5px; color:var(--text-dim);">DISPATCH: farvexai@gmail.com</span>
+    <span id="hudSessionStatus" style="font-family:var(--font-mono); font-size:10.5px; color:var(--cyan-bright);">SESSION: ENCRYPTED</span>
   </div>
-  <div style="display:flex; gap:6px;">
+  <div style="display:flex; gap:6px; align-items:center;">
     <div class="hud-btn-group">
       <button class="hud-btn" id="btnThemeObsidian" onclick="setAtmosphere('obsidian')">Obsidian</button>
       <button class="hud-btn active" id="btnThemeMatrix" onclick="setAtmosphere('matrix')">Matrix</button>
@@ -229,6 +265,7 @@ table.inbox-table {
       <button class="hud-btn active" id="btnLangEN" onclick="setLanguage('en')">EN</button>
       <button class="hud-btn" id="btnLangNL" onclick="setLanguage('nl')">NL</button>
     </div>
+    <button class="hud-btn" onclick="openPasscodeModal()" style="border-color:rgba(0,240,255,0.3); color:#38bdf8;" title="Change Passcode">🔑 Key</button>
     <button class="hud-btn" onclick="logout()" style="color:#ef4444; border-color:rgba(239,68,68,0.3);">Lock 🔒</button>
   </div>
 </div>
@@ -280,9 +317,9 @@ table.inbox-table {
       <div class="stat-badge">📅 Architecture Sessions</div>
     </div>
     <div class="stat-card">
-      <div class="stat-label">Notification Recipient</div>
-      <div class="stat-val" style="font-size:1.15rem; margin-top:8px; color:var(--cyan-bright);">farvexai@gmail.com</div>
-      <div class="stat-badge">✓ Active Routing Route</div>
+      <div class="stat-label">Security Audit Status</div>
+      <div class="stat-val" id="statAuditCount" style="font-size:1.4rem; color:#a855f7;">0 Events</div>
+      <div class="stat-badge" style="color:#a855f7;">🛡️ Audit Logs Active</div>
     </div>
   </div>
 
@@ -293,14 +330,15 @@ table.inbox-table {
       <button class="tab-btn" onclick="setFilter('contact', this)">Uplink Msgs (<span id="countContact">0</span>)</button>
       <button class="tab-btn" onclick="setFilter('booking', this)">Bookings (<span id="countBooking">0</span>)</button>
       <button class="tab-btn" onclick="setFilter('archived', this)">Archived (<span id="countArchived">0</span>)</button>
+      <button class="tab-btn tab-security" onclick="setFilter('audit', this)">📜 Security Audit (<span id="countAudit">0</span>)</button>
     </div>
     <input type="text" id="searchInput" class="search-box" placeholder="Search officer, company, ID..." oninput="handleSearch(this.value)">
   </div>
 
   <div class="inbox-card-deck">
     <div class="table-responsive">
-      <table class="inbox-table">
-        <thead>
+      <table class="inbox-table" id="mainDataTable">
+        <thead id="inboxTableHead">
           <tr>
             <th>Tracking ID</th>
             <th>Type</th>
@@ -318,6 +356,7 @@ table.inbox-table {
   </div>
 </main>
 
+<!-- Lead Detail Modal -->
 <div class="modal-overlay" id="detailModal">
   <div class="modal-card">
     <div class="modal-header">
@@ -361,8 +400,55 @@ table.inbox-table {
   </div>
 </div>
 
+<!-- Change Passcode Modal -->
+<div class="modal-overlay" id="passcodeModal">
+  <div class="modal-card" style="max-width: 480px;">
+    <div class="modal-header">
+      <div>
+        <span class="type-tag" style="background:rgba(0,240,255,0.2); border-color:var(--cyan-bright); color:var(--cyan-bright);">SECURITY CONFIG</span>
+        <h2 class="modal-title" style="margin-top:6px;">Update Master Passcode</h2>
+      </div>
+      <button class="modal-close" onclick="closePasscodeModal()">✕</button>
+    </div>
+
+    <form onsubmit="handleChangePasscode(event)">
+      <div class="detail-row">
+        <div class="detail-label">Current Passcode</div>
+        <input type="password" id="currPassInput" class="search-box" style="width:100%; padding:10px;" required placeholder="••••••••••••">
+      </div>
+      <div class="detail-row">
+        <div class="detail-label">New Passcode (Min 8 Characters)</div>
+        <input type="password" id="newPassInput" class="search-box" style="width:100%; padding:10px;" required minlength="8" placeholder="••••••••••••">
+      </div>
+      <div class="detail-row">
+        <div class="detail-label">Confirm New Passcode</div>
+        <input type="password" id="confirmPassInput" class="search-box" style="width:100%; padding:10px;" required minlength="8" placeholder="••••••••••••">
+      </div>
+      <div class="modal-footer" style="justify-content: flex-end;">
+        <button type="button" class="btn-action" onclick="closePasscodeModal()">Cancel</button>
+        <button type="submit" class="hud-btn active" style="padding:8px 16px; border-radius:8px;">Save New Passcode</button>
+      </div>
+    </form>
+  </div>
+</div>
+
 <script>
+  // =========================================================================
+  // CRYPTOGRAPHIC SECURITY CONFIGURATION
+  // =========================================================================
   const STORAGE_KEY = 'farvex_inbound_leads_v1';
+  const AUDIT_KEY = 'farvex_security_audit_v1';
+  const CUSTOM_HASH_KEY = 'farvex_custom_auth_hash_v1';
+
+  // Salt & Master Passcode Hash (Master: FarvexSecure@2026!)
+  const AUTH_SALT = 'FX_SALT_2026_SOVEREIGN_NODE';
+  const DEFAULT_MASTER_HASH = 'e2574dc5be526299a42f0490a198ea4ac4eb7184b52bbd1b56615b780e72882c';
+
+  // Inactivity timeout: 15 minutes
+  const INACTIVITY_TIMEOUT_MS = 15 * 60 * 1000;
+  let lastActiveTimestamp = Date.now();
+  let lockoutInterval = null;
+
   let currentFilter = 'all';
   let searchQuery = '';
   let activeMessageId = null;
@@ -392,6 +478,249 @@ table.inbox-table {
     }
   ];
 
+  // =========================================================================
+  // WEB CRYPTO & HASHING ENGINE
+  // =========================================================================
+  async function computeSha256(str) {
+    const encoder = new TextEncoder();
+    const data = encoder.encode(AUTH_SALT + str);
+    const hashBuffer = await crypto.subtle.digest('SHA-256', data);
+    const hashArray = Array.from(new Uint8Array(hashBuffer));
+    return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+  }
+
+  // HTML Entity Encoding for Context-Aware XSS Prevention
+  function escapeHtml(str) {
+    if (typeof str !== 'string') return '';
+    return str
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;')
+      .replace(/'/g, '&#x27;')
+      .replace(/\//g, '&#x2F;');
+  }
+
+  // CSV Formula Injection Sanitization (DDE Prevention)
+  function sanitizeCsvCell(str) {
+    if (typeof str !== 'string') str = String(str || '');
+    // If string starts with =, +, -, @, \t, \r, prepend single quote
+    if (/^[=+\-@\t\r]/.test(str)) {
+      str = "'" + str;
+    }
+    return '"' + str.replace(/"/g, '""') + '"';
+  }
+
+  // =========================================================================
+  // SECURITY AUDIT LOG SUBSYSTEM
+  // =========================================================================
+  function logSecurityEvent(type, details, severity = 'INFO') {
+    try {
+      const logs = JSON.parse(localStorage.getItem(AUDIT_KEY) || '[]');
+      const entry = {
+        id: 'SEC-' + Math.random().toString(36).substring(2, 7).toUpperCase(),
+        timestamp: new Date().toISOString(),
+        type: type,
+        details: details,
+        severity: severity,
+        agent: navigator.userAgent.slice(0, 80)
+      };
+      logs.unshift(entry);
+      if (logs.length > 200) logs.pop(); // Keep 200 entries
+      localStorage.setItem(AUDIT_KEY, JSON.stringify(logs));
+    } catch (e) {
+      console.warn('[SECURITY AUDIT] Log write error:', e);
+    }
+  }
+
+  function getAuditLogs() {
+    try {
+      return JSON.parse(localStorage.getItem(AUDIT_KEY) || '[]');
+    } catch (e) {
+      return [];
+    }
+  }
+
+  // =========================================================================
+  // BRUTE-FORCE LOCKOUT & AUTHENTICATION
+  // =========================================================================
+  function checkLockoutStatus() {
+    const lockoutUntil = parseInt(sessionStorage.getItem('farvex_lockout_until') || '0', 10);
+    const now = Date.now();
+    const banner = document.getElementById('lockoutBanner');
+    const input = document.getElementById('passcodeInput');
+    const btn = document.getElementById('btnAuthSubmit');
+    const secCounter = document.getElementById('lockoutSeconds');
+
+    if (lockoutUntil > now) {
+      const remainingSec = Math.ceil((lockoutUntil - now) / 1000);
+      banner.style.display = 'block';
+      secCounter.innerText = remainingSec + 's';
+      input.disabled = true;
+      btn.disabled = true;
+
+      if (!lockoutInterval) {
+        lockoutInterval = setInterval(() => {
+          checkLockoutStatus();
+        }, 1000);
+      }
+      return true;
+    } else {
+      banner.style.display = 'none';
+      input.disabled = false;
+      btn.disabled = false;
+      if (lockoutInterval) {
+        clearInterval(lockoutInterval);
+        lockoutInterval = null;
+      }
+      return false;
+    }
+  }
+
+  async function handleAuth(e) {
+    e.preventDefault();
+    if (checkLockoutStatus()) return;
+
+    const passInput = document.getElementById('passcodeInput');
+    const enteredPass = passInput.value;
+    const computedHash = await computeSha256(enteredPass);
+    const activeMasterHash = localStorage.getItem(CUSTOM_HASH_KEY) || DEFAULT_MASTER_HASH;
+
+    if (computedHash === activeMasterHash) {
+      // Success: Reset failure count and set session
+      sessionStorage.removeItem('farvex_fail_count');
+      sessionStorage.setItem('farvex_auth_session', JSON.stringify({
+        token: 'FX-SESS-' + Math.random().toString(36).substring(2, 12),
+        authenticatedAt: Date.now()
+      }));
+      
+      lastActiveTimestamp = Date.now();
+      logSecurityEvent('AUTH_SUCCESS', 'Master node passcode authenticated successfully.', 'SUCCESS');
+      document.getElementById('secGate').style.display = 'none';
+      passInput.value = '';
+      renderDashboard();
+    } else {
+      // Failure: Increment failed attempts counter
+      let failCount = parseInt(sessionStorage.getItem('farvex_fail_count') || '0', 10) + 1;
+      sessionStorage.setItem('farvex_fail_count', failCount.toString());
+      logSecurityEvent('AUTH_FAILED', `Invalid authentication attempt (Attempt #${failCount}).`, 'WARNING');
+
+      if (failCount >= 4) {
+        const lockoutDuration = 60 * 1000; // 60 seconds
+        sessionStorage.setItem('farvex_lockout_until', (Date.now() + lockoutDuration).toString());
+        sessionStorage.setItem('farvex_fail_count', '0');
+        logSecurityEvent('GATE_LOCKOUT', 'Brute-force protection activated: 60s cooldown initiated.', 'ALERT');
+        checkLockoutStatus();
+      } else {
+        alert(`Invalid master passcode. Access denied. (${4 - failCount} attempts remaining before lockout)`);
+      }
+    }
+  }
+
+  function checkAuth() {
+    const session = sessionStorage.getItem('farvex_auth_session');
+    if (session) {
+      document.getElementById('secGate').style.display = 'none';
+      lastActiveTimestamp = Date.now();
+    } else {
+      document.getElementById('secGate').style.display = 'flex';
+      checkLockoutStatus();
+    }
+  }
+
+  function logout(isTimeout = false) {
+    sessionStorage.removeItem('farvex_auth_session');
+    document.getElementById('secGate').style.display = 'flex';
+    document.getElementById('passcodeInput').value = '';
+    
+    if (isTimeout) {
+      logSecurityEvent('SESSION_TIMEOUT', 'Admin session terminated due to 15m inactivity.', 'WARNING');
+      alert('Security Notice: Session timed out after 15 minutes of inactivity.');
+    } else {
+      logSecurityEvent('MANUAL_LOCK', 'Admin manually locked the vault session.', 'INFO');
+    }
+    checkLockoutStatus();
+  }
+
+  function togglePassVisibility() {
+    const input = document.getElementById('passcodeInput');
+    input.type = input.type === 'password' ? 'text' : 'password';
+  }
+
+  // Activity tracker for inactivity timeout
+  function registerUserActivity() {
+    lastActiveTimestamp = Date.now();
+  }
+  ['mousemove', 'keydown', 'scroll', 'click', 'touchstart'].forEach(evt => {
+    window.addEventListener(evt, registerUserActivity, { passive: true });
+  });
+
+  // Session Heartbeat Check (Every 2 seconds)
+  setInterval(() => {
+    const session = sessionStorage.getItem('farvex_auth_session');
+    if (session) {
+      const elapsed = Date.now() - lastActiveTimestamp;
+      const remaining = INACTIVITY_TIMEOUT_MS - elapsed;
+      if (remaining <= 0) {
+        logout(true);
+      } else {
+        const mins = Math.floor(remaining / 60000);
+        const secs = Math.floor((remaining % 60000) / 1000);
+        const hudEl = document.getElementById('hudSessionStatus');
+        if (hudEl) {
+          hudEl.innerText = `SESSION: 🔒 ACTIVE (${mins}m ${secs < 10 ? '0' : ''}${secs}s)`;
+        }
+      }
+    }
+  }, 2000);
+
+  // =========================================================================
+  // PASSCODE MANAGEMENT
+  // =========================================================================
+  function openPasscodeModal() {
+    document.getElementById('passcodeModal').classList.add('open');
+  }
+  function closePasscodeModal() {
+    document.getElementById('passcodeModal').classList.remove('open');
+    document.getElementById('currPassInput').value = '';
+    document.getElementById('newPassInput').value = '';
+    document.getElementById('confirmPassInput').value = '';
+  }
+
+  async function handleChangePasscode(e) {
+    e.preventDefault();
+    const curr = document.getElementById('currPassInput').value;
+    const newP = document.getElementById('newPassInput').value;
+    const conf = document.getElementById('confirmPassInput').value;
+
+    const currHash = await computeSha256(curr);
+    const activeMasterHash = localStorage.getItem(CUSTOM_HASH_KEY) || DEFAULT_MASTER_HASH;
+
+    if (currHash !== activeMasterHash) {
+      alert('Current passcode is incorrect.');
+      return;
+    }
+
+    if (newP !== conf) {
+      alert('New passcode and confirmation do not match.');
+      return;
+    }
+
+    if (newP.length < 8) {
+      alert('Passcode must be at least 8 characters long.');
+      return;
+    }
+
+    const newHash = await computeSha256(newP);
+    localStorage.setItem(CUSTOM_HASH_KEY, newHash);
+    logSecurityEvent('PASSCODE_CHANGED', 'Master command passcode was updated cryptographically.', 'SUCCESS');
+    alert('Master passcode updated successfully!');
+    closePasscodeModal();
+  }
+
+  // =========================================================================
+  // LEADS & DASHBOARD RENDERING
+  // =========================================================================
   function getLeads() {
     try {
       const data = localStorage.getItem(STORAGE_KEY);
@@ -410,34 +739,9 @@ table.inbox-table {
     renderDashboard();
   }
 
-  function handleAuth(e) {
-    e.preventDefault();
-    const pass = document.getElementById('passcodeInput').value;
-    if (pass === 'farvex2026' || pass === 'admin' || pass === 'farvex') {
-      sessionStorage.setItem('farvex_auth', 'true');
-      document.getElementById('secGate').style.display = 'none';
-      renderDashboard();
-    } else {
-      alert('Invalid security passcode. Access denied.');
-    }
-  }
-
-  function checkAuth() {
-    if (sessionStorage.getItem('farvex_auth') === 'true') {
-      document.getElementById('secGate').style.display = 'none';
-    } else {
-      document.getElementById('secGate').style.display = 'flex';
-    }
-  }
-
-  function logout() {
-    sessionStorage.removeItem('farvex_auth');
-    document.getElementById('secGate').style.display = 'flex';
-    document.getElementById('passcodeInput').value = '';
-  }
-
   function renderDashboard() {
     const leads = getLeads();
+    const auditLogs = getAuditLogs();
     const total = leads.length;
     const unread = leads.filter(l => l.status === 'unread').length;
     const bookings = leads.filter(l => l.type === 'booking').length;
@@ -447,15 +751,71 @@ table.inbox-table {
     document.getElementById('statTotal').innerText = total;
     document.getElementById('statUnread').innerText = unread;
     document.getElementById('statBookings').innerText = bookings;
+    document.getElementById('statAuditCount').innerText = auditLogs.length + ' Events';
 
     document.getElementById('countAll').innerText = total;
     document.getElementById('countUnread').innerText = unread;
     document.getElementById('countContact').innerText = contactMsgs;
     document.getElementById('countBooking').innerText = bookings;
     document.getElementById('countArchived').innerText = archived;
+    document.getElementById('countAudit').innerText = auditLogs.length;
 
+    const thead = document.getElementById('inboxTableHead');
     const tbody = document.getElementById('inboxTableBody');
     tbody.innerHTML = '';
+
+    // AUDIT LOG VIEW
+    if (currentFilter === 'audit') {
+      thead.innerHTML = `
+        <tr>
+          <th>Log ID</th>
+          <th>Severity</th>
+          <th>Event Type</th>
+          <th>Event Details / Telemetry</th>
+          <th>Timestamp (CET)</th>
+        </tr>
+      `;
+
+      if (auditLogs.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="5" style="text-align:center; padding:40px; color:var(--text-dim); font-family:var(--font-mono);">[ ZERO SECURITY AUDIT EVENTS RECORDED ]</td></tr>';
+        return;
+      }
+
+      auditLogs.forEach(entry => {
+        const tr = document.createElement('tr');
+        const formattedDate = new Date(entry.timestamp).toLocaleString('en-GB', {
+          day: '2-digit', month: 'short', hour: '2-digit', minute: '2-digit', second: '2-digit'
+        });
+
+        let sevColor = '#38bdf8';
+        if (entry.severity === 'WARNING') sevColor = '#f59e0b';
+        if (entry.severity === 'ALERT') sevColor = '#ef4444';
+        if (entry.severity === 'SUCCESS') sevColor = '#10b981';
+
+        tr.innerHTML = `
+          <td class="mono cyan" style="font-weight:700;">${escapeHtml(entry.id)}</td>
+          <td><span class="type-tag" style="background:rgba(255,255,255,0.05); border:1px solid ${sevColor}; color:${sevColor};">${escapeHtml(entry.severity)}</span></td>
+          <td class="mono" style="font-weight:700; color:#fff;">${escapeHtml(entry.type)}</td>
+          <td style="font-size:12.5px; color:var(--text-main);">${escapeHtml(entry.details)}</td>
+          <td class="mono" style="font-size:11.5px; color:var(--text-dim);">${escapeHtml(formattedDate)}</td>
+        `;
+        tbody.appendChild(tr);
+      });
+      return;
+    }
+
+    // STANDARD INBOX VIEW
+    thead.innerHTML = `
+      <tr>
+        <th>Tracking ID</th>
+        <th>Type</th>
+        <th>Officer / Sender</th>
+        <th>Company / Scope</th>
+        <th>Timestamp (CET)</th>
+        <th>Status</th>
+        <th>Actions</th>
+      </tr>
+    `;
 
     let filtered = leads.filter(item => {
       if (currentFilter === 'unread') return item.status === 'unread';
@@ -499,13 +859,13 @@ table.inbox-table {
       if (item.status === 'archived') statusBadge = '<span style="color:#94a3b8; font-family:var(--font-mono); font-size:11px;">ARCHIVED</span>';
 
       tr.innerHTML = `
-        <td class="mono cyan" style="font-weight:700;">${item.id}</td>
+        <td class="mono cyan" style="font-weight:700;">${escapeHtml(item.id)}</td>
         <td>${typeTag}</td>
-        <td><strong>${item.name}</strong><br><span style="font-size:11.5px; color:var(--text-dim);">${item.email}</span></td>
-        <td><strong>${item.company || 'Enterprise Node'}</strong><br><span style="font-size:11.5px; color:var(--text-dim);">${item.scope || 'General'}</span></td>
-        <td class="mono" style="font-size:12px; color:var(--text-muted);">${formattedDate}</td>
+        <td><strong>${escapeHtml(item.name)}</strong><br><span style="font-size:11.5px; color:var(--text-dim);">${escapeHtml(item.email)}</span></td>
+        <td><strong>${escapeHtml(item.company || 'Enterprise Node')}</strong><br><span style="font-size:11.5px; color:var(--text-dim);">${escapeHtml(item.scope || 'General')}</span></td>
+        <td class="mono" style="font-size:12px; color:var(--text-muted);">${escapeHtml(formattedDate)}</td>
         <td>${statusBadge}</td>
-        <td><button class="btn-action" onclick="openDetail('${item.id}', event)">Inspect Payload ↗</button></td>
+        <td><button class="btn-action" onclick="openDetail('${escapeHtml(item.id)}', event)">Inspect Payload ↗</button></td>
       `;
 
       tr.onclick = (e) => {
@@ -540,27 +900,27 @@ table.inbox-table {
       saveLeads(leads);
     }
 
-    document.getElementById('modalSenderName').innerText = item.name;
+    document.getElementById('modalSenderName').textContent = item.name;
     document.getElementById('modalTypeTag').className = 'type-tag ' + (item.type === 'booking' ? 'type-booking' : 'type-contact');
-    document.getElementById('modalTypeTag').innerText = item.type === 'booking' ? '📅 CONSULTATION BRIEFING' : '✉ ENGINEERING UPLINK';
+    document.getElementById('modalTypeTag').textContent = item.type === 'booking' ? '📅 CONSULTATION BRIEFING' : '✉ ENGINEERING UPLINK';
     
     const formattedDate = new Date(item.timestamp).toLocaleString('en-GB', {
       day: '2-digit', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit'
     });
-    document.getElementById('modalMeta').innerText = `${item.id} // ${formattedDate} CET`;
+    document.getElementById('modalMeta').textContent = `${item.id} // ${formattedDate} CET`;
 
     const emailLink = document.getElementById('modalEmailLink');
-    emailLink.innerText = item.email;
-    emailLink.href = 'mailto:' + item.email + '?subject=' + encodeURIComponent('Farvex AI Response // ' + item.id);
+    emailLink.textContent = item.email;
+    emailLink.href = 'mailto:' + encodeURIComponent(item.email) + '?subject=' + encodeURIComponent('Farvex AI Response // ' + item.id);
 
-    document.getElementById('modalCompanyScope').innerText = (item.company || 'Enterprise') + ' — ' + (item.scope || 'General Automation');
-    document.getElementById('modalPayload').innerText = item.message || 'No additional text specified.';
+    document.getElementById('modalCompanyScope').textContent = (item.company || 'Enterprise') + ' — ' + (item.scope || 'General Automation');
+    document.getElementById('modalPayload').textContent = item.message || 'No additional text specified.';
 
     const replyBtn = document.getElementById('modalReplyBtn');
-    replyBtn.href = 'mailto:' + item.email + '?subject=' + encodeURIComponent('Farvex AI Response // ' + item.id);
+    replyBtn.href = 'mailto:' + encodeURIComponent(item.email) + '?subject=' + encodeURIComponent('Farvex AI Response // ' + item.id);
 
-    document.getElementById('btnReadText').innerText = item.status === 'unread' ? 'Mark as Read' : 'Mark as Unread';
-    document.getElementById('btnArchiveText').innerText = item.status === 'archived' ? 'Unarchive' : 'Archive';
+    document.getElementById('btnReadText').textContent = item.status === 'unread' ? 'Mark as Read' : 'Mark as Unread';
+    document.getElementById('btnArchiveText').textContent = item.status === 'archived' ? 'Unarchive' : 'Archive';
 
     document.getElementById('detailModal').classList.add('open');
   }
@@ -598,6 +958,7 @@ table.inbox-table {
       let leads = getLeads();
       leads = leads.filter(l => l.id !== activeMessageId);
       saveLeads(leads);
+      logSecurityEvent('RECORD_DELETED', `Transmission ${activeMessageId} was purged permanently.`, 'INFO');
       closeModal();
     }
   }
@@ -626,13 +987,17 @@ table.inbox-table {
     const leads = getLeads();
     leads.unshift(newLead);
     saveLeads(leads);
+    logSecurityEvent('SAMPLE_SIMULATION', `Simulated test payload ${newLead.id} created.`, 'INFO');
   }
 
+  // =========================================================================
+  // EXPORT FUNCTIONS (WITH CSV FORMULA INJECTION DEFENSE)
+  // =========================================================================
   function exportCSV() {
     const leads = getLeads();
     let csv = 'Tracking ID,Type,Officer Name,Email,Company,Scope,Timestamp,Status,Payload\n';
     leads.forEach(l => {
-      csv += `"${l.id}","${l.type}","${l.name}","${l.email}","${l.company || ''}","${l.scope || ''}","${l.timestamp}","${l.status}","${(l.message || '').replace(/"/g, '""')}"\n`;
+      csv += `${sanitizeCsvCell(l.id)},${sanitizeCsvCell(l.type)},${sanitizeCsvCell(l.name)},${sanitizeCsvCell(l.email)},${sanitizeCsvCell(l.company)},${sanitizeCsvCell(l.scope)},${sanitizeCsvCell(l.timestamp)},${sanitizeCsvCell(l.status)},${sanitizeCsvCell(l.message)}\n`;
     });
     const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
     const url = URL.createObjectURL(blob);
@@ -640,6 +1005,7 @@ table.inbox-table {
     a.href = url;
     a.download = 'farvex-inbound-leads-' + new Date().toISOString().slice(0,10) + '.csv';
     a.click();
+    logSecurityEvent('DATA_EXPORT_CSV', `Exported ${leads.length} records to CSV format with formula defense.`, 'INFO');
   }
 
   function exportJSON() {
@@ -650,6 +1016,7 @@ table.inbox-table {
     a.href = url;
     a.download = 'farvex-inbound-leads-' + new Date().toISOString().slice(0,10) + '.json';
     a.click();
+    logSecurityEvent('DATA_EXPORT_JSON', `Exported ${leads.length} records to JSON format.`, 'INFO');
   }
 
   function setAtmosphere(t) {

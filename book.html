@@ -253,20 +253,26 @@
     </p>
 
     <form id="bookingForm" onsubmit="handleBookingSubmit(event)">
+      <!-- Security Honeypot Node -->
+      <div style="position: absolute; left: -9999px; top: -9999px; opacity: 0; pointer-events: none;" aria-hidden="true">
+        <label for="_farvex_hp_node">Security Gateway Trap</label>
+        <input type="text" name="_farvex_hp_node" id="_farvex_hp_node" tabindex="-1" autocomplete="off">
+      </div>
+
       <div class="form-grid">
         <div class="form-group">
           <label class="form-label" data-i18n="f.name">Executive Full Name</label>
-          <input type="text" id="bName" class="form-input" required placeholder="e.g. Willem van Dijk">
+          <input type="text" id="bName" class="form-input" required maxlength="100" placeholder="e.g. Willem van Dijk">
         </div>
 
         <div class="form-group">
           <label class="form-label" data-i18n="f.email">Corporate Work Email</label>
-          <input type="email" id="bEmail" class="form-input" required placeholder="willem@logistics.nl">
+          <input type="email" id="bEmail" class="form-input" required maxlength="150" placeholder="willem@logistics.nl">
         </div>
 
         <div class="form-group">
           <label class="form-label" data-i18n="f.company">Company / Organization</label>
-          <input type="text" id="bCompany" class="form-input" required placeholder="e.g. EuroFreight N.V.">
+          <input type="text" id="bCompany" class="form-input" required maxlength="150" placeholder="e.g. EuroFreight N.V.">
         </div>
 
         <div class="form-group">
@@ -401,18 +407,44 @@
     drawer.classList.toggle('open');
   }
 
+  const _formRenderTime = Date.now();
+
+  function escapeHtml(str) {
+    if (typeof str !== 'string') return '';
+    return str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#x27;');
+  }
+
   async function handleBookingSubmit(e) {
     e.preventDefault();
     const btn = document.getElementById('btnSubmitBooking');
     const origText = btn.innerHTML;
+
+    // Check Honeypot Trap
+    const hp = document.getElementById('_farvex_hp_node')?.value;
+    if (hp && hp.trim().length > 0) {
+      // Silently acknowledge bot submission
+      document.getElementById('bookingAck').innerHTML = `✓ BRIEFING RESERVED // Telemetry queued.`;
+      document.getElementById('bookingAck').style.display = 'block';
+      document.getElementById('bookingForm').reset();
+      return;
+    }
+
+    const name = document.getElementById('bName').value.trim().slice(0, 100);
+    const email = document.getElementById('bEmail').value.trim().slice(0, 150);
+    const company = document.getElementById('bCompany').value.trim().slice(0, 150);
+    const scope = document.getElementById('bScope').value.slice(0, 150);
+    const notes = document.getElementById('bNotes').value.trim().slice(0, 5000);
+
+    // Email format check
+    const emailRegex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)+$/;
+    if (!emailRegex.test(email)) {
+      alert('Please enter a valid work email address.');
+      return;
+    }
+
     btn.disabled = true;
     btn.innerHTML = '⚡ Dispatched to Architecture Queue...';
 
-    const name = document.getElementById('bName').value.trim();
-    const email = document.getElementById('bEmail').value.trim();
-    const company = document.getElementById('bCompany').value.trim();
-    const scope = document.getElementById('bScope').value;
-    const notes = document.getElementById('bNotes').value.trim();
     const trackingId = 'FX-BOOK-' + Math.random().toString(36).substring(2, 6).toUpperCase();
     const now = new Date().toISOString();
 
@@ -425,7 +457,8 @@
       scope: scope,
       message: notes || '1-on-1 Architecture Consultation Requested.',
       timestamp: now,
-      status: 'unread'
+      status: 'unread',
+      _render_ts: _formRenderTime
     };
 
     // 1. Save to local dashboard database
@@ -437,25 +470,36 @@
       current.unshift(newBooking);
       localStorage.setItem(STORAGE_KEY, JSON.stringify(current));
     } catch (err) {
-      console.warn('LocalStorage save error:', err);
+      console.warn('LocalStorage notice:', err);
     }
 
     // 2. Dispatch to serverless endpoint /api/submit
+    let apiSuccess = true;
     try {
-      await fetch('/api/submit', {
+      const response = await fetch('/api/submit', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(newBooking)
       });
+      if (response.status === 429) {
+        document.getElementById('bookingAck').innerHTML = `⚠️ Rate limit reached. Your briefing request was saved locally. Please wait a few moments before transmitting another payload.`;
+        document.getElementById('bookingAck').style.display = 'block';
+        apiSuccess = false;
+      }
     } catch (err) {
       console.warn('Serverless endpoint fetch notice:', err);
     }
 
-    btn.disabled = false;
-    btn.innerHTML = origText;
-    document.getElementById('bookingAck').innerHTML = `✓ BRIEFING RESERVED // Reference ID: <strong class="mono cyan">${trackingId}</strong>. A Farvex systems architect will dispatch a calendar invitation within 2 hours.`;
-    document.getElementById('bookingAck').style.display = 'block';
-    document.getElementById('bookingForm').reset();
+    if (apiSuccess) {
+      document.getElementById('bookingAck').innerHTML = `✓ BRIEFING RESERVED // Reference ID: <strong class="mono cyan">${escapeHtml(trackingId)}</strong>. A Farvex systems architect will dispatch a calendar invitation within 2 hours.`;
+      document.getElementById('bookingAck').style.display = 'block';
+      document.getElementById('bookingForm').reset();
+    }
+
+    setTimeout(() => {
+      btn.disabled = false;
+      btn.innerHTML = origText;
+    }, 2000);
   }
 
   const canvas = document.getElementById('matrixCanvas');
