@@ -37,10 +37,10 @@ async function runTests() {
   // TEST 1: Web Crypto SHA-256 Salted Hashing & Master Password
   // -------------------------------------------------------------
   const AUTH_SALT = 'FX_SALT_2026_SOVEREIGN_NODE';
-  const EXPECTED_HASH = 'e2574dc5be526299a42f0490a198ea4ac4eb7184b52bbd1b56615b780e72882c';
-  const masterPass = 'FarvexSecure@2026!';
+  const EXPECTED_HASH = 'c37b50237fca1e5b9690f25dff21466dbdcda746ab96ba896a234cc860cb131d';
+  const masterPass = 'Defenderk-99';
   const computedHash = crypto.createHash('sha256').update(AUTH_SALT + masterPass).digest('hex');
-  assert(computedHash === EXPECTED_HASH, 'Web Crypto Salted SHA-256 matches master key hash');
+  assert(computedHash === EXPECTED_HASH, 'Web Crypto Salted SHA-256 matches master key hash (Defenderk-99)');
 
   const wrongPassHash = crypto.createHash('sha256').update(AUTH_SALT + 'wrong_password').digest('hex');
   assert(wrongPassHash !== EXPECTED_HASH, 'Invalid password does not match master key hash');
