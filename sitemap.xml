@@ -41,6 +41,14 @@
     <xhtml:link rel="alternate" hreflang="nl" href="https://farvex.ai/security.html?lang=nl"/>
   </url>
   <url>
+    <loc>https://farvex.ai/pre-deployment-checklist.html</loc>
+    <lastmod>2026-09-03</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.85</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://farvex.ai/pre-deployment-checklist.html"/>
+    <xhtml:link rel="alternate" hreflang="nl" href="https://farvex.ai/pre-deployment-checklist.html?lang=nl"/>
+  </url>
+  <url>
     <loc>https://farvex.ai/book.html</loc>
     <lastmod>2026-08-26</lastmod>
     <changefreq>monthly</changefreq>
