@@ -20,5 +20,8 @@
   "homepage": "https://github.com/chmr1337/farvexai#readme",
   "dependencies": {
     "@vercel/speed-insights": "^2.0.0"
+  },
+  "devDependencies": {
+    "playwright": "^1.63.0"
   }
 }

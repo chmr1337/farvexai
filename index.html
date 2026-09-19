@@ -1,26 +1,26 @@
 <!DOCTYPE html>
-<html lang="en" data-lang="en" data-theme="matrix">
+<html lang="en" data-lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
-<title>Farvex AI // Autonomous Enterprise Intelligence & Neural Systems</title>
-<meta name="description" content="Turn enterprise chaos into autonomous precision. Bespoke AI neural pipelines, instant vision document intelligence, and multi-agent workflow automation.">
-<meta name="keywords" content="Enterprise AI, Autonomous Agents, Document Vision OCR, Exact Online AI, SAP AI, Dutch AI Agency, Workflow Automation">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Farvex AI — The admin work your team retypes every day can run itself</title>
+<meta name="description" content="Farvex engineers document parsing, workflow automation and AI agents that plug into Exact Online, SAP and the rest of your stack. Invoices, tickets and reports move through without anyone keying them in.">
+<meta name="keywords" content="Enterprise AI, workflow automation, document OCR, Exact Online integration, SAP AI, Dutch AI agency, invoice automation">
 <meta name="author" content="Farvex AI">
 <link rel="canonical" href="https://farvex.ai/">
 
 <!-- Open Graph / Social Sharing -->
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://farvex.ai/">
-<meta property="og:title" content="Farvex AI // Autonomous Enterprise Intelligence & Neural Systems">
-<meta property="og:description" content="Turn enterprise chaos into autonomous precision. Bespoke AI neural pipelines, instant document OCR, and multi-agent workflow automation.">
-<meta property="og:image" content="https://farvex.ai/farvex-logo-kit/png/farvex-logo-dark.png">
+<meta property="og:title" content="Farvex AI — The admin work your team retypes every day can run itself">
+<meta property="og:description" content="Document parsing, workflow automation and AI agents wired into the systems you already run.">
+<meta property="og:image" content="https://farvex.ai/farvex-logo-kit/social/farvex-og-1200x630.png">
 
 <!-- Twitter Card -->
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="Farvex AI // Autonomous Enterprise Intelligence">
-<meta name="twitter:description" content="Turn enterprise chaos into autonomous precision. Bespoke AI neural pipelines and industrial automation.">
-<meta name="twitter:image" content="https://farvex.ai/farvex-logo-kit/png/farvex-logo-dark.png">
+<meta name="twitter:title" content="Farvex AI — Automation wired into the systems you already run">
+<meta name="twitter:description" content="Document parsing, workflow automation and AI agents for European operations.">
+<meta name="twitter:image" content="https://farvex.ai/farvex-logo-kit/social/farvex-og-1200x630.png">
 
 <!-- Structured Data Schema (JSON-LD) for Commercial B2B Entity -->
 <script type="application/ld+json">
@@ -52,1931 +52,731 @@
 }
 </script>
 
-<link rel="icon" type="image/svg+xml" href="farvex-logo-kit/svg/farvex-mark-dark.svg">
+<link rel="icon" type="image/svg+xml" href="assets/farvex-mark.svg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/farvex.css">
+
+<!-- Set the theme before first paint so there is no flash. -->
+<script>
+(function () {
+  try {
+    var t = localStorage.getItem('farvex_theme_v2');
+    if (t !== 'light' && t !== 'dark') {
+      t = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+    }
+    document.documentElement.setAttribute('data-theme', t);
+  } catch (e) {
+    document.documentElement.setAttribute('data-theme', 'light');
+  }
+})();
+</script>
 
 <style>
-/* ==========================================================================
-   FARVEX AI // OBSIDIAN QUANTUM DESIGN SYSTEM (PRIMARY DEFAULT)
-   ========================================================================== */
-
-:root {
-  /* Obsidian Cosmic (Default Primary) */
-  --bg-deep: #030712;
-  --bg-surface: #070d1e;
-  --bg-card: rgba(11, 19, 43, 0.76);
-  --bg-card-solid: #0d152d;
-  --bg-card-hover: rgba(18, 30, 66, 0.88);
-
-  /* Luminous Kinetic Accents */
-  --cyan-bright: #00f0ff;
-  --cyan-glow: rgba(0, 240, 255, 0.4);
-  --cyan-subtle: rgba(0, 240, 255, 0.08);
-
-  --violet-bright: #a855f7;
-  --violet-glow: rgba(168, 85, 247, 0.4);
-  --violet-subtle: rgba(168, 85, 247, 0.1);
-
-  --blue-electric: #3b82f6;
-  --blue-glow: rgba(59, 130, 246, 0.35);
-
-  --emerald-nominal: #10b981;
-  --emerald-glow: rgba(16, 185, 129, 0.35);
-
-  --amber-warning: #f59e0b;
-  --amber-glow: rgba(245, 158, 11, 0.35);
-
-  --red-critical: #ef4444;
-  --red-glow: rgba(239, 68, 68, 0.35);
-
-  /* Typography Colors */
-  --text-pure: #ffffff;
-  --text-main: #f1f5f9;
-  --text-muted: #94a3b8;
-  --text-dim: #64748b;
-
-  /* Glass & Borders */
-  --border-glass: rgba(255, 255, 255, 0.08);
-  --border-active: rgba(0, 240, 255, 0.55);
-  --border-hover: rgba(0, 240, 255, 0.3);
-
-  /* Fonts */
-  --font-display: 'Plus Jakarta Sans', -apple-system, sans-serif;
-  --font-heading: 'Space Grotesk', sans-serif;
-  --font-mono: 'JetBrains Mono', monospace;
-
-  /* Easing */
-  --ease-elastic: cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-/* Matrix Theme Mode */
-[data-theme="matrix"] {
-  --bg-deep: #020b05;
-  --bg-surface: #04160a;
-  --bg-card: rgba(4, 28, 14, 0.82);
-  --bg-card-solid: #052210;
-  --bg-card-hover: rgba(8, 48, 24, 0.92);
-  --cyan-bright: #10b981;
-  --cyan-glow: rgba(16, 185, 129, 0.45);
-  --text-pure: #ffffff;
-  --text-main: #d1fae5;
-  --text-muted: #6ee7b7;
-  --text-dim: #34d399;
-  --border-glass: rgba(16, 185, 129, 0.2);
-  --border-active: rgba(16, 185, 129, 0.7);
-  --border-hover: rgba(16, 185, 129, 0.4);
-}
-
-/* Light Titanium Theme Mode */
-[data-theme="titanium"] {
-  --bg-deep: #f8fafc;
-  --bg-surface: #f1f5f9;
-  --bg-card: rgba(255, 255, 255, 0.9);
-  --bg-card-solid: #ffffff;
-  --bg-card-hover: #f8fafc;
-  --text-pure: #0f172a;
-  --text-main: #1e293b;
-  --text-muted: #475569;
-  --text-dim: #64748b;
-  --border-glass: rgba(0, 0, 0, 0.08);
-  --border-active: rgba(2, 132, 199, 0.5);
-  --border-hover: rgba(0, 0, 0, 0.15);
-  --cyan-bright: #0284c7;
-  --cyan-glow: rgba(2, 132, 199, 0.25);
-}
-
-*, *::before, *::after {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-}
-
-html {
-  scroll-behavior: smooth;
-  background-color: var(--bg-deep);
-  color: var(--text-main);
-  font-family: var(--font-display);
-  line-height: 1.6;
-  -webkit-font-smoothing: antialiased;
-}
-
-body {
-  position: relative;
-  overflow-x: hidden;
-  background: var(--bg-deep);
-  min-height: 100vh;
-  width: 100%;
-}
-
-/* Custom Scrollbar */
-::-webkit-scrollbar { width: 6px; }
-::-webkit-scrollbar-track { background: var(--bg-deep); }
-::-webkit-scrollbar-thumb { background: rgba(0, 240, 255, 0.25); border-radius: 4px; }
-::-webkit-scrollbar-thumb:hover { background: var(--cyan-bright); }
-
-/* Selection */
-::selection { background: rgba(0, 240, 255, 0.35); color: #fff; }
-
-/* Interactive Canvas Physics */
-#quantumCanvas {
-  position: fixed;
-  inset: 0;
-  z-index: -2;
-  pointer-events: none;
-  width: 100vw;
-  height: 100vh;
-}
-
-.ambient-mesh-glow {
-  position: fixed;
-  inset: 0;
-  z-index: -3;
-  pointer-events: none;
-  background: 
-    radial-gradient(circle at 15% 20%, rgba(0, 240, 255, 0.09) 0%, transparent 45%),
-    radial-gradient(circle at 85% 30%, rgba(168, 85, 247, 0.08) 0%, transparent 45%),
-    radial-gradient(circle at 50% 85%, rgba(59, 130, 246, 0.06) 0%, transparent 50%);
-  filter: blur(80px);
-}
-
-/* ==========================================================================
-   TOP TELEMETRY & ATMOSPHERE HUD
-   ========================================================================== */
-.telemetry-hud-bar {
-  background: rgba(3, 7, 18, 0.95);
-  border-bottom: 1px solid var(--border-glass);
-  padding: 6px 20px;
-  font-family: var(--font-mono);
-  font-size: 11px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  position: relative;
-  z-index: 1002;
-  backdrop-filter: blur(14px);
-  gap: 10px;
-}
-
-.hud-left-stats {
-  display: flex;
-  align-items: center;
-  gap: 14px;
-  color: var(--text-dim);
-  flex-shrink: 0;
-}
-
-.hud-diode-live {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  color: var(--cyan-bright);
-  font-weight: 600;
-  white-space: nowrap;
-}
-.hud-diode-live::before {
-  content: '';
-  width: 6px;
-  height: 6px;
-  border-radius: 50%;
-  background: var(--cyan-bright);
-  box-shadow: 0 0 10px var(--cyan-bright);
-  animation: pulse-hud 1.8s infinite;
-}
-
-@keyframes pulse-hud {
-  0%, 100% { opacity: 1; transform: scale(1); }
-  50% { opacity: 0.3; transform: scale(0.8); }
-}
-
-.hud-ticker {
-  color: var(--text-muted);
-  overflow: hidden;
-  white-space: nowrap;
-  text-overflow: ellipsis;
-  max-width: 500px;
-}
-
-.hud-right-controls {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  flex-shrink: 0;
-}
-
-.theme-pill-group, .lang-pill-group {
-  display: flex;
-  align-items: center;
-  gap: 3px;
-  background: rgba(255, 255, 255, 0.04);
-  padding: 2px 4px;
-  border-radius: 6px;
-  border: 1px solid var(--border-glass);
-}
-
-.hud-btn {
-  background: transparent;
-  border: none;
-  color: var(--text-dim);
-  font-family: var(--font-mono);
-  font-size: 11px;
-  padding: 3px 7px;
-  border-radius: 4px;
-  cursor: pointer;
-  transition: all 0.2s;
-}
-.hud-btn:hover { color: #fff; }
-.hud-btn.active {
-  color: #fff;
-  background: rgba(0, 240, 255, 0.2);
-  border: 1px solid var(--cyan-glow);
-  font-weight: 600;
-}
-
-/* ==========================================================================
-   NAVIGATION BAR (CRYSTALLINE HUD) & MOBILE MENU DRAWER
-   ========================================================================== */
-header.quantum-header {
-  position: sticky;
-  top: 0;
-  left: 0;
-  right: 0;
-  z-index: 1000;
-  background: rgba(3, 7, 18, 0.88);
-  backdrop-filter: blur(24px);
-  border-bottom: 1px solid var(--border-glass);
-}
-
-.nav-wrap {
-  max-width: 1400px;
-  margin: 0 auto;
-  padding: 0 24px;
-  height: 72px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-
-.brand-anchor {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  text-decoration: none;
-}
-
-.brand-icon-box {
-  width: 38px;
-  height: 38px;
-  background: rgba(0, 240, 255, 0.08);
-  border: 1px solid rgba(0, 240, 255, 0.35);
-  border-radius: 10px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  box-shadow: 0 0 16px rgba(0, 240, 255, 0.2);
-  transition: transform 0.3s var(--ease-elastic);
-  flex-shrink: 0;
-}
-.brand-anchor:hover .brand-icon-box {
-  transform: scale(1.06) rotate(3deg);
-  border-color: var(--cyan-bright);
-}
-.brand-icon-box img {
-  width: 22px;
-  height: 22px;
-  object-fit: contain;
-}
-
-.brand-title {
-  font-size: 20px;
-  font-weight: 800;
-  color: #fff;
-  letter-spacing: -0.02em;
-  white-space: nowrap;
-}
-.brand-title span { color: var(--cyan-bright); }
-
-.nav-menu-deck {
-  display: flex;
-  align-items: center;
-  gap: 4px;
-}
-
-.nav-node {
-  font-size: 13px;
-  font-weight: 600;
-  color: var(--text-muted);
-  text-decoration: none;
-  padding: 7px 13px;
-  border-radius: 100px;
-  transition: all 0.2s;
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  white-space: nowrap;
-}
-.nav-node:hover, .nav-node.active {
-  color: #fff;
-  background: rgba(0, 240, 255, 0.12);
-  border: 1px solid rgba(0, 240, 255, 0.3);
-}
-
-.nav-cta-deck {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-}
-
-/* Mobile Hamburger Button */
-.mobile-menu-btn {
-  display: none;
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid var(--border-glass);
-  border-radius: 8px;
-  width: 40px;
-  height: 40px;
-  padding: 9px;
-  cursor: pointer;
-  flex-direction: column;
-  justify-content: space-between;
-  align-items: center;
-  z-index: 1005;
-}
-.mobile-menu-btn span {
-  display: block;
-  width: 100%;
-  height: 2px;
-  background: #fff;
-  border-radius: 2px;
-  transition: all 0.3s;
-}
-.mobile-menu-btn.active span:nth-child(1) { transform: translateY(7px) rotate(45deg); background: var(--cyan-bright); }
-.mobile-menu-btn.active span:nth-child(2) { opacity: 0; }
-.mobile-menu-btn.active span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); background: var(--cyan-bright); }
-
-/* Mobile Slide Drawer */
-.mobile-nav-drawer {
-  display: none;
-  position: fixed;
-  top: 64px;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: rgba(2, 11, 5, 0.98);
-  backdrop-filter: blur(28px);
-  z-index: 999;
-  padding: 20px 16px 36px;
-  overflow-y: auto;
-  flex-direction: column;
-  justify-content: space-between;
-  border-bottom: 1px solid var(--border-glass);
-  animation: fadeInDrawer 0.25s ease-out;
-}
-.mobile-nav-drawer.open { display: flex; }
-
-@keyframes fadeInDrawer {
-  from { opacity: 0; transform: translateY(-10px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-
-.mobile-nav-links {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-}
-.mobile-nav-link {
-  font-size: 16px;
-  font-weight: 700;
-  color: var(--text-main);
-  text-decoration: none;
-  padding: 14px 18px;
-  border-radius: 12px;
-  background: rgba(255, 255, 255, 0.03);
-  border: 1px solid var(--border-glass);
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  transition: all 0.2s;
-}
-.mobile-nav-link:hover, .mobile-nav-link.active {
-  background: rgba(0, 240, 255, 0.15);
-  border-color: var(--cyan-bright);
-  color: #fff;
-}
-
-/* ==========================================================================
-   BUTTONS (OBSIDIAN REFRACTIVE)
-   ========================================================================== */
-.btn-core {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 10px;
-  padding: 13px 26px;
-  font-family: var(--font-display);
-  font-size: 13.5px;
-  font-weight: 700;
-  text-decoration: none;
-  border-radius: 100px;
-  cursor: pointer;
-  transition: all 0.26s var(--ease-elastic);
-  position: relative;
-  overflow: hidden;
-  border: 1px solid transparent;
-  white-space: nowrap;
-}
-
-.btn-cyan {
-  background: linear-gradient(135deg, #00f0ff 0%, #0284c7 100%);
-  color: #030712;
-  box-shadow: 0 0 24px rgba(0, 240, 255, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.6);
-}
-.btn-cyan:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 0 36px rgba(0, 240, 255, 0.7), inset 0 1px 0 rgba(255, 255, 255, 0.8);
-  background: linear-gradient(135deg, #38bdf8 0%, #00f0ff 100%);
-}
-
-.btn-glass {
-  background: rgba(255, 255, 255, 0.04);
-  color: #ffffff;
-  border: 1px solid var(--border-glass);
-  backdrop-filter: blur(14px);
-}
-.btn-glass:hover {
-  background: rgba(0, 240, 255, 0.12);
-  border-color: var(--cyan-glow);
-  box-shadow: 0 0 20px rgba(0, 240, 255, 0.25);
-  transform: translateY(-2px);
-}
-
-.btn-sm { padding: 8px 18px; font-size: 12.5px; }
-
-/* ==========================================================================
-   GLOBAL LAYOUT & SECTION HEADERS
-   ========================================================================== */
-.container {
-  max-width: 1380px;
-  margin: 0 auto;
-  padding: 0 24px;
-}
-
-.section-space { padding: 100px 0; position: relative; }
-.section-dark-panel {
-  background: rgba(7, 13, 30, 0.85);
-  border-top: 1px solid var(--border-glass);
-  border-bottom: 1px solid var(--border-glass);
-}
-
-.section-intro {
-  text-align: center;
-  max-width: 840px;
-  margin: 0 auto 50px;
-}
-
-.quantum-badge {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  font-family: var(--font-mono);
-  font-size: 11px;
-  font-weight: 700;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: var(--cyan-bright);
-  background: rgba(0, 240, 255, 0.08);
-  border: 1px solid rgba(0, 240, 255, 0.35);
-  padding: 6px 14px;
-  border-radius: 100px;
-  margin-bottom: 18px;
-  box-shadow: 0 0 16px rgba(0, 240, 255, 0.16);
-}
-
-.section-intro h2 {
-  font-size: 2.75rem;
-  font-family: var(--font-heading);
-  font-weight: 700;
-  line-height: 1.18;
-  margin-bottom: 16px;
-  color: var(--text-pure);
-  letter-spacing: -0.02em;
-}
-
-.section-intro p {
-  color: var(--text-muted);
-  font-size: 1.12rem;
-  line-height: 1.65;
-}
-
-.mono { font-family: var(--font-mono); }
-.cyan { color: var(--cyan-bright); }
-.emerald { color: var(--emerald-nominal); }
-.red { color: var(--red-critical); }
-
-/* ==========================================================================
-   HERO SECTION // "CHAOS TO ORDER" ENTROPY SCRUBBER
-   ========================================================================== */
-.hero-quantum {
-  padding: 70px 0 90px;
-  position: relative;
-}
-
-.hero-header-stack {
-  text-align: center;
-  max-width: 980px;
-  margin: 0 auto 40px;
-}
-
-.hero-main-title {
-  font-family: var(--font-heading);
-  font-size: 3.8rem;
-  font-weight: 800;
-  line-height: 1.08;
-  letter-spacing: -0.035em;
-  margin-bottom: 20px;
-  color: #fff;
-}
-
-.hero-main-title .gradient-highlight {
-  background: linear-gradient(135deg, #ffffff 0%, var(--cyan-bright) 60%, var(--violet-bright) 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-}
-
-.hero-subtext {
-  font-size: 1.2rem;
-  color: var(--text-muted);
-  max-width: 800px;
-  margin: 0 auto 32px;
-  line-height: 1.6;
-}
-
-.hero-btn-row {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 14px;
-  flex-wrap: wrap;
-  margin-bottom: 40px;
-}
-
-/* ==========================================================================
-   THE LIVING ENTROPY SCRUBBER COMPONENT
-   ========================================================================== */
-.entropy-scrubber-deck {
-  position: relative;
-  background: #02050e;
-  border: 1px solid var(--border-glass);
-  border-radius: 20px;
-  overflow: hidden;
-  box-shadow: 0 30px 80px rgba(0, 0, 0, 0.7), 0 0 40px rgba(0, 240, 255, 0.12);
-  margin-top: 10px;
-}
-
-.scrubber-top-hud {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 12px 20px;
-  background: rgba(7, 13, 30, 0.94);
-  border-bottom: 1px solid var(--border-glass);
-  font-family: var(--font-mono);
-  font-size: 11.5px;
-  gap: 12px;
-  flex-wrap: wrap;
-}
-
-.scrubber-hud-title {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  font-weight: 600;
-  color: #fff;
-}
-
-.entropy-slider-control-bar {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  flex-wrap: nowrap;
-}
-
-.slider-label {
-  font-size: 10.5px;
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-  color: var(--text-dim);
-  white-space: nowrap;
-}
-
-.entropy-range-input {
-  -webkit-appearance: none;
-  appearance: none;
-  width: 180px;
-  height: 6px;
-  background: linear-gradient(90deg, #ef4444 0%, #f59e0b 45%, #00f0ff 100%);
-  border-radius: 4px;
-  outline: none;
-  cursor: pointer;
-}
-
-.entropy-range-input::-webkit-slider-thumb {
-  -webkit-appearance: none;
-  appearance: none;
-  width: 18px;
-  height: 18px;
-  border-radius: 50%;
-  background: #fff;
-  border: 2px solid var(--cyan-bright);
-  box-shadow: 0 0 12px var(--cyan-bright);
-  cursor: pointer;
-  transition: transform 0.1s;
-}
-.entropy-range-input::-webkit-slider-thumb:hover { transform: scale(1.2); }
-
-.entropy-split-viewport {
-  position: relative;
-  height: 460px;
-  width: 100%;
-  overflow: hidden;
-  user-select: none;
-}
-
-/* Layer 1: Chaos */
-.stage-chaos {
-  position: absolute;
-  inset: 0;
-  background: radial-gradient(circle at 20% 30%, rgba(239, 68, 68, 0.12) 0%, #02050e 70%);
-  padding: 30px;
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 24px;
-  align-items: center;
-}
-
-.chaos-card-stack {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-}
-
-.chaos-alert-card {
-  background: rgba(30, 10, 15, 0.75);
-  border: 1px solid rgba(239, 68, 68, 0.35);
-  border-radius: 12px;
-  padding: 14px 18px;
-  box-shadow: 0 8px 24px rgba(239, 68, 68, 0.15);
-  animation: jitter-chaos 4s infinite alternate;
-}
-@keyframes jitter-chaos {
-  0% { transform: translateY(0px) rotate(0deg); }
-  25% { transform: translateY(-3px) rotate(-0.5deg); }
-  75% { transform: translateY(2px) rotate(0.4deg); }
-  100% { transform: translateY(0px) rotate(0deg); }
-}
-
-.chaos-badge {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  font-family: var(--font-mono);
-  font-size: 10.5px;
-  color: var(--red-critical);
-  font-weight: 700;
-  margin-bottom: 4px;
-}
-
-.chaos-metric-board {
-  background: rgba(18, 5, 8, 0.85);
-  border: 1px solid rgba(239, 68, 68, 0.25);
-  border-radius: 14px;
-  padding: 20px;
-}
-
-.chaos-metric-row {
-  display: flex;
-  justify-content: space-between;
-  padding: 10px 0;
-  border-bottom: 1px dashed rgba(239, 68, 68, 0.2);
-  font-family: var(--font-mono);
-  font-size: 12.5px;
-}
-.chaos-metric-row:last-child { border-bottom: none; }
-
-/* Layer 2: Obsidian Order Mask */
-.stage-order-mask {
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  right: 0;
-  left: 50%;
-  overflow: hidden;
-  background: #02050e;
-  border-left: 2px solid var(--cyan-bright);
-  box-shadow: -8px 0 24px rgba(0, 240, 255, 0.35);
-  z-index: 10;
-}
-
-.stage-order-inner {
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  right: 0;
-  width: 1320px;
-  background: radial-gradient(circle at 80% 30%, rgba(0, 240, 255, 0.16) 0%, rgba(168, 85, 247, 0.1) 40%, #02050e 80%);
-  padding: 30px;
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 24px;
-  align-items: center;
-}
-
-.order-pipeline-card {
-  background: rgba(11, 19, 43, 0.88);
-  border: 1px solid rgba(0, 240, 255, 0.45);
-  border-radius: 12px;
-  padding: 14px 18px;
-  box-shadow: 0 0 30px rgba(0, 240, 255, 0.15);
-  backdrop-filter: blur(16px);
-}
-
-.order-badge {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  font-family: var(--font-mono);
-  font-size: 10.5px;
-  color: var(--cyan-bright);
-  font-weight: 700;
-  margin-bottom: 4px;
-}
-
-.order-metric-board {
-  background: rgba(7, 13, 30, 0.92);
-  border: 1px solid rgba(0, 240, 255, 0.35);
-  border-radius: 14px;
-  padding: 20px;
-  box-shadow: 0 0 40px rgba(0, 240, 255, 0.12);
-}
-
-.order-metric-row {
-  display: flex;
-  justify-content: space-between;
-  padding: 10px 0;
-  border-bottom: 1px solid rgba(0, 240, 255, 0.18);
-  font-family: var(--font-mono);
-  font-size: 12.5px;
-}
-.order-metric-row:last-child { border-bottom: none; }
-
-.scrubber-handle-line {
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  left: 50%;
-  width: 2px;
-  background: var(--cyan-bright);
-  box-shadow: 0 0 16px var(--cyan-bright);
-  z-index: 20;
-  pointer-events: none;
-}
-
-.scrubber-handle-diamond {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: 38px;
-  height: 38px;
-  background: #030712;
-  border: 2px solid var(--cyan-bright);
-  border-radius: 8px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  box-shadow: 0 0 20px var(--cyan-bright);
-  z-index: 21;
-  pointer-events: none;
-}
-.scrubber-handle-diamond svg { width: 18px; height: 18px; fill: var(--cyan-bright); }
-
-/* ==========================================================================
-   INTERACTIVE AUTONOMOUS WORKFLOW CANVAS // "FARVEX STUDIO"
-   ========================================================================== */
-.workflow-studio-box {
-  background: #04091a;
-  border: 1px solid var(--border-glass);
-  border-radius: 20px;
-  padding: 30px;
-  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6), 0 0 35px rgba(0, 240, 255, 0.1);
-}
-
-.studio-grid-columns {
-  display: grid;
-  grid-template-columns: 1fr 1.25fr 1fr;
-  gap: 24px;
-  margin-bottom: 28px;
-}
-
-.studio-col-card {
-  background: rgba(11, 19, 43, 0.7);
-  border: 1px solid var(--border-glass);
-  border-radius: 14px;
-  padding: 18px;
-}
-
-.studio-col-header {
-  font-family: var(--font-mono);
-  font-size: 11.5px;
-  font-weight: 700;
-  color: var(--cyan-bright);
-  margin-bottom: 14px;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-}
-
-.node-selection-list { display: flex; flex-direction: column; gap: 8px; }
-
-.wire-node-btn {
-  background: rgba(255, 255, 255, 0.03);
-  border: 1px solid var(--border-glass);
-  border-radius: 10px;
-  padding: 11px 14px;
-  color: var(--text-main);
-  text-align: left;
-  font-family: var(--font-display);
-  font-size: 13px;
-  cursor: pointer;
-  transition: all 0.22s var(--ease-elastic);
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-.wire-node-btn:hover {
-  background: rgba(0, 240, 255, 0.1);
-  border-color: rgba(0, 240, 255, 0.4);
-  transform: translateX(3px);
-}
-.wire-node-btn.selected {
-  background: rgba(0, 240, 255, 0.18);
-  border-color: var(--cyan-bright);
-  box-shadow: 0 0 16px rgba(0, 240, 255, 0.3);
-  font-weight: 600;
-  color: #fff;
-}
-
-.node-chip {
-  font-family: var(--font-mono);
-  font-size: 10px;
-  padding: 2px 6px;
-  border-radius: 4px;
-  background: rgba(255, 255, 255, 0.08);
-}
-.wire-node-btn.selected .node-chip {
-  background: var(--cyan-bright);
-  color: #030712;
-  font-weight: 700;
-}
-
-.wire-visual-canvas {
-  position: relative;
-  background: #02050e;
-  border: 1px solid rgba(0, 240, 255, 0.3);
-  border-radius: 14px;
-  padding: 20px;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  overflow: hidden;
-}
-
-.wire-live-circuit { width: 100%; height: 180px; position: relative; }
-.wire-live-circuit svg { width: 100%; height: 100%; }
-
-.circuit-path {
-  stroke: rgba(0, 240, 255, 0.3);
-  stroke-width: 2.5;
-  stroke-dasharray: 6 6;
-  fill: none;
-}
-.circuit-path.pulsing {
-  stroke: var(--cyan-bright);
-  stroke-width: 3.5;
-  stroke-dasharray: none;
-  animation: pulse-line 1.2s infinite;
-  filter: drop-shadow(0 0 8px var(--cyan-bright));
-}
-
-@keyframes pulse-line {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0.5; }
-}
-
-.studio-execution-footer {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  background: rgba(7, 13, 30, 0.92);
-  border: 1px solid var(--border-glass);
-  border-radius: 12px;
-  padding: 16px 20px;
-  margin-top: 18px;
-  gap: 12px;
-}
-
-.studio-telemetry-box {
-  background: #01040a;
-  border: 1px solid var(--border-glass);
-  border-radius: 10px;
-  padding: 14px;
-  font-family: var(--font-mono);
-  font-size: 11.5px;
-  color: var(--cyan-bright);
-  max-height: 140px;
-  overflow-y: auto;
-  margin-top: 14px;
-}
-
-/* ==========================================================================
-   LASER DOCUMENT SCANNER & OCR TERMINAL
-   ========================================================================== */
-.laser-scanner-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 28px;
-  align-items: stretch;
-}
-
-.document-inspection-pane {
-  background: #04091a;
-  border: 1px solid var(--border-glass);
-  border-radius: 18px;
-  padding: 24px;
-  position: relative;
-  overflow: hidden;
-  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.5);
-}
-
-.scanner-doc-tabs {
-  display: flex;
-  gap: 8px;
-  margin-bottom: 18px;
-  overflow-x: auto;
-  padding-bottom: 4px;
-  -webkit-overflow-scrolling: touch;
-}
-.scanner-doc-tabs::-webkit-scrollbar { display: none; }
-
-.doc-tab-btn {
-  background: rgba(255, 255, 255, 0.04);
-  border: 1px solid var(--border-glass);
-  border-radius: 8px;
-  padding: 8px 12px;
-  color: var(--text-muted);
-  font-family: var(--font-mono);
-  font-size: 11px;
-  cursor: pointer;
-  transition: all 0.2s;
-  white-space: nowrap;
-  flex-shrink: 0;
-}
-.doc-tab-btn:hover { color: #fff; }
-.doc-tab-btn.active {
-  background: rgba(0, 240, 255, 0.2);
-  border-color: var(--cyan-glow);
-  color: #fff;
-  font-weight: 600;
-}
-
-.doc-paper-mock {
-  position: relative;
-  background: #0a1126;
-  border: 1px solid rgba(0, 240, 255, 0.25);
-  border-radius: 12px;
-  padding: 20px;
-  font-family: var(--font-mono);
-  font-size: 12.5px;
-  line-height: 1.7;
-  color: var(--text-main);
-  min-height: 260px;
-  overflow: hidden;
-}
-
-.sweeping-laser-beam {
-  position: absolute;
-  left: 0;
-  right: 0;
-  height: 3px;
-  background: var(--cyan-bright);
-  box-shadow: 0 0 18px var(--cyan-bright), 0 0 35px var(--cyan-bright);
-  top: 0%;
-  animation: laser-sweep 3.5s cubic-bezier(0.4, 0, 0.2, 1) infinite;
-  pointer-events: none;
-  z-index: 5;
-}
-
-@keyframes laser-sweep {
-  0% { top: 0%; opacity: 0; }
-  10% { opacity: 1; }
-  90% { opacity: 1; }
-  100% { top: 100%; opacity: 0; }
-}
-
-.highlight-entity {
-  background: rgba(0, 240, 255, 0.22);
-  border-bottom: 2px solid var(--cyan-bright);
-  padding: 1px 4px;
-  border-radius: 2px;
-  color: #fff;
-}
-
-.json-output-terminal {
-  background: #01040a;
-  border: 1px solid rgba(0, 240, 255, 0.35);
-  border-radius: 18px;
-  padding: 24px;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  box-shadow: 0 0 35px rgba(0, 240, 255, 0.12);
-}
-
-.terminal-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding-bottom: 12px;
-  border-bottom: 1px solid var(--border-glass);
-  margin-bottom: 14px;
-  font-family: var(--font-mono);
-  font-size: 11.5px;
-  gap: 8px;
-  flex-wrap: wrap;
-}
-
-.terminal-pre-code {
-  font-family: var(--font-mono);
-  font-size: 12px;
-  color: #38bdf8;
-  line-height: 1.6;
-  overflow-x: auto;
-  max-height: 300px;
-  white-space: pre-wrap;
-  -webkit-overflow-scrolling: touch;
-}
-
-/* ==========================================================================
-   PRECISION ROTARY ROI CONSOLE
-   ========================================================================== */
-.roi-aircraft-deck {
-  background: #04091a;
-  border: 1px solid var(--border-glass);
-  border-radius: 20px;
-  padding: 34px;
-  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6), 0 0 40px rgba(0, 240, 255, 0.12);
-}
-
-.roi-layout-grid {
-  display: grid;
-  grid-template-columns: 1.2fr 1fr;
-  gap: 34px;
-  align-items: center;
-}
-
-.roi-slider-group { display: flex; flex-direction: column; gap: 22px; }
-
-.roi-dial-card {
-  background: rgba(11, 19, 43, 0.65);
-  border: 1px solid var(--border-glass);
-  border-radius: 14px;
-  padding: 18px 20px;
-}
-
-.roi-dial-top {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 10px;
-  gap: 10px;
-}
-
-.roi-dial-label { font-size: 13.5px; font-weight: 600; color: var(--text-main); }
-.roi-dial-val-badge {
-  font-family: var(--font-mono);
-  font-size: 14.5px;
-  font-weight: 700;
-  color: var(--cyan-bright);
-  background: rgba(0, 240, 255, 0.15);
-  border: 1px solid rgba(0, 240, 255, 0.35);
-  padding: 3px 10px;
-  border-radius: 6px;
-  white-space: nowrap;
-}
-
-.roi-range-slider {
-  -webkit-appearance: none;
-  appearance: none;
-  width: 100%;
-  height: 8px;
-  background: rgba(255, 255, 255, 0.08);
-  border-radius: 6px;
-  outline: none;
-  cursor: pointer;
-}
-.roi-range-slider::-webkit-slider-thumb {
-  -webkit-appearance: none;
-  appearance: none;
-  width: 22px;
-  height: 22px;
-  border-radius: 50%;
-  background: #fff;
-  border: 3px solid var(--cyan-bright);
-  box-shadow: 0 0 16px var(--cyan-bright);
-  cursor: pointer;
-  transition: transform 0.1s;
-}
-
-.roi-impact-dashboard {
-  background: linear-gradient(145deg, rgba(14, 25, 58, 0.9) 0%, rgba(7, 13, 30, 0.95) 100%);
-  border: 1px solid rgba(0, 240, 255, 0.45);
-  border-radius: 18px;
-  padding: 30px;
-  box-shadow: 0 0 50px rgba(0, 240, 255, 0.15);
-  text-align: center;
-}
-
-.odometer-number-large {
-  font-family: var(--font-heading);
-  font-size: 3.2rem;
-  font-weight: 800;
-  line-height: 1.05;
-  color: #fff;
-  margin: 12px 0 8px;
-  background: linear-gradient(135deg, #ffffff 0%, var(--cyan-bright) 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-}
-
-.roi-submetrics-row {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 14px;
-  margin: 22px 0;
-  padding: 16px 0;
-  border-top: 1px solid var(--border-glass);
-  border-bottom: 1px solid var(--border-glass);
-}
-.roi-submetric-val { font-family: var(--font-mono); font-size: 1.4rem; font-weight: 700; color: var(--cyan-bright); }
-.roi-submetric-label { font-size: 11px; color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.06em; margin-top: 3px; }
-
-/* ==========================================================================
-   CAPABILITIES BENTO GRID
-   ========================================================================== */
-.bento-grid-capabilities {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 22px;
-}
-
-.bento-card-node {
-  background: var(--bg-card);
-  border: 1px solid var(--border-glass);
-  border-radius: 18px;
-  padding: 28px;
-  position: relative;
-  overflow: hidden;
-  transition: all 0.3s var(--ease-elastic);
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  text-decoration: none;
-}
-.bento-card-node:hover {
-  transform: translateY(-4px);
-  border-color: var(--border-active);
-  background: var(--bg-card-hover);
-  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.5), 0 0 25px rgba(0, 240, 255, 0.2);
-}
-
-.bento-icon-diode {
-  width: 48px;
-  height: 48px;
-  border-radius: 12px;
-  background: rgba(0, 240, 255, 0.1);
-  border: 1px solid rgba(0, 240, 255, 0.35);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 20px;
-  margin-bottom: 18px;
-  box-shadow: 0 0 16px rgba(0, 240, 255, 0.2);
-}
-
-.bento-card-title { font-size: 1.3rem; font-weight: 700; margin-bottom: 10px; color: #fff; }
-.bento-card-desc { color: var(--text-muted); font-size: 13.5px; line-height: 1.65; margin-bottom: 20px; }
-
-.bento-feature-chips { display: flex; flex-wrap: wrap; gap: 6px; }
-.bento-feature-chip {
-  font-family: var(--font-mono);
-  font-size: 10.5px;
-  padding: 4px 9px;
-  background: rgba(255, 255, 255, 0.04);
-  border: 1px solid var(--border-glass);
-  border-radius: 100px;
-  color: var(--text-main);
-}
-
-/* ==========================================================================
-   PARADIGM MATRIX
-   ========================================================================== */
-.matrix-deck {
-  background: #04091a;
-  border: 1px solid var(--border-glass);
-  border-radius: 20px;
-  padding: 34px;
-  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6);
-}
-
-.matrix-split-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
-.matrix-column-card { border-radius: 16px; padding: 26px; }
-.matrix-column-card.old-way { background: rgba(26, 8, 12, 0.6); border: 1px solid rgba(239, 68, 68, 0.3); }
-.matrix-column-card.farvex-way {
-  background: rgba(11, 19, 43, 0.75);
-  border: 1px solid rgba(0, 240, 255, 0.45);
-  box-shadow: 0 0 35px rgba(0, 240, 255, 0.15);
-}
-
-.matrix-col-header { font-family: var(--font-mono); font-size: 11.5px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 10px; }
-.matrix-point-list { display: flex; flex-direction: column; gap: 14px; margin-top: 18px; }
-.matrix-point-item { display: flex; align-items: flex-start; gap: 10px; font-size: 13.5px; line-height: 1.55; }
-
-/* ==========================================================================
-   FAQ ACCORDION
-   ========================================================================== */
-.faq-stack { max-width: 860px; margin: 0 auto; display: flex; flex-direction: column; gap: 12px; }
-.faq-card-item {
-  background: var(--bg-card);
-  border: 1px solid var(--border-glass);
-  border-radius: 12px;
-  overflow: hidden;
-  transition: all 0.2s;
-}
-.faq-card-item.active {
-  border-color: rgba(0, 240, 255, 0.5);
-  background: rgba(14, 25, 58, 0.88);
-  box-shadow: 0 0 20px rgba(0, 240, 255, 0.15);
-}
-.faq-trigger-btn {
-  width: 100%;
-  padding: 18px 20px;
-  background: transparent;
-  border: none;
-  color: var(--text-pure);
-  font-family: var(--font-display);
-  font-size: 15px;
-  font-weight: 600;
-  text-align: left;
-  cursor: pointer;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 12px;
-}
-.faq-sign-glyph { font-family: var(--font-mono); font-size: 18px; color: var(--cyan-bright); flex-shrink: 0; }
-.faq-answer-body {
-  max-height: 0;
-  overflow: hidden;
-  transition: max-height 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-  padding: 0 20px;
-  color: var(--text-muted);
-  font-size: 14px;
-  line-height: 1.65;
-}
-.faq-card-item.active .faq-answer-body { padding-bottom: 18px; }
-
-/* ==========================================================================
-   CTA PANEL & FOOTER
-   ========================================================================== */
-.cta-banner-deck {
-  background: radial-gradient(circle at 50% 50%, rgba(0, 240, 255, 0.2) 0%, rgba(168, 85, 247, 0.1) 45%, #02050e 85%);
-  border: 1px solid rgba(0, 240, 255, 0.45);
-  border-radius: 24px;
-  padding: 60px 30px;
-  text-align: center;
-  box-shadow: 0 0 80px rgba(0, 240, 255, 0.2);
-  position: relative;
-  overflow: hidden;
-}
-
-footer.quantum-footer {
-  background: #02050e;
-  border-top: 1px solid var(--border-glass);
-  padding: 50px 0 30px;
-}
-
-.footer-top-grid {
-  display: grid;
-  grid-template-columns: 2fr 1fr 1fr 1.2fr;
-  gap: 36px;
-  margin-bottom: 40px;
-}
-
-.footer-col h5 {
-  font-family: var(--font-mono);
-  font-size: 11.5px;
-  font-weight: 700;
-  text-transform: uppercase;
-  color: #fff;
-  letter-spacing: 0.1em;
-  margin-bottom: 16px;
-}
-
-.footer-col ul { list-style: none; display: flex; flex-direction: column; gap: 8px; }
-.footer-col a { color: var(--text-muted); text-decoration: none; font-size: 13px; transition: color 0.2s; }
-.footer-col a:hover { color: var(--cyan-bright); }
-
-.footer-bottom-row {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding-top: 20px;
-  border-top: 1px solid var(--border-glass);
-  font-family: var(--font-mono);
-  font-size: 11.5px;
-  color: var(--text-dim);
-  gap: 12px;
-}
-
-/* ==========================================================================
-   COOKIE CONSENT POPUP BANNER (GDPR / DUTCH TELECOM ACT)
-   ========================================================================== */
-.cookie-banner-popup {
-  position: fixed;
-  bottom: 24px;
-  right: 24px;
-  max-width: 460px;
-  background: rgba(7, 13, 30, 0.96);
-  border: 1px solid rgba(0, 240, 255, 0.45);
-  border-radius: 16px;
-  padding: 24px;
-  z-index: 9999;
-  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.8), 0 0 30px rgba(0, 240, 255, 0.2);
-  backdrop-filter: blur(20px);
-  display: none;
-  animation: slideUpCookie 0.35s var(--ease-elastic);
-}
-@keyframes slideUpCookie {
-  from { opacity: 0; transform: translateY(30px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-.cookie-banner-title {
-  font-size: 14.5px;
-  font-weight: 700;
-  color: #fff;
-  margin-bottom: 8px;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-.cookie-banner-text { font-size: 12.5px; color: var(--text-muted); line-height: 1.55; margin-bottom: 16px; }
-.cookie-banner-btns { display: flex; gap: 8px; flex-wrap: wrap; }
-
-/* ==========================================================================
-   MOBILE & TABLET RESPONSIVE MEDIA QUERIES (COMPREHENSIVE ZERO-OVERLAP)
-   ========================================================================== */
-@media (max-width: 1080px) {
-  .hero-main-title { font-size: 3rem; }
-  .bento-grid-capabilities { grid-template-columns: repeat(2, 1fr); }
-  .studio-grid-columns { grid-template-columns: 1fr; }
-  .laser-scanner-grid { grid-template-columns: 1fr; }
-  .roi-layout-grid { grid-template-columns: 1fr; }
-  .matrix-split-grid { grid-template-columns: 1fr; }
-  .footer-top-grid { grid-template-columns: 1fr 1fr; }
-}
-
-@media (max-width: 768px) {
-  /* Navigation & HUD */
-  .nav-menu-deck { display: none; }
-  .mobile-menu-btn { display: flex; }
-  .telemetry-hud-bar {
-    padding: 6px 12px;
-    font-size: 10px;
+  /* Page-local: the before/after comparison and the pipeline builder are unique to this page. */
+  .ba { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--fx-s-6); align-items: start; }
+  @media (max-width: 800px) { .ba { grid-template-columns: minmax(0, 1fr); } }
+
+  .ba__col {
     display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 6px;
-    flex-wrap: nowrap;
-    overflow-x: auto;
-    -webkit-overflow-scrolling: touch;
-  }
-  .hud-left-stats { gap: 8px; font-size: 10px; }
-  .hud-ticker { display: none; }
-  .hud-btn { padding: 3px 6px; font-size: 10px; }
-  .nav-wrap { padding: 0 16px; height: 64px; }
-  
-  header.quantum-header { position: sticky; top: 0; height: 64px; z-index: 1000; }
-  .mobile-nav-drawer {
-    top: 64px;
-    padding: 16px 16px 36px;
-    background: rgba(2, 11, 5, 0.98);
-    backdrop-filter: blur(28px);
-  }
-  .mobile-nav-link { padding: 12px 14px; font-size: 14px; border-radius: 10px; }
-
-  /* Hero & Typography */
-  .hero-quantum { padding: 32px 0 50px; }
-  .hero-header-stack { margin-bottom: 28px; }
-  .hero-main-title { font-size: 2.1rem; line-height: 1.15; letter-spacing: -0.02em; margin-bottom: 14px; }
-  .hero-subtext { font-size: 0.98rem; margin-bottom: 22px; line-height: 1.55; }
-  .hero-btn-row { flex-direction: column; width: 100%; gap: 10px; margin-bottom: 28px; }
-  .hero-btn-row .btn-core { width: 100%; }
-  .section-intro h2 { font-size: 1.85rem; line-height: 1.2; }
-  .section-intro p { font-size: 0.95rem; }
-  .section-space { padding: 50px 0; }
-  .container { padding: 0 14px; }
-
-  /* Living Entropy Scrubber */
-  .entropy-scrubber-deck { border-radius: 16px; }
-  .scrubber-top-hud {
-    padding: 10px 12px;
     flex-direction: column;
-    align-items: stretch;
-    gap: 8px;
+    gap: var(--fx-s-4);
+    padding: var(--fx-s-6);
+    background: var(--fx-surface);
+    border: 1px solid var(--fx-border);
+    border-radius: var(--fx-r-lg);
   }
-  .scrubber-hud-title { font-size: 11px; justify-content: space-between; }
-  .entropy-slider-control-bar {
+  .ba__col--good { border-color: var(--fx-accent); }
+  .ba__col-head { display: flex; align-items: center; justify-content: space-between; gap: var(--fx-s-3); }
+
+  .ba__note {
+    padding: var(--fx-s-4);
+    border: 1px solid var(--fx-border);
+    border-radius: var(--fx-r-sm);
+    background: var(--fx-surface-2);
+  }
+  .ba__note-title { font-size: .9375rem; font-weight: 600; color: var(--fx-text); }
+  .ba__note-text { font-size: .8125rem; color: var(--fx-text-muted); margin-top: 2px; }
+
+  .ba__metrics { margin: 0; margin-top: auto; display: grid; gap: 10px; padding-top: var(--fx-s-4); border-top: 1px solid var(--fx-border); }
+  .ba__metric { display: flex; justify-content: space-between; align-items: baseline; gap: var(--fx-s-4); font-size: .875rem; }
+  .ba__metric dt { color: var(--fx-text-muted); }
+  .ba__metric dd { margin: 0; font-weight: 600; font-variant-numeric: tabular-nums; text-align: right; }
+
+  /* Pipeline builder */
+  .builder { display: grid; grid-template-columns: 1fr 1.1fr 1fr; gap: var(--fx-s-5); }
+  @media (max-width: 960px) { .builder { grid-template-columns: minmax(0, 1fr); } }
+
+  .builder__col-title {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: var(--fx-s-4);
+    font-size: .75rem;
+    font-weight: 600;
+    letter-spacing: .06em;
+    text-transform: uppercase;
+    color: var(--fx-text-dim);
+  }
+  .builder__list { display: flex; flex-direction: column; gap: 8px; }
+  .builder__option {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--fx-s-3);
     width: 100%;
+    min-height: 48px;
+    padding: 10px 14px;
+    text-align: left;
+    background: var(--fx-surface);
+    border: 1px solid var(--fx-border);
+    border-radius: var(--fx-r-sm);
+    color: var(--fx-text-muted);
+    font-size: .875rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: border-color var(--fx-t-fast) var(--fx-ease), color var(--fx-t-fast) var(--fx-ease), background-color var(--fx-t-fast) var(--fx-ease);
+  }
+  .builder__option:hover { border-color: var(--fx-border-control); color: var(--fx-text); }
+  .builder__option[aria-pressed="true"] {
+    border-color: var(--fx-accent);
+    background: var(--fx-accent-tint);
+    color: var(--fx-text);
+    font-weight: 600;
+  }
+  .builder__core {
     display: flex;
+    flex-direction: column;
+    gap: var(--fx-s-4);
+    padding: var(--fx-s-5);
+    border: 1px solid var(--fx-border);
+    border-radius: var(--fx-r);
+    background: var(--fx-surface-2);
+  }
+  .builder__diagram { display: grid; place-items: center; padding: var(--fx-s-4) 0; }
+  .builder__diagram svg { width: 100%; max-width: 360px; height: auto; }
+  .builder__wire { fill: none; stroke: var(--fx-border-strong); stroke-width: 2; }
+  .builder__wire.is-live { stroke: var(--fx-accent); }
+  .builder__log {
+    margin: 0;
+    padding: var(--fx-s-4);
+    min-height: 140px;
+    max-height: 260px;
+    overflow: auto;
+    background: var(--fx-surface);
+    border: 1px solid var(--fx-border);
+    border-radius: var(--fx-r-sm);
+    font-family: var(--fx-font-mono);
+    font-size: .75rem;
+    line-height: 1.7;
+    color: var(--fx-text-muted);
+    white-space: pre-wrap;
+    word-break: break-word;
+  }
+  .builder__foot {
+    display: flex;
+    flex-wrap: wrap;
     align-items: center;
     justify-content: space-between;
-    gap: 8px;
-  }
-  .entropy-range-input { flex: 1; height: 8px; margin: 0; }
-  
-  .entropy-split-viewport {
-    height: 520px;
-    position: relative;
-    overflow: hidden;
-  }
-  .stage-chaos {
-    position: absolute;
-    inset: 0;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    padding: 14px 12px;
-    gap: 10px;
-    overflow: hidden;
-  }
-  .stage-order-mask {
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    right: 0;
-    overflow: hidden;
-  }
-  .stage-order-inner {
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    right: 0;
-    width: 100vw;
-    max-width: 100%;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    padding: 14px 12px;
-    gap: 10px;
-    overflow: hidden;
-  }
-  .chaos-alert-card, .order-pipeline-card {
-    padding: 10px 12px;
-    border-radius: 10px;
-    font-size: 12px;
-  }
-  .chaos-alert-card div:nth-child(2), .order-pipeline-card div:nth-child(2) { font-size: 12.5px; }
-  .chaos-metric-board, .order-metric-board {
-    padding: 12px 14px;
-    border-radius: 10px;
-  }
-  .chaos-metric-row, .order-metric-row {
-    padding: 6px 0;
-    font-size: 11px;
+    gap: var(--fx-s-4);
+    margin-top: var(--fx-s-6);
+    padding-top: var(--fx-s-5);
+    border-top: 1px solid var(--fx-border);
   }
 
-  /* Workflow Studio */
-  .workflow-studio-box { padding: 16px 12px; border-radius: 16px; }
-  .studio-grid-columns { grid-template-columns: 1fr; gap: 14px; margin-bottom: 16px; }
-  .studio-col-card { padding: 12px; border-radius: 12px; }
-  .wire-node-btn { padding: 10px 12px; font-size: 12px; border-radius: 8px; }
-  .wire-visual-canvas { height: 110px; padding: 12px; border-radius: 12px; }
-  .studio-execution-footer {
-    flex-direction: column;
-    align-items: stretch;
-    text-align: center;
-    gap: 12px;
-    padding: 14px;
+  /* ROI */
+  .roi { display: grid; grid-template-columns: 1.1fr 1fr; gap: var(--fx-s-8); align-items: start; }
+  @media (max-width: 900px) { .roi { grid-template-columns: minmax(0, 1fr); } }
+  .roi__dial { display: flex; flex-direction: column; gap: 8px; }
+  .roi__dial-top { display: flex; align-items: baseline; justify-content: space-between; gap: var(--fx-s-4); }
+  .roi__dial-value {
+    font-weight: 600;
+    font-size: .875rem;
+    color: var(--fx-accent-strong);
+    font-variant-numeric: tabular-nums;
+    white-space: nowrap;
   }
-  .studio-execution-footer .btn-core { width: 100%; }
-  .studio-telemetry-box {
-    font-size: 10.5px;
-    max-height: 120px;
-    word-break: break-all;
-    white-space: pre-wrap;
+  .roi__result {
+    padding: var(--fx-s-8);
+    border: 1px solid var(--fx-accent);
+    border-radius: var(--fx-r-lg);
+    background: var(--fx-bg-tint);
+  }
+  .roi__big {
+    font-family: var(--fx-font-display);
+    font-size: clamp(2.25rem, 1.6rem + 2.4vw, 3rem);
+    font-weight: 700;
+    letter-spacing: -.03em;
+    line-height: 1.05;
+    font-variant-numeric: tabular-nums;
+    color: var(--fx-text);
   }
 
-  /* OCR & Laser Scanner */
-  .laser-scanner-grid { grid-template-columns: 1fr; gap: 16px; }
-  .document-inspection-pane, .json-output-terminal { padding: 16px 12px; border-radius: 14px; }
-  .scanner-doc-tabs { gap: 6px; padding-bottom: 4px; }
-  .doc-tab-btn { padding: 6px 10px; font-size: 10px; }
-  .doc-paper-mock { padding: 12px; font-size: 11px; line-height: 1.5; min-height: auto; }
-  .terminal-pre-code { font-size: 10.5px; max-height: 220px; white-space: pre-wrap; word-break: break-all; }
-
-  /* ROI Console */
-  .roi-aircraft-deck { padding: 18px 12px; border-radius: 16px; }
-  .roi-dial-card { padding: 12px 14px; border-radius: 10px; }
-  .roi-dial-top { flex-wrap: wrap; gap: 4px; }
-  .roi-dial-label { font-size: 12.5px; }
-  .roi-dial-val-badge { font-size: 13px; padding: 2px 8px; }
-  .roi-impact-dashboard { padding: 18px 12px; border-radius: 12px; }
-  .odometer-number-large { font-size: 2.2rem; margin: 8px 0; }
-  .roi-submetrics-row { gap: 8px; margin: 14px 0; padding: 10px 0; }
-  .roi-submetric-val { font-size: 1.15rem; }
-  .roi-submetric-label { font-size: 10px; }
-  #roiCtaBtn { width: 100%; font-size: 12.5px; padding: 12px 16px; }
-
-  /* Bento Grid */
-  .bento-grid-capabilities { grid-template-columns: 1fr; gap: 14px; }
-  .bento-card-node { padding: 18px 14px; border-radius: 14px; }
-  .bento-card-title { font-size: 1.18rem; }
-  .bento-card-desc { font-size: 12.5px; margin-bottom: 14px; }
-
-  /* Matrix Comparison */
-  .matrix-deck { padding: 18px 12px; border-radius: 16px; }
-  .matrix-split-grid { grid-template-columns: 1fr; gap: 14px; }
-  .matrix-column-card { padding: 16px 12px; border-radius: 12px; }
-  .matrix-point-item { font-size: 12.5px; gap: 8px; }
-
-  /* FAQ */
-  .faq-trigger-btn { padding: 14px 14px; font-size: 13.5px; }
-  .faq-answer-body { padding: 0 14px; font-size: 12.5px; }
-  .faq-card-item.active .faq-answer-body { padding-bottom: 12px; }
-
-  /* CTA Banner & Footer */
-  .cta-banner-deck { padding: 32px 14px; border-radius: 18px; }
-  .cta-banner-deck h2 { font-size: 1.75rem !important; }
-  .footer-top-grid { grid-template-columns: 1fr; gap: 22px; }
-  .footer-bottom-row { flex-direction: column; gap: 8px; text-align: center; font-size: 10.5px; }
-  
-  /* Cookie Popup Banner */
-  .cookie-banner-popup {
-    left: 10px;
-    right: 10px;
-    bottom: 10px;
-    max-width: none;
-    padding: 16px 14px;
-    border-radius: 12px;
-  }
-  .cookie-banner-btns { flex-direction: column; gap: 6px; }
-  .cookie-banner-btns .btn-core { width: 100%; text-align: center; }
-}
-
-@media (max-width: 480px) {
-  .hero-main-title { font-size: 1.8rem; }
-  .btn-core { width: 100%; padding: 12px 18px; font-size: 12.5px; }
-  .hud-diode-live { font-size: 9.5px; }
-}
+  /* Document demo */
+  .docdemo { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--fx-s-6); align-items: start; }
+  @media (max-width: 900px) { .docdemo { grid-template-columns: minmax(0, 1fr); } }
+  .docdemo__row { display: flex; flex-wrap: wrap; gap: 4px; }
+  .docdemo__key { min-width: 150px; color: var(--fx-text-dim); }
 </style>
 </head>
-
 <body>
 
-<!-- Live Kinetic Particle Canvas -->
-<canvas id="quantumCanvas"></canvas>
-<div class="ambient-mesh-glow"></div>
+<a class="fx-skip" href="#main">Skip to content</a>
 
-<!-- TOP TELEMETRY & ATMOSPHERE HUD -->
-<div class="telemetry-hud-bar">
-  <div class="hud-left-stats">
-    <span class="hud-diode-live" data-i18n="hud.cluster">ORBITAL CLUSTER: ONLINE</span>
-    <span class="mono" style="color: var(--cyan-bright);">PING: <span id="hudPing">2.4ms</span></span>
-    <span class="hud-ticker" data-i18n="hud.ticker">>> AUTONOMOUS AGENT NODES SYNCHRONIZED // ZERO-ERROR PARSER ACTIVE</span>
-  </div>
-  <div class="hud-right-controls">
-    <div class="theme-pill-group">
-      <button class="hud-btn" id="btnThemeObsidian" onclick="setAtmosphere('obsidian')">Obsidian</button>
-      <button class="hud-btn active" id="btnThemeMatrix" onclick="setAtmosphere('matrix')">Matrix</button>
-      <button class="hud-btn" id="btnThemeTitanium" onclick="setAtmosphere('titanium')">Titanium</button>
-    </div>
-    <div class="lang-pill-group">
-      <button class="hud-btn active" id="btnLangEN" onclick="setLanguage('en')">EN</button>
-      <button class="hud-btn" id="btnLangNL" onclick="setLanguage('nl')">NL</button>
-    </div>
-  </div>
-</div>
+<div class="fx-progress" aria-hidden="true"><div class="fx-progress__bar" data-progress-bar></div></div>
 
-<!-- CRYSTALLINE NAVIGATION -->
-<header class="quantum-header">
-  <div class="nav-wrap">
-    <a href="index.html" class="brand-anchor">
-      <div class="brand-icon-box">
-        <img src="farvex-logo-kit/svg/farvex-mark-dark.svg" alt="Farvex AI Logo">
-      </div>
-      <div class="brand-title">FARVEX<span>.AI</span></div>
+<!-- ============================ HEADER ============================ -->
+<header class="fx-header" data-header>
+  <div class="fx-container fx-header__inner">
+    <a href="index.html" class="fx-brand">
+      <svg class="fx-brand__mark" viewBox="0 0 600 600" role="img" aria-label="Farvex AI">
+        <rect class="fx-mark-body" x="133.6" y="108" width="70.4" height="384"/>
+        <rect class="fx-mark-body" x="133.6" y="108" width="152" height="62.4"/>
+        <rect class="fx-mark-body" x="133.6" y="269.28" width="136" height="62.4"/>
+        <rect class="fx-mark-accent" x="264.8" y="282.88" width="136" height="35.2"/>
+        <polygon class="fx-mark-accent" points="400.8,273.28 447.2,300.48 400.8,327.68"/>
+        <circle class="fx-mark-accent" cx="456.8" cy="300.48" r="9.6"/>
+      </svg>
+      <span>Farvex<span class="fx-brand__dot">.ai</span></span>
     </a>
 
-    <nav class="nav-menu-deck">
-      <a href="index.html#entropy-hero" class="nav-node active" data-i18n="nav.entropy">Chaos → Order</a>
-      <a href="solutions.html" class="nav-node" data-i18n="nav.solutions">Solutions Suite ↗</a>
-      <a href="case-studies.html" class="nav-node" data-i18n="nav.cases">Case Studies ↗</a>
-      <a href="architecture.html" class="nav-node" data-i18n="nav.arch">Architecture ↗</a>
-      <a href="security.html" class="nav-node" data-i18n="nav.security">Security Vault ↗</a>
-      <a href="#roi-engine" class="nav-node" data-i18n="nav.roi">ROI Matrix</a>
+    <nav class="fx-nav" aria-label="Main">
+      <a href="solutions.html" class="fx-nav__link" data-i18n="nav.solutions">Solutions</a>
+      <a href="case-studies.html" class="fx-nav__link" data-i18n="nav.cases">Case studies</a>
+      <a href="architecture.html" class="fx-nav__link" data-i18n="nav.arch">Architecture</a>
+      <a href="security.html" class="fx-nav__link" data-i18n="nav.security">Security</a>
+      <a href="contact.html" class="fx-nav__link" data-i18n="nav.contact">Contact</a>
     </nav>
 
-    <div class="nav-cta-deck">
-      <a href="book.html" class="btn-core btn-cyan btn-sm" data-i18n="nav.cta">⚡ Book Briefing</a>
-      <!-- Hamburger Toggle Button for Mobile -->
-      <button class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Toggle Navigation" onclick="toggleMobileNav()">
+    <div class="fx-header__actions">
+      <div class="fx-segment" role="group" aria-label="Language">
+        <button type="button" class="fx-segment__btn is-active" data-lang-btn="en">EN</button>
+        <button type="button" class="fx-segment__btn" data-lang-btn="nl">NL</button>
+      </div>
+
+      <button type="button" class="fx-iconbtn" data-theme-toggle aria-pressed="false" aria-label="Switch to dark theme" title="Switch to dark theme">
+        <svg class="fx-icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
+          <circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/>
+        </svg>
+        <svg class="fx-icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/>
+        </svg>
+      </button>
+
+      <a href="book.html" class="fx-btn fx-btn--primary fx-btn--sm fx-hide-sm" data-i18n="nav.cta">Request a briefing</a>
+
+      <button type="button" class="fx-burger" data-nav-toggle aria-expanded="false" aria-controls="mobileNav" aria-label="Open menu">
         <span></span><span></span><span></span>
       </button>
     </div>
   </div>
 
-  <!-- Mobile Slide Drawer -->
-  <div class="mobile-nav-drawer" id="mobileNavDrawer">
-    <div class="mobile-nav-links">
-      <a href="index.html#entropy-hero" class="mobile-nav-link" onclick="toggleMobileNav()" data-i18n="nav.entropy">Chaos → Order <span>➔</span></a>
-      <a href="solutions.html" class="mobile-nav-link" onclick="toggleMobileNav()" data-i18n="nav.solutions">Solutions Suite ↗ <span>➔</span></a>
-      <a href="case-studies.html" class="mobile-nav-link" onclick="toggleMobileNav()" data-i18n="nav.cases">Case Studies ↗ <span>➔</span></a>
-      <a href="architecture.html" class="mobile-nav-link" onclick="toggleMobileNav()" data-i18n="nav.arch">Architecture ↗ <span>➔</span></a>
-      <a href="security.html" class="mobile-nav-link" onclick="toggleMobileNav()" data-i18n="nav.security">Security Vault ↗ <span>➔</span></a>
-      <a href="pre-deployment-checklist.html" class="mobile-nav-link" onclick="toggleMobileNav()">Pre-Deploy Checklist ↗ <span>➔</span></a>
-      <a href="contact.html" class="mobile-nav-link" onclick="toggleMobileNav()">Direct Uplink / Contact <span>➔</span></a>
-      <a href="privacy.html" class="mobile-nav-link" onclick="toggleMobileNav()">Privacy Statement (GDPR) <span>➔</span></a>
-      <a href="book.html" class="btn-core btn-cyan" style="width: 100%; margin-top: 10px;" data-i18n="nav.cta">⚡ Book Architecture Briefing</a>
+  <div class="fx-drawer" id="mobileNav" data-nav-drawer>
+    <a href="solutions.html" class="fx-drawer__link" data-i18n="nav.solutions">Solutions</a>
+    <a href="case-studies.html" class="fx-drawer__link" data-i18n="nav.cases">Case studies</a>
+    <a href="architecture.html" class="fx-drawer__link" data-i18n="nav.arch">Architecture</a>
+    <a href="security.html" class="fx-drawer__link" data-i18n="nav.security">Security</a>
+    <a href="contact.html" class="fx-drawer__link" data-i18n="nav.contact">Contact</a>
+    <a href="pre-deployment-checklist.html" class="fx-drawer__link" data-i18n="nav.checklist">Pre-deployment checklist</a>
+    <div class="fx-drawer__cta">
+      <a href="book.html" class="fx-btn fx-btn--primary fx-btn--block" data-i18n="nav.cta">Request a briefing</a>
     </div>
   </div>
 </header>
 
-<!-- HERO SECTION // "CHAOS TO ORDER" ENTROPY SCRUBBER -->
-<section class="hero-quantum" id="hero">
-  <div class="container">
-    <div class="hero-header-stack">
-      <div class="quantum-badge">
-        <span>●</span> <span data-i18n="hero.badge">AUTONOMOUS ENTERPRISE INTELLIGENCE</span>
+<main id="main">
+
+  <!-- ============================ HERO ============================ -->
+  <section class="fx-hero">
+    <div class="fx-container">
+      <div class="fx-hero__grid">
+      <div class="fx-hero__inner">
+        <span class="fx-badge">
+          <span class="fx-badge__dot"></span>
+          <span data-i18n="hero.badge">Built, shipped and operated by us</span>
+        </span>
+
+        <h1 class="fx-hero__title">
+          <span data-i18n="hero.title1">The admin work your team retypes every day can run itself.</span>
+        </h1>
+
+        <p class="fx-lead" data-i18n="hero.sub">
+          We engineer document parsing, workflow automation and AI agents that plug into Exact Online, SAP and the rest of your stack — so invoices, tickets and reports move through without anyone keying them in.
+        </p>
+
+        <div class="fx-btn-group">
+          <a href="book.html" class="fx-btn fx-btn--primary fx-btn--lg" data-i18n="hero.btn1">Request a briefing</a>
+          <a href="solutions.html" class="fx-btn fx-btn--secondary fx-btn--lg" data-i18n="hero.btn2">See what we ship</a>
+        </div>
       </div>
-      <h1 class="hero-main-title">
-        <span data-i18n="hero.title1">ELIMINATE ENTERPRISE CHAOS.</span><br>
-        <span class="gradient-highlight" data-i18n="hero.title2">DEPLOY AUTONOMOUS ORDER.</span>
-      </h1>
-      <p class="hero-subtext" data-i18n="hero.sub">
-        We engineer bespoke autonomous neural pipelines, instant vision document intelligence, and self-healing multi-agent systems that turn manual friction into instant, zero-error enterprise output.
-      </p>
-      <div class="hero-btn-row">
-        <a href="book.html" class="btn-core btn-cyan" data-i18n="hero.btn1">⚡ Schedule Architecture Briefing</a>
-        <a href="solutions.html" class="btn-core btn-glass" data-i18n="hero.btn2">▶ Explore Solutions Suite</a>
+
+        <div class="fx-hero__art" data-parallax="0.05" aria-hidden="true">
+          <svg class="fx-art" viewBox="0 0 560 470" role="presentation" focusable="false">
+            <!-- glow behind the core -->
+            <circle class="fx-art__halo" cx="280" cy="235" r="150"/>
+            <circle class="fx-art__halo fx-art__pulse" cx="280" cy="235" r="112"/>
+            <circle class="fx-art__halo fx-art__pulse fx-art__pulse--d" cx="280" cy="235" r="84"/>
+
+            <!-- ============ inbound paperwork, left ============ -->
+            <g class="fx-art__float">
+              <g transform="translate(8 96) rotate(-7 60 74)">
+                <rect class="fx-art__panel-2" x="0" y="0" width="120" height="148" rx="10"/>
+                <rect class="fx-art__line--soft" x="16" y="20" width="62" height="7" rx="3.5"/>
+                <rect class="fx-art__line" x="16" y="40" width="88" height="6" rx="3"/>
+                <rect class="fx-art__line--soft" x="16" y="56" width="70" height="6" rx="3"/>
+                <rect class="fx-art__line--soft" x="16" y="72" width="80" height="6" rx="3"/>
+                <rect class="fx-art__accent-soft" x="16" y="96" width="88" height="30" rx="6"/>
+                <rect class="fx-art__accent" x="26" y="107" width="46" height="8" rx="4"/>
+              </g>
+            </g>
+
+            <g class="fx-art__float fx-art__float--d1">
+              <g transform="translate(40 66) rotate(4 66 82)">
+                <rect class="fx-art__panel" x="0" y="0" width="132" height="164" rx="11"/>
+                <circle class="fx-art__accent" cx="24" cy="26" r="7"/>
+                <rect class="fx-art__line" x="40" y="21" width="58" height="7" rx="3.5"/>
+                <rect class="fx-art__line--soft" x="18" y="48" width="96" height="6" rx="3"/>
+                <rect class="fx-art__line--soft" x="18" y="64" width="78" height="6" rx="3"/>
+                <rect class="fx-art__line--soft" x="18" y="80" width="88" height="6" rx="3"/>
+                <!-- a little table, the thing everyone says OCR cannot read -->
+                <rect class="fx-art__line--soft" x="18" y="104" width="96" height="1.5"/>
+                <rect class="fx-art__line--soft" x="18" y="120" width="96" height="1.5"/>
+                <rect class="fx-art__line--soft" x="18" y="136" width="96" height="1.5"/>
+                <rect class="fx-art__line--soft" x="56" y="100" width="1.5" height="44"/>
+                <rect class="fx-art__line--soft" x="88" y="100" width="1.5" height="44"/>
+              </g>
+            </g>
+
+            <!-- ============ wires in ============ -->
+            <path class="fx-art__wire" d="M178 150 C 226 150, 214 214, 258 222"/>
+            <path class="fx-art__wire" d="M170 232 C 214 232, 216 234, 252 235"/>
+            <path class="fx-art__wire" d="M172 300 C 220 300, 216 258, 258 248"/>
+            <path class="fx-art__flow" d="M178 150 C 226 150, 214 214, 258 222"/>
+            <path class="fx-art__flow fx-art__flow--d1" d="M170 232 C 214 232, 216 234, 252 235"/>
+            <path class="fx-art__flow fx-art__flow--d2" d="M172 300 C 220 300, 216 258, 258 248"/>
+
+            <!-- ============ the core ============ -->
+            <rect class="fx-art__panel" x="232" y="187" width="96" height="96" rx="24"/>
+            <g transform="translate(252 207) scale(0.093)">
+              <rect class="fx-art__ink" x="133.6" y="108" width="70.4" height="384"/>
+              <rect class="fx-art__ink" x="133.6" y="108" width="152" height="62.4"/>
+              <rect class="fx-art__ink" x="133.6" y="269.28" width="136" height="62.4"/>
+              <rect class="fx-art__accent" x="264.8" y="282.88" width="136" height="35.2"/>
+              <polygon class="fx-art__accent" points="400.8,273.28 447.2,300.48 400.8,327.68"/>
+              <circle class="fx-art__accent" cx="456.8" cy="300.48" r="9.6"/>
+            </g>
+
+            <!-- ============ wires out ============ -->
+            <path class="fx-art__wire fx-art__wire--live" d="M328 214 C 368 214, 360 136, 402 130"/>
+            <path class="fx-art__wire fx-art__wire--live" d="M330 235 C 372 235, 366 235, 400 235"/>
+            <path class="fx-art__wire fx-art__wire--live" d="M328 258 C 368 258, 360 336, 402 342"/>
+            <path class="fx-art__flow fx-art__flow--d2" d="M328 214 C 368 214, 360 136, 402 130"/>
+            <path class="fx-art__flow" d="M330 235 C 372 235, 366 235, 400 235"/>
+            <path class="fx-art__flow fx-art__flow--d1" d="M328 258 C 368 258, 360 336, 402 342"/>
+
+            <!-- ============ destination systems, right ============ -->
+            <g class="fx-art__float fx-art__float--d2">
+              <rect class="fx-art__panel" x="400" y="98" width="150" height="64" rx="12"/>
+              <rect class="fx-art__accent-soft" x="414" y="114" width="32" height="32" rx="8"/>
+              <path class="fx-art__accent" d="M424 130h12M430 124v12" stroke="none"/>
+              <rect class="fx-art__accent" x="423" y="128.5" width="14" height="3" rx="1.5"/>
+              <rect class="fx-art__accent" x="428.5" y="123" width="3" height="14" rx="1.5"/>
+              <rect class="fx-art__line" x="458" y="116" width="66" height="7" rx="3.5"/>
+              <rect class="fx-art__line--soft" x="458" y="132" width="44" height="6" rx="3"/>
+            </g>
+
+            <g class="fx-art__float fx-art__float--d1">
+              <rect class="fx-art__panel" x="400" y="203" width="150" height="64" rx="12"/>
+              <rect class="fx-art__accent-soft" x="414" y="219" width="32" height="32" rx="8"/>
+              <circle class="fx-art__accent" cx="430" cy="235" r="7"/>
+              <rect class="fx-art__line" x="458" y="221" width="58" height="7" rx="3.5"/>
+              <rect class="fx-art__line--soft" x="458" y="237" width="72" height="6" rx="3"/>
+            </g>
+
+            <g class="fx-art__float">
+              <rect class="fx-art__panel" x="400" y="310" width="150" height="64" rx="12"/>
+              <rect class="fx-art__accent-soft" x="414" y="326" width="32" height="32" rx="8"/>
+              <path class="fx-art__ok" d="M423 342.5l5 5 10-10 3 3-13 13-8-8z"/>
+              <rect class="fx-art__line" x="458" y="328" width="70" height="7" rx="3.5"/>
+              <rect class="fx-art__line--soft" x="458" y="344" width="50" height="6" rx="3"/>
+            </g>
+
+            <!-- ============ validated-field chips ============ -->
+            <g class="fx-art__float fx-art__float--d1">
+              <rect class="fx-art__panel" x="196" y="352" width="168" height="44" rx="22"/>
+              <circle class="fx-art__ok" cx="222" cy="374" r="9"/>
+              <path d="M218 374l3 3 6-6" fill="none" stroke="var(--fx-surface)" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+              <rect class="fx-art__line" x="240" y="366" width="62" height="7" rx="3.5"/>
+              <rect class="fx-art__line--soft" x="240" y="379" width="98" height="5" rx="2.5"/>
+            </g>
+
+            <g class="fx-art__float fx-art__float--d2">
+              <rect class="fx-art__panel" x="238" y="46" width="150" height="42" rx="21"/>
+              <circle class="fx-art__accent" cx="262" cy="67" r="9"/>
+              <rect class="fx-art__line" x="280" y="59" width="52" height="7" rx="3.5"/>
+              <rect class="fx-art__line--soft" x="280" y="71" width="84" height="5" rx="2.5"/>
+            </g>
+          </svg>
+        </div>
+      </div>
+
+      <div class="fx-grid fx-grid--4 fx-mt-8" data-reveal data-stagger>
+        <div class="fx-stat">
+          <span class="fx-stat__value fx-stat__value--accent" data-count-to="99.98" data-count-decimals="2">99.98%</span>
+          <span class="fx-stat__label" data-i18n="hero.stat1">Field-level accuracy</span>
+        </div>
+        <div class="fx-stat">
+          <span class="fx-stat__value fx-stat__value--accent" data-count-to="94">94ms</span>
+          <span class="fx-stat__label" data-i18n="hero.stat2">Median time per document</span>
+        </div>
+        <div class="fx-stat">
+          <span class="fx-stat__value fx-stat__value--accent">2–4</span>
+          <span class="fx-stat__label" data-i18n="hero.stat3">Weeks to the first live run</span>
+        </div>
+        <div class="fx-stat">
+          <span class="fx-stat__value fx-stat__value--accent">EU</span>
+          <span class="fx-stat__label" data-i18n="hero.stat4">Region-locked or on-premise</span>
+        </div>
       </div>
     </div>
+  </section>
 
-    <!-- The Living Entropy Scrubber Component -->
-    <div class="entropy-scrubber-deck" id="entropy-hero">
-      <div class="scrubber-top-hud">
-        <div class="scrubber-hud-title">
-          <span>⚡</span> <span data-i18n="scrubber.title">INTERACTIVE ENTROPY SCRUBBER // DRAG TO TRANSFORM REALITY</span>
-        </div>
-        <div class="entropy-slider-control-bar">
-          <span class="slider-label" data-i18n="scrubber.chaosLabel">Manual Chaos</span>
-          <input type="range" min="0" max="100" value="50" class="entropy-range-input" id="entropyRange" oninput="handleEntropyScrub(this.value)">
-          <span class="slider-label" data-i18n="scrubber.orderLabel">Farvex Order</span>
-          <span class="mono cyan" style="font-weight:700;" id="entropyPercentLabel">50%</span>
-        </div>
+  <!-- ==================== THE STATUS QUO ==================== -->
+  <section class="fx-section" id="status-quo">
+    <div class="fx-container">
+      <div class="fx-section-head">
+        <span class="fx-eyebrow" data-i18n="comp.eyebrow">The status quo</span>
+        <h2 class="fx-h2" data-i18n="comp.h2">What manual handling actually costs</h2>
+        <p class="fx-lead" data-i18n="comp.sub">The same workload under two operating models. The left column is where most finance and logistics teams sit today.</p>
       </div>
 
-      <div class="entropy-split-viewport" id="splitViewport">
-        <!-- Stage 1: Chaos -->
-        <div class="stage-chaos">
-          <div class="chaos-card-stack">
-            <div class="chaos-alert-card">
-              <div class="chaos-badge">⚠️ LATENCY BOTTLENECK // MANUAL DATA ENTRY</div>
-              <div style="font-size: 13.5px; font-weight: 600; color: #fff;">Inbound Freight Invoice #FX-9842</div>
-              <div style="font-size: 12px; color: var(--text-muted); margin-top: 3px;">Awaiting manual typist transcription. 14 hours queue delay.</div>
-            </div>
-            <div class="chaos-alert-card" style="animation-delay: -1.5s;">
-              <div class="chaos-badge">🚨 SYNC MISMATCH // ERP LEDGER ERROR</div>
-              <div style="font-size: 13.5px; font-weight: 600; color: #fff;">VAT IBAN Check Failed (Typo in Box 7)</div>
-              <div style="font-size: 12px; color: var(--text-muted); margin-top: 3px;">Payment blocked. €24,800.00 vendor transaction stalled.</div>
-            </div>
-          </div>
-
-          <div class="chaos-metric-board">
-            <div class="mono red" style="font-size: 11.5px; font-weight: 700; margin-bottom: 6px;">[ UNMANAGED ENTERPRISE ENTROPY ]</div>
-            <div class="chaos-metric-row">
-              <span style="color: var(--text-muted);" data-i18n="scrubber.m1Label">Error Rate:</span>
-              <span class="red" style="font-weight: 700;">8.4% (Costly re-work)</span>
-            </div>
-            <div class="chaos-metric-row">
-              <span style="color: var(--text-muted);" data-i18n="scrubber.m2Label">Processing Latency:</span>
-              <span class="red" style="font-weight: 700;">48 - 72 Hours</span>
-            </div>
-            <div class="chaos-metric-row">
-              <span style="color: var(--text-muted);" data-i18n="scrubber.m3Label">Cost Per Transaction:</span>
-              <span class="red" style="font-weight: 700;">€ 14.50 (Manual labor)</span>
-            </div>
-          </div>
+      <div class="fx-compare">
+        <div class="fx-compare__col">
+          <h3 class="fx-compare__title" data-i18n="comp.old.t">Handled by people</h3>
+          <ul class="fx-checklist fx-checklist--bad">
+            <li>
+              <svg class="fx-checklist__icon" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l8 8M14 6l-8 8"/></svg>
+              <span data-i18n="comp.old.1">The same figures get keyed in three times — once from the email, once into the spreadsheet, once into the ERP.</span>
+            </li>
+            <li>
+              <svg class="fx-checklist__icon" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l8 8M14 6l-8 8"/></svg>
+              <span data-i18n="comp.old.2">Extra volume can only be absorbed by hiring.</span>
+            </li>
+            <li>
+              <svg class="fx-checklist__icon" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l8 8M14 6l-8 8"/></svg>
+              <span data-i18n="comp.old.3">Fatigue pushes keying errors past 8%, and late shipments follow.</span>
+            </li>
+            <li>
+              <svg class="fx-checklist__icon" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l8 8M14 6l-8 8"/></svg>
+              <span data-i18n="comp.old.4">Nobody can answer "what happened last month" without rebuilding it from inboxes.</span>
+            </li>
+          </ul>
         </div>
 
-        <!-- Stage 2: Obsidian Order Mask -->
-        <div class="stage-order-mask" id="orderMask">
-          <div class="stage-order-inner">
-            <div class="chaos-card-stack">
-              <div class="order-pipeline-card">
-                <div class="order-badge">✓ FARVEX VISION OCR // SUB-100MS PARSE</div>
-                <div style="font-size: 13.5px; font-weight: 600; color: #fff;">Invoice #FX-9842 Ingested & Verified</div>
-                <div style="font-size: 12px; color: var(--text-muted); margin-top: 3px;">IBAN verified valid via Dutch Rabobank checksum. 100% precision.</div>
-              </div>
-              <div class="order-pipeline-card">
-                <div class="order-badge">✓ DETERMINISTIC ERP SYNC // 200 OK</div>
-                <div style="font-size: 13.5px; font-weight: 600; color: #fff;">Auto-Posted to Exact Online Ledger 7100</div>
-                <div style="font-size: 12px; color: var(--text-muted); margin-top: 3px;">Zero human intervention required. Slack webhook notified.</div>
-              </div>
-            </div>
-
-            <div class="order-metric-board">
-              <div class="mono cyan" style="font-size: 11.5px; font-weight: 700; margin-bottom: 6px;">[ FARVEX AUTONOMOUS PRECISION ]</div>
-              <div class="order-metric-row">
-                <span style="color: var(--text-muted);" data-i18n="scrubber.o1Label">Error Rate:</span>
-                <span class="cyan" style="font-weight: 700;">0.02% (Zero Error)</span>
-              </div>
-              <div class="order-metric-row">
-                <span style="color: var(--text-muted);" data-i18n="scrubber.o2Label">Processing Latency:</span>
-                <span class="cyan" style="font-weight: 700;">118 Milliseconds</span>
-              </div>
-              <div class="order-metric-row">
-                <span style="color: var(--text-muted);" data-i18n="scrubber.o3Label">Cost Per Transaction:</span>
-                <span class="cyan" style="font-weight: 700;">&lt; € 0.04 (Autonomous compute)</span>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="scrubber-handle-line" id="scrubberLine"></div>
-        <div class="scrubber-handle-diamond" id="scrubberDiamond">
-          <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+        <div class="fx-compare__col fx-compare__col--good">
+          <h3 class="fx-compare__title" data-i18n="comp.new.t">Handled by a pipeline</h3>
+          <ul class="fx-checklist fx-checklist--good">
+            <li>
+              <svg class="fx-checklist__icon" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 10.5l3.5 3.5L15 7"/></svg>
+              <span data-i18n="comp.new.1">Parsing and posting finish in roughly a tenth of a second.</span>
+            </li>
+            <li>
+              <svg class="fx-checklist__icon" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 10.5l3.5 3.5L15 7"/></svg>
+              <span data-i18n="comp.new.2">Ten times the volume costs the same to compute.</span>
+            </li>
+            <li>
+              <svg class="fx-checklist__icon" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 10.5l3.5 3.5L15 7"/></svg>
+              <span data-i18n="comp.new.3">99.98% field accuracy, with a checksum on every record before it is written.</span>
+            </li>
+            <li>
+              <svg class="fx-checklist__icon" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 10.5l3.5 3.5L15 7"/></svg>
+              <span data-i18n="comp.new.4">One log of every run: what passed, what failed, what it cost.</span>
+            </li>
+          </ul>
         </div>
       </div>
     </div>
-  </div>
-</section>
+  </section>
 
-<!-- INTERACTIVE AUTONOMOUS WORKFLOW CANVAS -->
-<section class="section-space section-dark-panel" id="workflow-studio">
-  <div class="container">
-    <div class="section-intro">
-      <div class="quantum-badge" data-i18n="studio.badge">VISUAL PIPELINE ARCHITECT</div>
-      <h2 data-i18n="studio.h2">Configure Your Autonomous Agent Workflow</h2>
-      <p data-i18n="studio.sub">Select your enterprise input source, attach Farvex intelligent processing nodes, and route validated data straight into your core business applications in real time.</p>
-    </div>
+  <!-- ==================== WORKED EXAMPLE ==================== -->
+  <section class="fx-section fx-section--alt" id="worked-example">
+    <div class="fx-container">
+      <div class="fx-section-head">
+        <span class="fx-eyebrow" data-i18n="ba.eyebrow">Worked example</span>
+        <h2 class="fx-h2" data-i18n="ba.h2">One freight invoice, both ways</h2>
+        <p class="fx-lead" data-i18n="ba.sub">Invoice FX-9842 as your team would process it today, and as a Farvex pipeline processes it.</p>
+      </div>
 
-    <div class="workflow-studio-box">
-      <div class="studio-grid-columns">
-        <!-- Col 1: Ingest Source -->
-        <div class="studio-col-card">
-          <div class="studio-col-header">
-            <span>01 //</span> <span data-i18n="studio.step1">Input Data Ingestion</span>
+      <div class="ba" data-reveal data-stagger>
+        <div class="ba__col">
+          <div class="ba__col-head">
+            <span class="fx-badge fx-badge--bad" data-i18n="ba.colManual">By hand</span>
           </div>
-          <div class="node-selection-list">
-            <button class="wire-node-btn selected" onclick="selectStudioNode('input', 'invoice', this)">
-              <span>📄 Inbound Invoices & Freight</span>
-              <span class="node-chip">PDF / OCR</span>
-            </button>
-            <button class="wire-node-btn" onclick="selectStudioNode('input', 'support', this)">
-              <span>💬 Customer Support Escalations</span>
-              <span class="node-chip">Email / Chat</span>
-            </button>
-            <button class="wire-node-btn" onclick="selectStudioNode('input', 'sensors', this)">
-              <span>🚨 Sensor & IoT Telemetry</span>
-              <span class="node-chip">Stream</span>
-            </button>
-            <button class="wire-node-btn" onclick="selectStudioNode('input', 'database', this)">
-              <span>📊 Unstructured SQL / Excel Dump</span>
-              <span class="node-chip">Raw Data</span>
-            </button>
+
+          <div class="ba__note">
+            <div class="ba__note-title" data-i18n="ba.m1t">FX-9842 sitting in the queue</div>
+            <div class="ba__note-text" data-i18n="ba.m1d">Fourteen hours waiting for a free pair of hands to type it in.</div>
           </div>
+          <div class="ba__note">
+            <div class="ba__note-title" data-i18n="ba.m2t">VAT and IBAN validation rejected</div>
+            <div class="ba__note-text" data-i18n="ba.m2d">A single typo in box 7 holds up a €24,800 payment.</div>
+          </div>
+
+          <dl class="ba__metrics">
+            <div class="ba__metric"><dt data-i18n="ba.mError">Errors</dt><dd class="fx-bad">8.4%</dd></div>
+            <div class="ba__metric"><dt data-i18n="ba.mLatency">Turnaround</dt><dd class="fx-bad">48–72 hours</dd></div>
+            <div class="ba__metric"><dt data-i18n="ba.mCost">Cost per document</dt><dd class="fx-bad">€14.50</dd></div>
+          </dl>
         </div>
 
-        <!-- Col 2: Middle Live Wiring Canvas -->
-        <div class="wire-visual-canvas">
-          <div class="studio-col-header" style="justify-content: space-between;">
-            <span>02 // <span data-i18n="studio.step2">Farvex Neural Substrate</span></span>
-            <span class="mono cyan" id="circuitStatus">● READY TO EXECUTE</span>
+        <div class="ba__col ba__col--good">
+          <div class="ba__col-head">
+            <span class="fx-badge fx-badge--ok" data-i18n="ba.colFarvex">By pipeline</span>
           </div>
 
-          <div class="wire-live-circuit">
-            <svg viewBox="0 0 400 160">
-              <path class="circuit-path pulsing" id="circuitWire1" d="M 20 80 C 120 80, 80 40, 200 40 S 280 80, 380 80" />
-              <path class="circuit-path pulsing" id="circuitWire2" d="M 20 80 C 120 80, 80 120, 200 120 S 280 80, 380 80" />
-              <circle cx="200" cy="80" r="24" fill="#030712" stroke="#00f0ff" stroke-width="2.5" />
-              <circle cx="200" cy="80" r="14" fill="rgba(0, 240, 255, 0.25)" />
-              <circle cx="200" cy="80" r="6" fill="#00f0ff" />
+          <div class="ba__note">
+            <div class="ba__note-title" data-i18n="ba.f1t">FX-9842 cleared</div>
+            <div class="ba__note-text" data-i18n="ba.f1d">IBAN validated against the Dutch bank checksum, untouched by anyone.</div>
+          </div>
+          <div class="ba__note">
+            <div class="ba__note-title" data-i18n="ba.f2t">Written to Exact Online, ledger 7100</div>
+            <div class="ba__note-text" data-i18n="ba.f2d">Posted without review and confirmed back to the team in Slack.</div>
+          </div>
+
+          <dl class="ba__metrics">
+            <div class="ba__metric"><dt data-i18n="ba.mError2">Errors</dt><dd class="fx-ok">0.02%</dd></div>
+            <div class="ba__metric"><dt data-i18n="ba.mLatency2">Turnaround</dt><dd class="fx-ok">118 ms</dd></div>
+            <div class="ba__metric"><dt data-i18n="ba.mCost2">Cost per document</dt><dd class="fx-ok">under €0.04</dd></div>
+          </dl>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== THE CATALOGUE ==================== -->
+  <section class="fx-section" id="capabilities">
+    <div class="fx-container">
+      <div class="fx-section-head">
+        <span class="fx-eyebrow" data-i18n="cap.eyebrow">The catalogue</span>
+        <h2 class="fx-h2" data-i18n="cap.h2">Six systems we build</h2>
+        <p class="fx-lead" data-i18n="cap.sub">Every one of these ships as a running system wired into your software, not a prototype. Follow any card for the engineering detail.</p>
+      </div>
+
+      <div class="fx-grid fx-grid--3" data-reveal data-stagger>
+        <a href="solutions.html#workflow" class="fx-card">
+          <span class="fx-card__icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/><path d="M10 6.5h4a3 3 0 0 1 3 3V14"/>
             </svg>
+          </span>
+          <h3 class="fx-card__title" data-i18n="cap.s1.t">Workflow automation</h3>
+          <p class="fx-card__text" data-i18n="cap.s1.d">Email, CRM, accounting and databases stitched into pipelines that trigger themselves and record every step.</p>
+          <div class="fx-card__foot">
+            <span class="fx-chip-set">
+              <span class="fx-chip">REST &amp; webhooks</span>
+              <span class="fx-chip">Exact / SAP</span>
+            </span>
           </div>
+        </a>
 
-          <div class="studio-telemetry-box" id="studioTelemetryLog">
-            // Farvex Pipeline Ready. Click "Execute Live Workflow" below to test real-time data orchestration.
+        <a href="solutions.html#vision" class="fx-card">
+          <span class="fx-card__icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7z"/><circle cx="12" cy="12" r="3"/>
+            </svg>
+          </span>
+          <h3 class="fx-card__title" data-i18n="cap.s2.t">Document parsing</h3>
+          <p class="fx-card__text" data-i18n="cap.s2.d">Structured fields lifted out of scanned invoices, customs paperwork and shipping bills — line-item tables included.</p>
+          <div class="fx-card__foot">
+            <span class="fx-chip-set">
+              <span class="fx-chip">Table extraction</span>
+              <span class="fx-chip">No training set needed</span>
+            </span>
           </div>
-        </div>
+        </a>
 
-        <!-- Col 3: Output Destination -->
-        <div class="studio-col-card">
-          <div class="studio-col-header">
-            <span>03 //</span> <span data-i18n="studio.step3">Enterprise Destination</span>
+        <a href="solutions.html#agents" class="fx-card">
+          <span class="fx-card__icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <rect x="4" y="8" width="16" height="12" rx="2"/><path d="M12 8V4M9 14h.01M15 14h.01"/>
+            </svg>
+          </span>
+          <h3 class="fx-card__title" data-i18n="cap.s3.t">AI agents</h3>
+          <p class="fx-card__text" data-i18n="cap.s3.d">Software that works through multi-step requests, moves data between systems and reconciles records inside limits you define.</p>
+          <div class="fx-card__foot">
+            <span class="fx-chip-set">
+              <span class="fx-chip">Multi-step tasks</span>
+              <span class="fx-chip">Hard guardrails</span>
+            </span>
           </div>
-          <div class="node-selection-list">
-            <button class="wire-node-btn selected" onclick="selectStudioNode('output', 'erp', this)">
-              <span>🏢 Exact Online / SAP ERP</span>
-              <span class="node-chip">Financial</span>
-            </button>
-            <button class="wire-node-btn" onclick="selectStudioNode('output', 'crm', this)">
-              <span>📈 Salesforce / HubSpot CRM</span>
-              <span class="node-chip">Customer</span>
-            </button>
-            <button class="wire-node-btn" onclick="selectStudioNode('output', 'banking', this)">
-              <span>💳 Bank Payout & Stripe Ledger</span>
-              <span class="node-chip">Direct API</span>
-            </button>
-            <button class="wire-node-btn" onclick="selectStudioNode('output', 'webhook', this)">
-              <span>🔔 Instant Webhook & Slack Alert</span>
-              <span class="node-chip">Real-time</span>
-            </button>
-          </div>
-        </div>
-      </div>
+        </a>
 
-      <!-- Execute Bar -->
-      <div class="studio-execution-footer">
-        <div>
-          <span style="font-weight: 700; color: #fff;" data-i18n="studio.runTitle">Active Configuration:</span>
-          <span class="mono cyan" id="activeConfigSummary" style="margin-left: 8px;">Inbound Invoices → Farvex Neural Core → Exact / SAP ERP</span>
-        </div>
-        <button class="btn-core btn-cyan" id="btnRunStudio" onclick="executeStudioPipeline()" data-i18n="studio.runBtn">
-          ⚡ Execute Live Workflow
-        </button>
+        <a href="solutions.html#predictive" class="fx-card">
+          <span class="fx-card__icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M3 17l5-5 4 4 8-8"/><path d="M15 8h5v5"/>
+            </svg>
+          </span>
+          <h3 class="fx-card__title" data-i18n="cap.s4.t">Forecasting</h3>
+          <p class="fx-card__text" data-i18n="cap.s4.d">Transaction history turned into demand forecasts, maintenance windows and cash-flow projections.</p>
+          <div class="fx-card__foot">
+            <span class="fx-chip-set">
+              <span class="fx-chip">Anomaly scoring</span>
+              <span class="fx-chip">Demand planning</span>
+            </span>
+          </div>
+        </a>
+
+        <a href="solutions.html#rag" class="fx-card">
+          <span class="fx-card__icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M4 5.5A2.5 2.5 0 0 1 6.5 3H20v15H6.5A2.5 2.5 0 0 0 4 20.5z"/><path d="M4 5.5v15"/>
+            </svg>
+          </span>
+          <h3 class="fx-card__title" data-i18n="cap.s5.t">Internal search</h3>
+          <p class="fx-card__text" data-i18n="cap.s5.d">Manuals, contracts and internal knowledge answerable in plain language, with nothing leaving your estate.</p>
+          <div class="fx-card__foot">
+            <span class="fx-chip-set">
+              <span class="fx-chip">Sub-second search</span>
+              <span class="fx-chip">Stays on your infrastructure</span>
+            </span>
+          </div>
+        </a>
+
+        <a href="solutions.html#mlops" class="fx-card">
+          <span class="fx-card__icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M12 3l7.5 3v5.5c0 4.6-3.2 8.3-7.5 9.5-4.3-1.2-7.5-4.9-7.5-9.5V6z"/><path d="M9.5 12l1.8 1.8 3.4-3.4"/>
+            </svg>
+          </span>
+          <h3 class="fx-card__title" data-i18n="cap.s6.t">Monitoring and upkeep</h3>
+          <p class="fx-card__text" data-i18n="cap.s6.d">We keep watch on the pipelines, catch model drift early, fail over safely and answer to an agreed SLA.</p>
+          <div class="fx-card__foot">
+            <span class="fx-chip-set">
+              <span class="fx-chip">EU cloud or on-premise</span>
+              <span class="fx-chip">Automatic fallback</span>
+            </span>
+          </div>
+        </a>
       </div>
     </div>
-  </div>
-</section>
+  </section>
 
-<!-- LASER DOCUMENT SCANNER & OCR SANDBOX -->
-<section class="section-space" id="laser-ocr">
-  <div class="container">
-    <div class="section-intro">
-      <div class="quantum-badge" data-i18n="ocr.badge">COMPUTER VISION & OCR LAB</div>
-      <h2 data-i18n="ocr.h2">Sub-Millisecond Neural Document Intelligence</h2>
-      <p data-i18n="ocr.sub">Watch Farvex Vision parse complex, unstructured European freight bills and invoices into 100% validated structured JSON payloads in real time.</p>
-    </div>
-
-    <div class="laser-scanner-grid">
-      <div class="document-inspection-pane">
-        <div class="scanner-doc-tabs">
-          <button class="doc-tab-btn active" id="tabDocInvoice" onclick="loadOcrScenario('invoice')">📄 Freight Invoice #FX-9842</button>
-          <button class="doc-tab-btn" id="tabDocSupport" onclick="loadOcrScenario('support')">🤖 Support Dispatch</button>
-          <button class="doc-tab-btn" id="tabDocSensor" onclick="loadOcrScenario('sensor')">🔍 Turbine Anomaly Log</button>
-        </div>
-
-        <div class="doc-paper-mock" id="docPaperContent">
-          <div class="sweeping-laser-beam"></div>
-          <div style="border-bottom: 1px dashed rgba(0,240,255,0.3); padding-bottom: 10px; margin-bottom: 12px; display:flex; justify-content:space-between;">
-            <strong>INTERNATIONAL FREIGHT BILL</strong>
-            <span class="mono cyan">ORIGINAL DOC</span>
-          </div>
-          <div>Consignor: <span class="highlight-entity">Global Logistics B.V.</span></div>
-          <div>Destination: <span class="highlight-entity">Port of Rotterdam Terminal 4</span></div>
-          <div>Gross Payload: <span class="highlight-entity">18,400 kg (Containers)</span></div>
-          <div>Declared Total: <span class="highlight-entity">EUR €24,800.00 (ex. BTW)</span></div>
-          <div>IBAN: <span class="highlight-entity">NL44RABO0318924011</span></div>
-          <div>Tariff HS-Code: <span class="highlight-entity">HS-8471.50</span></div>
-          <div style="margin-top: 12px; font-size: 11px; color: var(--text-dim);">Signature: Arthur Pendelton // Digitally Recorded 2026-08-26</div>
-        </div>
+  <!-- ==================== PIPELINE BUILDER ==================== -->
+  <section class="fx-section fx-section--alt" id="pipeline">
+    <div class="fx-container">
+      <div class="fx-section-head">
+        <span class="fx-eyebrow" data-i18n="studio.eyebrow">Interactive</span>
+        <h2 class="fx-h2" data-i18n="studio.h2">Wire up a pipeline</h2>
+        <p class="fx-lead" data-i18n="studio.sub">Choose an input and an output, then run it to see the payload your systems would receive.</p>
       </div>
 
-      <div class="json-output-terminal">
-        <div class="terminal-header">
-          <div style="display:flex; align-items:center; gap:8px;">
-            <span style="color: var(--cyan-bright);">●</span>
-            <span style="color: #fff; font-weight:700;">FARVEX STRUCTURED TELEMETRY</span>
+      <div class="fx-card fx-card--pad-lg">
+        <div class="builder">
+          <div>
+            <div class="builder__col-title"><span>01</span><span data-i18n="studio.step1">Input</span></div>
+            <div class="builder__list" id="studioInputs">
+              <button type="button" class="builder__option" aria-pressed="true" onclick="selectStudioNode('input','invoice',this)">
+                <span data-i18n="studio.in1">Invoices and freight paperwork</span><span class="fx-chip">PDF</span>
+              </button>
+              <button type="button" class="builder__option" aria-pressed="false" onclick="selectStudioNode('input','support',this)">
+                <span data-i18n="studio.in2">Escalated support mail</span><span class="fx-chip">Email</span>
+              </button>
+              <button type="button" class="builder__option" aria-pressed="false" onclick="selectStudioNode('input','sensors',this)">
+                <span data-i18n="studio.in3">Sensor and IoT streams</span><span class="fx-chip">Stream</span>
+              </button>
+              <button type="button" class="builder__option" aria-pressed="false" onclick="selectStudioNode('input','database',this)">
+                <span data-i18n="studio.in4">SQL and Excel exports</span><span class="fx-chip">Raw</span>
+              </button>
+            </div>
           </div>
-          <div class="mono cyan">STATUS: 200 OK // 100% ACCURACY</div>
+
+          <div class="builder__core">
+            <div class="fx-row fx-row--between">
+              <span class="builder__col-title" style="margin:0"><span>02</span><span data-i18n="studio.step2">Farvex</span></span>
+              <span class="fx-badge fx-badge--neutral" id="circuitStatus" data-i18n="studio.ready">Idle</span>
+            </div>
+
+            <div class="builder__diagram" aria-hidden="true">
+              <svg viewBox="0 0 400 140">
+                <path class="builder__wire" id="circuitWire1" d="M 20 70 C 120 70, 80 34, 200 34 S 280 70, 380 70"/>
+                <path class="builder__wire" id="circuitWire2" d="M 20 70 C 120 70, 80 106, 200 106 S 280 70, 380 70"/>
+                <circle cx="200" cy="70" r="22" fill="var(--fx-surface)" stroke="var(--fx-accent)" stroke-width="2"/>
+                <circle cx="200" cy="70" r="7" fill="var(--fx-accent)"/>
+              </svg>
+            </div>
+
+            <pre class="builder__log" id="studioTelemetryLog" data-i18n="studio.logIdle">Idle. Pick an input and an output, then run the pipeline.</pre>
+          </div>
+
+          <div>
+            <div class="builder__col-title"><span>03</span><span data-i18n="studio.step3">Output</span></div>
+            <div class="builder__list" id="studioOutputs">
+              <button type="button" class="builder__option" aria-pressed="true" onclick="selectStudioNode('output','erp',this)">
+                <span data-i18n="studio.out1">Exact Online / SAP</span><span class="fx-chip">ERP</span>
+              </button>
+              <button type="button" class="builder__option" aria-pressed="false" onclick="selectStudioNode('output','crm',this)">
+                <span data-i18n="studio.out2">Salesforce / HubSpot</span><span class="fx-chip">CRM</span>
+              </button>
+              <button type="button" class="builder__option" aria-pressed="false" onclick="selectStudioNode('output','banking',this)">
+                <span data-i18n="studio.out3">Bank payout / Stripe</span><span class="fx-chip">Payments</span>
+              </button>
+              <button type="button" class="builder__option" aria-pressed="false" onclick="selectStudioNode('output','webhook',this)">
+                <span data-i18n="studio.out4">Webhook or Slack</span><span class="fx-chip">Notify</span>
+              </button>
+            </div>
+          </div>
         </div>
 
-        <pre class="terminal-pre-code" id="ocrTerminalOutput">{
+        <div class="builder__foot">
+          <p class="fx-small fx-body">
+            <span data-i18n="studio.runTitle">Configured as:</span>
+            <strong id="activeConfigSummary" class="fx-accent">Invoices and freight paperwork → Farvex → Exact Online / SAP</strong>
+          </p>
+          <button type="button" class="fx-btn fx-btn--primary" id="btnRunStudio" onclick="executeStudioPipeline()" data-i18n="studio.runBtn">Run it</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== EXTRACTION ==================== -->
+  <section class="fx-section" id="extraction">
+    <div class="fx-container">
+      <div class="fx-section-head">
+        <span class="fx-eyebrow" data-i18n="ocr.eyebrow">Extraction</span>
+        <h2 class="fx-h2" data-i18n="ocr.h2">A scanned page in, structured JSON out</h2>
+        <p class="fx-lead" data-i18n="ocr.sub">Three document types we meet constantly, and the exact payload your systems get back. Median parse time is 94 ms.</p>
+      </div>
+
+      <div class="fx-tabs fx-mt-0" role="tablist" aria-label="Document type">
+        <button type="button" class="fx-tab is-active" id="tabDocInvoice" role="tab" aria-selected="true" onclick="loadOcrScenario('invoice')" data-i18n="ocr.tab1">Freight invoice</button>
+        <button type="button" class="fx-tab" id="tabDocSupport" role="tab" aria-selected="false" onclick="loadOcrScenario('support')" data-i18n="ocr.tab2">Support ticket</button>
+        <button type="button" class="fx-tab" id="tabDocSensor" role="tab" aria-selected="false" onclick="loadOcrScenario('sensor')" data-i18n="ocr.tab3">Turbine log</button>
+      </div>
+
+      <div class="docdemo fx-mt-6">
+        <div class="fx-doc" id="docPaperContent">
+          <div class="fx-doc__head">
+            <span>International freight bill</span>
+            <span class="fx-mono fx-micro">Original</span>
+          </div>
+          <div class="docdemo__row"><span class="docdemo__key">Consignor</span><span class="fx-mark">Global Logistics B.V.</span></div>
+          <div class="docdemo__row"><span class="docdemo__key">Destination</span><span class="fx-mark">Port of Rotterdam Terminal 4</span></div>
+          <div class="docdemo__row"><span class="docdemo__key">Gross payload</span><span class="fx-mark">18,400 kg</span></div>
+          <div class="docdemo__row"><span class="docdemo__key">Declared total</span><span class="fx-mark">€24,800.00 ex. BTW</span></div>
+          <div class="docdemo__row"><span class="docdemo__key">IBAN</span><span class="fx-mark">NL44RABO0318924011</span></div>
+          <div class="docdemo__row"><span class="docdemo__key">Tariff HS-code</span><span class="fx-mark">HS-8471.50</span></div>
+          <p class="fx-micro fx-dim fx-mt-4">Signed by Arthur Pendelton · recorded 2026-08-26</p>
+        </div>
+
+        <div class="fx-code">
+          <div class="fx-code__bar">
+            <span data-i18n="ocr.outLabel">Returned payload</span>
+            <span class="fx-badge fx-badge--ok"><span class="fx-badge__dot"></span>200 OK</span>
+          </div>
+          <pre class="fx-code__body" id="ocrTerminalOutput">{
   "status": "PARSED_SUCCESS",
-  "pipeline": "FARVEX_VISION_NEURAL_01",
   "entities": {
     "consignor": "Global Logistics B.V.",
     "destination": "Port of Rotterdam Terminal 4",
@@ -1992,966 +792,833 @@ footer.quantum-footer {
   "confidence_score": 0.9998,
   "latency_ms": 94
 }</pre>
-
-        <div style="display: flex; justify-content: space-between; align-items: center; border-top: 1px solid var(--border-glass); padding-top: 14px; margin-top: 14px; gap: 8px;">
-          <span class="mono" style="font-size: 11px; color: var(--text-muted);" data-i18n="ocr.latency">Latency: 94ms // Zero Manual Effort</span>
-          <button class="btn-core btn-glass btn-sm" onclick="copyOcrJson()" data-i18n="ocr.copyBtn">📋 Copy JSON</button>
+          <div class="fx-row fx-row--between" style="padding: 12px 20px; border-top: 1px solid var(--fx-border);">
+            <span class="fx-micro fx-dim" data-i18n="ocr.latency">94 ms · nobody in the loop</span>
+            <button type="button" class="fx-btn fx-btn--quiet fx-btn--sm" onclick="copyOcrJson()" data-i18n="ocr.copyBtn">Copy payload</button>
+          </div>
         </div>
       </div>
     </div>
-  </div>
-</section>
+  </section>
 
-<!-- PRECISION ROTARY ROI CONSOLE -->
-<section class="section-space" id="roi-engine">
-  <div class="container">
-    <div class="section-intro">
-      <div class="quantum-badge" data-i18n="roi.badge">FINANCIAL IMPACT ENGINE</div>
-      <h2 data-i18n="roi.h2">Calculate Your Annual Capital Recapture</h2>
-      <p data-i18n="roi.sub">Adjust your company's operational parameters to calculate the exact hours reclaimed and financial ROI achieved through Farvex AI autonomous pipelines.</p>
-    </div>
+  <!-- ==================== THE ARITHMETIC ==================== -->
+  <section class="fx-section fx-section--alt" id="savings">
+    <div class="fx-container">
+      <div class="fx-section-head">
+        <span class="fx-eyebrow" data-i18n="roi.eyebrow">The arithmetic</span>
+        <h2 class="fx-h2" data-i18n="roi.h2">Run your own numbers</h2>
+        <p class="fx-lead" data-i18n="roi.sub">Move the sliders to see the hours and cost you get back in a year. Assumes 48 working weeks and that three quarters of the repetitive work goes away.</p>
+      </div>
 
-    <div class="roi-aircraft-deck">
-      <div class="roi-layout-grid">
-        <div class="roi-slider-group">
-          <div class="roi-dial-card">
-            <div class="roi-dial-top">
-              <span class="roi-dial-label" data-i18n="roi.teamLabel">Team Members on Repetitive Workflows:</span>
-              <span class="roi-dial-val-badge" id="roiTeamBadge">15 Staff</span>
+      <div class="roi">
+        <div class="fx-stack" style="gap: var(--fx-s-6)">
+          <div class="roi__dial">
+            <div class="roi__dial-top">
+              <label class="fx-label" for="roiTeamInput" data-i18n="roi.teamLabel">People on repetitive admin</label>
+              <span class="roi__dial-value" id="roiTeamBadge">15 people</span>
             </div>
-            <input type="range" min="2" max="100" value="15" class="roi-range-slider" id="roiTeamInput" oninput="updateRoiCalc()">
+            <input type="range" min="2" max="100" value="15" class="fx-range" id="roiTeamInput" oninput="updateRoiCalc()">
           </div>
 
-          <div class="roi-dial-card">
-            <div class="roi-dial-top">
-              <span class="roi-dial-label" data-i18n="roi.hoursLabel">Weekly Manual Admin Hours Per Person:</span>
-              <span class="roi-dial-val-badge" id="roiHoursBadge">18 hrs</span>
+          <div class="roi__dial">
+            <div class="roi__dial-top">
+              <label class="fx-label" for="roiHoursInput" data-i18n="roi.hoursLabel">Hours each, per week</label>
+              <span class="roi__dial-value" id="roiHoursBadge">18 hrs</span>
             </div>
-            <input type="range" min="5" max="40" value="18" class="roi-range-slider" id="roiHoursInput" oninput="updateRoiCalc()">
+            <input type="range" min="5" max="40" value="18" class="fx-range" id="roiHoursInput" oninput="updateRoiCalc()">
           </div>
 
-          <div class="roi-dial-card">
-            <div class="roi-dial-top">
-              <span class="roi-dial-label" data-i18n="roi.rateLabel">Average Loaded Labor Rate (€ / hr):</span>
-              <span class="roi-dial-val-badge" id="roiRateBadge">€ 45 / hr</span>
+          <div class="roi__dial">
+            <div class="roi__dial-top">
+              <label class="fx-label" for="roiRateInput" data-i18n="roi.rateLabel">Fully loaded hourly cost</label>
+              <span class="roi__dial-value" id="roiRateBadge">€45 / hr</span>
             </div>
-            <input type="range" min="25" max="120" value="45" class="roi-range-slider" id="roiRateInput" oninput="updateRoiCalc()">
+            <input type="range" min="25" max="120" value="45" class="fx-range" id="roiRateInput" oninput="updateRoiCalc()">
           </div>
         </div>
 
-        <div class="roi-impact-dashboard">
-          <span class="mono cyan" style="font-size: 11.5px; font-weight: 700;" data-i18n="roi.resultTitle">ESTIMATED ANNUAL CAPITAL SAVINGS</span>
-          <div class="odometer-number-large" id="roiCostSavings">€ 437,400</div>
-          <p style="font-size: 13px; color: var(--text-muted);" data-i18n="roi.resultSub">Net operational savings by eliminating manual re-keying and transcription bottlenecks.</p>
+        <div class="roi__result">
+          <span class="fx-eyebrow" data-i18n="roi.resultTitle">Recovered per year</span>
+          <div class="roi__big fx-mt-4" id="roiCostSavings">€437,400</div>
+          <p class="fx-small fx-body fx-mt-4" data-i18n="roi.resultSub">Counts the re-keying removed and the rework it no longer causes.</p>
 
-          <div class="roi-submetrics-row">
-            <div class="roi-submetric-cell">
-              <div class="roi-submetric-val" id="roiHoursSavings">9,720 hrs</div>
-              <div class="roi-submetric-label" data-i18n="roi.subHours">Annual Hours Reclaimed</div>
+          <div class="fx-grid fx-grid--2 fx-mt-6" data-reveal data-stagger>
+            <div class="fx-stat">
+              <span class="fx-stat__value" id="roiHoursSavings">9,720 hrs</span>
+              <span class="fx-stat__label" data-i18n="roi.subHours">Hours returned</span>
             </div>
-            <div class="roi-submetric-cell">
-              <div class="roi-submetric-val">99.98%</div>
-              <div class="roi-submetric-label" data-i18n="roi.subPrecision">Data Precision Rate</div>
+            <div class="fx-stat">
+              <span class="fx-stat__value" data-count-to="99.98" data-count-decimals="2">99.98%</span>
+              <span class="fx-stat__label" data-i18n="roi.subPrecision">Field-level accuracy</span>
             </div>
           </div>
 
-          <a href="book.html" class="btn-core btn-cyan" id="roiCtaBtn" style="width: 100%;" data-i18n="roi.cta">
-            ⚡ Recapture € 437,400 in Annual Value
-          </a>
+          <a href="book.html" class="fx-btn fx-btn--primary fx-btn--block fx-mt-6" id="roiCtaBtn">Walk through these numbers</a>
         </div>
       </div>
     </div>
-  </div>
-</section>
+  </section>
 
-<!-- CAPABILITIES BENTO GRID WITH SUBPAGE LINKS -->
-<section class="section-space section-dark-panel" id="capabilities">
-  <div class="container">
-    <div class="section-intro">
-      <div class="quantum-badge" data-i18n="cap.badge">NEURAL SUITE</div>
-      <h2 data-i18n="cap.h2">Enterprise AI Built for Hardened Production</h2>
-      <p data-i18n="cap.sub">Click any solution module to explore complete technical specifications, live benchmarks, and architecture integrations.</p>
-    </div>
+  <!-- ==================== FAQ ==================== -->
+  <section class="fx-section" id="faq">
+    <div class="fx-container fx-container--narrow">
+      <div class="fx-section-head fx-section-head--center">
+        <span class="fx-eyebrow" data-i18n="faq.eyebrow">Before you ask</span>
+        <h2 class="fx-h2" data-i18n="faq.h2">The questions we get most</h2>
+      </div>
 
-    <div class="bento-grid-capabilities">
-      <!-- 01 Workflow Orchestration -->
-      <a href="solutions.html#workflow" class="bento-card-node">
-        <div>
-          <div class="bento-icon-diode">⚡</div>
-          <h3 class="bento-card-title" data-i18n="cap.s1.t">Workflow Orchestration</h3>
-          <p class="bento-card-desc" data-i18n="cap.s1.d">Connect emails, CRM systems, accounting ledgers, and database silos into seamless, self-executing deterministic pipelines.</p>
-        </div>
-        <div class="bento-feature-chips">
-          <span class="bento-feature-chip">Bespoke REST & Webhooks</span>
-          <span class="bento-feature-chip">Exact / SAP Bridge</span>
-          <span class="bento-feature-chip" style="color: var(--cyan-bright);">Explore Deep Dive →</span>
-        </div>
-      </a>
-
-      <!-- 02 Computer Vision & OCR -->
-      <a href="solutions.html#vision" class="bento-card-node">
-        <div>
-          <div class="bento-icon-diode">👁️</div>
-          <h3 class="bento-card-title" data-i18n="cap.s2.t">Computer Vision & OCR</h3>
-          <p class="bento-card-desc" data-i18n="cap.s2.d">Sub-millisecond data extraction from scanned documents, customs invoices, shipping bills, and industrial inspection imagery.</p>
-        </div>
-        <div class="bento-feature-chips">
-          <span class="bento-feature-chip">Table & Matrix Parsing</span>
-          <span class="bento-feature-chip">Zero-Shot Recognition</span>
-          <span class="bento-feature-chip" style="color: var(--cyan-bright);">Explore Deep Dive →</span>
-        </div>
-      </a>
-
-      <!-- 03 Autonomous Mission Agents -->
-      <a href="solutions.html#agents" class="bento-card-node">
-        <div>
-          <div class="bento-icon-diode">🤖</div>
-          <h3 class="bento-card-title" data-i18n="cap.s3.t">Autonomous Mission Agents</h3>
-          <p class="bento-card-desc" data-i18n="cap.s3.d">Deploy intelligent software agents that handle multi-step customer inquiries, data routing, and database reconciliations without sleep.</p>
-        </div>
-        <div class="bento-feature-chips">
-          <span class="bento-feature-chip">Multi-Agent Swarm</span>
-          <span class="bento-feature-chip">Deterministic Guardrails</span>
-          <span class="bento-feature-chip" style="color: var(--cyan-bright);">Explore Deep Dive →</span>
-        </div>
-      </a>
-
-      <!-- 04 Predictive Intelligence -->
-      <a href="solutions.html#predictive" class="bento-card-node">
-        <div>
-          <div class="bento-icon-diode">📈</div>
-          <h3 class="bento-card-title" data-i18n="cap.s4.t">Predictive Intelligence</h3>
-          <p class="bento-card-desc" data-i18n="cap.s4.d">Transform historical ERP transaction logs into reliable demand forecasting, predictive maintenance, and cash flow balance models.</p>
-        </div>
-        <div class="bento-feature-chips">
-          <span class="bento-feature-chip">Fraud & Anomaly Scoring</span>
-          <span class="bento-feature-chip">Dynamic Forecasting</span>
-          <span class="bento-feature-chip" style="color: var(--cyan-bright);">Explore Deep Dive →</span>
-        </div>
-      </a>
-
-      <!-- 05 Vector Core & RAG -->
-      <a href="solutions.html#rag" class="bento-card-node">
-        <div>
-          <div class="bento-icon-diode">🧠</div>
-          <h3 class="bento-card-title" data-i18n="cap.s5.t">Vector Core & RAG</h3>
-          <p class="bento-card-desc" data-i18n="cap.s5.d">Turn massive internal knowledge bases, technical manuals, and legal contracts into an instant semantic search engine for your employees.</p>
-        </div>
-        <div class="bento-feature-chips">
-          <span class="bento-feature-chip">Sub-Second Hybrid Search</span>
-          <span class="bento-feature-chip">Air-Gapped Privacy</span>
-          <span class="bento-feature-chip" style="color: var(--cyan-bright);">Explore Deep Dive →</span>
-        </div>
-      </a>
-
-      <!-- 06 Continuous MLOps -->
-      <a href="solutions.html#mlops" class="bento-card-node">
-        <div>
-          <div class="bento-icon-diode">🛡️</div>
-          <h3 class="bento-card-title" data-i18n="cap.s6.t">Continuous MLOps & Telemetry</h3>
-          <p class="bento-card-desc" data-i18n="cap.s6.d">24/7 automated telemetry monitoring, model drift detection, circuit breaker fallbacks, and guaranteed European enterprise SLA.</p>
-        </div>
-        <div class="bento-feature-chips">
-          <span class="bento-feature-chip">European Cloud or On-Prem</span>
-          <span class="bento-feature-chip">Self-Healing Pipelines</span>
-          <span class="bento-feature-chip" style="color: var(--cyan-bright);">Explore Deep Dive →</span>
-        </div>
-      </a>
-    </div>
-  </div>
-</section>
-
-<!-- PARADIGM MATRIX -->
-<section class="section-space" id="comparison">
-  <div class="container">
-    <div class="section-intro">
-      <div class="quantum-badge" data-i18n="comp.badge">PARADIGM SHIFT</div>
-      <h2 data-i18n="comp.h2">Manual Friction vs. Farvex Autonomous Precision</h2>
-      <p data-i18n="comp.sub">Stop paying for manual re-typing and human bottlenecking. Scale operations with hardened AI infrastructure.</p>
-    </div>
-
-    <div class="matrix-deck">
-      <div class="matrix-split-grid">
-        <div class="matrix-column-card old-way">
-          <div class="matrix-col-header red" data-i18n="comp.old.t">Traditional Manual Operations</div>
-          <div class="matrix-point-list">
-            <div class="matrix-point-item">
-              <span class="red">✕</span>
-              <span data-i18n="comp.old.1">Employees manually re-keying data between tabs, emails, and ERP software.</span>
-            </div>
-            <div class="matrix-point-item">
-              <span class="red">✕</span>
-              <span data-i18n="comp.old.2">Scaling throughput requires hiring more expensive headcount and overhead.</span>
-            </div>
-            <div class="matrix-point-item">
-              <span class="red">✕</span>
-              <span data-i18n="comp.old.3">Human fatigue causes costly 8%+ data entry errors and delayed shipments.</span>
-            </div>
-            <div class="matrix-point-item">
-              <span class="red">✕</span>
-              <span data-i18n="comp.old.4">Fragmented reporting locked away in individual inboxes and spreadsheets.</span>
-            </div>
+      <div class="fx-accordion">
+        <div class="fx-accordion__item">
+          <button type="button" class="fx-accordion__trigger" aria-expanded="false" aria-controls="faqPanel1">
+            <span data-i18n="faq.q1">How long until something is actually live?</span>
+            <span class="fx-accordion__icon" aria-hidden="true"></span>
+          </button>
+          <div class="fx-accordion__panel" id="faqPanel1" role="region">
+            <div><p data-i18n="faq.a1">Two to four weeks to a working integration, depending on how tangled the process is. We build beside your current process instead of ripping it out, so nothing stops while we work.</p></div>
           </div>
         </div>
 
-        <div class="matrix-column-card farvex-way">
-          <div class="matrix-col-header cyan" data-i18n="comp.new.t">Farvex AI Autonomous Precision</div>
-          <div class="matrix-point-list">
-            <div class="matrix-point-item">
-              <span class="cyan">✓</span>
-              <span data-i18n="comp.new.1">Autonomous background pipelines parse and sync transactions in 100ms.</span>
-            </div>
-            <div class="matrix-point-item">
-              <span class="cyan">✓</span>
-              <span data-i18n="comp.new.2">Scale capacity 10x with flat compute cost and zero extra payroll pressure.</span>
-            </div>
-            <div class="matrix-point-item">
-              <span class="cyan">✓</span>
-              <span data-i18n="comp.new.3">99.98% extraction accuracy with automated verification checksums.</span>
-            </div>
-            <div class="matrix-point-item">
-              <span class="cyan">✓</span>
-              <span data-i18n="comp.new.4">Centralized live executive telemetry for instant enterprise visibility.</span>
+        <div class="fx-accordion__item">
+          <button type="button" class="fx-accordion__trigger" aria-expanded="false" aria-controls="faqPanel2">
+            <span data-i18n="faq.q2">Do we need to hire AI people?</span>
+            <span class="fx-accordion__icon" aria-hidden="true"></span>
+          </button>
+          <div class="fx-accordion__panel" id="faqPanel2" role="region">
+            <div><p data-i18n="faq.a2">No. Infrastructure, monitoring and model upkeep all sit with us. Your team simply sees structured data arrive in the tools they already open every day.</p></div>
+          </div>
+        </div>
+
+        <div class="fx-accordion__item">
+          <button type="button" class="fx-accordion__trigger" aria-expanded="false" aria-controls="faqPanel3">
+            <span data-i18n="faq.q3">How does it reach our ERP, CRM or database?</span>
+            <span class="fx-accordion__icon" aria-hidden="true"></span>
+          </button>
+          <div class="fx-accordion__panel" id="faqPanel3" role="region">
+            <div><p data-i18n="faq.a3">Through direct API connectors, webhooks and database bridges written for your stack — Exact Online, SAP, Salesforce, HubSpot, Microsoft 365 and others.</p></div>
+          </div>
+        </div>
+
+        <div class="fx-accordion__item">
+          <button type="button" class="fx-accordion__trigger" aria-expanded="false" aria-controls="faqPanel4">
+            <span data-i18n="faq.q4">Why not just buy an off-the-shelf AI tool?</span>
+            <span class="fx-accordion__icon" aria-hidden="true"></span>
+          </button>
+          <div class="fx-accordion__panel" id="faqPanel4" role="region">
+            <div><p data-i18n="faq.a4">Off-the-shelf tools wait for someone to prompt them and know nothing about your business rules. We build systems that run unattended, with your rules written into them.</p></div>
+          </div>
+        </div>
+
+        <div class="fx-accordion__item">
+          <button type="button" class="fx-accordion__trigger" aria-expanded="false" aria-controls="faqPanel5">
+            <span data-i18n="faq.q5">Where does our data physically sit?</span>
+            <span class="fx-accordion__icon" aria-hidden="true"></span>
+          </button>
+          <div class="fx-accordion__panel" id="faqPanel5" role="region">
+            <div>
+              <p data-i18n="faq.a5">In the EU by default, or on your own hardware if you would rather. It never leaves the region you pick.</p>
+              <p class="fx-mt-4"><a href="security.html" class="fx-link" data-i18n="faq.a5link">See how we handle security</a></p>
             </div>
           </div>
         </div>
       </div>
     </div>
-  </div>
-</section>
+  </section>
 
-<!-- FAQ ACCORDION -->
-<section class="section-space section-dark-panel" id="faq">
-  <div class="container">
-    <div class="section-intro">
-      <div class="quantum-badge" data-i18n="faq.badge">SYSTEM INTELLIGENCE</div>
-      <h2 data-i18n="faq.h2">Frequently Answered Queries</h2>
-      <p data-i18n="faq.sub">Technical answers regarding implementation timelines, security, and maintenance.</p>
-    </div>
-
-    <div class="faq-stack">
-      <div class="faq-card-item active">
-        <button class="faq-trigger-btn" onclick="toggleFaq(this)">
-          <span data-i18n="faq.q1">How quickly can Farvex AI deploy a production pipeline into our tech stack?</span>
-          <span class="faq-sign-glyph">−</span>
-        </button>
-        <div class="faq-answer-body" style="max-height: 200px;">
-          <p data-i18n="faq.a1">Depending on complexity, our rapid deployment protocol delivers a fully integrated production MVP within 2 to 4 weeks, with zero disruption to your daily operations.</p>
-        </div>
-      </div>
-
-      <div class="faq-card-item">
-        <button class="faq-trigger-btn" onclick="toggleFaq(this)">
-          <span data-i18n="faq.q2">Do we need internal AI specialists to maintain these systems?</span>
-          <span class="faq-sign-glyph">+</span>
-        </button>
-        <div class="faq-answer-body">
-          <p data-i18n="faq.a2">No. Farvex AI handles 100% of the MLOps infrastructure, telemetry monitoring, and model maintenance. Your team simply receives structured automated outputs.</p>
-        </div>
-      </div>
-
-      <div class="faq-card-item">
-        <button class="faq-trigger-btn" onclick="toggleFaq(this)">
-          <span data-i18n="faq.q3">How does Farvex AI connect with our existing software (ERP, CRM, SQL)?</span>
-          <span class="faq-sign-glyph">+</span>
-        </button>
-        <div class="faq-answer-body">
-          <p data-i18n="faq.a3">We build custom direct API connectors, secure webhooks, and database bridges into whatever software you currently use (Exact, SAP, Salesforce, HubSpot, Microsoft 365, etc.).</p>
-        </div>
-      </div>
-
-      <div class="faq-card-item">
-        <button class="faq-trigger-btn" onclick="toggleFaq(this)">
-          <span data-i18n="faq.q4">What makes Farvex AI different from generic off-the-shelf AI tools?</span>
-          <span class="faq-sign-glyph">+</span>
-        </button>
-        <div class="faq-answer-body">
-          <p data-i18n="faq.a4">Off-the-shelf tools require constant manual prompting and don't integrate with your business logic. We build hardened, sovereign autonomous infrastructure designed around your exact workflows.</p>
+  <!-- ==================== CTA ==================== -->
+  <section class="fx-section fx-section--tint">
+    <div class="fx-container">
+      <div class="fx-section-head fx-section-head--center" style="margin-bottom:0">
+        <h2 class="fx-h2" data-i18n="cta.h2">Want to see this mapped onto your own process?</h2>
+        <p class="fx-lead" data-i18n="cta.sub">Forty-five minutes: we take one workflow, work out what it costs you today, and tell you straight whether automating it pays.</p>
+        <div class="fx-btn-group fx-row--center fx-mt-4">
+          <a href="book.html" class="fx-btn fx-btn--primary fx-btn--lg" data-i18n="cta.btn">Request a briefing</a>
+          <a href="case-studies.html" class="fx-btn fx-btn--secondary fx-btn--lg" data-i18n="cta.casesBtn">Read the case studies</a>
         </div>
       </div>
     </div>
-  </div>
-</section>
+  </section>
 
-<!-- FINAL MISSION BRIEFING CTA -->
-<section class="section-space">
-  <div class="container">
-    <div class="cta-banner-deck">
-      <div class="quantum-badge" data-i18n="cta.badge">COMM LINK ACTIVE</div>
-      <h2 style="font-size: 2.8rem; font-family: var(--font-heading); font-weight: 800; color: #fff; margin-bottom: 16px;" data-i18n="cta.h2">
-        Ready to Eliminate Operational Friction?
-      </h2>
-      <p style="font-size: 1.15rem; color: var(--text-muted); max-width: 700px; margin: 0 auto 30px;" data-i18n="cta.sub">
-        Join forward-thinking enterprise leaders who have automated repetitive operations. Schedule your technical architecture mission briefing today.
-      </p>
-      <div style="display:flex; justify-content:center; gap:14px; flex-wrap:wrap;">
-        <a href="book.html" class="btn-core btn-cyan" data-i18n="cta.btn">
-          ⚡ Schedule Architecture Briefing
+</main>
+
+<!-- ============================ FOOTER ============================ -->
+<footer class="fx-footer">
+  <div class="fx-container">
+    <div class="fx-footer__grid">
+      <div>
+        <a href="index.html" class="fx-brand">
+          <svg class="fx-brand__mark" viewBox="0 0 600 600" role="img" aria-label="Farvex AI">
+            <rect class="fx-mark-body" x="133.6" y="108" width="70.4" height="384"/>
+            <rect class="fx-mark-body" x="133.6" y="108" width="152" height="62.4"/>
+            <rect class="fx-mark-body" x="133.6" y="269.28" width="136" height="62.4"/>
+            <rect class="fx-mark-accent" x="264.8" y="282.88" width="136" height="35.2"/>
+            <polygon class="fx-mark-accent" points="400.8,273.28 447.2,300.48 400.8,327.68"/>
+            <circle class="fx-mark-accent" cx="456.8" cy="300.48" r="9.6"/>
+          </svg>
+          <span>Farvex<span class="fx-brand__dot">.ai</span></span>
         </a>
-        <a href="case-studies.html" class="btn-core btn-glass" data-i18n="cta.casesBtn">
-          📊 Read Enterprise Case Studies
-        </a>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- FOOTER -->
-<footer class="quantum-footer">
-  <div class="container">
-    <div class="footer-top-grid">
-      <div class="footer-col">
-        <a href="index.html" class="brand-anchor" style="margin-bottom: 14px;">
-          <div class="brand-icon-box">
-            <img src="farvex-logo-kit/svg/farvex-mark-dark.svg" alt="Farvex AI Logo">
-          </div>
-          <div class="brand-title">FARVEX<span>.AI</span></div>
-        </a>
-        <p style="font-size: 13px; color: var(--text-muted); line-height: 1.6;" data-i18n="footer.desc">
-          Bespoke enterprise AI systems engineering, high-throughput autonomous agents, and industrial automation.
+        <p class="fx-footer__about fx-mt-4" data-i18n="footer.desc">
+          Enterprise AI systems engineering — document parsing, workflow automation and agents built for European operations.
         </p>
       </div>
 
-      <div class="footer-col">
-        <h5 data-i18n="footer.col1">Solutions Suite</h5>
+      <div>
+        <h2 data-i18n="footer.col1">Solutions</h2>
         <ul>
-          <li><a href="solutions.html#workflow">Workflow Orchestration</a></li>
-          <li><a href="solutions.html#vision">Computer Vision & OCR</a></li>
-          <li><a href="solutions.html#agents">Mission Agents</a></li>
-          <li><a href="solutions.html#predictive">Predictive Risk</a></li>
-          <li><a href="solutions.html#rag">Vector Core & RAG</a></li>
+          <li><a href="solutions.html#workflow" data-i18n="footer.l1">Workflow automation</a></li>
+          <li><a href="solutions.html#vision" data-i18n="footer.l2">Document parsing</a></li>
+          <li><a href="solutions.html#agents" data-i18n="footer.l3">AI agents</a></li>
+          <li><a href="solutions.html#predictive" data-i18n="footer.l4">Forecasting</a></li>
+          <li><a href="solutions.html#rag" data-i18n="footer.l5">Internal search</a></li>
         </ul>
       </div>
 
-      <div class="footer-col">
-        <h5 data-i18n="footer.col2">Legal & Governance</h5>
+      <div>
+        <h2 data-i18n="footer.col2">Company</h2>
         <ul>
-          <li><a href="pre-deployment-checklist.html">Pre-Deployment Checklist</a></li>
-          <li><a href="privacy.html">Privacy Statement (GDPR)</a></li>
-          <li><a href="terms.html">Terms of Service (B2B)</a></li>
-          <li><a href="cookies.html">Cookie Preferences</a></li>
-          <li><a href="security.html">Data Sovereignty Vault</a></li>
-          <li><a href="architecture.html">Technical Architecture</a></li>
-          <li><a href="dashboard.html" style="color: var(--cyan-bright); font-size:12px; font-weight:600;">Admin Telemetry ↗</a></li>
+          <li><a href="case-studies.html" data-i18n="footer.l6">Case studies</a></li>
+          <li><a href="architecture.html" data-i18n="footer.l7">Architecture</a></li>
+          <li><a href="security.html" data-i18n="footer.l8">Security</a></li>
+          <li><a href="pre-deployment-checklist.html" data-i18n="footer.l9">Pre-deployment checklist</a></li>
+          <li><a href="contact.html" data-i18n="footer.l10">Contact</a></li>
         </ul>
       </div>
 
-      <div class="footer-col">
-        <h5 data-i18n="footer.col3">Coordinates</h5>
-        <p class="mono" style="font-size: 12px; color: var(--text-muted); margin-bottom: 4px;">KvK: 89412084 // BTW: NL864982103B01</p>
-        <p class="mono" style="font-size: 12px; color: var(--text-muted); margin-bottom: 6px;">Vlaardingen, Netherlands</p>
-        <p class="mono" style="font-size: 11.5px; color: var(--cyan-bright);">STATUS: SOVEREIGN EU NODE</p>
+      <div>
+        <h2 data-i18n="footer.col3">Details</h2>
+        <p class="fx-small fx-dim">KvK 89412084</p>
+        <p class="fx-small fx-dim">BTW NL864982103B01</p>
+        <p class="fx-small fx-dim">Vlaardingen, Netherlands</p>
+        <p class="fx-small fx-mt-4"><a href="mailto:farvexai@gmail.com">farvexai@gmail.com</a></p>
+        <p class="fx-small"><a href="tel:+31639760295">+31 6 39760295</a></p>
       </div>
     </div>
 
-    <div class="footer-bottom-row">
-      <span data-i18n="footer.rights">© 2026 Farvex AI. All rights reserved. KvK: 89412084. Autonomous Enterprise Intelligence.</span>
-      <div style="display:flex; gap:16px;">
-        <a href="privacy.html" style="color: var(--text-dim); text-decoration:none;">Privacy</a>
-        <a href="terms.html" style="color: var(--text-dim); text-decoration:none;">Terms</a>
-        <a href="cookies.html" style="color: var(--text-dim); text-decoration:none;">Cookies</a>
-        <a href="contact.html" style="color: var(--text-dim); text-decoration:none;">Uplink</a>
+    <div class="fx-footer__bottom">
+      <span>© <span data-year>2026</span> Farvex AI. <span data-i18n="footer.rights">All rights reserved.</span></span>
+      <div class="fx-footer__legal">
+        <a href="privacy.html" data-i18n="footer.privacy">Privacy</a>
+        <a href="terms.html" data-i18n="footer.terms">Terms</a>
+        <a href="cookies.html" data-i18n="footer.cookies">Cookies</a>
+        <a href="dashboard.html" data-i18n="footer.admin">Admin</a>
       </div>
     </div>
   </div>
 </footer>
 
-<!-- GDPR COOKIE CONSENT POPUP -->
-<div class="cookie-banner-popup" id="cookieBannerPopup">
-  <div class="cookie-banner-title">
-    <span>🍪</span> <span data-i18n="ck.popTitle">Sovereign Privacy & Cookie Settings</span>
-  </div>
-  <p class="cookie-banner-text" data-i18n="ck.popText">
-    We store essential functional preferences (theme, language) locally on your device. No third-party profiling or ad trackers are used.
+<!-- Cookie notice -->
+<div class="fx-consent" data-consent role="dialog" aria-labelledby="consentTitle" aria-describedby="consentText">
+  <p class="fx-consent__title" id="consentTitle" data-i18n="ck.popTitle">Cookies</p>
+  <p class="fx-consent__text" id="consentText" data-i18n="ck.popText">
+    Your theme and language choice are kept on your own device. No advertising or profiling trackers.
   </p>
-  <div class="cookie-banner-btns">
-    <button class="btn-core btn-cyan btn-sm" onclick="acceptCookies(true)" data-i18n="ck.popAccept">Accept All</button>
-    <button class="btn-core btn-glass btn-sm" onclick="acceptCookies(false)" data-i18n="ck.popEssential">Essential Only</button>
-    <a href="cookies.html" class="mono" style="font-size:11.5px; color:var(--text-dim); text-decoration:none; align-self:center; margin-left:6px;" data-i18n="ck.popManage">Manage ↗</a>
+  <div class="fx-row">
+    <button type="button" class="fx-btn fx-btn--primary fx-btn--sm" data-consent-choice="all" data-i18n="ck.popAccept">Accept</button>
+    <button type="button" class="fx-btn fx-btn--quiet fx-btn--sm" data-consent-choice="essential" data-i18n="ck.popEssential">Essential only</button>
+    <a href="cookies.html" class="fx-small" data-i18n="ck.popManage">Details</a>
   </div>
 </div>
 
-<!-- CORE JAVASCRIPT: PARTICLE PHYSICS & INTERACTIVE SYSTEMS -->
 <script>
-  const T = {
-    'en': {
-      "hud.cluster": "ORBITAL CLUSTER: ONLINE",
-      "hud.ticker": ">> AUTONOMOUS AGENT NODES SYNCHRONIZED // ZERO-ERROR PARSER ACTIVE",
-      "nav.entropy": "Chaos → Order",
-      "nav.solutions": "Solutions Suite ↗",
-      "nav.cases": "Case Studies ↗",
-      "nav.arch": "Architecture ↗",
-      "nav.security": "Security Vault ↗",
-      "nav.roi": "ROI Matrix",
-      "nav.faq": "FAQ",
-      "nav.cta": "⚡ Book Briefing",
-      
-      "hero.badge": "AUTONOMOUS ENTERPRISE INTELLIGENCE",
-      "hero.title1": "ELIMINATE ENTERPRISE CHAOS.",
-      "hero.title2": "DEPLOY AUTONOMOUS ORDER.",
-      "hero.sub": "We engineer bespoke autonomous neural pipelines, instant vision document intelligence, and self-healing multi-agent systems that turn manual friction into instant, zero-error enterprise output.",
-      "hero.btn1": "⚡ Schedule Architecture Briefing",
-      "hero.btn2": "▶ Explore Solutions Suite",
-      
-      "scrubber.title": "INTERACTIVE ENTROPY SCRUBBER // DRAG TO TRANSFORM REALITY",
-      "scrubber.chaosLabel": "Manual Chaos",
-      "scrubber.orderLabel": "Farvex Order",
-      "scrubber.m1Label": "Error Rate:",
-      "scrubber.m2Label": "Processing Latency:",
-      "scrubber.m3Label": "Cost Per Transaction:",
-      "scrubber.o1Label": "Error Rate:",
-      "scrubber.o2Label": "Processing Latency:",
-      "scrubber.o3Label": "Cost Per Transaction:",
+/* ---------------------------------------------------------------------------
+   Translations. Shared behaviour in /assets/farvex.js reads this object.
+   Values are plain text only: the loader assigns textContent, so any markup
+   in a value would wipe the element's children.
+   --------------------------------------------------------------------------- */
+window.FARVEX_I18N = {
+  en: {
+    "nav.solutions": "Solutions",
+    "nav.cases": "Case studies",
+    "nav.arch": "Architecture",
+    "nav.security": "Security",
+    "nav.contact": "Contact",
+    "nav.checklist": "Pre-deployment checklist",
+    "nav.cta": "Request a briefing",
 
-      "studio.badge": "VISUAL PIPELINE ARCHITECT",
-      "studio.h2": "Configure Your Autonomous Agent Workflow",
-      "studio.sub": "Select your enterprise input source, attach Farvex intelligent processing nodes, and route validated data straight into your core business applications in real time.",
-      "studio.step1": "Input Data Ingestion",
-      "studio.step2": "Farvex Neural Substrate",
-      "studio.step3": "Enterprise Destination",
-      "studio.runTitle": "Active Configuration:",
-      "studio.runBtn": "⚡ Execute Live Workflow",
+    "hero.badge": "Built, shipped and operated by us",
+    "hero.title1": "The admin work your team retypes every day can run itself.",
+    "hero.sub": "We engineer document parsing, workflow automation and AI agents that plug into Exact Online, SAP and the rest of your stack — so invoices, tickets and reports move through without anyone keying them in.",
+    "hero.btn1": "Request a briefing",
+    "hero.btn2": "See what we ship",
+    "hero.stat1": "Field-level accuracy",
+    "hero.stat2": "Median time per document",
+    "hero.stat3": "Weeks to the first live run",
+    "hero.stat4": "Region-locked or on-premise",
 
-      "ocr.badge": "COMPUTER VISION & OCR LAB",
-      "ocr.h2": "Sub-Millisecond Neural Document Intelligence",
-      "ocr.sub": "Watch Farvex Vision parse complex, unstructured European freight bills and invoices into 100% validated structured JSON payloads in real time.",
-      "ocr.latency": "Latency: 94ms // Zero Manual Effort",
-      "ocr.copyBtn": "📋 Copy JSON",
+    "comp.eyebrow": "The status quo",
+    "comp.h2": "What manual handling actually costs",
+    "comp.sub": "The same workload under two operating models. The left column is where most finance and logistics teams sit today.",
+    "comp.old.t": "Handled by people",
+    "comp.old.1": "The same figures get keyed in three times — once from the email, once into the spreadsheet, once into the ERP.",
+    "comp.old.2": "Extra volume can only be absorbed by hiring.",
+    "comp.old.3": "Fatigue pushes keying errors past 8%, and late shipments follow.",
+    "comp.old.4": "Nobody can answer \"what happened last month\" without rebuilding it from inboxes.",
+    "comp.new.t": "Handled by a pipeline",
+    "comp.new.1": "Parsing and posting finish in roughly a tenth of a second.",
+    "comp.new.2": "Ten times the volume costs the same to compute.",
+    "comp.new.3": "99.98% field accuracy, with a checksum on every record before it is written.",
+    "comp.new.4": "One log of every run: what passed, what failed, what it cost.",
 
-      "roi.badge": "FINANCIAL IMPACT ENGINE",
-      "roi.h2": "Calculate Your Annual Capital Recapture",
-      "roi.sub": "Adjust your company's operational parameters to calculate the exact hours reclaimed and financial ROI achieved through Farvex AI autonomous pipelines.",
-      "roi.teamLabel": "Team Members on Repetitive Workflows:",
-      "roi.hoursLabel": "Weekly Manual Admin Hours Per Person:",
-      "roi.rateLabel": "Average Loaded Labor Rate (€ / hr):",
-      "roi.resultTitle": "ESTIMATED ANNUAL CAPITAL SAVINGS",
-      "roi.resultSub": "Net operational savings by eliminating manual re-keying and transcription bottlenecks.",
-      "roi.subHours": "Annual Hours Reclaimed",
-      "roi.subPrecision": "Data Precision Rate",
-      "roi.cta": "⚡ Recapture Estimated Value",
+    "ba.eyebrow": "Worked example",
+    "ba.h2": "One freight invoice, both ways",
+    "ba.sub": "Invoice FX-9842 as your team would process it today, and as a Farvex pipeline processes it.",
+    "ba.colManual": "By hand",
+    "ba.colFarvex": "By pipeline",
+    "ba.m1t": "FX-9842 sitting in the queue",
+    "ba.m1d": "Fourteen hours waiting for a free pair of hands to type it in.",
+    "ba.m2t": "VAT and IBAN validation rejected",
+    "ba.m2d": "A single typo in box 7 holds up a €24,800 payment.",
+    "ba.mError": "Errors",
+    "ba.mLatency": "Turnaround",
+    "ba.mCost": "Cost per document",
+    "ba.f1t": "FX-9842 cleared",
+    "ba.f1d": "IBAN validated against the Dutch bank checksum, untouched by anyone.",
+    "ba.f2t": "Written to Exact Online, ledger 7100",
+    "ba.f2d": "Posted without review and confirmed back to the team in Slack.",
+    "ba.mError2": "Errors",
+    "ba.mLatency2": "Turnaround",
+    "ba.mCost2": "Cost per document",
 
-      "cap.badge": "NEURAL SUITE",
-      "cap.h2": "Enterprise AI Built for Hardened Production",
-      "cap.sub": "Click any solution module to explore complete technical specifications, live benchmarks, and architecture integrations.",
-      "cap.s1.t": "Workflow Orchestration", "cap.s1.d": "Connect emails, CRM systems, accounting ledgers, and database silos into seamless, self-executing deterministic pipelines.",
-      "cap.s2.t": "Computer Vision & OCR", "cap.s2.d": "Sub-millisecond data extraction from scanned documents, customs invoices, shipping bills, and industrial inspection imagery.",
-      "cap.s3.t": "Autonomous Mission Agents", "cap.s3.d": "Deploy intelligent software agents that handle multi-step customer inquiries, data routing, and database reconciliations without sleep.",
-      "cap.s4.t": "Predictive Intelligence", "cap.s4.d": "Transform historical ERP transaction logs into reliable demand forecasting, predictive maintenance, and cash flow balance models.",
-      "cap.s5.t": "Vector Core & RAG", "cap.s5.d": "Turn massive internal knowledge bases, technical manuals, and legal contracts into an instant semantic search engine for your employees.",
-      "cap.s6.t": "Continuous MLOps & Telemetry", "cap.s6.d": "24/7 automated telemetry monitoring, model drift detection, circuit breaker fallbacks, and guaranteed European enterprise SLA.",
+    "cap.eyebrow": "The catalogue",
+    "cap.h2": "Six systems we build",
+    "cap.sub": "Every one of these ships as a running system wired into your software, not a prototype. Follow any card for the engineering detail.",
+    "cap.s1.t": "Workflow automation",
+    "cap.s1.d": "Email, CRM, accounting and databases stitched into pipelines that trigger themselves and record every step.",
+    "cap.s2.t": "Document parsing",
+    "cap.s2.d": "Structured fields lifted out of scanned invoices, customs paperwork and shipping bills — line-item tables included.",
+    "cap.s3.t": "AI agents",
+    "cap.s3.d": "Software that works through multi-step requests, moves data between systems and reconciles records inside limits you define.",
+    "cap.s4.t": "Forecasting",
+    "cap.s4.d": "Transaction history turned into demand forecasts, maintenance windows and cash-flow projections.",
+    "cap.s5.t": "Internal search",
+    "cap.s5.d": "Manuals, contracts and internal knowledge answerable in plain language, with nothing leaving your estate.",
+    "cap.s6.t": "Monitoring and upkeep",
+    "cap.s6.d": "We keep watch on the pipelines, catch model drift early, fail over safely and answer to an agreed SLA.",
 
-      "comp.badge": "PARADIGM SHIFT",
-      "comp.h2": "Manual Friction vs. Farvex Autonomous Precision",
-      "comp.sub": "Stop paying for manual re-typing and human bottlenecking. Scale operations with hardened AI infrastructure.",
-      "comp.old.t": "Traditional Manual Operations",
-      "comp.old.1": "Employees manually re-keying data between tabs, emails, and ERP software.",
-      "comp.old.2": "Scaling throughput requires hiring more expensive headcount and overhead.",
-      "comp.old.3": "Human fatigue causes costly 8%+ data entry errors and delayed shipments.",
-      "comp.old.4": "Fragmented reporting locked away in individual inboxes and spreadsheets.",
-      "comp.new.t": "Farvex AI Autonomous Precision",
-      "comp.new.1": "Autonomous background pipelines parse and sync transactions in 100ms.",
-      "comp.new.2": "Scale capacity 10x with flat compute cost and zero extra payroll pressure.",
-      "comp.new.3": "99.98% extraction accuracy with automated verification checksums.",
-      "comp.new.4": "Centralized live executive telemetry for instant enterprise visibility.",
+    "studio.eyebrow": "Interactive",
+    "studio.h2": "Wire up a pipeline",
+    "studio.sub": "Choose an input and an output, then run it to see the payload your systems would receive.",
+    "studio.step1": "Input",
+    "studio.step2": "Farvex",
+    "studio.step3": "Output",
+    "studio.in1": "Invoices and freight paperwork",
+    "studio.in2": "Escalated support mail",
+    "studio.in3": "Sensor and IoT streams",
+    "studio.in4": "SQL and Excel exports",
+    "studio.out1": "Exact Online / SAP",
+    "studio.out2": "Salesforce / HubSpot",
+    "studio.out3": "Bank payout / Stripe",
+    "studio.out4": "Webhook or Slack",
+    "studio.ready": "Idle",
+    "studio.running": "Running",
+    "studio.done": "200 OK",
+    "studio.logIdle": "Idle. Pick an input and an output, then run the pipeline.",
+    "studio.runTitle": "Configured as:",
+    "studio.runBtn": "Run it",
 
-      "faq.badge": "SYSTEM INTELLIGENCE",
-      "faq.h2": "Frequently Answered Queries",
-      "faq.sub": "Technical answers regarding implementation timelines, security, and maintenance.",
-      "faq.q1": "How quickly can Farvex AI deploy a production pipeline into our tech stack?",
-      "faq.a1": "Depending on complexity, our rapid deployment protocol delivers a fully integrated production MVP within 2 to 4 weeks, with zero disruption to your daily operations.",
-      "faq.q2": "Do we need internal AI specialists to maintain these systems?",
-      "faq.a2": "No. Farvex AI handles 100% of the MLOps infrastructure, telemetry monitoring, and model maintenance. Your team simply receives structured automated outputs.",
-      "faq.q3": "How does Farvex AI connect with our existing software (ERP, CRM, SQL)?",
-      "faq.a3": "We build custom direct API connectors, secure webhooks, and database bridges into whatever software you currently use (Exact, SAP, Salesforce, HubSpot, Microsoft 365, etc.).",
-      "faq.q4": "What makes Farvex AI different from generic off-the-shelf AI tools?",
-      "faq.a4": "Off-the-shelf tools require constant manual prompting and don't integrate with your business logic. We build hardened, sovereign autonomous infrastructure designed around your exact workflows.",
+    "ocr.eyebrow": "Extraction",
+    "ocr.h2": "A scanned page in, structured JSON out",
+    "ocr.sub": "Three document types we meet constantly, and the exact payload your systems get back. Median parse time is 94 ms.",
+    "ocr.tab1": "Freight invoice",
+    "ocr.tab2": "Support ticket",
+    "ocr.tab3": "Turbine log",
+    "ocr.outLabel": "Returned payload",
+    "ocr.latency": "94 ms · nobody in the loop",
+    "ocr.copyBtn": "Copy payload",
+    "ocr.copied": "Copied",
 
-      "cta.badge": "COMM LINK ACTIVE",
-      "cta.h2": "Ready to Eliminate Operational Friction?",
-      "cta.sub": "Join forward-thinking enterprise leaders who have automated repetitive operations. Schedule your technical architecture mission briefing today.",
-      "cta.btn": "⚡ Schedule Architecture Briefing",
-      "cta.casesBtn": "📊 Read Enterprise Case Studies",
+    "roi.eyebrow": "The arithmetic",
+    "roi.h2": "Run your own numbers",
+    "roi.sub": "Move the sliders to see the hours and cost you get back in a year. Assumes 48 working weeks and that three quarters of the repetitive work goes away.",
+    "roi.teamLabel": "People on repetitive admin",
+    "roi.hoursLabel": "Hours each, per week",
+    "roi.rateLabel": "Fully loaded hourly cost",
+    "roi.resultTitle": "Recovered per year",
+    "roi.resultSub": "Counts the re-keying removed and the rework it no longer causes.",
+    "roi.subHours": "Hours returned",
+    "roi.subPrecision": "Field-level accuracy",
+    "roi.staff": "people",
+    "roi.hrs": "hrs",
+    "roi.hr": "hr",
+    "roi.cta": "Walk through these numbers",
 
-      "ck.popTitle": "Sovereign Privacy & Cookie Settings",
-      "ck.popText": "We store essential functional preferences (theme, language) locally on your device. No third-party profiling or ad trackers are used.",
-      "ck.popAccept": "Accept All",
-      "ck.popEssential": "Essential Only",
-      "ck.popManage": "Manage ↗",
+    "faq.eyebrow": "Before you ask",
+    "faq.h2": "The questions we get most",
+    "faq.q1": "How long until something is actually live?",
+    "faq.a1": "Two to four weeks to a working integration, depending on how tangled the process is. We build beside your current process instead of ripping it out, so nothing stops while we work.",
+    "faq.q2": "Do we need to hire AI people?",
+    "faq.a2": "No. Infrastructure, monitoring and model upkeep all sit with us. Your team simply sees structured data arrive in the tools they already open every day.",
+    "faq.q3": "How does it reach our ERP, CRM or database?",
+    "faq.a3": "Through direct API connectors, webhooks and database bridges written for your stack — Exact Online, SAP, Salesforce, HubSpot, Microsoft 365 and others.",
+    "faq.q4": "Why not just buy an off-the-shelf AI tool?",
+    "faq.a4": "Off-the-shelf tools wait for someone to prompt them and know nothing about your business rules. We build systems that run unattended, with your rules written into them.",
+    "faq.q5": "Where does our data physically sit?",
+    "faq.a5": "In the EU by default, or on your own hardware if you would rather. It never leaves the region you pick.",
+    "faq.a5link": "See how we handle security",
 
-      "footer.desc": "Bespoke enterprise AI systems engineering, high-throughput autonomous agents, and industrial automation.",
-      "footer.col1": "Solutions Suite", "footer.col2": "Legal & Governance", "footer.col3": "Coordinates",
-      "footer.rights": "© 2026 Farvex AI. All rights reserved. KvK: 89412084. Autonomous Enterprise Intelligence."
-    },
-    'nl': {
-      "hud.cluster": "ORBITALE CLUSTER: ONLINE",
-      "hud.ticker": ">> AUTONOME AGENT NODES GESYNCHRONISEERD // FOUTLOZE PARSER ACTIEF",
-      "nav.entropy": "Chaos → Orde",
-      "nav.solutions": "Oplossingen Suite ↗",
-      "nav.cases": "Casestudies ↗",
-      "nav.arch": "Architectuur ↗",
-      "nav.security": "Beveiliging ↗",
-      "nav.roi": "ROI Matrix",
-      "nav.faq": "FAQ",
-      "nav.cta": "⚡ Plan Briefing",
+    "cta.h2": "Want to see this mapped onto your own process?",
+    "cta.sub": "Forty-five minutes: we take one workflow, work out what it costs you today, and tell you straight whether automating it pays.",
+    "cta.btn": "Request a briefing",
+    "cta.casesBtn": "Read the case studies",
 
-      "hero.badge": "AUTONOME ENTERPRISE INTELLIGENTIE",
-      "hero.title1": "ELIMINEER BEDRIJFSCHAOS.",
-      "hero.title2": "ONTPLOOI AUTONOME ORDE.",
-      "hero.sub": "Wij ontwerpen autonome neurale pijplijnen, instant document vision intelligence en zelf-herstellende multi-agent systemen die handmatige frictie omzetten in directe, foutloze enterprise output.",
-      "hero.btn1": "⚡ Plan Architectuur Briefing",
-      "hero.btn2": "▶ Ontdek Oplossingen Suite",
+    "footer.desc": "Enterprise AI systems engineering — document parsing, workflow automation and agents built for European operations.",
+    "footer.col1": "Solutions",
+    "footer.col2": "Company",
+    "footer.col3": "Details",
+    "footer.l1": "Workflow automation",
+    "footer.l2": "Document parsing",
+    "footer.l3": "AI agents",
+    "footer.l4": "Forecasting",
+    "footer.l5": "Internal search",
+    "footer.l6": "Case studies",
+    "footer.l7": "Architecture",
+    "footer.l8": "Security",
+    "footer.l9": "Pre-deployment checklist",
+    "footer.l10": "Contact",
+    "footer.rights": "All rights reserved.",
+    "footer.privacy": "Privacy",
+    "footer.terms": "Terms",
+    "footer.cookies": "Cookies",
+    "footer.admin": "Admin",
 
-      "scrubber.title": "INTERACTIEVE ENTROPIE SCRUBBER // SLEEP OM REALITEIT TE TRANSFORMEREN",
-      "scrubber.chaosLabel": "Handmatige Chaos",
-      "scrubber.orderLabel": "Farvex Orde",
-      "scrubber.m1Label": "Foutpercentage:",
-      "scrubber.m2Label": "Verwerkingstijd:",
-      "scrubber.m3Label": "Kosten Per Transactie:",
-      "scrubber.o1Label": "Foutpercentage:",
-      "scrubber.o2Label": "Verwerkingstijd:",
-      "scrubber.o3Label": "Kosten Per Transactie:",
+    "ck.popTitle": "Cookies",
+    "ck.popText": "Your theme and language choice are kept on your own device. No advertising or profiling trackers.",
+    "ck.popAccept": "Accept",
+    "ck.popEssential": "Essential only",
+    "ck.popManage": "Details"
+  },
 
-      "studio.badge": "VISUELE PIJPLIJN ARCHITECT",
-      "studio.h2": "Configureer Uw Autonome Agent Workflow",
-      "studio.sub": "Selecteer uw invoerbron, koppel intelligente Farvex verwerkingsnodes en routeer gevalideerde data direct naar uw kerntoepassingen in realtime.",
-      "studio.step1": "Data Ingestie Bron",
-      "studio.step2": "Farvex Neuraal Substraat",
-      "studio.step3": "Enterprise Bestemming",
-      "studio.runTitle": "Actieve Configuratie:",
-      "studio.runBtn": "⚡ Voer Live Workflow Uit",
+  nl: {
+    "nav.solutions": "Oplossingen",
+    "nav.cases": "Praktijkvoorbeelden",
+    "nav.arch": "Architectuur",
+    "nav.security": "Beveiliging",
+    "nav.contact": "Contact",
+    "nav.checklist": "Checklist voor livegang",
+    "nav.cta": "Vraag een gesprek aan",
 
-      "ocr.badge": "COMPUTER VISION & OCR LAB",
-      "ocr.h2": "Sub-Milliseconde Neurale Document Intelligentie",
-      "ocr.sub": "Zie hoe Farvex Vision complexe, ongestructureerde Europese vrachtbrieven en facturen realtime omzet in 100% gevalideerde JSON payloads.",
-      "ocr.latency": "Latentie: 94ms // Nul Handmatige Moeite",
-      "ocr.copyBtn": "📋 Kopieer JSON",
+    "hero.badge": "Door ons gebouwd, uitgerold en beheerd",
+    "hero.title1": "Het administratieve werk dat uw team elke dag overtypt, kan zichzelf draaien.",
+    "hero.sub": "Wij bouwen documentherkenning, workflow-automatisering en AI-agents die aansluiten op Exact Online, SAP en de rest van uw systemen — zodat facturen, tickets en rapporten doorlopen zonder dat iemand ze intypt.",
+    "hero.btn1": "Vraag een gesprek aan",
+    "hero.btn2": "Bekijk wat we opleveren",
+    "hero.stat1": "Nauwkeurigheid per veld",
+    "hero.stat2": "Mediane tijd per document",
+    "hero.stat3": "Weken tot de eerste live run",
+    "hero.stat4": "Regiogebonden of on-premise",
 
-      "roi.badge": "FINANCIËLE IMPACT ENGINE",
-      "roi.h2": "Bereken Uw Jaarlijkse Waardeterugwinning",
-      "roi.sub": "Pas uw operationele parameters aan om de exacte urenbesparing en financiële ROI van Farvex AI automatisering te berekenen.",
-      "roi.teamLabel": "Medewerkers op Repetitief Werk:",
-      "roi.hoursLabel": "Wekelijkse Handmatige Admin Uren (p.p.):",
-      "roi.rateLabel": "Gemiddeld Arbeidstarief (€ / uur):",
-      "roi.resultTitle": "GESCHATTE JAARLIJKSE KOSTENBESPARING",
-      "roi.resultSub": "Netto operationele besparing door eliminatie van handmatige invoer en vertragingen.",
-      "roi.subHours": "Teruggewonnen Uren / Jaar",
-      "roi.subPrecision": "Data Precisie Score",
-      "roi.cta": "⚡ Verzamel Geschatte Waarde",
+    "comp.eyebrow": "De huidige situatie",
+    "comp.h2": "Wat handmatig verwerken werkelijk kost",
+    "comp.sub": "Dezelfde hoeveelheid werk onder twee werkwijzen. De linkerkolom is waar de meeste finance- en logistiekteams vandaag staan.",
+    "comp.old.t": "Door mensen gedaan",
+    "comp.old.1": "Dezelfde cijfers worden drie keer ingetypt — één keer uit de e-mail, één keer in het spreadsheet, één keer in het ERP.",
+    "comp.old.2": "Extra volume kan alleen met extra mensen worden opgevangen.",
+    "comp.old.3": "Vermoeidheid drijft typefouten boven de 8%, met te late zendingen als gevolg.",
+    "comp.old.4": "Niemand kan zeggen \"wat is er vorige maand gebeurd\" zonder het uit mailboxen te reconstrueren.",
+    "comp.new.t": "Door een pipeline gedaan",
+    "comp.new.1": "Uitlezen en boeken zijn in ongeveer een tiende seconde klaar.",
+    "comp.new.2": "Tien keer het volume kost evenveel rekenkracht.",
+    "comp.new.3": "99,98% nauwkeurigheid per veld, met een checksum op elk record voordat het wordt weggeschreven.",
+    "comp.new.4": "Eén logboek van elke run: wat lukte, wat misging en wat het kostte.",
 
-      "cap.badge": "NEURALE SUITE",
-      "cap.h2": "Enterprise AI voor Harde Productieomgevingen",
-      "cap.sub": "Klik op een oplossingsmodule om volledige technische specificaties en integraties te bekijken.",
-      "cap.s1.t": "Workflow Orkestratie", "cap.s1.d": "Verbind e-mails, CRM, boekhouding en databases in naadloze, zelfuitvoerende deterministische pijplijnen.",
-      "cap.s2.t": "Computer Vision & OCR", "cap.s2.d": "Sub-milliseconde data-extractie uit gescande documenten, vrachtbrieven, douanepapieren en inspectiefoto's.",
-      "cap.s3.t": "Autonome Missie Agenten", "cap.s3.d": "Zet intelligente softwareagenten in die meervoudige klantenservice, routing en reconciliaties continu afhandelen.",
-      "cap.s4.t": "Voorspellende Intelligentie", "cap.s4.d": "Converteer ERP-transactiestromen naar betrouwbare vraagprognoses, onderhoudsplanning en cashflowmodellen.",
-      "cap.s5.t": "Vector Core & RAG", "cap.s5.d": "Zet interne handleidingen, contracten en archieven om in een directe semantische zoekmachine voor uw medewerkers.",
-      "cap.s6.t": "Continue MLOps & Telemetrie", "cap.s6.d": "24/7 telemetriemonitoring, automatische drift-detectie en gegarandeerde Europese enterprise SLA.",
+    "ba.eyebrow": "Uitgewerkt voorbeeld",
+    "ba.h2": "Eén vrachtfactuur, op twee manieren",
+    "ba.sub": "Factuur FX-9842 zoals uw team die vandaag verwerkt, en zoals een Farvex-pipeline die verwerkt.",
+    "ba.colManual": "Met de hand",
+    "ba.colFarvex": "Met een pipeline",
+    "ba.m1t": "FX-9842 staat in de wachtrij",
+    "ba.m1d": "Veertien uur wachten tot iemand tijd heeft om het in te typen.",
+    "ba.m2t": "Btw- en IBAN-controle afgekeurd",
+    "ba.m2d": "Één typefout in vak 7 houdt een betaling van €24.800 tegen.",
+    "ba.mError": "Fouten",
+    "ba.mLatency": "Doorlooptijd",
+    "ba.mCost": "Kosten per document",
+    "ba.f1t": "FX-9842 afgehandeld",
+    "ba.f1d": "IBAN gecontroleerd tegen de Nederlandse bankchecksum, zonder dat iemand eraan kwam.",
+    "ba.f2t": "Weggeschreven naar Exact Online, grootboek 7100",
+    "ba.f2d": "Geboekt zonder tussenkomst en teruggekoppeld aan het team via Slack.",
+    "ba.mError2": "Fouten",
+    "ba.mLatency2": "Doorlooptijd",
+    "ba.mCost2": "Kosten per document",
 
-      "comp.badge": "PARADIGMAVERSCHUIVING",
-      "comp.h2": "Handmatige Frictie vs. Farvex Autonome Precisie",
-      "comp.sub": "Stop met betalen voor handmatige repetitie. Schaal met geharde industriële infrastructuur.",
-      "comp.old.t": "Traditionele Handmatige Operaties",
-      "comp.old.1": "Medewerkers voeren handmatig data in over losse software, e-mails en tabbladen.",
-      "comp.old.2": "Capaciteit opschalen vereist duur personeel, training en hoge beheerskosten.",
-      "comp.old.3": "Menselijke vermoeidheid leidt tot 8%+ fouten en vertragingen in de keten.",
-      "comp.old.4": "Versnipperde rapportage zit vast in individuele mailboxen en spreadsheets.",
-      "comp.new.t": "Farvex AI Autonome Precisie",
-      "comp.new.1": "Autonome achtergrondpijplijnen valideren en synchroniseren data in 100ms.",
-      "comp.new.2": "Schaal capaciteit 10x met vaste lage compute-kosten en nul extra personeelsdruk.",
-      "comp.new.3": "99.98% extractieprecisie met geautomatiseerde validatieprotocollen.",
-      "comp.new.4": "Gecentraliseerde realtime telemetrie voor direct inzicht in de hele operatie.",
+    "cap.eyebrow": "Het aanbod",
+    "cap.h2": "Zes systemen die we bouwen",
+    "cap.sub": "Elk hiervan wordt opgeleverd als een draaiend systeem dat vastzit aan uw software, geen prototype. Volg een kaart voor de technische details.",
+    "cap.s1.t": "Workflow-automatisering",
+    "cap.s1.d": "E-mail, CRM, boekhouding en databases samengebracht in processen die zichzelf starten en elke stap vastleggen.",
+    "cap.s2.t": "Documentherkenning",
+    "cap.s2.d": "Gestructureerde velden uit gescande facturen, douanepapieren en vrachtbrieven — inclusief regeltabellen.",
+    "cap.s3.t": "AI-agents",
+    "cap.s3.d": "Software die verzoeken in meerdere stappen afhandelt, gegevens tussen systemen verplaatst en records afstemt binnen grenzen die u bepaalt.",
+    "cap.s4.t": "Voorspellingen",
+    "cap.s4.d": "Transactiehistorie omgezet in vraagvoorspellingen, onderhoudsmomenten en kasstroomprognoses.",
+    "cap.s5.t": "Interne zoekfunctie",
+    "cap.s5.d": "Handleidingen, contracten en interne kennis bevraagbaar in gewone taal, zonder dat er iets uw omgeving verlaat.",
+    "cap.s6.t": "Monitoring en onderhoud",
+    "cap.s6.d": "Wij houden de processen in de gaten, zien modeldrift vroeg, vallen veilig terug bij storing en staan voor een afgesproken SLA.",
 
-      "faq.badge": "SYSTEEM KENNIS",
-      "faq.h2": "Veelgestelde Vragen",
-      "faq.sub": "Technische antwoorden over implementatietijd, beveiliging en onderhoud.",
-      "faq.q1": "Hoe snel kan Farvex AI een werkende pijplijn integreren?",
-      "faq.a1": "Afhankelijk van de complexiteit levert ons snelle protocol een volledig werkend productie-MVP binnen 2 tot 4 weken, zonder onderbreking van uw operatie.",
-      "faq.q2": "Hebben we interne AI-specialisten nodig voor het onderhoud?",
-      "faq.a2": "Nee. Farvex AI verzorgt het volledige MLOps beheer, 24/7 telemetrie en onderhoud. Uw team geniet direct van de resultaten.",
-      "faq.q3": "Hoe koppelt Farvex AI aan onze bestaande software (ERP, CRM, SQL)?",
-      "faq.a3": "Wij bouwen directe beveiligde API-connectors en webhooks naar elk systeem dat u gebruikt (Exact, SAP, Salesforce, HubSpot, Microsoft 365, etc.).",
-      "faq.q4": "Wat maakt Farvex AI anders dan standaard kant-en-klare AI tools?",
-      "faq.a4": "Standaard tools vereisen handmatig invoerwerk en missen uw bedrijfslogica. Wij bouwen geharde, autonome infrastructuur op maat rondom uw specifieke processen.",
+    "studio.eyebrow": "Interactief",
+    "studio.h2": "Stel een pipeline samen",
+    "studio.sub": "Kies een invoer en een uitvoer en laat het lopen om te zien welke gegevens uw systemen zouden ontvangen.",
+    "studio.step1": "Invoer",
+    "studio.step2": "Farvex",
+    "studio.step3": "Uitvoer",
+    "studio.in1": "Facturen en vrachtpapieren",
+    "studio.in2": "Geëscaleerde supportmail",
+    "studio.in3": "Sensor- en IoT-stromen",
+    "studio.in4": "SQL- en Excel-exports",
+    "studio.out1": "Exact Online / SAP",
+    "studio.out2": "Salesforce / HubSpot",
+    "studio.out3": "Bankbetaling / Stripe",
+    "studio.out4": "Webhook of Slack",
+    "studio.ready": "Inactief",
+    "studio.running": "Bezig",
+    "studio.done": "200 OK",
+    "studio.logIdle": "Inactief. Kies een invoer en een uitvoer en laat de pipeline lopen.",
+    "studio.runTitle": "Ingesteld als:",
+    "studio.runBtn": "Laat het lopen",
 
-      "cta.badge": "COMMISSIE LINK ACTIEF",
-      "cta.h2": "Klaar om Operationele Frictie te Elimineren?",
-      "cta.sub": "Sluit u aan bij marktleiders die repetitieve handelingen hebben geautomatiseerd. Plan vandaag uw technische architectuurbriefing.",
-      "cta.btn": "⚡ Plan Architectuur Briefing",
-      "cta.casesBtn": "📊 Bekijk Enterprise Casestudies",
+    "ocr.eyebrow": "Uitlezen",
+    "ocr.h2": "Een gescande pagina erin, gestructureerde JSON eruit",
+    "ocr.sub": "Drie documentsoorten die we voortdurend tegenkomen, en precies de gegevens die uw systemen terugkrijgen. De mediane verwerkingstijd is 94 ms.",
+    "ocr.tab1": "Vrachtfactuur",
+    "ocr.tab2": "Supportticket",
+    "ocr.tab3": "Turbinelog",
+    "ocr.outLabel": "Teruggegeven gegevens",
+    "ocr.latency": "94 ms · niemand ertussen",
+    "ocr.copyBtn": "Kopieer gegevens",
+    "ocr.copied": "Gekopieerd",
 
-      "ck.popTitle": "Soevereine Privacy & Cookie-instellingen",
-      "ck.popText": "Wij slaan noodzakelijke functionele voorkeuren (thema, taal) lokaal op. Geen advertentietrackers of verkoop van gebruikersdata.",
-      "ck.popAccept": "Alles Accepteren",
-      "ck.popEssential": "Alleen Noodzakelijk",
-      "ck.popManage": "Beheren ↗",
+    "roi.eyebrow": "De rekensom",
+    "roi.h2": "Reken het met uw eigen cijfers door",
+    "roi.sub": "Verschuif de schuifregelaars om te zien welke uren en kosten u per jaar terugkrijgt. Uitgaande van 48 werkweken en dat driekwart van het repetitieve werk verdwijnt.",
+    "roi.teamLabel": "Mensen op repetitieve administratie",
+    "roi.hoursLabel": "Uren per persoon, per week",
+    "roi.rateLabel": "Volledig belaste kosten per uur",
+    "roi.resultTitle": "Per jaar teruggewonnen",
+    "roi.resultSub": "Rekent met het vervallen overtypen en het herstelwerk dat het niet langer veroorzaakt.",
+    "roi.subHours": "Teruggewonnen uren",
+    "roi.subPrecision": "Nauwkeurigheid per veld",
+    "roi.staff": "mensen",
+    "roi.hrs": "uur",
+    "roi.hr": "uur",
+    "roi.cta": "Neem deze cijfers met ons door",
 
-      "footer.desc": "Maatwerk enterprise AI engineering, snelle autonome agenten en industriële automatisering.",
-      "footer.col1": "Oplossingen Suite", "footer.col2": "Juridisch & Beheer", "footer.col3": "Coördinaten",
-      "footer.rights": "© 2026 Farvex AI. Alle rechten voorbehouden. KvK: 89412084. Autonome Enterprise Intelligentie."
+    "faq.eyebrow": "Voordat u het vraagt",
+    "faq.h2": "De vragen die we het vaakst krijgen",
+    "faq.q1": "Hoe lang duurt het voordat er echt iets live staat?",
+    "faq.a1": "Twee tot vier weken tot een werkende koppeling, afhankelijk van hoe verweven het proces is. We bouwen naast uw huidige proces in plaats van het eruit te halen, zodat er niets stilvalt terwijl we werken.",
+    "faq.q2": "Moeten we AI-mensen aannemen?",
+    "faq.a2": "Nee. Infrastructuur, monitoring en modelonderhoud liggen bij ons. Uw team ziet simpelweg gestructureerde gegevens binnenkomen in de tools die ze elke dag al openen.",
+    "faq.q3": "Hoe komt het bij ons ERP, CRM of database?",
+    "faq.a3": "Via directe API-koppelingen, webhooks en databasebruggen die voor uw stack zijn geschreven — Exact Online, SAP, Salesforce, HubSpot, Microsoft 365 en andere.",
+    "faq.q4": "Waarom niet simpelweg een kant-en-klare AI-tool kopen?",
+    "faq.a4": "Kant-en-klare tools wachten tot iemand ze aanstuurt en weten niets van uw bedrijfsregels. Wij bouwen systemen die onbemand draaien, met uw regels erin vastgelegd.",
+    "faq.q5": "Waar staan onze gegevens fysiek?",
+    "faq.a5": "Standaard in de EU, of op uw eigen hardware als u dat liever hebt. Ze verlaten nooit de regio die u kiest.",
+    "faq.a5link": "Bekijk hoe we beveiliging aanpakken",
+
+    "cta.h2": "Wilt u zien hoe dit op uw eigen proces uitpakt?",
+    "cta.sub": "Vijfenveertig minuten: we pakken één proces, rekenen uit wat het u vandaag kost en zeggen eerlijk of automatiseren zich terugbetaalt.",
+    "cta.btn": "Vraag een gesprek aan",
+    "cta.casesBtn": "Lees de praktijkvoorbeelden",
+
+    "footer.desc": "Enterprise AI-systeembouw — documentherkenning, workflow-automatisering en agents gebouwd voor Europese operaties.",
+    "footer.col1": "Oplossingen",
+    "footer.col2": "Bedrijf",
+    "footer.col3": "Gegevens",
+    "footer.l1": "Workflow-automatisering",
+    "footer.l2": "Documentherkenning",
+    "footer.l3": "AI-agents",
+    "footer.l4": "Voorspellingen",
+    "footer.l5": "Interne zoekfunctie",
+    "footer.l6": "Praktijkvoorbeelden",
+    "footer.l7": "Architectuur",
+    "footer.l8": "Beveiliging",
+    "footer.l9": "Checklist voor livegang",
+    "footer.l10": "Contact",
+    "footer.rights": "Alle rechten voorbehouden.",
+    "footer.privacy": "Privacy",
+    "footer.terms": "Voorwaarden",
+    "footer.cookies": "Cookies",
+    "footer.admin": "Beheer",
+
+    "ck.popTitle": "Cookies",
+    "ck.popText": "Uw thema- en taalkeuze blijven op uw eigen apparaat staan. Geen advertentie- of profileringstrackers.",
+    "ck.popAccept": "Accepteren",
+    "ck.popEssential": "Alleen noodzakelijk",
+    "ck.popManage": "Details"
+  }
+};
+</script>
+
+<script defer src="assets/farvex.js"></script>
+
+<script>
+/* ---------------------------------------------------------------------------
+   Page-local behaviour: pipeline builder, extraction demo and the savings
+   arithmetic. Copy lives in the dictionaries above; these are only fallbacks.
+   --------------------------------------------------------------------------- */
+(function () {
+  'use strict';
+
+  function t(key, fallback) {
+    try {
+      var lang = document.documentElement.getAttribute('data-lang') || 'en';
+      var dict = window.FARVEX_I18N && window.FARVEX_I18N[lang];
+      if (dict && typeof dict[key] === 'string') return dict[key];
+    } catch (e) { /* fall through */ }
+    return fallback;
+  }
+
+  /* ---------- pipeline builder -------------------------------------------- */
+  var studioInput = 'invoice';
+  var studioOutput = 'erp';
+
+  function nodeLabel(group, key) {
+    var map = {
+      input: { invoice: 'studio.in1', support: 'studio.in2', sensors: 'studio.in3', database: 'studio.in4' },
+      output: { erp: 'studio.out1', crm: 'studio.out2', banking: 'studio.out3', webhook: 'studio.out4' }
+    };
+    var fallbacks = {
+      input: { invoice: 'Invoices and freight paperwork', support: 'Escalated support mail', sensors: 'Sensor and IoT streams', database: 'SQL and Excel exports' },
+      output: { erp: 'Exact Online / SAP', crm: 'Salesforce / HubSpot', banking: 'Bank payout / Stripe', webhook: 'Webhook or Slack' }
+    };
+    return t(map[group][key], fallbacks[group][key]);
+  }
+
+  function renderConfig() {
+    var summary = document.getElementById('activeConfigSummary');
+    if (summary) {
+      summary.textContent = nodeLabel('input', studioInput) + ' → Farvex → ' + nodeLabel('output', studioOutput);
     }
-  };
+  }
 
-  let currentLang = 'en';
-  let currentTheme = 'matrix';
-
-  function setLanguage(lang) {
-    currentLang = lang;
-    document.documentElement.setAttribute('data-lang', lang);
-    localStorage.setItem('farvex_lang', lang);
-
-    document.getElementById('btnLangEN').classList.toggle('active', lang === 'en');
-    document.getElementById('btnLangNL').classList.toggle('active', lang === 'nl');
-
-    const dict = T[lang];
-    if (!dict) return;
-
-    document.querySelectorAll('[data-i18n]').forEach(el => {
-      const key = el.getAttribute('data-i18n');
-      if (dict[key] !== undefined) el.innerHTML = dict[key];
+  window.selectStudioNode = function (group, key, btn) {
+    var list = btn.parentElement;
+    list.querySelectorAll('.builder__option').forEach(function (other) {
+      other.setAttribute('aria-pressed', 'false');
     });
+    btn.setAttribute('aria-pressed', 'true');
 
-    updateRoiCalc();
-  }
-
-  function setAtmosphere(theme) {
-    currentTheme = theme;
-    document.documentElement.setAttribute('data-theme', theme);
-    localStorage.setItem('farvex_theme', theme);
-
-    document.getElementById('btnThemeObsidian').classList.toggle('active', theme === 'obsidian');
-    document.getElementById('btnThemeMatrix').classList.toggle('active', theme === 'matrix');
-    document.getElementById('btnThemeTitanium').classList.toggle('active', theme === 'titanium');
-  }
-
-  function toggleMobileNav() {
-    const btn = document.getElementById('mobileMenuBtn');
-    const drawer = document.getElementById('mobileNavDrawer');
-    btn.classList.toggle('active');
-    drawer.classList.toggle('open');
-  }
-
-  function acceptCookies(all) {
-    localStorage.setItem('farvex_cookie_consent', 'true');
-    localStorage.setItem('farvex_cookie_telemetry', all ? 'true' : 'false');
-    const banner = document.getElementById('cookieBannerPopup');
-    if (banner) banner.style.display = 'none';
-  }
-
-  function checkCookieConsent() {
-    if (!localStorage.getItem('farvex_cookie_consent')) {
-      setTimeout(() => {
-        const banner = document.getElementById('cookieBannerPopup');
-        if (banner) banner.style.display = 'block';
-      }, 1200);
-    }
-  }
-
-  // Canvas Physics
-  const canvas = document.getElementById('quantumCanvas');
-  const ctx = canvas.getContext('2d');
-  let width, height;
-  let particles = [];
-  let currentScrubEntropy = 50;
-
-  class Particle {
-    constructor() { this.reset(); }
-    reset() {
-      this.x = Math.random() * width;
-      this.y = Math.random() * height;
-      this.vx = (Math.random() - 0.5) * 1.5;
-      this.vy = (Math.random() - 0.5) * 1.5;
-      this.radius = Math.random() * 1.8 + 0.8;
-      this.speed = Math.random() * 3 + 2;
-    }
-    update(entropyRatio) {
-      if (currentTheme === 'matrix') {
-        this.y += this.speed;
-        if (this.y > height) {
-          this.y = 0;
-          this.x = Math.random() * width;
-        }
-      } else {
-        const chaosFactor = (1 - entropyRatio) * 3;
-        this.x += this.vx * (1 + chaosFactor);
-        this.y += this.vy * (1 + chaosFactor);
-        if (this.x < 0 || this.x > width) this.vx *= -1;
-        if (this.y < 0 || this.y > height) this.vy *= -1;
-      }
-    }
-  }
-
-  function resizeCanvas() {
-    width = canvas.width = window.innerWidth;
-    height = canvas.height = window.innerHeight;
-    particles = [];
-    const count = Math.min(Math.floor(width / 16), 85);
-    for (let i = 0; i < count; i++) {
-      particles.push(new Particle());
-    }
-  }
-  window.addEventListener('resize', resizeCanvas);
-
-  function renderParticles() {
-    ctx.clearRect(0, 0, width, height);
-    const entropyRatio = currentScrubEntropy / 100;
-
-    for (let i = 0; i < particles.length; i++) {
-      const p = particles[i];
-      p.update(entropyRatio);
-
-      ctx.beginPath();
-      ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
-      ctx.fillStyle = currentTheme === 'matrix' ? 'rgba(16, 185, 129, 0.85)' : 'rgba(0, 240, 255, 0.65)';
-      ctx.fill();
-
-      if (currentTheme === 'matrix') {
-        ctx.beginPath();
-        ctx.moveTo(p.x, p.y);
-        ctx.lineTo(p.x, Math.max(0, p.y - 18));
-        ctx.strokeStyle = 'rgba(16, 185, 129, 0.25)';
-        ctx.lineWidth = p.radius;
-        ctx.stroke();
-      } else {
-        for (let j = i + 1; j < particles.length; j++) {
-          const p2 = particles[j];
-          const dx = p.x - p2.x;
-          const dy = p.y - p2.y;
-          const dist = Math.sqrt(dx * dx + dy * dy);
-          const maxDist = 120 + (entropyRatio * 35);
-
-          if (dist < maxDist) {
-            ctx.beginPath();
-            ctx.moveTo(p.x, p.y);
-            ctx.lineTo(p2.x, p2.y);
-            const alpha = (1 - dist / maxDist) * 0.2 * (entropyRatio + 0.2);
-            ctx.strokeStyle = `rgba(0, 240, 255, ${alpha})`;
-            ctx.lineWidth = 1;
-            ctx.stroke();
-          }
-        }
-      }
-    }
-    requestAnimationFrame(renderParticles);
-  }
-
-  function handleEntropyScrub(val) {
-    currentScrubEntropy = parseInt(val, 10);
-    document.getElementById('entropyPercentLabel').innerText = currentScrubEntropy + '%';
-    document.getElementById('orderMask').style.left = (100 - currentScrubEntropy) + '%';
-    document.getElementById('scrubberLine').style.left = (100 - currentScrubEntropy) + '%';
-    document.getElementById('scrubberDiamond').style.left = (100 - currentScrubEntropy) + '%';
-  }
-
-  let studioInput = 'invoice';
-  let studioOutput = 'erp';
-  const studioNodesMap = {
-    input: { invoice: "Inbound Invoices & Freight", support: "Customer Support Escalations", sensors: "Sensor & IoT Telemetry", database: "Unstructured SQL / Excel" },
-    output: { erp: "Exact Online / SAP ERP", crm: "Salesforce / HubSpot CRM", banking: "Bank Payout & Stripe Ledger", webhook: "Instant Webhook & Slack" }
+    if (group === 'input') studioInput = key;
+    if (group === 'output') studioOutput = key;
+    renderConfig();
   };
 
-  function selectStudioNode(type, key, btn) {
-    btn.parentElement.querySelectorAll('.wire-node-btn').forEach(b => b.classList.remove('selected'));
-    btn.classList.add('selected');
-    if (type === 'input') studioInput = key;
-    if (type === 'output') studioOutput = key;
-    document.getElementById('activeConfigSummary').innerText = `${studioNodesMap.input[studioInput]} → Farvex Neural Core → ${studioNodesMap.output[studioOutput]}`;
-  }
-
-  function executeStudioPipeline() {
-    const btn = document.getElementById('btnRunStudio');
-    const status = document.getElementById('circuitStatus');
-    const log = document.getElementById('studioTelemetryLog');
+  window.executeStudioPipeline = function () {
+    var btn = document.getElementById('btnRunStudio');
+    var status = document.getElementById('circuitStatus');
+    var log = document.getElementById('studioTelemetryLog');
+    var wires = [document.getElementById('circuitWire1'), document.getElementById('circuitWire2')];
     if (!btn || btn.disabled) return;
 
     btn.disabled = true;
-    status.innerText = '⚡ PIPELINE RUNNING // SYNCHRONIZING...';
-    status.style.color = 'var(--cyan-bright)';
-    log.innerHTML = `>> INGESTING STREAM: [${studioNodesMap.input[studioInput].toUpperCase()}]...\n>> EXECUTING FARVEX NEURAL CLUSTER...\n>> EXTRACTING 100% UNSTRUCTURED ENTITIES...`;
+    if (status) {
+      status.textContent = t('studio.running', 'Running');
+      status.className = 'fx-badge';
+    }
+    wires.forEach(function (w) { if (w) w.classList.add('is-live'); });
+    if (log) {
+      log.textContent = 'Opening ' + nodeLabel('input', studioInput).toLowerCase() + '\nLifting fields\nChecking them against your business rules';
+    }
 
-    setTimeout(() => {
-      status.innerText = '● 200 OK // TRANSACTION EXECUTED';
-      status.style.color = 'var(--cyan-bright)';
-      const mockPayload = {
-        status: "SUCCESS_VERIFIED",
-        input_source: studioNodesMap.input[studioInput],
-        farvex_agents: ["Vision_OCR_v4", "Semantic_Reasoning_Node", "Ledger_Bridge_Guard"],
-        destination_target: studioNodesMap.output[studioOutput],
-        latency_ms: Math.floor(Math.random() * 30 + 95),
-        records_processed: 1,
-        validation_checksum: "CRC-32_PASSED"
-      };
-      log.innerHTML = JSON.stringify(mockPayload, null, 2);
+    window.setTimeout(function () {
+      if (status) {
+        status.textContent = t('studio.done', '200 OK');
+        status.className = 'fx-badge fx-badge--ok';
+      }
+      if (log) {
+        log.textContent = JSON.stringify({
+          status: 'SUCCESS_VERIFIED',
+          input_source: nodeLabel('input', studioInput),
+          steps: ['document_parse', 'field_validation', 'ledger_write'],
+          destination: nodeLabel('output', studioOutput),
+          latency_ms: Math.floor(Math.random() * 30 + 95),
+          records_processed: 1,
+          checksum: 'CRC-32_PASSED'
+        }, null, 2);
+      }
+      wires.forEach(function (w) { if (w) w.classList.remove('is-live'); });
       btn.disabled = false;
     }, 850);
+  };
+
+  /* ---------- document parsing demo ---------------------------------------- */
+  function docRow(key, value) {
+    return '<div class="docdemo__row"><span class="docdemo__key">' + key + '</span><span class="fx-mark">' + value + '</span></div>';
   }
 
-  const ocrScenarios = {
+  var scenarios = {
     invoice: {
-      doc: `<div class="sweeping-laser-beam"></div>
-            <div style="border-bottom: 1px dashed rgba(0,240,255,0.3); padding-bottom: 10px; margin-bottom: 12px; display:flex; justify-content:space-between;">
-              <strong>INTERNATIONAL FREIGHT BILL</strong>
-              <span class="mono cyan">ORIGINAL DOC</span>
-            </div>
-            <div>Consignor: <span class="highlight-entity">Global Logistics B.V.</span></div>
-            <div>Destination: <span class="highlight-entity">Port of Rotterdam Terminal 4</span></div>
-            <div>Gross Payload: <span class="highlight-entity">18,400 kg (Containers)</span></div>
-            <div>Declared Total: <span class="highlight-entity">EUR €24,800.00 (ex. BTW)</span></div>
-            <div>IBAN: <span class="highlight-entity">NL44RABO0318924011</span></div>
-            <div>Tariff HS-Code: <span class="highlight-entity">HS-8471.50</span></div>
-            <div style="margin-top: 12px; font-size: 11px; color: var(--text-dim);">Signature: Arthur Pendelton // Digitally Recorded 2026-08-26</div>`,
+      tab: 'tabDocInvoice',
+      title: 'International freight bill',
+      tag: 'Original',
+      rows: [
+        ['Consignor', 'Global Logistics B.V.'],
+        ['Destination', 'Port of Rotterdam Terminal 4'],
+        ['Gross payload', '18,400 kg'],
+        ['Declared total', '€24,800.00 ex. BTW'],
+        ['IBAN', 'NL44RABO0318924011'],
+        ['Tariff HS-code', 'HS-8471.50']
+      ],
+      note: 'Signed by Arthur Pendelton · recorded 2026-08-26',
       json: {
-        "status": "PARSED_SUCCESS",
-        "pipeline": "FARVEX_VISION_NEURAL_01",
-        "entities": {
-          "consignor": "Global Logistics B.V.",
-          "destination": "Port of Rotterdam Terminal 4",
-          "gross_weight_kg": 18400,
-          "declared_value": { "currency": "EUR", "amount": 24800.00 },
-          "iban_checksum": "VERIFIED_VALID_DUTCH_BANK",
-          "tariff_code": "HS-8471.50"
+        status: 'PARSED_SUCCESS',
+        entities: {
+          consignor: 'Global Logistics B.V.',
+          destination: 'Port of Rotterdam Terminal 4',
+          gross_weight_kg: 18400,
+          declared_value: { currency: 'EUR', amount: 24800.00 },
+          iban_checksum: 'VERIFIED_VALID_DUTCH_BANK',
+          tariff_code: 'HS-8471.50'
         },
-        "erp_routing": { "target_ledger": "7100_FREIGHT_TRANSIT", "cleared_automatically": true },
-        "confidence_score": 0.9998,
-        "latency_ms": 94
+        erp_routing: { target_ledger: '7100_FREIGHT_TRANSIT', cleared_automatically: true },
+        confidence_score: 0.9998,
+        latency_ms: 94
       }
     },
     support: {
-      doc: `<div class="sweeping-laser-beam"></div>
-            <div style="border-bottom: 1px dashed rgba(0,240,255,0.3); padding-bottom: 10px; margin-bottom: 12px; display:flex; justify-content:space-between;">
-              <strong>INBOUND ESCALATION TICKET #TK-802</strong>
-              <span class="mono amber">CUSTOMER DISPATCH</span>
-            </div>
-            <div>Sender: <span class="highlight-entity">VanderBilt Marine Operations</span></div>
-            <div>Priority: <span class="highlight-entity">P1 - Critical Logistics Delay</span></div>
-            <div>Message: <span class="highlight-entity">"Vessel Amsterdam-04 customs documents missing bill of lading. Need tax exemption re-issue."</span></div>
-            <div>Action Required: <span class="highlight-entity">Auto-generate NL Customs Annex 4</span></div>
-            <div style="margin-top: 12px; font-size: 11px; color: var(--text-dim);">Authenticated via Corporate SSO Key #SSO-4921</div>`,
+      tab: 'tabDocSupport',
+      title: 'Escalation ticket #TK-802',
+      tag: 'Inbound',
+      rows: [
+        ['Sender', 'VanderBilt Marine Operations'],
+        ['Priority', 'P1 — logistics delay'],
+        ['Message', 'Vessel Amsterdam-04 customs documents missing bill of lading. Needs tax exemption re-issue.'],
+        ['Action required', 'Generate NL customs Annex 4']
+      ],
+      note: 'Authenticated via corporate SSO key #SSO-4921',
       json: {
-        "status": "DISPATCH_EXECUTED",
-        "sentiment": "HIGH_URGENCY",
-        "entities": {
-          "client": "VanderBilt Marine Operations",
-          "vessel_id": "Amsterdam-04",
-          "issue_category": "CUSTOMS_DOCUMENTATION_TAX",
-          "automated_action": "ANNEX_4_TAX_EXEMPTION_GENERATED"
+        status: 'DISPATCH_EXECUTED',
+        sentiment: 'HIGH_URGENCY',
+        entities: {
+          client: 'VanderBilt Marine Operations',
+          vessel_id: 'Amsterdam-04',
+          issue_category: 'CUSTOMS_DOCUMENTATION_TAX',
+          automated_action: 'ANNEX_4_TAX_EXEMPTION_GENERATED'
         },
-        "assigned_agent": "Autonomous_Customs_Bot_03",
-        "resolution_time_sec": 1.4,
-        "confidence_score": 0.9994
+        assigned_agent: 'customs_agent_03',
+        resolution_time_sec: 1.4,
+        confidence_score: 0.9994
       }
     },
     sensor: {
-      doc: `<div class="sweeping-laser-beam"></div>
-            <div style="border-bottom: 1px dashed rgba(0,240,255,0.3); padding-bottom: 10px; margin-bottom: 12px; display:flex; justify-content:space-between;">
-              <strong>INDUSTRIAL TURBINE TELEMETRY #TB-44</strong>
-              <span class="mono red">TELEMETRY STREAM</span>
-            </div>
-            <div>Sensor Node: <span class="highlight-entity">Rotterdam Refinery Unit 02</span></div>
-            <div>Core Temperature: <span class="highlight-entity">+86.4°C (Limit: 75.0°C)</span></div>
-            <div>Vibration Harmonics: <span class="highlight-entity">4.92 G @ 3400 RPM</span></div>
-            <div>Fault Vector: <span class="highlight-entity">BEARING_THERMAL_SPIKE</span></div>
-            <div>Auto-Protocol: <span class="highlight-entity">Throttled RPM to 45% Baseline</span></div>
-            <div style="margin-top: 12px; font-size: 11px; color: var(--text-dim);">Telemetry stream encrypted with TLS 1.3</div>`,
+      tab: 'tabDocSensor',
+      title: 'Turbine telemetry #TB-44',
+      tag: 'Stream',
+      rows: [
+        ['Sensor node', 'Rotterdam Refinery Unit 02'],
+        ['Core temperature', '86.4 °C (limit 75.0 °C)'],
+        ['Vibration', '4.92 G at 3400 RPM'],
+        ['Fault vector', 'BEARING_THERMAL_SPIKE'],
+        ['Automatic response', 'Throttled RPM to 45%']
+      ],
+      note: 'Stream encrypted with TLS 1.3',
       json: {
-        "status": "ANOMALY_NEUTRALIZED",
-        "severity": "CRITICAL_WARNING",
-        "sensor_id": "TB-44_ROTT_UNIT_02",
-        "telemetry_metrics": { "temperature_celsius": 86.4, "vibration_g": 4.92, "status": "AUTO_STABILIZED" },
-        "automated_response": [ "Throttled fuel injection to 45%", "Created ERP Maintenance Ticket #WO-8910", "Dispatched notification to Chief Engineer" ],
-        "latency_ms": 48
+        status: 'ANOMALY_NEUTRALIZED',
+        severity: 'CRITICAL_WARNING',
+        sensor_id: 'TB-44_ROTT_UNIT_02',
+        metrics: { temperature_celsius: 86.4, vibration_g: 4.92, status: 'AUTO_STABILIZED' },
+        automated_response: [
+          'Throttled fuel injection to 45%',
+          'Created maintenance ticket #WO-8910',
+          'Notified the chief engineer'
+        ],
+        latency_ms: 48
       }
     }
   };
 
-  function loadOcrScenario(key) {
-    document.querySelectorAll('.doc-tab-btn').forEach(b => b.classList.remove('active'));
-    if (key === 'invoice') document.getElementById('tabDocInvoice').classList.add('active');
-    if (key === 'support') document.getElementById('tabDocSupport').classList.add('active');
-    if (key === 'sensor') document.getElementById('tabDocSensor').classList.add('active');
+  window.loadOcrScenario = function (key) {
+    var sc = scenarios[key];
+    if (!sc) return;
 
-    const sc = ocrScenarios[key];
-    document.getElementById('docPaperContent').innerHTML = sc.doc;
-    document.getElementById('ocrTerminalOutput').innerText = JSON.stringify(sc.json, null, 2);
-  }
-
-  function copyOcrJson() {
-    navigator.clipboard.writeText(document.getElementById('ocrTerminalOutput').innerText).then(() => {
-      alert("Structured JSON Telemetry copied to clipboard!");
+    document.querySelectorAll('.fx-tabs .fx-tab').forEach(function (tab) {
+      tab.classList.remove('is-active');
+      tab.setAttribute('aria-selected', 'false');
     });
-  }
-
-  function updateRoiCalc() {
-    const team = parseInt(document.getElementById('roiTeamInput').value, 10);
-    const hours = parseInt(document.getElementById('roiHoursInput').value, 10);
-    const rate = parseInt(document.getElementById('roiRateInput').value, 10);
-
-    document.getElementById('roiTeamBadge').innerText = team + ' ' + (currentLang === 'nl' ? 'Medewerkers' : 'Staff');
-    document.getElementById('roiHoursBadge').innerText = hours + ' hrs';
-    document.getElementById('roiRateBadge').innerText = '€ ' + rate + ' / hr';
-
-    const annualHoursSaved = Math.round(team * (hours * 48 * 0.75));
-    const costSaved = Math.round(annualHoursSaved * rate);
-
-    document.getElementById('roiCostSavings').innerText = '€ ' + costSaved.toLocaleString('en-US');
-    document.getElementById('roiHoursSavings').innerText = annualHoursSaved.toLocaleString('en-US') + ' hrs';
-
-    const cta = document.getElementById('roiCtaBtn');
-    if (cta) {
-      if (currentLang === 'nl') {
-        cta.innerText = `⚡ Verzamel € ${costSaved.toLocaleString('en-US')} in Jaarlijkse Waarde`;
-      } else {
-        cta.innerText = `⚡ Recapture € ${costSaved.toLocaleString('en-US')} in Annual Value`;
-      }
+    var active = document.getElementById(sc.tab);
+    if (active) {
+      active.classList.add('is-active');
+      active.setAttribute('aria-selected', 'true');
     }
-  }
 
-  function toggleFaq(btn) {
-    const item = btn.parentElement;
-    const body = item.querySelector('.faq-answer-body');
-    const sign = btn.querySelector('.faq-sign-glyph');
-    const isActive = item.classList.contains('active');
-
-    document.querySelectorAll('.faq-card-item').forEach(other => {
-      if (other !== item) {
-        other.classList.remove('active');
-        other.querySelector('.faq-answer-body').style.maxHeight = null;
-        other.querySelector('.faq-sign-glyph').textContent = '+';
-      }
-    });
-
-    if (!isActive) {
-      item.classList.add('active');
-      body.style.maxHeight = body.scrollHeight + 'px';
-      sign.textContent = '−';
-    } else {
-      item.classList.remove('active');
-      body.style.maxHeight = null;
-      sign.textContent = '+';
+    var doc = document.getElementById('docPaperContent');
+    if (doc) {
+      doc.innerHTML =
+        '<div class="fx-doc__head"><span>' + sc.title + '</span>' +
+        '<span class="fx-mono fx-micro">' + sc.tag + '</span></div>' +
+        sc.rows.map(function (r) { return docRow(r[0], r[1]); }).join('') +
+        '<p class="fx-micro fx-dim fx-mt-4">' + sc.note + '</p>';
     }
+
+    var out = document.getElementById('ocrTerminalOutput');
+    if (out) out.textContent = JSON.stringify(sc.json, null, 2);
+  };
+
+  window.copyOcrJson = function () {
+    var out = document.getElementById('ocrTerminalOutput');
+    if (!out || !navigator.clipboard) return;
+    navigator.clipboard.writeText(out.textContent).then(function () {
+      var btn = document.querySelector('[onclick="copyOcrJson()"]');
+      if (!btn) return;
+      var original = btn.textContent;
+      btn.textContent = t('ocr.copied', 'Copied');
+      window.setTimeout(function () { btn.textContent = original; }, 1600);
+    }).catch(function () { /* clipboard blocked */ });
+  };
+
+  /* ---------- saving estimate ---------------------------------------------- */
+  window.updateRoiCalc = function () {
+    var teamEl = document.getElementById('roiTeamInput');
+    var hoursEl = document.getElementById('roiHoursInput');
+    var rateEl = document.getElementById('roiRateInput');
+    if (!teamEl || !hoursEl || !rateEl) return;
+
+    var team = parseInt(teamEl.value, 10);
+    var hours = parseInt(hoursEl.value, 10);
+    var rate = parseInt(rateEl.value, 10);
+
+    var lang = document.documentElement.getAttribute('data-lang') || 'en';
+    var locale = lang === 'nl' ? 'nl-NL' : 'en-US';
+
+    document.getElementById('roiTeamBadge').textContent = team + ' ' + t('roi.staff', 'people');
+    document.getElementById('roiHoursBadge').textContent = hours + ' ' + t('roi.hrs', 'hrs');
+    document.getElementById('roiRateBadge').textContent = '€' + rate + ' / ' + t('roi.hr', 'hr');
+
+    var annualHours = Math.round(team * hours * 48 * 0.75);
+    var saving = Math.round(annualHours * rate);
+
+    document.getElementById('roiCostSavings').textContent = '€' + saving.toLocaleString(locale);
+    document.getElementById('roiHoursSavings').textContent = annualHours.toLocaleString(locale) + ' ' + t('roi.hrs', 'hrs');
+
+    var cta = document.getElementById('roiCtaBtn');
+    if (cta) cta.textContent = t('roi.cta', 'Walk through these numbers');
+  };
+
+  /* ---------- init ---------------------------------------------------------- */
+  function init() {
+    renderConfig();
+    // Render tab 1 from the same fixture the other tabs use, so the visible
+    // document and the JS data cannot drift apart.
+    window.loadOcrScenario('invoice');
+    window.updateRoiCalc();
   }
 
-  setInterval(() => {
-    const ping = (Math.random() * 1.5 + 2.0).toFixed(1);
-    const pingEl = document.getElementById('hudPing');
-    if (pingEl) pingEl.innerText = ping + 'ms';
-  }, 3500);
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', init);
+  } else {
+    init();
+  }
 
-  document.addEventListener('DOMContentLoaded', () => {
-    resizeCanvas();
-    renderParticles();
-    const savedLang = localStorage.getItem('farvex_lang') || 'en';
-    const savedTheme = localStorage.getItem('farvex_theme') || 'matrix';
-    setLanguage(savedLang);
-    setAtmosphere(savedTheme);
-    checkCookieConsent();
+  // Re-render JS-generated strings when the visitor switches language.
+  document.addEventListener('farvex:langchange', function () {
+    renderConfig();
+    window.updateRoiCalc();
   });
+})();
 </script>
 
-<!-- Vercel Speed Insights -->
-<script>
-  window.si = window.si || function () { (window.siq = window.siq || []).push(arguments); };
-</script>
 <script defer src="/_vercel/speed-insights/script.js"></script>
 </body>
 </html>

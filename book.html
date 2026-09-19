@@ -1,573 +1,801 @@
 <!DOCTYPE html>
-<html lang="en" data-lang="en" data-theme="matrix">
+<html lang="en" data-lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
-  <title>Schedule Architecture Briefing // Farvex AI</title>
-  <meta name="description" content="Schedule a 1-on-1 technical architecture briefing with Farvex AI systems architects to evaluate your enterprise workflow automation scope.">
-  <link rel="canonical" href="https://farvex.ai/book.html">
-  <link rel="icon" type="image/svg+xml" href="farvex-logo-kit/svg/farvex-mark-dark.svg">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Request a briefing — forty-five minutes on one process</title>
+<meta name="description" content="Bring the process that eats the most hours. We work out what it costs you today, what automating it would take, and say plainly whether it is worth building. No cost.">
+<meta name="keywords" content="AI briefing, automation consultation, process automation assessment, Exact Online, SAP, Dutch AI agency">
+<meta name="author" content="Farvex AI">
+<link rel="canonical" href="https://farvex.ai/book.html">
+<meta name="robots" content="index, follow">
 
-  <style>
-    :root {
-      --bg-deep: #030712;
-      --bg-panel: rgba(11, 19, 43, 0.85);
-      --cyan-bright: #00f0ff;
-      --cyan-glow: rgba(0, 240, 255, 0.4);
-      --violet-bright: #a855f7;
-      --text-pure: #ffffff;
-      --text-main: #f1f5f9;
-      --text-muted: #94a3b8;
-      --text-dim: #64748b;
-      --border-glass: rgba(255, 255, 255, 0.08);
-      --font-display: 'Plus Jakarta Sans', sans-serif;
-      --font-heading: 'Space Grotesk', sans-serif;
-      --font-mono: 'JetBrains Mono', monospace;
-      --ease-elastic: cubic-bezier(0.16, 1, 0.3, 1);
-    }
+<!-- Open Graph / Social Sharing -->
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://farvex.ai/book.html">
+<meta property="og:title" content="Request a briefing — forty-five minutes on one process">
+<meta property="og:description" content="We put a figure on one of your processes and tell you whether automating it is worth doing.">
+<meta property="og:image" content="https://farvex.ai/farvex-logo-kit/social/farvex-og-1200x630.png">
 
-    [data-theme="matrix"] {
-      --bg-deep: #020b05; --bg-panel: rgba(4, 28, 14, 0.85);
-      --text-pure: #ffffff; --text-main: #d1fae5; --text-muted: #6ee7b7; --cyan-bright: #10b981;
-      --border-glass: rgba(16, 185, 129, 0.2);
-    }
-    [data-theme="titanium"] {
-      --bg-deep: #f8fafc; --bg-panel: rgba(255, 255, 255, 0.95);
-      --text-pure: #0f172a; --text-main: #1e293b; --text-muted: #475569; --cyan-bright: #0284c7;
-      --border-glass: rgba(0, 0, 0, 0.08);
-    }
+<!-- Twitter Card -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Request a briefing — forty-five minutes on one process">
+<meta name="twitter:description" content="We put a figure on one of your processes and tell you whether automating it is worth doing.">
+<meta name="twitter:image" content="https://farvex.ai/farvex-logo-kit/social/farvex-og-1200x630.png">
 
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    body { background: var(--bg-deep); color: var(--text-main); font-family: var(--font-display); min-height: 100vh; overflow-x: hidden; }
-    #matrixCanvas { position: fixed; inset: 0; z-index: -2; pointer-events: none; }
+<link rel="icon" type="image/svg+xml" href="assets/farvex-mark.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/farvex.css">
 
-    .telemetry-hud-bar {
-      background: rgba(2, 11, 5, 0.96); border-bottom: 1px solid var(--border-glass);
-      padding: 6px 16px; font-family: var(--font-mono); font-size: 11px;
-      display: flex; justify-content: space-between; align-items: center; position: relative; z-index: 1002;
-      gap: 8px;
+<!-- Set the theme before first paint so there is no flash. -->
+<script>
+(function () {
+  try {
+    var t = localStorage.getItem('farvex_theme_v2');
+    if (t !== 'light' && t !== 'dark') {
+      t = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
     }
-    .hud-diode { display: inline-flex; align-items: center; gap: 6px; color: var(--cyan-bright); font-weight: 600; white-space: nowrap; }
-    .hud-diode::before { content: ''; width: 6px; height: 6px; border-radius: 50%; background: var(--cyan-bright); box-shadow: 0 0 8px var(--cyan-bright); }
-    .hud-btn-group { display: flex; gap: 3px; background: rgba(255, 255, 255, 0.04); padding: 2px 4px; border-radius: 6px; border: 1px solid var(--border-glass); }
-    .hud-btn { background: transparent; border: none; color: var(--text-dim); font-family: var(--font-mono); font-size: 11px; padding: 3px 7px; border-radius: 4px; cursor: pointer; }
-    .hud-btn.active { color: #fff; background: rgba(0, 240, 255, 0.2); border: 1px solid var(--cyan-glow); }
-
-    header.site-header {
-      position: sticky; top: 0; left: 0; right: 0; z-index: 1000;
-      background: rgba(2, 11, 5, 0.94); backdrop-filter: blur(24px); border-bottom: 1px solid var(--border-glass);
-    }
-    .header-wrap { max-width: 1400px; margin: 0 auto; padding: 0 20px; height: 64px; display: flex; align-items: center; justify-content: space-between; }
-    .brand { display: flex; align-items: center; gap: 12px; text-decoration: none; }
-    .brand-box { width: 38px; height: 38px; border-radius: 10px; background: rgba(0, 240, 255, 0.08); border: 1px solid rgba(0, 240, 255, 0.35); display: flex; align-items: center; justify-content: center; }
-    .brand-box img { width: 22px; height: 22px; }
-    .brand-text { font-size: 20px; font-weight: 800; color: #fff; }
-    .brand-text span { color: var(--cyan-bright); }
-
-    .nav-links { display: flex; gap: 4px; }
-    .nav-link { font-size: 13px; font-weight: 600; color: var(--text-muted); text-decoration: none; padding: 7px 13px; border-radius: 100px; transition: all 0.2s; white-space: nowrap; }
-    .nav-link:hover, .nav-link.active { color: #fff; background: rgba(0, 240, 255, 0.12); border: 1px solid rgba(0, 240, 255, 0.3); }
-
-    /* Mobile Menu Button */
-    .mobile-menu-btn {
-      display: none; background: rgba(255, 255, 255, 0.05); border: 1px solid var(--border-glass);
-      border-radius: 8px; width: 40px; height: 40px; padding: 9px; cursor: pointer;
-      flex-direction: column; justify-content: space-between; align-items: center; z-index: 1005;
-    }
-    .mobile-menu-btn span {
-      display: block; width: 100%; height: 2px; background: #fff; border-radius: 2px; transition: all 0.3s;
-    }
-    .mobile-menu-btn.active span:nth-child(1) { transform: translateY(7px) rotate(45deg); background: var(--cyan-bright); }
-    .mobile-menu-btn.active span:nth-child(2) { opacity: 0; }
-    .mobile-menu-btn.active span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); background: var(--cyan-bright); }
-
-    /* Mobile Slide Drawer */
-    .mobile-nav-drawer {
-      display: none; position: fixed; top: 64px; left: 0; right: 0; bottom: 0;
-      background: rgba(2, 11, 5, 0.98); backdrop-filter: blur(28px); z-index: 999;
-      padding: 20px 16px 36px; overflow-y: auto; flex-direction: column; justify-content: space-between;
-      border-bottom: 1px solid var(--border-glass); animation: fadeInDrawer 0.25s ease-out;
-    }
-    .mobile-nav-drawer.open { display: flex; }
-
-    @keyframes fadeInDrawer {
-      from { opacity: 0; transform: translateY(-10px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-
-    .mobile-nav-links { display: flex; flex-direction: column; gap: 8px; }
-    .mobile-nav-link {
-      font-size: 15px; font-weight: 700; color: var(--text-main); text-decoration: none;
-      padding: 12px 16px; border-radius: 12px; background: rgba(255, 255, 255, 0.03);
-      border: 1px solid var(--border-glass); display: flex; align-items: center; justify-content: space-between;
-    }
-    .mobile-nav-link:hover, .mobile-nav-link.active {
-      background: rgba(0, 240, 255, 0.15); border-color: var(--cyan-bright); color: #fff;
-    }
-
-    .booking-wrapper {
-      max-width: 1000px; margin: 40px auto 60px; padding: 0 20px;
-    }
-    .booking-card-deck {
-      background: var(--bg-panel); border: 1px solid var(--border-glass); border-radius: 20px;
-      padding: 36px; box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6);
-    }
-    .booking-h1 { font-size: 2.2rem; font-family: var(--font-heading); color: #fff; margin-bottom: 12px; }
-    .booking-p { font-size: 14.5px; color: var(--text-muted); line-height: 1.6; margin-bottom: 28px; }
-
-    .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; margin-bottom: 18px; }
-    .form-group { display: flex; flex-direction: column; gap: 6px; }
-    .form-group.full { grid-column: 1 / -1; }
-    .form-label { font-family: var(--font-mono); font-size: 11px; color: var(--cyan-bright); font-weight: 700; text-transform: uppercase; }
-    .form-input, .form-select, .form-textarea {
-      background: #01040a; border: 1px solid var(--border-glass); border-radius: 10px;
-      padding: 12px 14px; color: #fff; font-family: var(--font-display); font-size: 13.5px; outline: none; transition: border-color 0.2s;
-    }
-    .form-input:focus, .form-select:focus, .form-textarea:focus { border-color: var(--cyan-bright); }
-    .form-textarea { resize: vertical; min-height: 90px; }
-
-    .btn-submit {
-      width: 100%; padding: 14px; border-radius: 100px; background: linear-gradient(135deg, #00f0ff 0%, #0284c7 100%);
-      color: #030712; font-size: 14px; font-weight: 800; border: none; cursor: pointer; transition: all 0.25s var(--ease-elastic);
-      box-shadow: 0 0 24px rgba(0, 240, 255, 0.4); margin-top: 10px;
-    }
-    .btn-submit:hover { transform: translateY(-2px); box-shadow: 0 0 35px rgba(0, 240, 255, 0.7); }
-
-    .booking-ack {
-      display: none; background: rgba(0, 240, 255, 0.15); border: 1px solid var(--cyan-bright);
-      border-radius: 12px; padding: 16px; color: #fff; font-family: var(--font-mono); font-size: 12.5px; text-align: center; margin-top: 18px;
-    }
-
-    .mono { font-family: var(--font-mono); }
-    .cyan { color: var(--cyan-bright); }
-
-    footer.site-footer {
-      background: #02050e; border-top: 1px solid var(--border-glass); padding: 50px 0 30px;
-    }
-    .footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1.2fr; gap: 36px; margin-bottom: 36px; max-width: 1380px; margin-left: auto; margin-right: auto; padding: 0 24px; }
-    .footer-col h5 { font-family: var(--font-mono); font-size: 11.5px; color: #fff; margin-bottom: 14px; text-transform: uppercase; }
-    .footer-col ul { list-style: none; display: flex; flex-direction: column; gap: 8px; }
-    .footer-col a { color: var(--text-muted); text-decoration: none; font-size: 13px; }
-    .footer-col a:hover { color: var(--cyan-bright); }
-
-    @media (max-width: 768px) {
-      .form-grid { grid-template-columns: 1fr; gap: 14px; }
-      .nav-links { display: none; }
-      .mobile-menu-btn { display: flex; }
-      .telemetry-hud-bar {
-        padding: 6px 12px;
-        font-size: 10px;
-        gap: 6px;
-        flex-wrap: nowrap;
-        overflow-x: auto;
-        -webkit-overflow-scrolling: touch;
-      }
-      .hud-btn { padding: 3px 6px; font-size: 10px; }
-      .hud-diode { font-size: 10px; }
-      .header-wrap { height: 64px; padding: 0 16px; }
-      .mobile-nav-drawer { top: 64px; }
-      .mobile-nav-link { padding: 12px 14px; font-size: 14px; }
-
-      .booking-card-deck { padding: 20px 14px; border-radius: 16px; }
-      .booking-h1 { font-size: 1.75rem; margin-bottom: 8px; }
-      .booking-p { font-size: 13px; margin-bottom: 20px; }
-      .booking-wrapper { margin: 24px auto 40px; padding: 0 14px; }
-      .footer-grid { grid-template-columns: 1fr; gap: 22px; }
-      .btn-submit { font-size: 13.5px; padding: 13px; }
-    }
-  </style>
+    document.documentElement.setAttribute('data-theme', t);
+  } catch (e) {
+    document.documentElement.setAttribute('data-theme', 'light');
+  }
+})();
+</script>
 </head>
-
 <body>
-<canvas id="matrixCanvas"></canvas>
 
-<div class="telemetry-hud-bar">
-  <div style="display:flex; align-items:center; gap:12px;">
-    <span class="hud-diode">ORBITAL CLUSTER: ONLINE</span>
-    <span class="mono" style="display:none;" id="hudSubTitle">SCHEDULING DISPATCH</span>
-  </div>
-  <div style="display:flex; gap:6px;">
-    <div class="hud-btn-group">
-      <button class="hud-btn" id="btnThemeObsidian" onclick="setAtmosphere('obsidian')">Obsidian</button>
-      <button class="hud-btn active" id="btnThemeMatrix" onclick="setAtmosphere('matrix')">Matrix</button>
-      <button class="hud-btn" id="btnThemeTitanium" onclick="setAtmosphere('titanium')">Titanium</button>
-    </div>
-    <div class="hud-btn-group">
-      <button class="hud-btn active" id="btnLangEN" onclick="setLanguage('en')">EN</button>
-      <button class="hud-btn" id="btnLangNL" onclick="setLanguage('nl')">NL</button>
-    </div>
-  </div>
-</div>
+<a class="fx-skip" href="#main">Skip to content</a>
 
-<header class="site-header">
-  <div class="header-wrap">
-    <a href="index.html" class="brand">
-      <div class="brand-box">
-        <img src="farvex-logo-kit/svg/farvex-mark-dark.svg" alt="Farvex AI Logo">
-      </div>
-      <div class="brand-text">FARVEX<span>.AI</span></div>
+<div class="fx-progress" aria-hidden="true"><div class="fx-progress__bar" data-progress-bar></div></div>
+
+<!-- ============================ HEADER ============================ -->
+<header class="fx-header" data-header>
+  <div class="fx-container fx-header__inner">
+    <a href="index.html" class="fx-brand">
+      <svg class="fx-brand__mark" viewBox="0 0 600 600" role="img" aria-label="Farvex AI">
+        <rect class="fx-mark-body" x="133.6" y="108" width="70.4" height="384"/>
+        <rect class="fx-mark-body" x="133.6" y="108" width="152" height="62.4"/>
+        <rect class="fx-mark-body" x="133.6" y="269.28" width="136" height="62.4"/>
+        <rect class="fx-mark-accent" x="264.8" y="282.88" width="136" height="35.2"/>
+        <polygon class="fx-mark-accent" points="400.8,273.28 447.2,300.48 400.8,327.68"/>
+        <circle class="fx-mark-accent" cx="456.8" cy="300.48" r="9.6"/>
+      </svg>
+      <span>Farvex<span class="fx-brand__dot">.ai</span></span>
     </a>
 
-    <nav class="nav-links">
-      <a href="index.html" class="nav-link" data-i18n="nav.home">← Home (Chaos/Order)</a>
-      <a href="solutions.html" class="nav-link" data-i18n="nav.solutions">Solutions Suite</a>
-      <a href="case-studies.html" class="nav-link" data-i18n="nav.cases">Case Studies</a>
-      <a href="architecture.html" class="nav-link" data-i18n="nav.arch">Architecture</a>
-      <a href="security.html" class="nav-link" data-i18n="nav.security">Security Vault</a>
-      <a href="contact.html" class="nav-link" data-i18n="nav.contact">Uplink</a>
+    <nav class="fx-nav" aria-label="Main">
+      <a href="solutions.html" class="fx-nav__link" data-i18n="nav.solutions">Solutions</a>
+      <a href="case-studies.html" class="fx-nav__link" data-i18n="nav.cases">Case studies</a>
+      <a href="architecture.html" class="fx-nav__link" data-i18n="nav.arch">Architecture</a>
+      <a href="security.html" class="fx-nav__link" data-i18n="nav.security">Security</a>
+      <a href="contact.html" class="fx-nav__link" data-i18n="nav.contact">Contact</a>
     </nav>
 
-    <div style="display:flex; align-items:center; gap:10px;">
-      <span class="mono cyan" style="font-size:11px; display:none;" id="navBriefingLabel">1-ON-1 BRIEFING</span>
-      <button class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Toggle Navigation" onclick="toggleMobileNav()">
+    <div class="fx-header__actions">
+      <div class="fx-segment" role="group" aria-label="Language">
+        <button type="button" class="fx-segment__btn is-active" data-lang-btn="en">EN</button>
+        <button type="button" class="fx-segment__btn" data-lang-btn="nl">NL</button>
+      </div>
+
+      <button type="button" class="fx-iconbtn" data-theme-toggle aria-pressed="false" aria-label="Switch to dark theme" title="Switch to dark theme">
+        <svg class="fx-icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
+          <circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/>
+        </svg>
+        <svg class="fx-icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/>
+        </svg>
+      </button>
+
+      <a href="book.html" class="fx-btn fx-btn--primary fx-btn--sm fx-hide-sm" data-i18n="nav.cta">Request a briefing</a>
+
+      <button type="button" class="fx-burger" data-nav-toggle aria-expanded="false" aria-controls="mobileNav" aria-label="Open menu">
         <span></span><span></span><span></span>
       </button>
     </div>
   </div>
 
-  <!-- Mobile Slide Drawer -->
-  <div class="mobile-nav-drawer" id="mobileNavDrawer">
-    <div class="mobile-nav-links">
-      <a href="index.html" class="mobile-nav-link" onclick="toggleMobileNav()" data-i18n="nav.home">← Home (Chaos/Order) <span>➔</span></a>
-      <a href="solutions.html" class="mobile-nav-link" onclick="toggleMobileNav()" data-i18n="nav.solutions">Solutions Suite <span>➔</span></a>
-      <a href="case-studies.html" class="mobile-nav-link" onclick="toggleMobileNav()" data-i18n="nav.cases">Case Studies <span>➔</span></a>
-      <a href="architecture.html" class="mobile-nav-link" onclick="toggleMobileNav()" data-i18n="nav.arch">Architecture <span>➔</span></a>
-      <a href="security.html" class="mobile-nav-link" onclick="toggleMobileNav()" data-i18n="nav.security">Security Vault <span>➔</span></a>
-      <a href="pre-deployment-checklist.html" class="mobile-nav-link" onclick="toggleMobileNav()">Pre-Deploy Checklist <span>➔</span></a>
-      <a href="privacy.html" class="mobile-nav-link" onclick="toggleMobileNav()">Privacy Statement (GDPR) <span>➔</span></a>
-      <a href="terms.html" class="mobile-nav-link" onclick="toggleMobileNav()">Terms of Service (B2B) <span>➔</span></a>
-      <a href="cookies.html" class="mobile-nav-link" onclick="toggleMobileNav()">Cookie Preferences <span>➔</span></a>
-      <a href="contact.html" class="mobile-nav-link" onclick="toggleMobileNav()">Direct Uplink / Contact <span>➔</span></a>
+  <div class="fx-drawer" id="mobileNav" data-nav-drawer>
+    <a href="solutions.html" class="fx-drawer__link" data-i18n="nav.solutions">Solutions</a>
+    <a href="case-studies.html" class="fx-drawer__link" data-i18n="nav.cases">Case studies</a>
+    <a href="architecture.html" class="fx-drawer__link" data-i18n="nav.arch">Architecture</a>
+    <a href="security.html" class="fx-drawer__link" data-i18n="nav.security">Security</a>
+    <a href="contact.html" class="fx-drawer__link" data-i18n="nav.contact">Contact</a>
+    <a href="pre-deployment-checklist.html" class="fx-drawer__link" data-i18n="nav.checklist">Pre-deployment checklist</a>
+    <div class="fx-drawer__cta">
+      <a href="book.html" class="fx-btn fx-btn--primary fx-btn--block" data-i18n="nav.cta">Request a briefing</a>
     </div>
   </div>
 </header>
 
-<main class="booking-wrapper">
-  <div class="booking-card-deck">
-    <div class="mono cyan" style="font-size:11px; font-weight:700; margin-bottom:8px;">[ DIRECT ARCHITECT DISPATCH ]</div>
-    <h1 class="booking-h1" data-i18n="b.h1">Schedule Technical Briefing</h1>
-    <p class="booking-p" data-i18n="b.sub">
-      Meet with a Farvex AI systems architect to evaluate your enterprise workflows, estimate ROI savings, and plan an MVP integration.
-    </p>
+<main id="main">
 
-    <form id="bookingForm" onsubmit="handleBookingSubmit(event)">
-      <!-- Security Honeypot Node -->
-      <div style="position: absolute; left: -9999px; top: -9999px; opacity: 0; pointer-events: none;" aria-hidden="true">
-        <label for="_farvex_hp_node">Security Gateway Trap</label>
-        <input type="text" name="_farvex_hp_node" id="_farvex_hp_node" tabindex="-1" autocomplete="off">
-      </div>
-
-      <div class="form-grid">
-        <div class="form-group">
-          <label class="form-label" data-i18n="f.name">Executive Full Name</label>
-          <input type="text" id="bName" class="form-input" required maxlength="100" placeholder="e.g. Willem van Dijk">
-        </div>
-
-        <div class="form-group">
-          <label class="form-label" data-i18n="f.email">Corporate Work Email</label>
-          <input type="email" id="bEmail" class="form-input" required maxlength="150" placeholder="willem@logistics.nl">
-        </div>
-
-        <div class="form-group">
-          <label class="form-label" data-i18n="f.company">Company / Organization</label>
-          <input type="text" id="bCompany" class="form-input" required maxlength="150" placeholder="e.g. EuroFreight N.V.">
-        </div>
-
-        <div class="form-group">
-          <label class="form-label" data-i18n="f.scope">Primary Automation Scope</label>
-          <select id="bScope" class="form-select" required>
-            <option value="Document Vision OCR & Invoice Clearance">Document Vision OCR & Invoice Clearance</option>
-            <option value="ERP Workflow Orchestration (Exact / SAP)">ERP Workflow Orchestration (Exact / SAP)</option>
-            <option value="Autonomous Mission Agent Swarm">Autonomous Mission Agent Swarm</option>
-            <option value="Predictive Maintenance & Risk Scoring">Predictive Maintenance & Risk Scoring</option>
-            <option value="Private Sovereign Vector RAG Core">Private Sovereign Vector RAG Core</option>
-          </select>
-        </div>
-
-        <div class="form-group full">
-          <label class="form-label" data-i18n="f.notes">Current Bottlenecks / Tech Stack (Optional)</label>
-          <textarea id="bNotes" class="form-textarea" placeholder="Describe current manual bottlenecks, data volume, and target software (e.g. Exact, SAP, Salesforce)..."></textarea>
+  <section class="fx-pagehead">
+    <div class="fx-container">
+      <div class="fx-pagehead__inner">
+        <span class="fx-eyebrow" data-i18n="head.eyebrow">Request a briefing</span>
+        <h1 class="fx-h1" data-i18n="head.h1">Forty-five minutes on one process</h1>
+        <p class="fx-lead" data-i18n="head.sub">Bring the process that eats the most hours. We work out what it costs you today, what automating it would take, and say plainly whether it is worth building.</p>
+        <div class="fx-chip-set fx-mt-4">
+          <span class="fx-chip" data-i18n="call.chip1">45 minutes</span>
+          <span class="fx-chip" data-i18n="call.chip2">Video call, or in person near Rotterdam</span>
+          <span class="fx-chip" data-i18n="call.chip3">English or Dutch</span>
         </div>
       </div>
-
-      <button type="submit" id="btnSubmitBooking" class="btn-submit" data-i18n="f.submit">
-        ⚡ Confirm & Reserve Architecture Session
-      </button>
-    </form>
-
-    <div class="booking-ack" id="bookingAck" data-i18n="f.ack">
-      ✓ BRIEFING RESERVED // A Farvex systems architect will dispatch a direct calendar invitation within 2 hours.
+      <div class="fx-pagehead__art" data-parallax="0.04" aria-hidden="true">
+        <svg class="fx-art" viewBox="0 0 360 300" role="presentation" focusable="false">
+          <circle class="fx-art__halo fx-art__pulse" cx="180" cy="150" r="116"/>
+          <g class="fx-art__float">
+          <rect class="fx-art__panel" x="56" y="56" width="248" height="196" rx="16"/>
+          <rect class="fx-art__accent-soft" x="56" y="56" width="248" height="42" rx="16"/>
+          <rect class="fx-art__accent" x="102" y="42" width="9" height="28" rx="4.5"/>
+          <rect class="fx-art__accent" x="249" y="42" width="9" height="28" rx="4.5"/>
+          <rect class="fx-art__line--soft" x="80" y="118" width="34" height="26" rx="6"/>
+          <rect class="fx-art__line--soft" x="126" y="118" width="34" height="26" rx="6"/>
+          <rect class="fx-art__line--soft" x="172" y="118" width="34" height="26" rx="6"/>
+          <rect class="fx-art__line--soft" x="218" y="118" width="34" height="26" rx="6"/>
+          <rect class="fx-art__line--soft" x="80" y="156" width="34" height="26" rx="6"/>
+          <rect class="fx-art__accent" x="126" y="156" width="34" height="26" rx="6"/>
+          <rect class="fx-art__line--soft" x="172" y="156" width="34" height="26" rx="6"/>
+          <rect class="fx-art__line--soft" x="218" y="156" width="34" height="26" rx="6"/>
+          <rect class="fx-art__line--soft" x="80" y="194" width="34" height="26" rx="6"/>
+          <rect class="fx-art__line--soft" x="126" y="194" width="34" height="26" rx="6"/>
+          <rect class="fx-art__line--soft" x="172" y="194" width="34" height="26" rx="6"/>
+          <rect class="fx-art__line--soft" x="218" y="194" width="34" height="26" rx="6"/>
+          </g>
+          <g class="fx-art__float fx-art__float--d2">
+          <rect class="fx-art__panel" x="196" y="216" width="126" height="48" rx="24"/>
+          <circle class="fx-art__ok" cx="224" cy="240" r="11"/>
+          <path d="M219 240l3.5 3.5 7-7" fill="none" stroke="var(--fx-surface)" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
+          <rect class="fx-art__line" x="244" y="236" width="58" height="8" rx="4"/>
+          </g>
+        </svg>
+      </div>
     </div>
-  </div>
+  </section>
+
+  <!-- ============================ HOW THE CALL GOES ============================ -->
+  <section class="fx-section" id="what-happens">
+    <div class="fx-container">
+      <div class="fx-section-head">
+        <span class="fx-eyebrow" data-i18n="call.eyebrow">The call</span>
+        <h2 class="fx-h2" data-i18n="call.h2">How the call goes</h2>
+        <p class="fx-lead" data-i18n="call.sub">Three stages, and you can stop at any of them.</p>
+      </div>
+
+      <div class="fx-grid fx-grid--3" data-reveal data-stagger>
+        <article class="fx-card">
+          <span class="fx-eyebrow">01</span>
+          <h3 class="fx-card__title" data-i18n="call.s1t">You walk us through one process</h3>
+          <p class="fx-card__text" data-i18n="call.s1d">Where the documents arrive, who touches them, and which system they have to end up in.</p>
+        </article>
+
+        <article class="fx-card">
+          <span class="fx-eyebrow">02</span>
+          <h3 class="fx-card__title" data-i18n="call.s2t">We put a figure on it</h3>
+          <p class="fx-card__text" data-i18n="call.s2d">Volume times handling time, plus the rework errors cause. Every number is one you can check against your own records.</p>
+        </article>
+
+        <article class="fx-card">
+          <span class="fx-eyebrow">03</span>
+          <h3 class="fx-card__title" data-i18n="call.s3t">We tell you whether to build it</h3>
+          <p class="fx-card__text" data-i18n="call.s3d">If it is worth it, you get a one-page summary with the integration points, the parts a person still has to approve, and a rough timeline. If it is not, we say so.</p>
+        </article>
+      </div>
+
+      <div class="fx-callout fx-mt-8">
+        <svg class="fx-callout__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <circle cx="12" cy="12" r="9"/><path d="M12 16v-4M12 8h.01"/>
+        </svg>
+        <p data-i18n="call.note">The engineer who would build the system is on the call. No account manager, no slide deck, no cost.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================ FORM ============================ -->
+  <section class="fx-section fx-section--alt" id="request">
+    <div class="fx-container fx-container--narrow">
+      <div class="fx-card fx-card--pad-lg" data-reveal>
+        <h2 class="fx-h3" data-i18n="form.h2">Pick a time</h2>
+        <p class="fx-body fx-small fx-mt-4" data-i18n="form.sub">Send this and we come back within one working day with two or three slots that fit your week.</p>
+
+        <form id="bookingForm" class="fx-mt-6" novalidate>
+
+          <!-- Honeypot: stays in the DOM, unreachable for people, tempting for bots. -->
+          <div class="fx-hp" aria-hidden="true">
+            <label class="fx-hp" for="_farvex_hp_node">Leave this field empty</label>
+            <input class="fx-hp" type="text" name="_farvex_hp_node" id="_farvex_hp_node" tabindex="-1" autocomplete="off" aria-hidden="true">
+          </div>
+
+          <div class="fx-form-grid">
+            <div class="fx-field">
+              <label class="fx-label" for="bName" data-i18n="f.name">Your name</label>
+              <input type="text" id="bName" name="name" class="fx-input" required maxlength="100" autocomplete="name" data-i18n-placeholder="f.namePh" placeholder="Willem van Dijk">
+            </div>
+
+            <div class="fx-field">
+              <label class="fx-label" for="bEmail" data-i18n="f.email">Work email</label>
+              <input type="email" id="bEmail" name="email" class="fx-input" required maxlength="150" autocomplete="email" data-i18n-placeholder="f.emailPh" placeholder="willem@eurofreight.nl">
+            </div>
+
+            <div class="fx-field">
+              <label class="fx-label" for="bCompany" data-i18n="f.company">Company</label>
+              <input type="text" id="bCompany" name="company" class="fx-input" required maxlength="150" autocomplete="organization" data-i18n-placeholder="f.companyPh" placeholder="EuroFreight N.V.">
+            </div>
+
+            <div class="fx-field">
+              <label class="fx-label" for="bScope" data-i18n="f.scope">Which process?</label>
+              <select id="bScope" name="scope" class="fx-select" required>
+                <option value="Document Vision OCR &amp; Invoice Clearance" data-i18n="f.opt1">Invoices and document parsing</option>
+                <option value="ERP Workflow Orchestration (Exact / SAP)" data-i18n="f.opt2">Workflow automation in Exact or SAP</option>
+                <option value="Autonomous Mission Agent Swarm" data-i18n="f.opt3">AI agents for multi-step work</option>
+                <option value="Predictive Maintenance &amp; Risk Scoring" data-i18n="f.opt4">Forecasting and risk scoring</option>
+                <option value="Private Sovereign Vector RAG Core" data-i18n="f.opt5">Internal search over your own documents</option>
+              </select>
+            </div>
+
+            <div class="fx-field fx-field--full">
+              <label class="fx-label" for="bNotes" data-i18n="f.notes">Where it jams up today</label>
+              <textarea id="bNotes" name="message" class="fx-textarea" maxlength="5000" aria-describedby="bNotesHelp" data-i18n-placeholder="f.notesPh" placeholder="Roughly 400 supplier invoices a month, typed into Exact by hand. Two people spend a morning a week on it."></textarea>
+              <p class="fx-help" id="bNotesHelp" data-i18n="f.notesHelp">Optional. Volume, the software it has to talk to, and what goes wrong now — that is enough to make the estimate real.</p>
+            </div>
+          </div>
+
+          <button type="submit" id="btnSubmitBooking" class="fx-btn fx-btn--primary fx-btn--lg fx-btn--block fx-mt-6" data-i18n="f.submit">Request a briefing</button>
+
+          <p class="fx-formnote" id="bookingAck" role="status"></p>
+
+          <p class="fx-help fx-mt-4">
+            <span data-i18n="f.privacy">We use these details to arrange the briefing, nothing else.</span>
+            <a href="privacy.html" data-i18n="f.privacyLink">Read the privacy statement</a>
+          </p>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================ FAQ ============================ -->
+  <section class="fx-section">
+    <div class="fx-container fx-container--narrow">
+      <div class="fx-section-head">
+        <span class="fx-eyebrow" data-i18n="faq.eyebrow">Before you book</span>
+        <h2 class="fx-h2" data-i18n="faq.h2">Things people ask first</h2>
+      </div>
+
+      <div class="fx-accordion">
+        <div class="fx-accordion__item">
+          <button type="button" class="fx-accordion__trigger" aria-expanded="false" aria-controls="bookFaq1">
+            <span data-i18n="faq.q1">What does the briefing cost?</span>
+            <span class="fx-accordion__icon" aria-hidden="true"></span>
+          </button>
+          <div class="fx-accordion__panel" id="bookFaq1" role="region">
+            <div><p data-i18n="faq.a1">Nothing. If you decide to go ahead, we quote a fixed price for a scoped first build before any work starts.</p></div>
+          </div>
+        </div>
+
+        <div class="fx-accordion__item">
+          <button type="button" class="fx-accordion__trigger" aria-expanded="false" aria-controls="bookFaq2">
+            <span data-i18n="faq.q2">Do we need to prepare?</span>
+            <span class="fx-accordion__icon" aria-hidden="true"></span>
+          </button>
+          <div class="fx-accordion__panel" id="bookFaq2" role="region">
+            <div><p data-i18n="faq.a2">A rough monthly volume and one example document, if one is to hand. Nothing needs cleaning up first — messy input is the normal case.</p></div>
+          </div>
+        </div>
+
+        <div class="fx-accordion__item">
+          <button type="button" class="fx-accordion__trigger" aria-expanded="false" aria-controls="bookFaq3">
+            <span data-i18n="faq.q3">How soon can we meet?</span>
+            <span class="fx-accordion__icon" aria-hidden="true"></span>
+          </button>
+          <div class="fx-accordion__panel" id="bookFaq3" role="region">
+            <div><p data-i18n="faq.a3">Usually within five working days. Say so in the notes if it is more urgent and we will find something sooner.</p></div>
+          </div>
+        </div>
+
+        <div class="fx-accordion__item">
+          <button type="button" class="fx-accordion__trigger" aria-expanded="false" aria-controls="bookFaq4">
+            <span data-i18n="faq.q4">What happens to what we send?</span>
+            <span class="fx-accordion__icon" aria-hidden="true"></span>
+          </button>
+          <div class="fx-accordion__panel" id="bookFaq4" role="region">
+            <div>
+              <p data-i18n="faq.a4">It reaches the two people who run Farvex and nobody else. We keep it in the EU, use it to arrange the briefing, and delete it on request.</p>
+              <p class="fx-mt-4"><a href="security.html" class="fx-link" data-i18n="faq.a4link">Read how we handle data</a></p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================ CTA ============================ -->
+  <section class="fx-section fx-section--tint">
+    <div class="fx-container">
+      <div class="fx-section-head fx-section-head--center fx-mt-0">
+        <h2 class="fx-h2" data-i18n="cta.h2">Would you rather ask something first?</h2>
+        <p class="fx-lead" data-i18n="cta.sub">Send it by email and we will answer before you commit to a call. Or see what these builds looked like for other teams.</p>
+        <div class="fx-btn-group fx-row--center fx-mt-4">
+          <a href="contact.html" class="fx-btn fx-btn--primary fx-btn--lg" data-i18n="cta.btnContact">Send a message</a>
+          <a href="case-studies.html" class="fx-btn fx-btn--secondary fx-btn--lg" data-i18n="cta.btnCases">Read the case studies</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
 </main>
 
-<footer class="site-footer">
-  <div class="footer-grid">
-    <div class="footer-col">
-      <a href="index.html" class="brand" style="margin-bottom: 14px;">
-        <div class="brand-box">
-          <img src="farvex-logo-kit/svg/farvex-mark-dark.svg" alt="Farvex AI Logo">
-        </div>
-        <div class="brand-text">FARVEX<span>.AI</span></div>
-      </a>
-      <p style="font-size: 13px; color: var(--text-muted); line-height: 1.6;" data-i18n="footer.desc">
-        Bespoke enterprise AI systems engineering, high-throughput autonomous agents, and industrial automation.
-      </p>
+<!-- ============================ FOOTER ============================ -->
+<footer class="fx-footer">
+  <div class="fx-container">
+    <div class="fx-footer__grid">
+      <div>
+        <a href="index.html" class="fx-brand">
+          <svg class="fx-brand__mark" viewBox="0 0 600 600" role="img" aria-label="Farvex AI">
+            <rect class="fx-mark-body" x="133.6" y="108" width="70.4" height="384"/>
+            <rect class="fx-mark-body" x="133.6" y="108" width="152" height="62.4"/>
+            <rect class="fx-mark-body" x="133.6" y="269.28" width="136" height="62.4"/>
+            <rect class="fx-mark-accent" x="264.8" y="282.88" width="136" height="35.2"/>
+            <polygon class="fx-mark-accent" points="400.8,273.28 447.2,300.48 400.8,327.68"/>
+            <circle class="fx-mark-accent" cx="456.8" cy="300.48" r="9.6"/>
+          </svg>
+          <span>Farvex<span class="fx-brand__dot">.ai</span></span>
+        </a>
+        <p class="fx-footer__about fx-mt-4" data-i18n="footer.desc">
+          Enterprise AI systems engineering — document parsing, workflow automation and agents built for European operations.
+        </p>
+      </div>
+
+      <div>
+        <h2 data-i18n="footer.col1">Solutions</h2>
+        <ul>
+          <li><a href="solutions.html#workflow" data-i18n="footer.l1">Workflow automation</a></li>
+          <li><a href="solutions.html#vision" data-i18n="footer.l2">Document parsing</a></li>
+          <li><a href="solutions.html#agents" data-i18n="footer.l3">AI agents</a></li>
+          <li><a href="solutions.html#predictive" data-i18n="footer.l4">Forecasting</a></li>
+          <li><a href="solutions.html#rag" data-i18n="footer.l5">Internal search</a></li>
+        </ul>
+      </div>
+
+      <div>
+        <h2 data-i18n="footer.col2">Company</h2>
+        <ul>
+          <li><a href="case-studies.html" data-i18n="footer.l6">Case studies</a></li>
+          <li><a href="architecture.html" data-i18n="footer.l7">Architecture</a></li>
+          <li><a href="security.html" data-i18n="footer.l8">Security</a></li>
+          <li><a href="pre-deployment-checklist.html" data-i18n="footer.l9">Pre-deployment checklist</a></li>
+          <li><a href="contact.html" data-i18n="footer.l10">Contact</a></li>
+        </ul>
+      </div>
+
+      <div>
+        <h2 data-i18n="footer.col3">Details</h2>
+        <p class="fx-small fx-dim">KvK 89412084</p>
+        <p class="fx-small fx-dim">BTW NL864982103B01</p>
+        <p class="fx-small fx-dim">Vlaardingen, Netherlands</p>
+        <p class="fx-small fx-mt-4"><a href="mailto:farvexai@gmail.com">farvexai@gmail.com</a></p>
+        <p class="fx-small"><a href="tel:+31639760295">+31 6 39760295</a></p>
+      </div>
     </div>
 
-    <div class="footer-col">
-      <h5 data-i18n="footer.col1">Solutions Suite</h5>
-      <ul>
-        <li><a href="solutions.html#workflow">Workflow Orchestration</a></li>
-        <li><a href="solutions.html#vision">Computer Vision & OCR</a></li>
-        <li><a href="solutions.html#agents">Mission Agents</a></li>
-        <li><a href="solutions.html#predictive">Predictive Risk</a></li>
-      </ul>
-    </div>
-
-    <div class="footer-col">
-      <h5 data-i18n="footer.col2">Legal & Governance</h5>
-      <ul>
-        <li><a href="pre-deployment-checklist.html">Pre-Deployment Checklist</a></li>
-        <li><a href="privacy.html">Privacy Statement (GDPR)</a></li>
-        <li><a href="terms.html">Terms of Service (B2B)</a></li>
-        <li><a href="cookies.html">Cookie Preferences</a></li>
-        <li><a href="security.html">Data Sovereignty Vault</a></li>
-        <li><a href="dashboard.html" style="color: var(--cyan-bright); font-size:12px; font-weight:600;">Admin Telemetry ↗</a></li>
-      </ul>
-    </div>
-
-    <div class="footer-col">
-      <h5 data-i18n="footer.col3">Coordinates</h5>
-      <p class="mono" style="font-size: 12px; color: var(--text-muted); margin-bottom: 4px;">KvK: 89412084 // BTW: NL864982103B01</p>
-      <p class="mono" style="font-size: 12px; color: var(--text-muted); margin-bottom: 6px;">Vlaardingen, Netherlands</p>
-      <p class="mono" style="font-size: 11.5px; color: var(--cyan-bright);">STATUS: SOVEREIGN EU NODE</p>
+    <div class="fx-footer__bottom">
+      <span>© <span data-year>2026</span> Farvex AI. <span data-i18n="footer.rights">All rights reserved.</span></span>
+      <div class="fx-footer__legal">
+        <a href="privacy.html" data-i18n="footer.privacy">Privacy</a>
+        <a href="terms.html" data-i18n="footer.terms">Terms</a>
+        <a href="cookies.html" data-i18n="footer.cookies">Cookies</a>
+        <a href="dashboard.html" data-i18n="footer.admin">Admin</a>
+      </div>
     </div>
   </div>
 </footer>
 
+<!-- Cookie notice -->
+<div class="fx-consent" data-consent role="dialog" aria-labelledby="consentTitle" aria-describedby="consentText">
+  <p class="fx-consent__title" id="consentTitle" data-i18n="ck.popTitle">Cookies</p>
+  <p class="fx-consent__text" id="consentText" data-i18n="ck.popText">
+    Your theme and language choice are kept on your own device. No advertising or profiling trackers.
+  </p>
+  <div class="fx-row">
+    <button type="button" class="fx-btn fx-btn--primary fx-btn--sm" data-consent-choice="all" data-i18n="ck.popAccept">Accept</button>
+    <button type="button" class="fx-btn fx-btn--quiet fx-btn--sm" data-consent-choice="essential" data-i18n="ck.popEssential">Essential only</button>
+    <a href="cookies.html" class="fx-small" data-i18n="ck.popManage">Details</a>
+  </div>
+</div>
+
+
 <script>
-  const T = {
-    'en': {
-      "nav.home": "← Home (Chaos/Order)", "nav.solutions": "Solutions Suite",
-      "nav.cases": "Case Studies", "nav.arch": "Architecture",
-      "nav.security": "Security Vault", "nav.contact": "Uplink",
-      "b.h1": "Schedule Technical Briefing",
-      "b.sub": "Meet with a Farvex AI systems architect to evaluate your enterprise workflows, estimate ROI savings, and plan an MVP integration.",
-      "f.name": "Executive Full Name", "f.email": "Corporate Work Email",
-      "f.company": "Company / Organization", "f.scope": "Primary Automation Scope",
-      "f.notes": "Current Bottlenecks / Tech Stack (Optional)",
-      "f.submit": "⚡ Confirm & Reserve Architecture Session",
-      "f.ack": "✓ BRIEFING RESERVED // A Farvex systems architect will dispatch a direct calendar invitation within 2 hours.",
-      "footer.desc": "Bespoke enterprise AI systems engineering, high-throughput autonomous agents, and industrial automation.",
-      "footer.col1": "Solutions Suite", "footer.col2": "Legal & Governance", "footer.col3": "Coordinates"
-    },
-    'nl': {
-      "nav.home": "← Home (Chaos/Orde)", "nav.solutions": "Oplossingen Suite",
-      "nav.cases": "Casestudies", "nav.arch": "Architectuur",
-      "nav.security": "Beveiliging", "nav.contact": "Contact",
-      "b.h1": "Plan Technische Briefing",
-      "b.sub": "Spreek met een Farvex AI systems architect om uw workflows te analyseren, potentiële besparingen te berekenen en een MVP-traject te plannen.",
-      "f.name": "Volledige Naam", "f.email": "Zakelijk E-mailadres",
-      "f.company": "Bedrijf / Organisatie", "f.scope": "Primaire Automatiseringsdoel",
-      "f.notes": "Huidige Knelpunten / Software Stack (Optioneel)",
-      "f.submit": "⚡ Bevestig & Reserveer Architectuursessie",
-      "f.ack": "✓ SESSIE GERESERVEERD // Een Farvex architect stuurt binnen 2 uur een directe kalenderuitnodiging.",
-      "footer.desc": "Maatwerk enterprise AI engineering, snelle autonome agenten en industriële automatisering.",
-      "footer.col1": "Oplossingen Suite", "footer.col2": "Juridisch & Beheer", "footer.col3": "Coördinaten"
-    }
-  };
+/* ---------------------------------------------------------------------------
+   Translations. Shared behaviour in /assets/farvex.js reads this object.
+   Values are plain text only: the loader assigns textContent, so any markup
+   in a value would wipe the element's children.
 
-  function setLanguage(l) {
-    document.documentElement.setAttribute('data-lang', l);
-    localStorage.setItem('farvex_lang', l);
-    document.getElementById('btnLangEN').classList.toggle('active', l === 'en');
-    document.getElementById('btnLangNL').classList.toggle('active', l === 'nl');
-    const dict = T[l];
-    if (!dict) return;
-    document.querySelectorAll('[data-i18n]').forEach(el => {
-      const k = el.getAttribute('data-i18n');
-      if (dict[k]) el.innerHTML = dict[k];
-    });
+   The msg.* keys are the form's status messages, resolved from the page script.
+   --------------------------------------------------------------------------- */
+window.FARVEX_I18N = {
+  en: {
+    "nav.solutions": "Solutions",
+    "nav.cases": "Case studies",
+    "nav.arch": "Architecture",
+    "nav.security": "Security",
+    "nav.contact": "Contact",
+    "nav.checklist": "Pre-deployment checklist",
+    "nav.cta": "Request a briefing",
+
+    "footer.desc": "Enterprise AI systems engineering — document parsing, workflow automation and agents built for European operations.",
+    "footer.col1": "Solutions",
+    "footer.col2": "Company",
+    "footer.col3": "Details",
+    "footer.l1": "Workflow automation",
+    "footer.l2": "Document parsing",
+    "footer.l3": "AI agents",
+    "footer.l4": "Forecasting",
+    "footer.l5": "Internal search",
+    "footer.l6": "Case studies",
+    "footer.l7": "Architecture",
+    "footer.l8": "Security",
+    "footer.l9": "Pre-deployment checklist",
+    "footer.l10": "Contact",
+    "footer.rights": "All rights reserved.",
+    "footer.privacy": "Privacy",
+    "footer.terms": "Terms",
+    "footer.cookies": "Cookies",
+    "footer.admin": "Admin",
+
+    "ck.popTitle": "Cookies",
+    "ck.popText": "Your theme and language choice are kept on your own device. No advertising or profiling trackers.",
+    "ck.popAccept": "Accept",
+    "ck.popEssential": "Essential only",
+    "ck.popManage": "Details",
+
+    "head.eyebrow": "Request a briefing",
+    "head.h1": "Forty-five minutes on one process",
+    "head.sub": "Bring the process that eats the most hours. We work out what it costs you today, what automating it would take, and say plainly whether it is worth building.",
+
+    "call.eyebrow": "The call",
+    "call.h2": "How the call goes",
+    "call.sub": "Three stages, and you can stop at any of them.",
+    "call.s1t": "You walk us through one process",
+    "call.s1d": "Where the documents arrive, who touches them, and which system they have to end up in.",
+    "call.s2t": "We put a figure on it",
+    "call.s2d": "Volume times handling time, plus the rework errors cause. Every number is one you can check against your own records.",
+    "call.s3t": "We tell you whether to build it",
+    "call.s3d": "If it is worth it, you get a one-page summary with the integration points, the parts a person still has to approve, and a rough timeline. If it is not, we say so.",
+    "call.note": "The engineer who would build the system is on the call. No account manager, no slide deck, no cost.",
+    "call.chip1": "45 minutes",
+    "call.chip2": "Video call, or in person near Rotterdam",
+    "call.chip3": "English or Dutch",
+
+    "form.h2": "Pick a time",
+    "form.sub": "Send this and we come back within one working day with two or three slots that fit your week.",
+    "f.name": "Your name",
+    "f.namePh": "Willem van Dijk",
+    "f.email": "Work email",
+    "f.emailPh": "willem@eurofreight.nl",
+    "f.company": "Company",
+    "f.companyPh": "EuroFreight N.V.",
+    "f.scope": "Which process?",
+    "f.opt1": "Invoices and document parsing",
+    "f.opt2": "Workflow automation in Exact or SAP",
+    "f.opt3": "AI agents for multi-step work",
+    "f.opt4": "Forecasting and risk scoring",
+    "f.opt5": "Internal search over your own documents",
+    "f.notes": "Where it jams up today",
+    "f.notesPh": "Roughly 400 supplier invoices a month, typed into Exact by hand. Two people spend a morning a week on it.",
+    "f.notesHelp": "Optional. Volume, the software it has to talk to, and what goes wrong now — that is enough to make the estimate real.",
+    "f.submit": "Request a briefing",
+    "f.sending": "Sending…",
+    "f.privacy": "We use these details to arrange the briefing, nothing else.",
+    "f.privacyLink": "Read the privacy statement",
+    "f.fallbackNote": "Briefing requested. No further notes were given.",
+
+    "msg.badName": "Please enter your full name, at least two characters.",
+    "msg.badEmail": "That email address does not look right. Check it and try again.",
+    "msg.ok": "Booked. We will email you two or three slots within one working day.",
+    "msg.ref": "Your reference:",
+    "msg.rate": "Too many requests from this connection. Your details are saved on this device — try again in ten minutes.",
+    "msg.rejected": "The server did not accept this request. Check your name and email address, then send it again.",
+    "msg.server": "Something went wrong on our side and the request was not sent. Try again, or email farvexai@gmail.com.",
+    "msg.network": "We could not reach the server. Check your connection and try again, or email farvexai@gmail.com.",
+
+    "faq.eyebrow": "Before you book",
+    "faq.h2": "Things people ask first",
+    "faq.q1": "What does the briefing cost?",
+    "faq.a1": "Nothing. If you decide to go ahead, we quote a fixed price for a scoped first build before any work starts.",
+    "faq.q2": "Do we need to prepare?",
+    "faq.a2": "A rough monthly volume and one example document, if one is to hand. Nothing needs cleaning up first — messy input is the normal case.",
+    "faq.q3": "How soon can we meet?",
+    "faq.a3": "Usually within five working days. Say so in the notes if it is more urgent and we will find something sooner.",
+    "faq.q4": "What happens to what we send?",
+    "faq.a4": "It reaches the two people who run Farvex and nobody else. We keep it in the EU, use it to arrange the briefing, and delete it on request.",
+    "faq.a4link": "Read how we handle data",
+
+    "cta.h2": "Would you rather ask something first?",
+    "cta.sub": "Send it by email and we will answer before you commit to a call. Or see what these builds looked like for other teams.",
+    "cta.btnContact": "Send a message",
+    "cta.btnCases": "Read the case studies"
+  },
+
+  nl: {
+    "nav.solutions": "Oplossingen",
+    "nav.cases": "Praktijkvoorbeelden",
+    "nav.arch": "Architectuur",
+    "nav.security": "Beveiliging",
+    "nav.contact": "Contact",
+    "nav.checklist": "Checklist voor livegang",
+    "nav.cta": "Vraag een gesprek aan",
+
+    "footer.desc": "Enterprise AI-systeembouw — documentherkenning, workflow-automatisering en agents gebouwd voor Europese operaties.",
+    "footer.col1": "Oplossingen",
+    "footer.col2": "Bedrijf",
+    "footer.col3": "Gegevens",
+    "footer.l1": "Workflow-automatisering",
+    "footer.l2": "Documentherkenning",
+    "footer.l3": "AI-agents",
+    "footer.l4": "Voorspellingen",
+    "footer.l5": "Interne zoekfunctie",
+    "footer.l6": "Praktijkvoorbeelden",
+    "footer.l7": "Architectuur",
+    "footer.l8": "Beveiliging",
+    "footer.l9": "Checklist voor livegang",
+    "footer.l10": "Contact",
+    "footer.rights": "Alle rechten voorbehouden.",
+    "footer.privacy": "Privacy",
+    "footer.terms": "Voorwaarden",
+    "footer.cookies": "Cookies",
+    "footer.admin": "Beheer",
+
+    "ck.popTitle": "Cookies",
+    "ck.popText": "Uw thema- en taalkeuze blijven op uw eigen apparaat staan. Geen advertentie- of profileringstrackers.",
+    "ck.popAccept": "Accepteren",
+    "ck.popEssential": "Alleen noodzakelijk",
+    "ck.popManage": "Details",
+
+    "head.eyebrow": "Vraag een gesprek aan",
+    "head.h1": "Vijfenveertig minuten over één proces",
+    "head.sub": "Neem het proces mee dat de meeste uren kost. We rekenen uit wat het u vandaag kost, wat automatiseren zou vergen, en zeggen ronduit of het de moeite waard is om te bouwen.",
+
+    "call.eyebrow": "Het gesprek",
+    "call.h2": "Hoe het gesprek verloopt",
+    "call.sub": "Drie stappen, en u kunt bij elke stap stoppen.",
+    "call.s1t": "U loopt één proces met ons door",
+    "call.s1d": "Waar de documenten binnenkomen, wie ze aanraakt en in welk systeem ze terecht moeten komen.",
+    "call.s2t": "Wij zetten er een bedrag op",
+    "call.s2d": "Volume maal verwerkingstijd, plus het herstelwerk dat fouten veroorzaken. Elk getal kunt u tegen uw eigen administratie leggen.",
+    "call.s3t": "Wij zeggen of u het moet bouwen",
+    "call.s3d": "Als het loont, krijgt u een samenvatting van één pagina met de koppelpunten, de stappen die een mens nog moet goedkeuren en een globale planning. Zo niet, dan zeggen we dat.",
+    "call.note": "De engineer die het systeem zou bouwen zit bij het gesprek. Geen accountmanager, geen presentatie, geen kosten.",
+    "call.chip1": "45 minuten",
+    "call.chip2": "Videogesprek, of persoonlijk in de buurt van Rotterdam",
+    "call.chip3": "Nederlands of Engels",
+
+    "form.h2": "Kies een moment",
+    "form.sub": "Stuur dit en we komen binnen één werkdag terug met twee of drie momenten die in uw week passen.",
+    "f.name": "Uw naam",
+    "f.namePh": "Willem van Dijk",
+    "f.email": "Zakelijk e-mailadres",
+    "f.emailPh": "willem@eurofreight.nl",
+    "f.company": "Bedrijf",
+    "f.companyPh": "EuroFreight N.V.",
+    "f.scope": "Welk proces?",
+    "f.opt1": "Facturen en documentherkenning",
+    "f.opt2": "Workflow-automatisering in Exact of SAP",
+    "f.opt3": "AI-agents voor werk in meerdere stappen",
+    "f.opt4": "Voorspellingen en risicoscores",
+    "f.opt5": "Interne zoekfunctie in uw eigen documenten",
+    "f.notes": "Waar het nu vastloopt",
+    "f.notesPh": "Ongeveer 400 inkoopfacturen per maand, met de hand in Exact getypt. Twee mensen zijn er een ochtend per week mee bezig.",
+    "f.notesHelp": "Optioneel. Volume, de software waarmee het moet praten en wat er nu misgaat — dat is genoeg om de schatting echt te maken.",
+    "f.submit": "Vraag een gesprek aan",
+    "f.sending": "Versturen…",
+    "f.privacy": "We gebruiken deze gegevens om het gesprek in te plannen, verder niets.",
+    "f.privacyLink": "Lees de privacyverklaring",
+    "f.fallbackNote": "Gesprek aangevraagd. Er zijn geen verdere opmerkingen opgegeven.",
+
+    "msg.badName": "Vul uw volledige naam in, minimaal twee tekens.",
+    "msg.badEmail": "Dat e-mailadres lijkt niet te kloppen. Controleer het en probeer het opnieuw.",
+    "msg.ok": "Aangevraagd. We mailen u binnen één werkdag twee of drie momenten.",
+    "msg.ref": "Uw referentie:",
+    "msg.rate": "Te veel aanvragen vanaf deze verbinding. Uw gegevens staan opgeslagen op dit apparaat — probeer het over tien minuten opnieuw.",
+    "msg.rejected": "De server heeft deze aanvraag niet geaccepteerd. Controleer uw naam en e-mailadres en verstuur het opnieuw.",
+    "msg.server": "Er ging iets mis aan onze kant en de aanvraag is niet verstuurd. Probeer het opnieuw, of mail farvexai@gmail.com.",
+    "msg.network": "We konden de server niet bereiken. Controleer uw verbinding en probeer het opnieuw, of mail farvexai@gmail.com.",
+
+    "faq.eyebrow": "Voordat u boekt",
+    "faq.h2": "Wat mensen als eerste vragen",
+    "faq.q1": "Wat kost het gesprek?",
+    "faq.a1": "Niets. Als u daarna doorgaat, geven we een vaste prijs voor een afgebakende eerste bouw voordat er werk begint.",
+    "faq.q2": "Moeten we iets voorbereiden?",
+    "faq.a2": "Een globaal maandvolume en één voorbeelddocument, als u dat bij de hand hebt. Er hoeft vooraf niets te worden opgeschoond — rommelige invoer is het normale geval.",
+    "faq.q3": "Hoe snel kunnen we afspreken?",
+    "faq.a3": "Meestal binnen vijf werkdagen. Zet het in de opmerkingen als het dringender is, dan vinden we eerder iets.",
+    "faq.q4": "Wat gebeurt er met wat we sturen?",
+    "faq.a4": "Het komt bij de twee mensen die Farvex runnen en bij niemand anders. We bewaren het in de EU, gebruiken het om het gesprek in te plannen en verwijderen het op verzoek.",
+    "faq.a4link": "Lees hoe we met gegevens omgaan",
+
+    "cta.h2": "Wilt u liever eerst iets vragen?",
+    "cta.sub": "Stuur het per e-mail en we antwoorden voordat u zich aan een gesprek verbindt. Of bekijk hoe deze bouwtrajecten er voor andere teams uitzagen.",
+    "cta.btnContact": "Stuur een bericht",
+    "cta.btnCases": "Lees de praktijkvoorbeelden"
+  }
+};
+</script>
+
+<script defer src="assets/farvex.js"></script>
+
+<script>
+/* ---------------------------------------------------------------------------
+   Page-local behaviour: the booking form.
+
+   Contracts carried over from the previous version:
+   - the honeypot input `_farvex_hp_node`
+   - `_formRenderTime`, captured at page load and sent as `_render_ts`
+     (the API rejects anything submitted under 1000ms as a bot)
+   - payload keys {type,name,email,company,scope,message,timestamp,status,_render_ts}
+   - the local copy written to `farvex_inbound_leads_v1` for the dashboard
+   --------------------------------------------------------------------------- */
+(function () {
+  'use strict';
+
+  /* Captured once, at page load. Never re-read inside the handler. */
+  var _formRenderTime = Date.now();
+
+  var STORAGE_KEY = 'farvex_inbound_leads_v1';
+  var EMAIL_RE = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)+$/;
+
+  var form = document.getElementById('bookingForm');
+  var button = document.getElementById('btnSubmitBooking');
+  var ack = document.getElementById('bookingAck');
+  if (!form || !button || !ack) return;
+
+  function t(key, fallback) {
+    try {
+      var lang = document.documentElement.getAttribute('data-lang') || 'en';
+      var dict = window.FARVEX_I18N && window.FARVEX_I18N[lang];
+      if (dict && typeof dict[key] === 'string') return dict[key];
+    } catch (e) { /* fall through */ }
+    return fallback;
   }
 
-  function setAtmosphere(t) {
-    document.documentElement.setAttribute('data-theme', t);
-    localStorage.setItem('farvex_theme', t);
-    document.getElementById('btnThemeObsidian').classList.toggle('active', t === 'obsidian');
-    document.getElementById('btnThemeMatrix').classList.toggle('active', t === 'matrix');
-    document.getElementById('btnThemeTitanium').classList.toggle('active', t === 'titanium');
+  /* The note is stored as a key, not as text, so switching language keeps it
+     readable instead of stranding an English sentence on a Dutch page. */
+  var note = null;
+
+  function renderNote() {
+    if (!note) return;
+    var text = t(note.key, note.fallback);
+    if (note.ref) text += ' ' + t('msg.ref', 'Your reference:') + ' ' + note.ref;
+    ack.textContent = text;
+    ack.className = 'fx-formnote fx-formnote--' + note.kind + ' is-visible';
   }
 
-  function toggleMobileNav() {
-    const btn = document.getElementById('mobileMenuBtn');
-    const drawer = document.getElementById('mobileNavDrawer');
-    btn.classList.toggle('active');
-    drawer.classList.toggle('open');
+  function showNote(kind, key, fallback, ref) {
+    note = { kind: kind, key: key, fallback: fallback, ref: ref || '' };
+    renderNote();
   }
 
-  const _formRenderTime = Date.now();
-
-  function escapeHtml(str) {
-    if (typeof str !== 'string') return '';
-    return str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#x27;');
+  function fieldValue(id, limit) {
+    var el = document.getElementById(id);
+    return el ? el.value.trim().slice(0, limit) : '';
   }
 
-  async function handleBookingSubmit(e) {
-    e.preventDefault();
-    const btn = document.getElementById('btnSubmitBooking');
-    const origText = btn.innerHTML;
+  function focusField(id) {
+    var el = document.getElementById(id);
+    if (el) el.focus();
+  }
 
-    // Check Honeypot Trap
-    const hp = document.getElementById('_farvex_hp_node')?.value;
-    if (hp && hp.trim().length > 0) {
-      // Silently acknowledge bot submission
-      document.getElementById('bookingAck').innerHTML = `✓ BRIEFING RESERVED // Telemetry queued.`;
-      document.getElementById('bookingAck').style.display = 'block';
-      document.getElementById('bookingForm').reset();
+  function saveLocally(record) {
+    try {
+      var stored = window.localStorage.getItem(STORAGE_KEY);
+      var leads = stored ? JSON.parse(stored) : [];
+      if (!Array.isArray(leads)) leads = [];
+      leads.unshift(record);
+      window.localStorage.setItem(STORAGE_KEY, JSON.stringify(leads.slice(0, 500)));
+    } catch (e) { /* private browsing or quota — not worth failing the submit over */ }
+  }
+
+  function submitBooking() {
+    if (button.disabled) return;
+
+    /* Bots fill hidden fields. Acknowledge, save nothing, send nothing. */
+    var trap = document.getElementById('_farvex_hp_node');
+    if (trap && trap.value.trim().length > 0) {
+      showNote('ok', 'msg.ok', 'Booked. We will email you two or three slots within one working day.');
+      form.reset();
       return;
     }
 
-    const name = document.getElementById('bName').value.trim().slice(0, 100);
-    const email = document.getElementById('bEmail').value.trim().slice(0, 150);
-    const company = document.getElementById('bCompany').value.trim().slice(0, 150);
-    const scope = document.getElementById('bScope').value.slice(0, 150);
-    const notes = document.getElementById('bNotes').value.trim().slice(0, 5000);
+    var name = fieldValue('bName', 100);
+    var email = fieldValue('bEmail', 150);
+    var company = fieldValue('bCompany', 150);
+    var scope = fieldValue('bScope', 150);
+    var notes = fieldValue('bNotes', 5000);
 
-    // Email format check
-    const emailRegex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)+$/;
-    if (!emailRegex.test(email)) {
-      alert('Please enter a valid work email address.');
+    if (name.length < 2) {
+      showNote('bad', 'msg.badName', 'Please enter your full name, at least two characters.');
+      focusField('bName');
+      return;
+    }
+    if (!EMAIL_RE.test(email)) {
+      showNote('bad', 'msg.badEmail', 'That email address does not look right. Please check it and try again.');
+      focusField('bEmail');
       return;
     }
 
-    btn.disabled = true;
-    btn.innerHTML = '⚡ Dispatched to Architecture Queue...';
-
-    const trackingId = 'FX-BOOK-' + Math.random().toString(36).substring(2, 6).toUpperCase();
-    const now = new Date().toISOString();
-
-    const newBooking = {
-      id: trackingId,
+    var payload = {
       type: 'booking',
       name: name,
       email: email,
       company: company,
       scope: scope,
-      message: notes || '1-on-1 Architecture Consultation Requested.',
-      timestamp: now,
+      message: notes || t('f.fallbackNote', 'Briefing requested. No further notes were given.'),
+      timestamp: new Date().toISOString(),
       status: 'unread',
       _render_ts: _formRenderTime
     };
 
-    // 1. Save to local dashboard database
-    try {
-      const STORAGE_KEY = 'farvex_inbound_leads_v1';
-      let current = [];
-      const saved = localStorage.getItem(STORAGE_KEY);
-      if (saved) current = JSON.parse(saved);
-      current.unshift(newBooking);
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(current));
-    } catch (err) {
-      console.warn('LocalStorage notice:', err);
-    }
+    /* Local copy for the admin dashboard, which lists records by `id`. */
+    var localRef = 'FX-BOOK-' + Math.random().toString(36).substring(2, 6).toUpperCase();
+    saveLocally({
+      id: localRef,
+      type: payload.type,
+      name: payload.name,
+      email: payload.email,
+      company: payload.company,
+      scope: payload.scope,
+      message: payload.message,
+      timestamp: payload.timestamp,
+      status: payload.status,
+      _render_ts: payload._render_ts
+    });
 
-    // 2. Dispatch to serverless endpoint /api/submit
-    let apiSuccess = true;
-    try {
-      const response = await fetch('/api/submit', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(newBooking)
+    button.disabled = true;
+    button.textContent = t('f.sending', 'Sending…');
+
+    fetch('/api/submit', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload)
+    }).then(function (response) {
+      return response.json().catch(function () { return null; }).then(function (data) {
+        return { status: response.status, data: data };
       });
-      if (response.status === 429) {
-        document.getElementById('bookingAck').innerHTML = `⚠️ Rate limit reached. Your briefing request was saved locally. Please wait a few moments before transmitting another payload.`;
-        document.getElementById('bookingAck').style.display = 'block';
-        apiSuccess = false;
-      }
-    } catch (err) {
-      console.warn('Serverless endpoint fetch notice:', err);
-    }
-
-    if (apiSuccess) {
-      document.getElementById('bookingAck').innerHTML = `✓ BRIEFING RESERVED // Reference ID: <strong class="mono cyan">${escapeHtml(trackingId)}</strong>. A Farvex systems architect will dispatch a calendar invitation within 2 hours.`;
-      document.getElementById('bookingAck').style.display = 'block';
-      document.getElementById('bookingForm').reset();
-    }
-
-    setTimeout(() => {
-      btn.disabled = false;
-      btn.innerHTML = origText;
-    }, 2000);
-  }
-
-  const canvas = document.getElementById('matrixCanvas');
-  const ctx = canvas.getContext('2d');
-  let width, height, particles = [];
-
-  function resizeCanvas() {
-    width = canvas.width = window.innerWidth;
-    height = canvas.height = window.innerHeight;
-    particles = [];
-    for (let i = 0; i < 40; i++) {
-      particles.push({
-        x: Math.random() * width,
-        y: Math.random() * height,
-        vx: (Math.random() - 0.5) * 1.2,
-        vy: (Math.random() - 0.5) * 1.2,
-        r: Math.random() * 2 + 1
-      });
-    }
-  }
-  window.addEventListener('resize', resizeCanvas);
-
-  function renderParticles() {
-    ctx.clearRect(0, 0, width, height);
-    for (let i = 0; i < particles.length; i++) {
-      const p = particles[i];
-      p.x += p.vx;
-      p.y += p.vy;
-      if (p.x < 0 || p.x > width) p.vx *= -1;
-      if (p.y < 0 || p.y > height) p.vy *= -1;
-
-      const isMatrix = document.documentElement.getAttribute('data-theme') === 'matrix';
-      ctx.beginPath();
-      ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
-      ctx.fillStyle = isMatrix ? 'rgba(16, 185, 129, 0.6)' : 'rgba(0, 240, 255, 0.4)';
-      ctx.fill();
-
-      for (let j = i + 1; j < particles.length; j++) {
-        const p2 = particles[j];
-        const dist = Math.hypot(p.x - p2.x, p.y - p2.y);
-        if (dist < 120) {
-          ctx.beginPath();
-          ctx.moveTo(p.x, p.y);
-          ctx.lineTo(p2.x, p2.y);
-          ctx.strokeStyle = isMatrix ? `rgba(16, 185, 129, ${0.2 * (1 - dist / 120)})` : `rgba(0, 240, 255, ${0.15 * (1 - dist / 120)})`;
-          ctx.stroke();
+    }).then(function (result) {
+      /* Only a real 200 is a booking. Everything else says so plainly. */
+      if (result.status === 200) {
+        var ref = localRef;
+        if (result.data && typeof result.data.id === 'string' && /^[A-Za-z0-9._-]{1,40}$/.test(result.data.id)) {
+          ref = result.data.id;
         }
+        showNote('ok', 'msg.ok', 'Booked. We will email you two or three slots within one working day.', ref);
+        form.reset();
+      } else if (result.status === 429) {
+        showNote('warn', 'msg.rate', 'Too many requests from this connection. Your details are saved on this device — please try again in ten minutes.');
+      } else if (result.status === 400) {
+        showNote('bad', 'msg.rejected', 'The server did not accept this request. Please check your name and email address, then send it again.');
+      } else {
+        showNote('bad', 'msg.server', 'Something went wrong on our side and the request was not sent. Please try again, or email farvexai@gmail.com.');
       }
-    }
-    requestAnimationFrame(renderParticles);
+    }).catch(function () {
+      showNote('bad', 'msg.network', 'We could not reach the server. Check your connection and try again, or email farvexai@gmail.com.');
+    }).then(function () {
+      button.disabled = false;
+      button.textContent = t('f.submit', 'Request a briefing');
+    });
   }
 
-  document.addEventListener('DOMContentLoaded', () => {
-    resizeCanvas();
-    renderParticles();
-    const l = localStorage.getItem('farvex_lang') || 'en';
-    const t = localStorage.getItem('farvex_theme') || 'matrix';
-    setLanguage(l);
-    setAtmosphere(t);
+  form.addEventListener('submit', function (event) {
+    event.preventDefault();
+    if (typeof form.reportValidity === 'function' && !form.reportValidity()) return;
+    submitBooking();
   });
+
+  /* Keep an already-shown message in the visitor's new language. */
+  document.addEventListener('farvex:langchange', renderNote);
+})();
 </script>
 
-<!-- Vercel Speed Insights -->
-<script>
-  window.si = window.si || function () { (window.siq = window.siq || []).push(arguments); };
-</script>
 <script defer src="/_vercel/speed-insights/script.js"></script>
 </body>
 </html>

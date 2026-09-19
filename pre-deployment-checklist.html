@@ -1,1272 +1,1717 @@
 <!DOCTYPE html>
-<html lang="en" data-lang="en" data-theme="matrix">
+<html lang="en" data-lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
-  <title>Pre-Deployment Checklist // Farvex AI Security & Production Verification</title>
-  <meta name="description" content="Farvex AI Pre-Deployment Checklist: Comprehensive verification framework for Authorization & IDOR, Expiring Password Reset Tokens, SQLi & XSS Input Sanitization, CORS Domain Locking, and Multi-Tier Rate Limiting.">
-  <link rel="canonical" href="https://farvex.ai/pre-deployment-checklist.html">
-  <link rel="icon" type="image/svg+xml" href="farvex-logo-kit/svg/farvex-mark-dark.svg">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700;800&display=swap" rel="stylesheet">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Pre-deployment checklist — Farvex AI</title>
+<meta name="description" content="The five security checks we run before a release goes live: authorization, reset-token expiry, input validation, CORS and rate limiting — each with a sandbox.">
+<meta name="keywords" content="pre-deployment checklist, IDOR, password reset token, SQL injection, XSS, CORS, rate limiting, production readiness">
+<meta name="author" content="Farvex AI">
+<link rel="canonical" href="https://farvex.ai/pre-deployment-checklist.html">
 
-  <style>
-    :root {
-      --bg-deep: #030712;
-      --bg-surface: #070d1e;
-      --bg-card: rgba(11, 19, 43, 0.78);
-      --bg-card-hover: rgba(18, 30, 66, 0.88);
-      --bg-code: #050b18;
-      --cyan-bright: #00f0ff;
-      --cyan-glow: rgba(0, 240, 255, 0.4);
-      --cyan-subtle: rgba(0, 240, 255, 0.08);
-      --violet-bright: #a855f7;
-      --emerald-bright: #10b981;
-      --amber-bright: #f59e0b;
-      --red-bright: #ef4444;
-      --text-pure: #ffffff;
-      --text-main: #f1f5f9;
-      --text-muted: #94a3b8;
-      --text-dim: #64748b;
-      --border-glass: rgba(255, 255, 255, 0.08);
-      --border-active: rgba(0, 240, 255, 0.55);
-      --font-display: 'Plus Jakarta Sans', sans-serif;
-      --font-heading: 'Space Grotesk', sans-serif;
-      --font-mono: 'JetBrains Mono', monospace;
-      --ease-elastic: cubic-bezier(0.16, 1, 0.3, 1);
+<!-- Open Graph / Social Sharing -->
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://farvex.ai/pre-deployment-checklist.html">
+<meta property="og:title" content="Pre-deployment checklist — Farvex AI">
+<meta property="og:description" content="Five security checks we run before a release goes live, each with a sandbox that shows the failure next to the fix.">
+<meta property="og:image" content="https://farvex.ai/farvex-logo-kit/social/farvex-og-1200x630.png">
+
+<!-- Twitter Card -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Pre-deployment checklist — Farvex AI">
+<meta name="twitter:description" content="Authorization, reset tokens, input validation, CORS and rate limiting — verified before every release.">
+<meta name="twitter:image" content="https://farvex.ai/farvex-logo-kit/social/farvex-og-1200x630.png">
+
+<link rel="icon" type="image/svg+xml" href="assets/farvex-mark.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/farvex.css">
+
+<!-- Set the theme before first paint so there is no flash. -->
+<script>
+(function () {
+  try {
+    var t = localStorage.getItem('farvex_theme_v2');
+    if (t !== 'light' && t !== 'dark') {
+      t = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
     }
+    document.documentElement.setAttribute('data-theme', t);
+  } catch (e) {
+    document.documentElement.setAttribute('data-theme', 'light');
+  }
+})();
+</script>
 
-    [data-theme="matrix"] {
-      --bg-deep: #020b05;
-      --bg-surface: #04160a;
-      --bg-card: rgba(4, 28, 14, 0.82);
-      --bg-card-hover: rgba(8, 48, 24, 0.92);
-      --bg-code: #03140a;
-      --text-pure: #ffffff;
-      --text-main: #d1fae5;
-      --text-muted: #6ee7b7;
-      --text-dim: #059669;
-      --cyan-bright: #10b981;
-      --cyan-glow: rgba(16, 185, 129, 0.4);
-      --cyan-subtle: rgba(16, 185, 129, 0.1);
-      --border-glass: rgba(16, 185, 129, 0.2);
-      --border-active: rgba(16, 185, 129, 0.6);
-    }
+<style>
+  /* Page-local: a tick control, a progress meter and a scrolling console —
+     three things the shared design system does not provide. */
+  .pdc-check {
+    display: inline-flex;
+    align-items: flex-start;
+    gap: 10px;
+    cursor: pointer;
+  }
+  .pdc-check input {
+    width: 18px; height: 18px;
+    flex: none;
+    margin: 2px 0 0;
+    accent-color: var(--fx-accent);
+    cursor: pointer;
+  }
+  .pdc-check__label { font-size: .9375rem; font-weight: 600; color: var(--fx-text); }
+  .pdc-check__hint { display: block; font-size: .8125rem; font-weight: 400; color: var(--fx-text-muted); margin-top: 2px; }
 
-    [data-theme="titanium"] {
-      --bg-deep: #f8fafc;
-      --bg-surface: #f1f5f9;
-      --bg-card: rgba(255, 255, 255, 0.92);
-      --bg-card-hover: #ffffff;
-      --bg-code: #0f172a;
-      --text-pure: #0f172a;
-      --text-main: #1e293b;
-      --text-muted: #475569;
-      --text-dim: #64748b;
-      --cyan-bright: #0284c7;
-      --cyan-glow: rgba(2, 132, 199, 0.3);
-      --cyan-subtle: rgba(2, 132, 199, 0.08);
-      --border-glass: rgba(0, 0, 0, 0.08);
-      --border-active: rgba(2, 132, 199, 0.5);
-    }
+  .pdc-check--box {
+    display: flex;
+    width: 100%;
+    padding: var(--fx-s-4) var(--fx-s-5);
+    border: 1px solid var(--fx-border);
+    border-radius: var(--fx-r-sm);
+    background: var(--fx-surface-2);
+    transition: border-color var(--fx-t-fast) var(--fx-ease), background-color var(--fx-t-fast) var(--fx-ease);
+  }
+  .pdc-check--box:hover { border-color: var(--fx-border-strong); }
+  .pdc-check--box.is-active { border-color: var(--fx-ok); background: var(--fx-ok-tint); }
 
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    body { background: var(--bg-deep); color: var(--text-main); font-family: var(--font-display); min-height: 100vh; overflow-x: hidden; }
-    #matrixCanvas { position: fixed; inset: 0; z-index: -2; pointer-events: none; }
-    .ambient-mesh {
-      position: fixed; inset: 0; z-index: -3; pointer-events: none;
-      background: radial-gradient(circle at 50% 15%, rgba(0, 240, 255, 0.09) 0%, transparent 50%),
-                  radial-gradient(circle at 85% 85%, rgba(168, 85, 247, 0.08) 0%, transparent 50%);
-      filter: blur(80px);
-    }
+  .pdc-meter {
+    height: 8px;
+    border-radius: var(--fx-r-pill);
+    background: var(--fx-surface-2);
+    border: 1px solid var(--fx-border);
+    overflow: hidden;
+  }
+  .pdc-meter__bar {
+    height: 100%;
+    width: 0;
+    background: var(--fx-accent);
+    transition: width var(--fx-t) var(--fx-ease);
+  }
 
-    /* Telemetry HUD Bar */
-    .telemetry-hud-bar {
-      background: rgba(2, 11, 5, 0.96); border-bottom: 1px solid var(--border-glass);
-      padding: 6px 16px; font-family: var(--font-mono); font-size: 11px;
-      display: flex; justify-content: space-between; align-items: center; position: relative; z-index: 1002;
-      gap: 8px;
-    }
-    .hud-diode { display: inline-flex; align-items: center; gap: 6px; color: var(--cyan-bright); font-weight: 600; white-space: nowrap; }
-    .hud-diode::before { content: ''; width: 6px; height: 6px; border-radius: 50%; background: var(--cyan-bright); box-shadow: 0 0 8px var(--cyan-bright); }
-    .hud-btn-group { display: flex; gap: 3px; background: rgba(255, 255, 255, 0.04); padding: 2px 4px; border-radius: 6px; border: 1px solid var(--border-glass); }
-    .hud-btn { background: transparent; border: none; color: var(--text-dim); font-family: var(--font-mono); font-size: 11px; padding: 3px 7px; border-radius: 4px; cursor: pointer; }
-    .hud-btn.active { color: #fff; background: rgba(0, 240, 255, 0.2); border: 1px solid var(--cyan-glow); }
+  .pdc-console {
+    min-height: 120px;
+    max-height: 280px;
+    overflow-y: auto;
+    white-space: pre-wrap;
+    word-break: break-word;
+    color: var(--fx-text-muted);
+  }
+  .pdc-console b { font-weight: 600; }
 
-    /* Site Header */
-    header.site-header {
-      position: sticky; top: 0; left: 0; right: 0; z-index: 1000;
-      background: rgba(2, 11, 5, 0.94); backdrop-filter: blur(24px); border-bottom: 1px solid var(--border-glass);
-    }
-    .header-wrap { max-width: 1400px; margin: 0 auto; padding: 0 20px; height: 64px; display: flex; align-items: center; justify-content: space-between; }
-    .brand { display: flex; align-items: center; gap: 12px; text-decoration: none; }
-    .brand-box { width: 38px; height: 38px; border-radius: 10px; background: rgba(0, 240, 255, 0.08); border: 1px solid rgba(0, 240, 255, 0.35); display: flex; align-items: center; justify-content: center; }
-    .brand-box img { width: 22px; height: 22px; }
-    .brand-text { font-size: 20px; font-weight: 800; color: #fff; }
-    .brand-text span { color: var(--cyan-bright); }
-
-    .nav-links { display: flex; gap: 4px; }
-    .nav-link { font-size: 13px; font-weight: 600; color: var(--text-muted); text-decoration: none; padding: 7px 13px; border-radius: 100px; transition: all 0.2s; white-space: nowrap; }
-    .nav-link:hover, .nav-link.active { color: #fff; background: rgba(0, 240, 255, 0.12); border: 1px solid rgba(0, 240, 255, 0.3); }
-
-    .mobile-menu-btn {
-      display: none; background: rgba(255, 255, 255, 0.05); border: 1px solid var(--border-glass);
-      border-radius: 8px; width: 40px; height: 40px; padding: 9px; cursor: pointer;
-      flex-direction: column; justify-content: space-between; align-items: center; z-index: 1005;
-    }
-    .mobile-menu-btn span { display: block; width: 100%; height: 2px; background: #fff; border-radius: 2px; transition: all 0.3s; }
-    .mobile-menu-btn.active span:nth-child(1) { transform: translateY(7px) rotate(45deg); background: var(--cyan-bright); }
-    .mobile-menu-btn.active span:nth-child(2) { opacity: 0; }
-    .mobile-menu-btn.active span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); background: var(--cyan-bright); }
-
-    .mobile-nav-drawer {
-      display: none; position: fixed; top: 64px; left: 0; right: 0; bottom: 0;
-      background: rgba(2, 11, 5, 0.98); backdrop-filter: blur(28px); z-index: 999;
-      padding: 20px 16px 36px; overflow-y: auto; flex-direction: column; justify-content: space-between;
-      border-bottom: 1px solid var(--border-glass); animation: fadeInDrawer 0.25s ease-out;
-    }
-    .mobile-nav-drawer.open { display: flex; }
-    @keyframes fadeInDrawer { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
-
-    .mobile-nav-links { display: flex; flex-direction: column; gap: 8px; }
-    .mobile-nav-link {
-      font-size: 14.5px; font-weight: 700; color: var(--text-main); text-decoration: none;
-      padding: 12px 16px; border-radius: 12px; background: rgba(255, 255, 255, 0.03);
-      border: 1px solid var(--border-glass); display: flex; align-items: center; justify-content: space-between;
-    }
-    .mobile-nav-link:hover, .mobile-nav-link.active { background: rgba(0, 240, 255, 0.15); border-color: var(--cyan-bright); color: #fff; }
-
-    .btn-core {
-      display: inline-flex; align-items: center; justify-content: center; gap: 8px;
-      padding: 11px 22px; border-radius: 100px; font-weight: 700; font-size: 13px;
-      text-decoration: none; cursor: pointer; transition: all 0.25s var(--ease-elastic);
-      border: 1px solid transparent; white-space: nowrap; font-family: var(--font-display);
-    }
-    .btn-cyan { background: linear-gradient(135deg, var(--cyan-bright) 0%, #0284c7 100%); color: #030712; box-shadow: 0 0 20px var(--cyan-glow); }
-    .btn-cyan:hover { transform: translateY(-2px); box-shadow: 0 0 30px var(--cyan-glow); }
-    .btn-ghost { background: rgba(255, 255, 255, 0.05); color: var(--text-main); border: 1px solid var(--border-glass); }
-    .btn-ghost:hover { background: rgba(255, 255, 255, 0.1); border-color: var(--cyan-bright); color: #fff; }
-
-    /* Layout Container */
-    .container { max-width: 1340px; margin: 0 auto; padding: 0 24px; }
-    .page-hero { padding: 56px 0 32px; text-align: center; }
-    .page-title { font-size: 3.2rem; font-family: var(--font-heading); font-weight: 800; line-height: 1.1; margin-bottom: 16px; color: #fff; }
-    .page-sub { font-size: 1.15rem; color: var(--text-muted); max-width: 860px; margin: 0 auto 24px; line-height: 1.6; }
-
-    .quantum-badge {
-      display: inline-flex; align-items: center; gap: 8px; font-family: var(--font-mono); font-size: 11px;
-      font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--cyan-bright);
-      background: var(--cyan-subtle); border: 1px solid var(--border-active);
-      padding: 6px 14px; border-radius: 100px; margin-bottom: 18px;
-    }
-
-    /* Scorecard Banner */
-    .scorecard-banner {
-      background: var(--bg-card); border: 1px solid var(--border-glass); border-radius: 20px;
-      padding: 28px 32px; margin-bottom: 50px; box-shadow: 0 20px 50px rgba(0,0,0,0.5);
-      display: grid; grid-template-columns: 1.4fr 1fr; gap: 32px; align-items: center;
-    }
-    .readiness-meter { background: rgba(0, 0, 0, 0.4); border-radius: 100px; height: 16px; width: 100%; overflow: hidden; border: 1px solid var(--border-glass); margin: 12px 0; }
-    .readiness-bar { height: 100%; width: 0%; background: linear-gradient(90deg, #ef4444, #f59e0b, var(--cyan-bright)); transition: width 0.4s ease; }
-
-    .metric-pills-row { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 14px; }
-    .metric-pill { font-family: var(--font-mono); font-size: 11px; padding: 4px 10px; border-radius: 6px; background: rgba(255,255,255,0.04); border: 1px solid var(--border-glass); display: flex; align-items: center; gap: 6px; }
-
-    /* 5 Pillars Layout */
-    .pillars-stack { display: flex; flex-direction: column; gap: 32px; margin-bottom: 70px; }
-    
-    .pillar-card {
-      background: var(--bg-card); border: 1px solid var(--border-glass); border-radius: 20px;
-      padding: 36px; box-shadow: 0 16px 40px rgba(0, 0, 0, 0.4);
-      transition: all 0.25s var(--ease-elastic); position: relative;
-    }
-    .pillar-card:hover { border-color: var(--border-active); box-shadow: 0 0 35px var(--cyan-glow); }
-    .pillar-card.passed { border-left: 4px solid var(--emerald-bright); }
-    .pillar-card.unverified { border-left: 4px solid var(--amber-bright); }
-
-    .pillar-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 20px; gap: 16px; flex-wrap: wrap; }
-    .pillar-num { font-family: var(--font-mono); font-size: 12px; font-weight: 700; color: var(--cyan-bright); background: var(--cyan-subtle); padding: 4px 10px; border-radius: 6px; border: 1px solid var(--border-active); }
-    .pillar-title { font-size: 1.6rem; font-family: var(--font-heading); font-weight: 700; color: #fff; margin-top: 6px; }
-    
-    .verify-toggle {
-      display: flex; align-items: center; gap: 10px; cursor: pointer; user-select: none;
-      background: rgba(255,255,255,0.03); border: 1px solid var(--border-glass); padding: 8px 16px; border-radius: 100px;
-      font-family: var(--font-mono); font-size: 12px; font-weight: 600; color: var(--text-muted); transition: all 0.2s;
-    }
-    .verify-toggle:hover { border-color: var(--cyan-bright); color: #fff; }
-    .verify-toggle input[type="checkbox"] { width: 16px; height: 16px; accent-color: var(--cyan-bright); cursor: pointer; }
-    .verify-toggle.checked { background: rgba(16, 185, 129, 0.15); border-color: var(--emerald-bright); color: #fff; }
-
-    .pillar-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-bottom: 24px; }
-    .info-box { background: rgba(0, 0, 0, 0.3); border: 1px solid var(--border-glass); border-radius: 12px; padding: 20px; }
-    .info-box h4 { font-family: var(--font-mono); font-size: 12px; text-transform: uppercase; color: var(--cyan-bright); margin-bottom: 8px; display: flex; align-items: center; gap: 6px; }
-    .info-box p { font-size: 13.5px; color: var(--text-muted); line-height: 1.65; }
-
-    /* Interactive Lab Box */
-    .lab-box {
-      background: var(--bg-code); border: 1px solid var(--border-glass); border-radius: 14px;
-      padding: 20px; margin-top: 18px;
-    }
-    .lab-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; padding-bottom: 10px; border-bottom: 1px solid var(--border-glass); }
-    .lab-title { font-family: var(--font-mono); font-size: 12px; color: #fff; display: flex; align-items: center; gap: 8px; font-weight: 600; }
-    .lab-badge { font-family: var(--font-mono); font-size: 10px; padding: 2px 8px; border-radius: 4px; background: rgba(0, 240, 255, 0.1); color: var(--cyan-bright); border: 1px solid var(--cyan-glow); }
-    
-    .lab-control-row { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; margin-bottom: 12px; }
-    .lab-input {
-      background: rgba(255, 255, 255, 0.05); border: 1px solid var(--border-glass); border-radius: 8px;
-      padding: 8px 12px; font-family: var(--font-mono); font-size: 12px; color: #fff; flex: 1; min-width: 200px;
-    }
-    .lab-input:focus { outline: none; border-color: var(--cyan-bright); box-shadow: 0 0 10px var(--cyan-glow); }
-    .lab-btn {
-      background: rgba(0, 240, 255, 0.15); border: 1px solid var(--cyan-bright); color: #fff;
-      font-family: var(--font-mono); font-size: 11.5px; font-weight: 600; padding: 8px 14px; border-radius: 8px;
-      cursor: pointer; transition: all 0.2s; white-space: nowrap;
-    }
-    .lab-btn:hover { background: var(--cyan-bright); color: #000; box-shadow: 0 0 15px var(--cyan-glow); }
-
-    .lab-console {
-      background: #02060d; border: 1px solid rgba(255,255,255,0.06); border-radius: 8px;
-      padding: 12px 14px; font-family: var(--font-mono); font-size: 11.5px; line-height: 1.6;
-      color: #94a3b8; min-height: 64px; max-height: 200px; overflow-y: auto; white-space: pre-wrap; word-break: break-all;
-    }
-    .lab-console .success { color: var(--emerald-bright); }
-    .lab-console .danger { color: var(--red-bright); }
-    .lab-console .warning { color: var(--amber-bright); }
-    .lab-console .highlight { color: var(--cyan-bright); }
-
-    .callout-quote {
-      background: rgba(0, 240, 255, 0.05); border-left: 3px solid var(--cyan-bright);
-      padding: 12px 16px; border-radius: 0 8px 8px 0; margin-top: 16px; font-size: 13px; color: var(--text-main); line-height: 1.5;
-    }
-
-    /* Export Bar */
-    .export-card {
-      background: linear-gradient(135deg, rgba(4, 28, 14, 0.9) 0%, rgba(7, 13, 30, 0.9) 100%);
-      border: 1px solid var(--border-active); border-radius: 20px; padding: 32px; margin-bottom: 70px;
-      display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 20px;
-    }
-
-    /* Footer */
-    footer.site-footer { background: #02050e; border-top: 1px solid var(--border-glass); padding: 50px 0 30px; }
-    .footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1.2fr; gap: 36px; margin-bottom: 36px; }
-    .footer-col h5 { font-family: var(--font-mono); font-size: 11.5px; color: #fff; margin-bottom: 14px; text-transform: uppercase; }
-    .footer-col ul { list-style: none; display: flex; flex-direction: column; gap: 8px; }
-    .footer-col a { color: var(--text-muted); text-decoration: none; font-size: 13px; }
-    .footer-col a:hover { color: var(--cyan-bright); }
-
-    .mono { font-family: var(--font-mono); }
-    .cyan { color: var(--cyan-bright); }
-
-    @media (max-width: 1024px) {
-      .pillar-grid { grid-template-columns: 1fr; }
-      .scorecard-banner { grid-template-columns: 1fr; }
-      .footer-grid { grid-template-columns: 1fr 1fr; }
-    }
-    @media (max-width: 768px) {
-      .page-hero { padding: 36px 0 24px; }
-      .page-title { font-size: 2.1rem; }
-      .page-sub { font-size: 0.98rem; }
-      .pillar-card { padding: 22px 16px; border-radius: 16px; }
-      .pillar-title { font-size: 1.3rem; }
-      .nav-links { display: none; }
-      .mobile-menu-btn { display: flex; }
-      .footer-grid { grid-template-columns: 1fr; }
-      .container { padding: 0 14px; }
-      .scorecard-banner { padding: 20px 16px; }
-      .export-card { padding: 20px 16px; }
-    }
-  </style>
+  /* Current-page marker in the mobile drawer. */
+  .pdc-here { color: var(--fx-accent-strong); font-weight: 600; }
+</style>
 </head>
-
 <body>
-<canvas id="matrixCanvas"></canvas>
-<div class="ambient-mesh"></div>
 
-<!-- Telemetry HUD Bar -->
-<div class="telemetry-hud-bar">
-  <div style="display:flex; align-items:center; gap:12px;">
-    <span class="hud-diode" data-i18n="hud.cluster">ORBITAL CLUSTER: ONLINE</span>
-    <span class="mono" style="display:none;" id="hudSubTitle">PRE-DEPLOYMENT VERIFICATION GATE</span>
-  </div>
-  <div style="display:flex; gap:6px;">
-    <div class="hud-btn-group">
-      <button class="hud-btn" id="btnThemeObsidian" onclick="setAtmosphere('obsidian')">Obsidian</button>
-      <button class="hud-btn active" id="btnThemeMatrix" onclick="setAtmosphere('matrix')">Matrix</button>
-      <button class="hud-btn" id="btnThemeTitanium" onclick="setAtmosphere('titanium')">Titanium</button>
-    </div>
-    <div class="hud-btn-group">
-      <button class="hud-btn active" id="btnLangEN" onclick="setLanguage('en')">EN</button>
-      <button class="hud-btn" id="btnLangNL" onclick="setLanguage('nl')">NL</button>
-    </div>
-  </div>
-</div>
+<a class="fx-skip" href="#main">Skip to content</a>
 
-<!-- Header -->
-<header class="site-header">
-  <div class="header-wrap">
-    <a href="index.html" class="brand">
-      <div class="brand-box">
-        <img src="farvex-logo-kit/svg/farvex-mark-dark.svg" alt="Farvex AI Logo">
-      </div>
-      <div class="brand-text">FARVEX<span>.AI</span></div>
+<div class="fx-progress" aria-hidden="true"><div class="fx-progress__bar" data-progress-bar></div></div>
+
+<!-- ============================ HEADER ============================ -->
+<header class="fx-header" data-header>
+  <div class="fx-container fx-header__inner">
+    <a href="index.html" class="fx-brand">
+      <svg class="fx-brand__mark" viewBox="0 0 600 600" role="img" aria-label="Farvex AI">
+        <rect class="fx-mark-body" x="133.6" y="108" width="70.4" height="384"/>
+        <rect class="fx-mark-body" x="133.6" y="108" width="152" height="62.4"/>
+        <rect class="fx-mark-body" x="133.6" y="269.28" width="136" height="62.4"/>
+        <rect class="fx-mark-accent" x="264.8" y="282.88" width="136" height="35.2"/>
+        <polygon class="fx-mark-accent" points="400.8,273.28 447.2,300.48 400.8,327.68"/>
+        <circle class="fx-mark-accent" cx="456.8" cy="300.48" r="9.6"/>
+      </svg>
+      <span>Farvex<span class="fx-brand__dot">.ai</span></span>
     </a>
 
-    <nav class="nav-links">
-      <a href="index.html" class="nav-link" data-i18n="nav.home">← Home (Chaos/Order)</a>
-      <a href="solutions.html" class="nav-link" data-i18n="nav.solutions">Solutions Suite</a>
-      <a href="case-studies.html" class="nav-link" data-i18n="nav.cases">Case Studies</a>
-      <a href="architecture.html" class="nav-link" data-i18n="nav.arch">Architecture</a>
-      <a href="security.html" class="nav-link" data-i18n="nav.security">Security Vault</a>
-      <a href="pre-deployment-checklist.html" class="nav-link active" data-i18n="nav.checklist">Pre-Deploy Checklist</a>
-      <a href="contact.html" class="nav-link" data-i18n="nav.contact">Uplink</a>
+    <nav class="fx-nav" aria-label="Main">
+      <a href="solutions.html" class="fx-nav__link" data-i18n="nav.solutions">Solutions</a>
+      <a href="case-studies.html" class="fx-nav__link" data-i18n="nav.cases">Case studies</a>
+      <a href="architecture.html" class="fx-nav__link" data-i18n="nav.arch">Architecture</a>
+      <a href="security.html" class="fx-nav__link" data-i18n="nav.security">Security</a>
+      <a href="contact.html" class="fx-nav__link" data-i18n="nav.contact">Contact</a>
     </nav>
 
-    <div style="display:flex; align-items:center; gap:10px;">
-      <a href="book.html" class="btn-core btn-cyan" style="padding:9px 18px; font-size:12.5px;" data-i18n="nav.cta">⚡ Book Consultation</a>
-      <button class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Toggle Navigation" onclick="toggleMobileNav()">
+    <div class="fx-header__actions">
+      <div class="fx-segment" role="group" aria-label="Language">
+        <button type="button" class="fx-segment__btn is-active" data-lang-btn="en">EN</button>
+        <button type="button" class="fx-segment__btn" data-lang-btn="nl">NL</button>
+      </div>
+
+      <button type="button" class="fx-iconbtn" data-theme-toggle aria-pressed="false" aria-label="Switch to dark theme" title="Switch to dark theme">
+        <svg class="fx-icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
+          <circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/>
+        </svg>
+        <svg class="fx-icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/>
+        </svg>
+      </button>
+
+      <a href="book.html" class="fx-btn fx-btn--primary fx-btn--sm fx-hide-sm" data-i18n="nav.cta">Request a briefing</a>
+
+      <button type="button" class="fx-burger" data-nav-toggle aria-expanded="false" aria-controls="mobileNav" aria-label="Open menu">
         <span></span><span></span><span></span>
       </button>
     </div>
   </div>
 
-  <!-- Mobile Nav Drawer -->
-  <div class="mobile-nav-drawer" id="mobileNavDrawer">
-    <div class="mobile-nav-links">
-      <a href="index.html" class="mobile-nav-link" onclick="toggleMobileNav()" data-i18n="nav.home">← Home (Chaos/Order) <span>➔</span></a>
-      <a href="solutions.html" class="mobile-nav-link" onclick="toggleMobileNav()" data-i18n="nav.solutions">Solutions Suite <span>➔</span></a>
-      <a href="case-studies.html" class="mobile-nav-link" onclick="toggleMobileNav()" data-i18n="nav.cases">Case Studies <span>➔</span></a>
-      <a href="architecture.html" class="mobile-nav-link" onclick="toggleMobileNav()" data-i18n="nav.arch">Architecture <span>➔</span></a>
-      <a href="security.html" class="mobile-nav-link" onclick="toggleMobileNav()" data-i18n="nav.security">Security Vault <span>➔</span></a>
-      <a href="pre-deployment-checklist.html" class="mobile-nav-link active" onclick="toggleMobileNav()" data-i18n="nav.checklist">Pre-Deploy Checklist <span>➔</span></a>
-      <a href="privacy.html" class="mobile-nav-link" onclick="toggleMobileNav()">Privacy Statement (GDPR) <span>➔</span></a>
-      <a href="terms.html" class="mobile-nav-link" onclick="toggleMobileNav()">Terms of Service (B2B) <span>➔</span></a>
-      <a href="cookies.html" class="mobile-nav-link" onclick="toggleMobileNav()">Cookie Preferences <span>➔</span></a>
-      <a href="contact.html" class="mobile-nav-link" onclick="toggleMobileNav()">Direct Uplink / Contact <span>➔</span></a>
-      <a href="book.html" class="btn-core btn-cyan" style="width:100%; margin-top:10px;" data-i18n="nav.cta">⚡ Book Consultation</a>
+  <div class="fx-drawer" id="mobileNav" data-nav-drawer>
+    <a href="solutions.html" class="fx-drawer__link" data-i18n="nav.solutions">Solutions</a>
+    <a href="case-studies.html" class="fx-drawer__link" data-i18n="nav.cases">Case studies</a>
+    <a href="architecture.html" class="fx-drawer__link" data-i18n="nav.arch">Architecture</a>
+    <a href="security.html" class="fx-drawer__link" data-i18n="nav.security">Security</a>
+    <a href="contact.html" class="fx-drawer__link" data-i18n="nav.contact">Contact</a>
+    <a href="pre-deployment-checklist.html" class="fx-drawer__link" aria-current="page" data-i18n="nav.checklist">Pre-deployment checklist</a>
+    <div class="fx-drawer__cta">
+      <a href="book.html" class="fx-btn fx-btn--primary fx-btn--block" data-i18n="nav.cta">Request a briefing</a>
     </div>
   </div>
 </header>
 
-<main class="container">
-  <!-- Hero -->
-  <section class="page-hero">
-    <div class="quantum-badge" data-i18n="chk.badge">DEFENSE-IN-DEPTH // PRODUCTION AUDIT GATE</div>
-    <h1 class="page-title" data-i18n="chk.title">Pre-Deployment Checklist</h1>
-    <p class="page-sub" data-i18n="chk.sub">
-      Shipping to production is the moment a small oversight becomes a public incident. This checklist walks through the items I verify before pressing deploy — what each one means, and why skipping it usually ends badly.
-    </p>
+<main id="main">
+
+  <!-- ============================ PAGE HEAD ============================ -->
+  <section class="fx-pagehead">
+    <div class="fx-container">
+      <div class="fx-pagehead__inner">
+        <span class="fx-eyebrow" data-i18n="ph.eyebrow">Release readiness</span>
+        <h1 class="fx-h1" data-i18n="ph.title">Five checks before you ship</h1>
+        <p class="fx-lead" data-i18n="ph.sub">Five checks we run before any release goes out. Each one explains what it means, what skipping it costs you, and gives you a sandbox that puts the failure next to the fix.</p>
+        <p class="fx-small fx-dim" data-i18n="ph.saved">Your ticks stay in this browser. Nothing is sent to us.</p>
+      </div>
+      <div class="fx-pagehead__art" data-parallax="0.04" aria-hidden="true">
+        <svg class="fx-art" viewBox="0 0 360 300" role="presentation" focusable="false">
+          <circle class="fx-art__halo fx-art__pulse" cx="180" cy="150" r="118"/>
+          <g class="fx-art__float"><rect class="fx-art__panel" x="52" y="40" width="256" height="46" rx="12"/><circle class="fx-art__ok" cx="80" cy="63" r="11"/><path d="M75 63l3.5 3.5 7-7" fill="none" stroke="var(--fx-surface)" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/><rect class="fx-art__line" x="102" y="59" width="120" height="8" rx="4"/></g>
+          <g class="fx-art__float fx-art__float--d1"><rect class="fx-art__panel" x="52" y="96" width="256" height="46" rx="12"/><circle class="fx-art__ok" cx="80" cy="119" r="11"/><path d="M75 119l3.5 3.5 7-7" fill="none" stroke="var(--fx-surface)" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/><rect class="fx-art__line" x="102" y="115" width="146" height="8" rx="4"/></g>
+          <g class="fx-art__float fx-art__float--d2"><rect class="fx-art__panel" x="52" y="152" width="256" height="46" rx="12"/><circle class="fx-art__ok" cx="80" cy="175" r="11"/><path d="M75 175l3.5 3.5 7-7" fill="none" stroke="var(--fx-surface)" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/><rect class="fx-art__line" x="102" y="171" width="108" height="8" rx="4"/></g>
+          <g class="fx-art__float"><rect class="fx-art__panel" x="52" y="208" width="256" height="46" rx="12"/><circle class="fx-art__ok" cx="80" cy="231" r="11"/><path d="M75 231l3.5 3.5 7-7" fill="none" stroke="var(--fx-surface)" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/><rect class="fx-art__line" x="102" y="227" width="132" height="8" rx="4"/></g>
+          <g class="fx-art__float fx-art__float--d1"><rect class="fx-art__panel-2" x="52" y="264" width="256" height="46" rx="12"/><circle cx="80" cy="287" r="10" fill="none" stroke="var(--fx-border-strong)" stroke-width="2.5"/><rect class="fx-art__line--soft" x="102" y="283" width="96" height="8" rx="4"/></g>
+        </svg>
+      </div>
+    </div>
   </section>
 
-  <!-- Readiness Scorecard -->
-  <div class="scorecard-banner">
-    <div>
-      <div style="display:flex; justify-content:space-between; align-items:center;">
-        <h3 style="font-size:1.3rem; font-family:var(--font-heading); color:#fff;" data-i18n="chk.score_title">
-          Deployment Verification Status
-        </h3>
-        <span id="readinessStatusBadge" class="mono" style="font-size:11px; padding:4px 10px; border-radius:100px; background:rgba(239,68,68,0.2); color:#ef4444; border:1px solid rgba(239,68,68,0.4);">
-          0 / 5 AUDITED (BLOCKED)
-        </span>
+  <!-- ============================ READINESS ============================ -->
+  <section class="fx-section" id="readiness">
+    <div class="fx-container">
+      <div class="fx-section-head">
+        <span class="fx-eyebrow" data-i18n="sum.eyebrow">Progress</span>
+        <h2 class="fx-h2" data-i18n="sum.h2">Where this release currently stands</h2>
+        <p class="fx-lead" data-i18n="sum.sub">Tick a check once you have verified it in your own environment. The sandboxes below explain each one, but they never tick anything for you.</p>
       </div>
-      <div class="readiness-meter">
-        <div id="readinessBar" class="readiness-bar"></div>
-      </div>
-      <p style="font-size:13px; color:var(--text-muted); line-height:1.5;" data-i18n="chk.score_desc">
-        Toggle verification checkboxes below after validating each item against your production environment or testing with the built-in simulation labs.
-      </p>
-      <div class="metric-pills-row">
-        <div class="metric-pill"><span>🔒</span> <span id="pillAuth">Auth: Pending</span></div>
-        <div class="metric-pill"><span>⏳</span> <span id="pillToken">Token TTL: Pending</span></div>
-        <div class="metric-pill"><span>🛡️</span> <span id="pillInput">Sanitization: Pending</span></div>
-        <div class="metric-pill"><span>🌐</span> <span id="pillCors">CORS: Pending</span></div>
-        <div class="metric-pill"><span>⚡</span> <span id="pillRate">Rate Limits: Pending</span></div>
-      </div>
-    </div>
-    <div style="display:flex; flex-direction:column; gap:10px; justify-content:center; align-items:flex-start; border-left:1px solid var(--border-glass); padding-left:24px;">
-      <button class="btn-core btn-cyan" style="width:100%;" onclick="verifyAllPillars()" data-i18n="chk.btn_verify_all">
-        ✓ Verify & Pass All Checks
-      </button>
-      <button class="btn-core btn-ghost" style="width:100%;" onclick="resetAllPillars()" data-i18n="chk.btn_reset">
-        ↺ Reset Checklist State
-      </button>
-      <button class="btn-core btn-ghost" style="width:100%; font-size:12px;" onclick="exportAuditReport()" data-i18n="chk.btn_export">
-        📋 Copy Audit Report (Markdown)
-      </button>
-    </div>
-  </div>
 
-  <!-- 5 Pillars -->
-  <div class="pillars-stack">
-
-    <!-- 1. AUTHORIZATION -->
-    <div class="pillar-card" id="cardPillar1">
-      <div class="pillar-header">
-        <div>
-          <span class="pillar-num">PILLAR 01 // ACCESS CONTROL</span>
-          <h2 class="pillar-title" data-i18n="p1.title">1. Authorization — Users Locked to Their Own Data</h2>
+      <div class="fx-grid fx-grid--3" data-reveal data-stagger>
+        <div class="fx-stat">
+          <span class="fx-stat__value fx-stat__value--accent fx-tnum" id="statChecked">0 / 5</span>
+          <span class="fx-stat__label" data-i18n="sum.stat1">Signed off</span>
         </div>
-        <label class="verify-toggle" id="toggleLabel1">
-          <input type="checkbox" id="chkPillar1" onchange="updateScorecard()">
-          <span data-i18n="chk.label_verified">Audited & Verified</span>
+        <div class="fx-stat">
+          <span class="fx-stat__value fx-stat__value--accent fx-tnum" id="statPercent">0%</span>
+          <span class="fx-stat__label" data-i18n="sum.stat2">Readiness</span>
+        </div>
+        <div class="fx-stat">
+          <span class="fx-stat__value fx-tnum" id="statOpen">5</span>
+          <span class="fx-stat__label" data-i18n="sum.stat3">Still open</span>
+        </div>
+      </div>
+
+      <div class="fx-card fx-card--pad-lg fx-mt-6" data-reveal>
+        <div class="fx-row fx-row--between">
+          <h3 class="fx-h3" id="statusHeading" data-i18n="sum.cardTitle">Release status</h3>
+          <span class="fx-badge fx-badge--bad" id="readinessStatusBadge">0 of 5 verified — not ready</span>
+        </div>
+
+        <div class="pdc-meter fx-mt-4" id="readinessMeter" role="progressbar" aria-valuemin="0" aria-valuemax="5" aria-valuenow="0" aria-labelledby="statusHeading">
+          <div class="pdc-meter__bar" id="readinessBar"></div>
+        </div>
+
+        <h4 class="fx-sr" id="pillsHeading" data-i18n="sum.pills">Status of each check</h4>
+        <div class="fx-row fx-mt-6">
+          <span class="fx-badge fx-badge--neutral" id="pillAuth">Authorization: pending</span>
+          <span class="fx-badge fx-badge--neutral" id="pillToken">Reset tokens: pending</span>
+          <span class="fx-badge fx-badge--neutral" id="pillInput">Input validation: pending</span>
+          <span class="fx-badge fx-badge--neutral" id="pillCors">CORS: pending</span>
+          <span class="fx-badge fx-badge--neutral" id="pillRate">Rate limits: pending</span>
+        </div>
+
+        <div class="fx-btn-group fx-mt-6">
+          <button type="button" class="fx-btn fx-btn--secondary" id="btnVerifyAll" data-i18n="sum.btnAll">Mark all five verified</button>
+          <button type="button" class="fx-btn fx-btn--quiet" id="btnResetAll" data-i18n="sum.btnReset">Clear the checklist</button>
+          <a href="#sign-off" class="fx-btn fx-btn--ghost" data-i18n="sum.btnExport">Export the result</a>
+        </div>
+
+        <p class="fx-formnote" id="checklistNote" role="status"></p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== 1. AUTHORIZATION ==================== -->
+  <section class="fx-section fx-section--alt" id="authorization">
+    <div class="fx-container">
+      <div class="fx-section-head">
+        <span class="fx-eyebrow" data-i18n="p1.eyebrow">Check 1 of 5 — access control</span>
+        <h2 class="fx-h2" data-i18n="p1.title">Users can only reach records they own</h2>
+      </div>
+
+      <div class="fx-card fx-card--pad-lg" id="cardPillar1" data-reveal>
+        <div class="fx-grid fx-grid--2" data-reveal data-stagger>
+          <div class="fx-stack">
+            <h3 class="fx-h3" data-i18n="lbl.means">What it means</h3>
+            <p class="fx-body">
+              <strong data-i18n="p1.means.a">Authentication proves who you are.</strong>
+              <span data-i18n="p1.means.b">Authorization decides what you may open.</span>
+            </p>
+            <p class="fx-body" data-i18n="p1.means.c">Every protected endpoint has to confirm the caller actually owns the record being requested, normally by matching the record's owner ID against the signed-in user's ID.</p>
+          </div>
+
+          <div class="fx-stack">
+            <h3 class="fx-h3" data-i18n="lbl.why">Why it matters before you ship</h3>
+            <p class="fx-body" data-i18n="p1.why.a">The failure has a name: an insecure direct object reference, usually shortened to IDOR. It is the most common serious bug we find in web applications.</p>
+            <p class="fx-body">
+              <span data-i18n="p1.why.b">If</span>
+              <code class="fx-mono">/api/orders/123</code>
+              <span data-i18n="p1.why.c">hands back the order without checking who asked, anyone can walk the ID range and read other customers' data.</span>
+            </p>
+            <p class="fx-body" data-i18n="p1.why.d">Random UUIDs make guessing harder, but a UUID is not an authorization check. You still need an explicit ownership test on every request.</p>
+          </div>
+        </div>
+
+        <hr class="fx-divider">
+
+        <label class="pdc-check pdc-check--box" for="chkPillar1" id="toggleLabel1">
+          <input type="checkbox" id="chkPillar1">
+          <span>
+            <span class="pdc-check__label" data-i18n="lbl.verified">Verified in our environment</span>
+            <span class="pdc-check__hint" data-i18n="p1.hint">Every protected endpoint asserts ownership, not merely a valid session.</span>
+          </span>
         </label>
-      </div>
 
-      <div class="pillar-grid">
-        <div class="info-box">
-          <h4 data-i18n="p1.means_title">📖 What it means</h4>
-          <p data-i18n="p1.means_body">
-            <strong>Authentication proves <em>who</em> you are. Authorization decides <em>what you're allowed to touch</em>.</strong> Every protected endpoint must check that the requesting user actually owns the resource they're asking for — usually by matching the resource's owner ID against the authenticated user's UUID.
-          </p>
-        </div>
+        <div class="fx-mt-8">
+          <div class="fx-row fx-row--between">
+            <h3 class="fx-h3" data-i18n="p1.labTitle">Try it: one request, with the check and without</h3>
+            <span class="fx-badge fx-badge--neutral" data-i18n="lbl.sandbox">Sandbox</span>
+          </div>
 
-        <div class="info-box">
-          <h4 data-i18n="p1.matters_title">⚠️ Why it matters before deploy</h4>
-          <p data-i18n="p1.matters_body">
-            This is the most common and most damaging class of bug in web apps: <strong>IDOR (Insecure Direct Object Reference)</strong>. If <code class="mono cyan">/api/orders/123</code> returns the order without checking that order <code class="mono cyan">123</code> belongs to the caller, anyone can iterate IDs and read other users' data. Using UUIDs instead of sequential IDs makes guessing harder, but it is <strong>not</strong> authorization — you still need an explicit ownership check on every request.
-          </p>
-        </div>
-      </div>
+          <div class="fx-grid fx-grid--2 fx-mt-6" data-reveal data-stagger>
+            <div class="fx-field">
+              <label class="fx-label" for="simCallerUuid" data-i18n="p1.labCaller">Signed-in user</label>
+              <select id="simCallerUuid" class="fx-select">
+                <option value="usr_userA_9918" data-i18n="p1.optUserA">User A — usr_userA_9918</option>
+                <option value="usr_userB_4402" data-i18n="p1.optUserB">User B — usr_userB_4402</option>
+                <option value="usr_outsider_666" data-i18n="p1.optOther">Unrelated account — usr_outsider_666</option>
+              </select>
+            </div>
+            <div class="fx-field">
+              <label class="fx-label" for="simTargetResource" data-i18n="p1.labTarget">Record requested</label>
+              <select id="simTargetResource" class="fx-select">
+                <option value="ord_101_userA" data-i18n="p1.optOrd101">Order 101 — owned by User A</option>
+                <option value="ord_102_userB" data-i18n="p1.optOrd102">Order 102 — owned by User B</option>
+                <option value="inv_908_userB" data-i18n="p1.optInv908">Invoice 908 — owned by User B</option>
+              </select>
+            </div>
+          </div>
 
-      <!-- Lab 1 -->
-      <div class="lab-box">
-        <div class="lab-header">
-          <span class="lab-title">🔬 Live Lab: IDOR vs Strict Ownership Assertion Simulator</span>
-          <span class="lab-badge">AUTH INSPECTOR</span>
+          <div class="fx-row fx-mt-6">
+            <label class="pdc-check" for="simEnforceOwnership">
+              <input type="checkbox" id="simEnforceOwnership" checked>
+              <span class="pdc-check__label" data-i18n="p1.labEnforce">Enforce the ownership check</span>
+            </label>
+            <button type="button" class="fx-btn fx-btn--secondary fx-btn--sm" id="btnSimAuth" data-i18n="p1.labRun">Send the request</button>
+          </div>
+
+          <div class="fx-code fx-mt-6">
+            <div class="fx-code__bar">
+              <span data-i18n="p1.labBar">Server response</span>
+              <span class="fx-mono">GET /api/resources/:id</span>
+            </div>
+            <pre class="fx-code__body pdc-console" id="consoleAuth" tabindex="0" aria-live="polite"></pre>
+          </div>
         </div>
-        <div class="lab-control-row">
-          <span class="mono" style="font-size:11.5px; color:var(--text-muted);">Caller UUID:</span>
-          <select id="simCallerUuid" class="lab-input" style="max-width:200px;">
-            <option value="usr_userA_9918">User A (usr_userA_9918)</option>
-            <option value="usr_userB_4402">User B (usr_userB_4402)</option>
-            <option value="usr_attacker_666">Attacker (usr_attacker_666)</option>
-          </select>
-          <span class="mono" style="font-size:11.5px; color:var(--text-muted);">Target Resource:</span>
-          <select id="simTargetResource" class="lab-input" style="max-width:260px;">
-            <option value="ord_101_userA">Order #101 (Owner: User A)</option>
-            <option value="ord_102_userB">Order #102 (Owner: User B)</option>
-            <option value="inv_908_userB">Invoice #908 (Owner: User B)</option>
-          </select>
-          <label class="mono" style="font-size:11.5px; display:flex; align-items:center; gap:6px; cursor:pointer;">
-            <input type="checkbox" id="simEnforceOwnership" checked> Enforce Ownership Check
-          </label>
-          <button class="lab-btn" onclick="runSimAuth()">Test Access Request</button>
-        </div>
-        <div class="lab-console" id="consoleAuth">Ready. Click "Test Access Request" to evaluate authorization policy.</div>
       </div>
     </div>
+  </section>
 
-    <!-- 2. PASSWORD RESET EXPIRATION -->
-    <div class="pillar-card" id="cardPillar2">
-      <div class="pillar-header">
-        <div>
-          <span class="pillar-num">PILLAR 02 // CREDENTIAL RECOVERY</span>
-          <h2 class="pillar-title" data-i18n="p2.title">2. Password Reset Links Expire</h2>
+  <!-- ==================== 2. RESET TOKENS ==================== -->
+  <section class="fx-section" id="reset-tokens">
+    <div class="fx-container">
+      <div class="fx-section-head">
+        <span class="fx-eyebrow" data-i18n="p2.eyebrow">Check 2 of 5 — account recovery</span>
+        <h2 class="fx-h2" data-i18n="p2.title">Reset links expire, and work exactly once</h2>
+      </div>
+
+      <div class="fx-card fx-card--pad-lg" id="cardPillar2" data-reveal>
+        <div class="fx-grid fx-grid--2" data-reveal data-stagger>
+          <div class="fx-stack">
+            <h3 class="fx-h3" data-i18n="lbl.means">What it means</h3>
+            <p class="fx-body" data-i18n="p2.means.a">A reset link carries a single-use token. That token needs a short lifetime — fifteen to sixty minutes is normal — and must stop working the moment it is used or a newer one is issued.</p>
+          </div>
+
+          <div class="fx-stack">
+            <h3 class="fx-h3" data-i18n="lbl.why">Why it matters before you ship</h3>
+            <p class="fx-body" data-i18n="p2.why.a">Reset links land in mailboxes. Mailboxes get forwarded, screenshotted, left open on shared machines and turn up in breach dumps.</p>
+            <p class="fx-body" data-i18n="p2.why.b">A token with no expiry is a permanent back door into the account. A short lifetime shrinks that window from forever down to minutes.</p>
+          </div>
         </div>
-        <label class="verify-toggle" id="toggleLabel2">
-          <input type="checkbox" id="chkPillar2" onchange="updateScorecard()">
-          <span data-i18n="chk.label_verified">Audited & Verified</span>
+
+        <hr class="fx-divider">
+
+        <label class="pdc-check pdc-check--box" for="chkPillar2" id="toggleLabel2">
+          <input type="checkbox" id="chkPillar2">
+          <span>
+            <span class="pdc-check__label" data-i18n="lbl.verified">Verified in our environment</span>
+            <span class="pdc-check__hint" data-i18n="p2.hint">Tokens expire, work once, and die when a newer one is issued.</span>
+          </span>
         </label>
-      </div>
 
-      <div class="pillar-grid">
-        <div class="info-box">
-          <h4 data-i18n="p2.means_title">📖 What it means</h4>
-          <p data-i18n="p2.means_body">
-            A password reset link contains a single-use token. That token must have a short lifetime (commonly 15–60 minutes) and must be invalidated as soon as it's used or as soon as a new reset is requested.
-          </p>
-        </div>
+        <div class="fx-mt-8">
+          <div class="fx-row fx-row--between">
+            <h3 class="fx-h3" data-i18n="p2.labTitle">Try it: the life of a single reset token</h3>
+            <span class="fx-badge fx-badge--neutral" data-i18n="lbl.sandbox">Sandbox</span>
+          </div>
 
-        <div class="info-box">
-          <h4 data-i18n="p2.matters_title">⚠️ Why it matters before deploy</h4>
-          <p data-i18n="p2.matters_body">
-            Reset links land in email inboxes, which can be forwarded, screenshotted, cached on shared devices, or leaked through breaches. A non-expiring token is a permanent backdoor into the account. A short TTL shrinks the window of attack to minutes instead of forever.
-          </p>
-        </div>
-      </div>
+          <ol class="fx-steps fx-steps--connected fx-mt-6">
+            <li class="fx-step">
+              <span class="fx-step__num">1</span>
+              <div>
+                <div class="fx-step__title" data-i18n="p2.s1t">Issue the reset link</div>
+                <p class="fx-step__text" data-i18n="p2.s1d">Creates a single-use token with a fifteen-minute lifetime.</p>
+                <p class="fx-mt-4"><button type="button" class="fx-btn fx-btn--secondary fx-btn--sm" id="btnTokenIssue" data-i18n="p2.s1b">Issue token</button></p>
+              </div>
+            </li>
+            <li class="fx-step">
+              <span class="fx-step__num">2</span>
+              <div>
+                <div class="fx-step__title" data-i18n="p2.s2t">Let time pass</div>
+                <p class="fx-step__text" data-i18n="p2.s2d">Moves the clock twenty minutes on, past the token's lifetime.</p>
+                <p class="fx-mt-4"><button type="button" class="fx-btn fx-btn--secondary fx-btn--sm" id="btnTokenAdvance" data-i18n="p2.s2b">Skip forward 20 minutes</button></p>
+              </div>
+            </li>
+            <li class="fx-step">
+              <span class="fx-step__num">3</span>
+              <div>
+                <div class="fx-step__title" data-i18n="p2.s3t">Redeem the token</div>
+                <p class="fx-step__text" data-i18n="p2.s3d">A live token sets the password once. An expired or spent token is refused.</p>
+                <p class="fx-mt-4"><button type="button" class="fx-btn fx-btn--secondary fx-btn--sm" id="btnTokenRedeem" data-i18n="p2.s3b">Redeem token</button></p>
+              </div>
+            </li>
+            <li class="fx-step">
+              <span class="fx-step__num">4</span>
+              <div>
+                <div class="fx-step__title" data-i18n="p2.s4t">Request another reset</div>
+                <p class="fx-step__text" data-i18n="p2.s4d">Issuing a new token has to kill the previous one immediately.</p>
+                <p class="fx-mt-4"><button type="button" class="fx-btn fx-btn--secondary fx-btn--sm" id="btnTokenReissue" data-i18n="p2.s4b">Request a new token</button></p>
+              </div>
+            </li>
+          </ol>
 
-      <!-- Lab 2 -->
-      <div class="lab-box">
-        <div class="lab-header">
-          <span class="lab-title">🔬 Live Lab: Password Reset Token TTL & Invalidation Sandbox</span>
-          <span class="lab-badge">TOKEN LIFECYCLE</span>
+          <div class="fx-code fx-mt-6">
+            <div class="fx-code__bar">
+              <span data-i18n="p2.labBar">Token store</span>
+              <span class="fx-mono">POST /auth/reset</span>
+            </div>
+            <pre class="fx-code__body pdc-console" id="consoleToken" tabindex="0" aria-live="polite"></pre>
+          </div>
         </div>
-        <div class="lab-control-row">
-          <button class="lab-btn" onclick="simGenerateResetToken()">1. Generate Reset Token (15m TTL)</button>
-          <button class="lab-btn" onclick="simAdvanceTime(20)">2. Fast-Forward Time (+20 mins)</button>
-          <button class="lab-btn" onclick="simRedeemToken()">3. Redeem / Consume Token</button>
-          <button class="lab-btn" onclick="simRequestNewReset()">4. Re-issue New Token (Invalidate Old)</button>
-        </div>
-        <div class="lab-console" id="consoleToken">No token currently active. Click "1. Generate Reset Token" to begin.</div>
       </div>
     </div>
+  </section>
 
-    <!-- 3. INPUT VALIDATION -->
-    <div class="pillar-card" id="cardPillar3">
-      <div class="pillar-header">
-        <div>
-          <span class="pillar-num">PILLAR 03 // SANITIZATION & INJECTION SHIELD</span>
-          <h2 class="pillar-title" data-i18n="p3.title">3. Input Validation — SQL Injection and XSS</h2>
+  <!-- ==================== 3. INPUT VALIDATION ==================== -->
+  <section class="fx-section fx-section--alt" id="input-validation">
+    <div class="fx-container">
+      <div class="fx-section-head">
+        <span class="fx-eyebrow" data-i18n="p3.eyebrow">Check 3 of 5 — untrusted input</span>
+        <h2 class="fx-h2" data-i18n="p3.title">Treat every value from the client as hostile</h2>
+      </div>
+
+      <div class="fx-card fx-card--pad-lg" id="cardPillar3" data-reveal>
+        <div class="fx-grid fx-grid--2" data-reveal data-stagger>
+          <div class="fx-stack">
+            <h3 class="fx-h3" data-i18n="lbl.means">What it means</h3>
+            <p class="fx-body">
+              <strong data-i18n="p3.means.a">Assume everything the client sends is hostile.</strong>
+              <span data-i18n="p3.means.b">Validate types, lengths and formats before anything else runs.</span>
+            </p>
+            <p class="fx-body">
+              <span data-i18n="p3.means.c">Use parameterised queries or an ORM so input can never change the shape of a SQL statement, and escape anything rendered back into a page so an injected</span>
+              <code class="fx-mono">&lt;script&gt;</code>
+              <span data-i18n="p3.means.d">tag cannot run in somebody else's browser.</span>
+            </p>
+          </div>
+
+          <div class="fx-stack">
+            <h3 class="fx-h3" data-i18n="lbl.why">Why it matters before you ship</h3>
+            <p class="fx-body" data-i18n="p3.why.a">SQL injection can read or drop an entire database. Cross-site scripting can steal a session and become account takeover.</p>
+            <p class="fx-body" data-i18n="p3.why.b">Both have sat in the OWASP Top 10 for over a decade because they keep working, usually on the one field somebody forgot.</p>
+          </div>
         </div>
-        <label class="verify-toggle" id="toggleLabel3">
-          <input type="checkbox" id="chkPillar3" onchange="updateScorecard()">
-          <span data-i18n="chk.label_verified">Audited & Verified</span>
+
+        <hr class="fx-divider">
+
+        <label class="pdc-check pdc-check--box" for="chkPillar3" id="toggleLabel3">
+          <input type="checkbox" id="chkPillar3">
+          <span>
+            <span class="pdc-check__label" data-i18n="lbl.verified">Verified in our environment</span>
+            <span class="pdc-check__hint" data-i18n="p3.hint">Every query is parameterised and every rendered output is escaped.</span>
+          </span>
         </label>
-      </div>
 
-      <div class="pillar-grid">
-        <div class="info-box">
-          <h4 data-i18n="p3.means_title">📖 What it means</h4>
-          <p data-i18n="p3.means_body">
-            <strong>Treat every value coming from the client as hostile.</strong> Validate types, lengths, and formats. Use <strong>parameterized queries / ORMs</strong> so user input cannot change the shape of a SQL statement. Escape or sanitize anything rendered back into HTML so injected <code class="mono">&lt;script&gt;</code> tags don't execute in someone else's browser.
-          </p>
-        </div>
+        <div class="fx-mt-8">
+          <div class="fx-row fx-row--between">
+            <h3 class="fx-h3" data-i18n="p3.labTitle">Try it: the same payload, raw and handled</h3>
+            <span class="fx-badge fx-badge--neutral" data-i18n="lbl.sandbox">Sandbox</span>
+          </div>
 
-        <div class="info-box">
-          <h4 data-i18n="p3.matters_title">⚠️ Why it matters before deploy</h4>
-          <p data-i18n="p3.matters_body">
-            SQL injection can dump or drop your entire database. XSS can hijack sessions, steal tokens, and pivot into account takeover. Both have lived in the OWASP Top 10 for over a decade because they keep working — usually on a single forgotten field.
-          </p>
-        </div>
-      </div>
+          <div class="fx-field fx-mt-6">
+            <label class="fx-label" for="simPayloadInput" data-i18n="p3.labInput">Value submitted by the client</label>
+            <input type="text" id="simPayloadInput" class="fx-input fx-mono" value="admin' OR '1'='1' -- &lt;script&gt;alert(document.cookie)&lt;/script&gt;">
+            <span class="fx-help" data-i18n="p3.labHelp">Edit it if you like. Nothing leaves this page.</span>
+          </div>
 
-      <!-- Lab 3 -->
-      <div class="lab-box">
-        <div class="lab-header">
-          <span class="lab-title">🔬 Live Lab: SQL Parameterization & HTML Entity Neutralizer</span>
-          <span class="lab-badge">INJECTION DEFENSE</span>
+          <div class="fx-row fx-mt-4">
+            <button type="button" class="fx-btn fx-btn--secondary fx-btn--sm" id="btnSimSanitize" data-i18n="p3.labRun">Run the checks</button>
+          </div>
+
+          <div class="fx-code fx-mt-6">
+            <div class="fx-code__bar">
+              <span data-i18n="p3.labBar">Handling result</span>
+              <span class="fx-mono">POST /api/login</span>
+            </div>
+            <pre class="fx-code__body pdc-console" id="consoleSanitize" tabindex="0" aria-live="polite"></pre>
+          </div>
         </div>
-        <div class="lab-control-row">
-          <input type="text" id="simPayloadInput" class="lab-input" value="admin' OR '1'='1' -- <script>alert(document.cookie)</script>">
-          <button class="lab-btn" onclick="runSimSanitize()">Test Parameterization & Escaping</button>
-        </div>
-        <div class="lab-console" id="consoleSanitize">Input payload above and click test to inspect raw vs parameterized & HTML-escaped output.</div>
       </div>
     </div>
+  </section>
 
-    <!-- 4. CORS DOMAIN LOCKING -->
-    <div class="pillar-card" id="cardPillar4">
-      <div class="pillar-header">
-        <div>
-          <span class="pillar-num">PILLAR 04 // CROSS-ORIGIN DEFENSE</span>
-          <h2 class="pillar-title" data-i18n="p4.title">4. CORS — Lock the API to Your Own Domain</h2>
+  <!-- ==================== 4. CORS ==================== -->
+  <section class="fx-section" id="cors">
+    <div class="fx-container">
+      <div class="fx-section-head">
+        <span class="fx-eyebrow" data-i18n="p4.eyebrow">Check 4 of 5 — cross-origin access</span>
+        <h2 class="fx-h2" data-i18n="p4.title">The API answers your own domains only</h2>
+      </div>
+
+      <div class="fx-card fx-card--pad-lg" id="cardPillar4" data-reveal>
+        <div class="fx-grid fx-grid--2" data-reveal data-stagger>
+          <div class="fx-stack">
+            <h3 class="fx-h3" data-i18n="lbl.means">What it means</h3>
+            <p class="fx-body">
+              <strong data-i18n="p4.means.a">CORS, or cross-origin resource sharing, tells browsers which sites may call your API.</strong>
+              <span data-i18n="p4.means.b">In production that list holds your own domains — not a wildcard, not localhost, not whatever was convenient while developing.</span>
+            </p>
+          </div>
+
+          <div class="fx-stack">
+            <h3 class="fx-h3" data-i18n="lbl.why">Why it matters before you ship</h3>
+            <p class="fx-body" data-i18n="p4.why.a">A wide-open policy lets a malicious site make authenticated calls to your API from a victim's browser, leaking data or acting on that person's behalf.</p>
+            <p class="fx-body">
+              <span data-i18n="p4.why.b">Teams ship</span>
+              <code class="fx-mono">Access-Control-Allow-Origin: *</code>
+              <span data-i18n="p4.why.c">out of a development config more often than anyone would like, and usually notice only once something abuses it.</span>
+            </p>
+          </div>
         </div>
-        <label class="verify-toggle" id="toggleLabel4">
-          <input type="checkbox" id="chkPillar4" onchange="updateScorecard()">
-          <span data-i18n="chk.label_verified">Audited & Verified</span>
+
+        <div class="fx-callout fx-mt-6">
+          <svg class="fx-callout__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <circle cx="12" cy="12" r="9"/><path d="M12 8h.01M11 12h1v4h1"/>
+          </svg>
+          <p>
+            <strong data-i18n="p4.note.a">CORS is a browser protection.</strong>
+            <span data-i18n="p4.note.b">It does nothing about server-to-server requests. Authentication and authorization still do the real work.</span>
+          </p>
+        </div>
+
+        <hr class="fx-divider">
+
+        <label class="pdc-check pdc-check--box" for="chkPillar4" id="toggleLabel4">
+          <input type="checkbox" id="chkPillar4">
+          <span>
+            <span class="pdc-check__label" data-i18n="lbl.verified">Verified in our environment</span>
+            <span class="pdc-check__hint" data-i18n="p4.hint">The production allow-list holds our own origins and nothing else.</span>
+          </span>
         </label>
-      </div>
 
-      <div class="pillar-grid">
-        <div class="info-box">
-          <h4 data-i18n="p4.means_title">📖 What it means</h4>
-          <p data-i18n="p4.means_body">
-            <strong>CORS (Cross-Origin Resource Sharing)</strong> tells browsers which origins are allowed to call your API. In production, the allowed origin list should be your own domains — not <code class="mono">*</code>, not <code class="mono">localhost</code>, not whatever was convenient during development.
-          </p>
-        </div>
+        <div class="fx-mt-8">
+          <div class="fx-row fx-row--between">
+            <h3 class="fx-h3" data-i18n="p4.labTitle">Try it: which origins get through</h3>
+            <span class="fx-badge fx-badge--neutral" data-i18n="lbl.sandbox">Sandbox</span>
+          </div>
 
-        <div class="info-box">
-          <h4 data-i18n="p4.matters_title">⚠️ Why it matters before deploy</h4>
-          <p data-i18n="p4.matters_body">
-            A wide-open CORS policy lets malicious sites make authenticated requests to your API from a victim's browser, which can leak data or trigger actions on behalf of the user. Many teams ship <code class="mono">Access-Control-Allow-Origin: *</code> from a dev config and only notice when something abuses it.
-          </p>
-        </div>
-      </div>
+          <div class="fx-field fx-mt-6">
+            <label class="fx-label" for="simCorsOrigin" data-i18n="p4.labOrigin">Origin header on the request</label>
+            <select id="simCorsOrigin" class="fx-select">
+              <option value="https://farvex.ai" data-i18n="p4.opt1">https://farvex.ai — production</option>
+              <option value="https://www.farvex.ai" data-i18n="p4.opt2">https://www.farvex.ai — production subdomain</option>
+              <option value="http://localhost:3000" data-i18n="p4.opt3">http://localhost:3000 — a development machine</option>
+              <option value="https://phishing-clone.example" data-i18n="p4.opt4">https://phishing-clone.example — unknown third party</option>
+              <option value="*" data-i18n="p4.opt5">* — a wildcard left over from development</option>
+            </select>
+          </div>
 
-      <div class="callout-quote" data-i18n="p4.quote">
-        💡 <strong>Architecture Note:</strong> CORS is a <strong>browser</strong> protection. It does not stop server-to-server attacks. Authentication and authorization still do the real work.
-      </div>
+          <div class="fx-row fx-mt-4">
+            <button type="button" class="fx-btn fx-btn--secondary fx-btn--sm" id="btnSimCors" data-i18n="p4.labRun">Check the preflight</button>
+          </div>
 
-      <!-- Lab 4 -->
-      <div class="lab-box">
-        <div class="lab-header">
-          <span class="lab-title">🔬 Live Lab: Production CORS Origin Whitelist Inspector</span>
-          <span class="lab-badge">CORS SIMULATOR</span>
+          <div class="fx-code fx-mt-6">
+            <div class="fx-code__bar">
+              <span data-i18n="p4.labBar">Preflight result</span>
+              <span class="fx-mono">OPTIONS /api/</span>
+            </div>
+            <pre class="fx-code__body pdc-console" id="consoleCors" tabindex="0" aria-live="polite"></pre>
+          </div>
         </div>
-        <div class="lab-control-row">
-          <span class="mono" style="font-size:11.5px; color:var(--text-muted);">Simulated Request Origin:</span>
-          <select id="simCorsOrigin" class="lab-input" style="max-width:280px;">
-            <option value="https://farvex.ai">https://farvex.ai (Production Domain)</option>
-            <option value="https://www.farvex.ai">https://www.farvex.ai (Production Subdomain)</option>
-            <option value="http://localhost:3000">http://localhost:3000 (Dev Localhost)</option>
-            <option value="https://evil-phishing-site.com">https://evil-phishing-site.com (Malicious Third-Party)</option>
-            <option value="*">* Wildcard (Insecure Legacy Default)</option>
-          </select>
-          <button class="lab-btn" onclick="runSimCors()">Evaluate CORS Preflight</button>
-        </div>
-        <div class="lab-console" id="consoleCors">Select an origin header to test production CORS policy response.</div>
       </div>
     </div>
+  </section>
 
-    <!-- 5. RATE LIMITING -->
-    <div class="pillar-card" id="cardPillar5">
-      <div class="pillar-header">
-        <div>
-          <span class="pillar-num">PILLAR 05 // VELOCITY CONTROL & DOS DEFENSE</span>
-          <h2 class="pillar-title" data-i18n="p5.title">5. Rate Limiting</h2>
+  <!-- ==================== 5. RATE LIMITING ==================== -->
+  <section class="fx-section fx-section--alt" id="rate-limiting">
+    <div class="fx-container">
+      <div class="fx-section-head">
+        <span class="fx-eyebrow" data-i18n="p5.eyebrow">Check 5 of 5 — request volume</span>
+        <h2 class="fx-h2" data-i18n="p5.title">Expensive endpoints need a ceiling</h2>
+      </div>
+
+      <div class="fx-card fx-card--pad-lg" id="cardPillar5" data-reveal>
+        <div class="fx-grid fx-grid--2" data-reveal data-stagger>
+          <div class="fx-stack">
+            <h3 class="fx-h3" data-i18n="lbl.means">What it means</h3>
+            <p class="fx-body" data-i18n="p5.means.a">Cap how many requests one client — identified by IP address, account or API key — can make inside a time window.</p>
+            <p class="fx-body" data-i18n="p5.means.b">Put tighter limits on the expensive and abusable routes: sign-in, password reset, sign-up, search, and anything that sends email or SMS.</p>
+          </div>
+
+          <div class="fx-stack">
+            <h3 class="fx-h3" data-i18n="lbl.why">Why it matters before you ship</h3>
+            <p class="fx-body" data-i18n="p5.why.a">Without a ceiling, four things are on the table:</p>
+            <ul class="fx-checklist fx-checklist--bad">
+              <li>
+                <svg class="fx-checklist__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12"/></svg>
+                <span><strong data-i18n="p5.r1a">Brute force</strong> <span data-i18n="p5.r1b">against sign-in and password-reset endpoints.</span></span>
+              </li>
+              <li>
+                <svg class="fx-checklist__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12"/></svg>
+                <span><strong data-i18n="p5.r2a">Credential stuffing</strong> <span data-i18n="p5.r2b">run at the scale of a leaked password list.</span></span>
+              </li>
+              <li>
+                <svg class="fx-checklist__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12"/></svg>
+                <span><strong data-i18n="p5.r3a">Denial of service</strong> <span data-i18n="p5.r3b">from one noisy client, deliberate or not.</span></span>
+              </li>
+              <li>
+                <svg class="fx-checklist__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12"/></svg>
+                <span><strong data-i18n="p5.r4a">A surprise cloud bill</strong> <span data-i18n="p5.r4b">when something loops your costliest route overnight.</span></span>
+              </li>
+            </ul>
+          </div>
         </div>
-        <label class="verify-toggle" id="toggleLabel5">
-          <input type="checkbox" id="chkPillar5" onchange="updateScorecard()">
-          <span data-i18n="chk.label_verified">Audited & Verified</span>
+
+        <hr class="fx-divider">
+
+        <label class="pdc-check pdc-check--box" for="chkPillar5" id="toggleLabel5">
+          <input type="checkbox" id="chkPillar5">
+          <span>
+            <span class="pdc-check__label" data-i18n="lbl.verified">Verified in our environment</span>
+            <span class="pdc-check__hint" data-i18n="p5.hint">Limits are set per route and answer with 429 and a Retry-After header.</span>
+          </span>
         </label>
-      </div>
 
-      <div class="pillar-grid">
-        <div class="info-box">
-          <h4 data-i18n="p5.means_title">📖 What it means</h4>
-          <p data-i18n="p5.means_body">
-            Cap how many requests a single client (by IP, user, or API key) can make in a given window. Apply tighter limits on expensive or abusable endpoints — login, password reset, signup, search, anything that hits the database hard or sends email/SMS.
-          </p>
-        </div>
+        <div class="fx-mt-8">
+          <div class="fx-row fx-row--between">
+            <h3 class="fx-h3" data-i18n="p5.labTitle">Try it: burst past the limit</h3>
+            <span class="fx-badge fx-badge--neutral" data-i18n="lbl.sandbox">Sandbox</span>
+          </div>
 
-        <div class="info-box">
-          <h4 data-i18n="p5.matters_title">⚠️ Why it matters before deploy</h4>
-          <p data-i18n="p5.matters_body">
-            Without rate limiting you're exposed to:
-            <br>• <strong>Brute-force attacks</strong> on login and reset endpoints
-            <br>• <strong>Credential stuffing</strong> at massive scale
-            <br>• <strong>Denial of service</strong> from a single noisy client
-            <br>• <strong>A surprise cloud bill</strong> when someone loops your most expensive endpoint overnight
-          </p>
-        </div>
-      </div>
+          <div class="fx-row fx-mt-6">
+            <button type="button" class="fx-btn fx-btn--secondary fx-btn--sm" id="btnSimBurst" data-i18n="p5.labRun">Send a request</button>
+            <button type="button" class="fx-btn fx-btn--quiet fx-btn--sm" id="btnSimRateReset" data-i18n="p5.labReset">Empty the bucket</button>
+            <span class="fx-small fx-dim fx-tnum" id="rateLimitMeter">Window: 0 of 5 requests used</span>
+          </div>
 
-      <!-- Lab 5 -->
-      <div class="lab-box">
-        <div class="lab-header">
-          <span class="lab-title">🔬 Live Lab: Rate Limiter Token Bucket & Velocity Shield</span>
-          <span class="lab-badge">BURST SIMULATOR</span>
+          <div class="fx-code fx-mt-6">
+            <div class="fx-code__bar">
+              <span data-i18n="p5.labBar">Gateway log</span>
+              <span class="fx-mono">5 requests / 8 s</span>
+            </div>
+            <pre class="fx-code__body pdc-console" id="consoleRate" tabindex="0" aria-live="polite"></pre>
+          </div>
         </div>
-        <div class="lab-control-row">
-          <button class="lab-btn" onclick="runSimBurstRequest()">Send Burst Request (Click Rapidly)</button>
-          <button class="lab-btn btn-ghost" onclick="resetSimRateLimit()">Reset Rate Bucket</button>
-          <span class="mono" style="font-size:11.5px; color:var(--text-muted);" id="rateLimitMeter">Window: 0 / 5 requests used</span>
-        </div>
-        <div class="lab-console" id="consoleRate">Click "Send Burst Request" multiple times to test automatic HTTP 429 backoff throttling.</div>
       </div>
     </div>
+  </section>
 
-  </div>
+  <!-- ==================== SIGN-OFF ==================== -->
+  <section class="fx-section" id="sign-off">
+    <div class="fx-container">
+      <div class="fx-section-head">
+        <span class="fx-eyebrow" data-i18n="exp.eyebrow">Sign-off</span>
+        <h2 class="fx-h2" data-i18n="exp.h2">Export the result</h2>
+        <p class="fx-lead" data-i18n="exp.sub">Copy your status as Markdown for a pull request, or as JSON for a pipeline step. The report is generated in English so it reads the same in any repository.</p>
+      </div>
 
-  <!-- Export Section -->
-  <div class="export-card">
-    <div>
-      <h3 style="font-size:1.4rem; font-family:var(--font-heading); color:#fff; margin-bottom:8px;" data-i18n="chk.export_h3">
-        Sign-Off & Pre-Deployment Audit Export
-      </h3>
-      <p style="font-size:13.5px; color:var(--text-muted); max-width:680px;" data-i18n="chk.export_desc">
-        Export your complete verification status as a Markdown compliance report for inclusion in GitHub PRs, Jira tickets, or DevOps sign-off logs.
-      </p>
+      <div class="fx-card fx-card--pad-lg" data-reveal>
+        <div class="fx-btn-group">
+          <button type="button" class="fx-btn fx-btn--primary" id="btnCopyMd" data-i18n="exp.btnMd">Copy the Markdown report</button>
+          <button type="button" class="fx-btn fx-btn--secondary" id="btnCopyJson" data-i18n="exp.btnJson">Copy the JSON</button>
+        </div>
+
+        <p class="fx-formnote" id="exportNote" role="status"></p>
+
+        <div class="fx-code fx-mt-6" id="exportPreviewWrap" hidden>
+          <div class="fx-code__bar">
+            <span data-i18n="exp.previewBar">Report</span>
+            <span class="fx-mono" id="exportFormat">markdown</span>
+          </div>
+          <pre class="fx-code__body pdc-console" id="exportPreview" tabindex="0"></pre>
+        </div>
+
+        <p class="fx-small fx-dim fx-mt-6" data-i18n="exp.note">Ticks live in this browser under a single local storage entry. Clearing site data clears the checklist.</p>
+      </div>
+
+      <div class="fx-card fx-card--pad-lg fx-mt-6" data-reveal>
+        <h3 class="fx-h3" data-i18n="exp.ctaTitle">Want us to run this against your stack?</h3>
+        <p class="fx-body fx-measure" data-i18n="exp.ctaText">We work through these five checks, plus the rest of our review, on every system we build and on systems we inherit. A briefing takes half an hour.</p>
+        <div class="fx-btn-group fx-mt-4">
+          <a href="book.html" class="fx-btn fx-btn--primary" data-i18n="exp.ctaBtn">Request a briefing</a>
+          <a href="security.html" class="fx-btn fx-btn--secondary" data-i18n="exp.ctaAlt">How we handle security</a>
+        </div>
+      </div>
     </div>
-    <div style="display:flex; gap:12px; flex-wrap:wrap;">
-      <button class="btn-core btn-cyan" onclick="exportAuditReport()" data-i18n="chk.btn_copy_md">
-        📋 Copy Markdown Report
-      </button>
-      <button class="btn-core btn-ghost" onclick="exportAuditJson()" data-i18n="chk.btn_copy_json">
-        💾 Export JSON Telemetry
-      </button>
-    </div>
-  </div>
+  </section>
+
 </main>
 
-<!-- Footer -->
-<footer class="site-footer">
-  <div class="container">
-    <div class="footer-grid">
-      <div class="footer-col">
-        <a href="index.html" class="brand" style="margin-bottom: 14px;">
-          <div class="brand-box">
-            <img src="farvex-logo-kit/svg/farvex-mark-dark.svg" alt="Farvex AI Logo">
-          </div>
-          <div class="brand-text">FARVEX<span>.AI</span></div>
+<!-- ============================ FOOTER ============================ -->
+<footer class="fx-footer">
+  <div class="fx-container">
+    <div class="fx-footer__grid">
+      <div>
+        <a href="index.html" class="fx-brand">
+          <svg class="fx-brand__mark" viewBox="0 0 600 600" role="img" aria-label="Farvex AI">
+            <rect class="fx-mark-body" x="133.6" y="108" width="70.4" height="384"/>
+            <rect class="fx-mark-body" x="133.6" y="108" width="152" height="62.4"/>
+            <rect class="fx-mark-body" x="133.6" y="269.28" width="136" height="62.4"/>
+            <rect class="fx-mark-accent" x="264.8" y="282.88" width="136" height="35.2"/>
+            <polygon class="fx-mark-accent" points="400.8,273.28 447.2,300.48 400.8,327.68"/>
+            <circle class="fx-mark-accent" cx="456.8" cy="300.48" r="9.6"/>
+          </svg>
+          <span>Farvex<span class="fx-brand__dot">.ai</span></span>
         </a>
-        <p style="font-size: 13px; color: var(--text-muted); line-height: 1.6;" data-i18n="footer.desc">
-          Bespoke enterprise AI systems engineering, high-throughput autonomous agents, and industrial automation.
+        <p class="fx-footer__about fx-mt-4" data-i18n="footer.desc">
+          Enterprise AI systems engineering — document parsing, workflow automation and agents built for European operations.
         </p>
       </div>
 
-      <div class="footer-col">
-        <h5 data-i18n="footer.col1">Solutions Suite</h5>
+      <div>
+        <h2 data-i18n="footer.col1">Solutions</h2>
         <ul>
-          <li><a href="solutions.html#workflow">Workflow Orchestration</a></li>
-          <li><a href="solutions.html#vision">Computer Vision & OCR</a></li>
-          <li><a href="solutions.html#agents">Mission Agents</a></li>
-          <li><a href="solutions.html#predictive">Predictive Risk</a></li>
-          <li><a href="solutions.html#rag">Vector Core & RAG</a></li>
+          <li><a href="solutions.html#workflow" data-i18n="footer.l1">Workflow automation</a></li>
+          <li><a href="solutions.html#vision" data-i18n="footer.l2">Document parsing</a></li>
+          <li><a href="solutions.html#agents" data-i18n="footer.l3">AI agents</a></li>
+          <li><a href="solutions.html#predictive" data-i18n="footer.l4">Forecasting</a></li>
+          <li><a href="solutions.html#rag" data-i18n="footer.l5">Internal search</a></li>
         </ul>
       </div>
 
-      <div class="footer-col">
-        <h5 data-i18n="footer.col2">Legal & Governance</h5>
+      <div>
+        <h2 data-i18n="footer.col2">Company</h2>
         <ul>
-          <li><a href="pre-deployment-checklist.html" style="color:var(--cyan-bright);">Pre-Deployment Checklist</a></li>
-          <li><a href="security.html">Data Sovereignty Vault</a></li>
-          <li><a href="architecture.html">Technical Architecture</a></li>
-          <li><a href="privacy.html">Privacy Statement (GDPR)</a></li>
-          <li><a href="terms.html">Terms of Service (B2B)</a></li>
-          <li><a href="cookies.html">Cookie Preferences</a></li>
-          <li><a href=".well-known/security.txt" style="font-size:11.5px; color:var(--text-dim);">Security Disclosure (.txt)</a></li>
+          <li><a href="case-studies.html" data-i18n="footer.l6">Case studies</a></li>
+          <li><a href="architecture.html" data-i18n="footer.l7">Architecture</a></li>
+          <li><a href="security.html" data-i18n="footer.l8">Security</a></li>
+          <li><a href="pre-deployment-checklist.html" data-i18n="footer.l9">Pre-deployment checklist</a></li>
+          <li><a href="contact.html" data-i18n="footer.l10">Contact</a></li>
         </ul>
       </div>
 
-      <div class="footer-col">
-        <h5 data-i18n="footer.col3">Coordinates</h5>
-        <p class="mono" style="font-size: 12px; color: var(--text-muted); margin-bottom: 4px;">KvK: 89412084 // BTW: NL864982103B01</p>
-        <p class="mono" style="font-size: 12px; color: var(--text-muted); margin-bottom: 6px;">Vlaardingen, Netherlands</p>
-        <p class="mono" style="font-size: 11.5px; color: var(--cyan-bright);">STATUS: SOVEREIGN EU NODE</p>
+      <div>
+        <h2 data-i18n="footer.col3">Details</h2>
+        <p class="fx-small fx-dim">KvK 89412084</p>
+        <p class="fx-small fx-dim">BTW NL864982103B01</p>
+        <p class="fx-small fx-dim">Vlaardingen, Netherlands</p>
+        <p class="fx-small fx-mt-4"><a href="mailto:farvexai@gmail.com">farvexai@gmail.com</a></p>
+        <p class="fx-small"><a href="tel:+31639760295">+31 6 39760295</a></p>
+      </div>
+    </div>
+
+    <div class="fx-footer__bottom">
+      <span>© <span data-year>2026</span> Farvex AI. <span data-i18n="footer.rights">All rights reserved.</span></span>
+      <div class="fx-footer__legal">
+        <a href="privacy.html" data-i18n="footer.privacy">Privacy</a>
+        <a href="terms.html" data-i18n="footer.terms">Terms</a>
+        <a href="cookies.html" data-i18n="footer.cookies">Cookies</a>
+        <a href="dashboard.html" data-i18n="footer.admin">Admin</a>
       </div>
     </div>
   </div>
 </footer>
 
+<!-- Cookie notice -->
+<div class="fx-consent" data-consent role="dialog" aria-labelledby="consentTitle" aria-describedby="consentText">
+  <p class="fx-consent__title" id="consentTitle" data-i18n="ck.popTitle">Cookies</p>
+  <p class="fx-consent__text" id="consentText" data-i18n="ck.popText">
+    Your theme and language choice are kept on your own device. No advertising or profiling trackers.
+  </p>
+  <div class="fx-row">
+    <button type="button" class="fx-btn fx-btn--primary fx-btn--sm" data-consent-choice="all" data-i18n="ck.popAccept">Accept</button>
+    <button type="button" class="fx-btn fx-btn--quiet fx-btn--sm" data-consent-choice="essential" data-i18n="ck.popEssential">Essential only</button>
+    <a href="cookies.html" class="fx-small" data-i18n="ck.popManage">Details</a>
+  </div>
+</div>
+
 <script>
-  // Bilingual Dictionary (English & Dutch)
-  const T = {
-    'en': {
-      "hud.cluster": "ORBITAL CLUSTER: ONLINE",
-      "nav.home": "← Home (Chaos/Order)", "nav.solutions": "Solutions Suite",
-      "nav.cases": "Case Studies", "nav.arch": "Architecture",
-      "nav.security": "Security Vault", "nav.checklist": "Pre-Deploy Checklist",
-      "nav.contact": "Uplink", "nav.cta": "⚡ Book Consultation",
-      
-      "chk.badge": "DEFENSE-IN-DEPTH // PRODUCTION AUDIT GATE",
-      "chk.title": "Pre-Deployment Checklist",
-      "chk.sub": "Shipping to production is the moment a small oversight becomes a public incident. This checklist walks through the items I verify before pressing deploy — what each one means, and why skipping it usually ends badly.",
-      "chk.score_title": "Deployment Verification Status",
-      "chk.score_desc": "Toggle verification checkboxes below after validating each item against your production environment or testing with the built-in simulation labs.",
-      "chk.btn_verify_all": "✓ Verify & Pass All Checks",
-      "chk.btn_reset": "↺ Reset Checklist State",
-      "chk.btn_export": "📋 Copy Audit Report (Markdown)",
-      "chk.label_verified": "Audited & Verified",
+/* ---------------------------------------------------------------------------
+   Translations. Shared behaviour in /assets/farvex.js reads this object.
+   Values are PLAIN TEXT only — applyLang assigns textContent, so any markup
+   here would render as literal visible tags. Sentences that need <strong> or
+   <code> are split across sibling elements in the markup instead.
+   Keys prefixed "js." are rendered by the page script below, not by applyLang;
+   {braces} in them are placeholders the script substitutes.
+   --------------------------------------------------------------------------- */
+window.FARVEX_I18N = {
+  en: {
+    "nav.solutions": "Solutions",
+    "nav.cases": "Case studies",
+    "nav.arch": "Architecture",
+    "nav.security": "Security",
+    "nav.contact": "Contact",
+    "nav.checklist": "Pre-deployment checklist",
+    "nav.cta": "Request a briefing",
 
-      "p1.title": "1. Authorization — Users Locked to Their Own Data",
-      "p1.means_title": "📖 What it means",
-      "p1.means_body": "<strong>Authentication proves <em>who</em> you are. Authorization decides <em>what you're allowed to touch</em>.</strong> Every protected endpoint must check that the requesting user actually owns the resource they're asking for — usually by matching the resource's owner ID against the authenticated user's UUID.",
-      "p1.matters_title": "⚠️ Why it matters before deploy",
-      "p1.matters_body": "This is the most common and most damaging class of bug in web apps: <strong>IDOR (Insecure Direct Object Reference)</strong>. If <code class=\"mono cyan\">/api/orders/123</code> returns the order without checking that order <code class=\"mono cyan\">123</code> belongs to the caller, anyone can iterate IDs and read other users' data. Using UUIDs instead of sequential IDs makes guessing harder, but it is <strong>not</strong> authorization — you still need an explicit ownership check on every request.",
+    "ph.eyebrow": "Release readiness",
+    "ph.title": "Five checks before you ship",
+    "ph.sub": "Five checks we run before any release goes out. Each one explains what it means, what skipping it costs you, and gives you a sandbox that puts the failure next to the fix.",
+    "ph.saved": "Your ticks stay in this browser. Nothing is sent to us.",
 
-      "p2.title": "2. Password Reset Links Expire",
-      "p2.means_title": "📖 What it means",
-      "p2.means_body": "A password reset link contains a single-use token. That token must have a short lifetime (commonly 15–60 minutes) and must be invalidated as soon as it's used or as soon as a new reset is requested.",
-      "p2.matters_title": "⚠️ Why it matters before deploy",
-      "p2.matters_body": "Reset links land in email inboxes, which can be forwarded, screenshotted, cached on shared devices, or leaked through breaches. A non-expiring token is a permanent backdoor into the account. A short TTL shrinks the window of attack to minutes instead of forever.",
+    "sum.eyebrow": "Progress",
+    "sum.h2": "Where this release currently stands",
+    "sum.sub": "Tick a check once you have verified it in your own environment. The sandboxes below explain each one, but they never tick anything for you.",
+    "sum.stat1": "Signed off",
+    "sum.stat2": "Readiness",
+    "sum.stat3": "Still open",
+    "sum.cardTitle": "Release status",
+    "sum.pills": "Status of each check",
+    "sum.btnAll": "Mark all five verified",
+    "sum.btnReset": "Clear the checklist",
+    "sum.btnExport": "Export the result",
 
-      "p3.title": "3. Input Validation — SQL Injection and XSS",
-      "p3.means_title": "📖 What it means",
-      "p3.means_body": "<strong>Treat every value coming from the client as hostile.</strong> Validate types, lengths, and formats. Use <strong>parameterized queries / ORMs</strong> so user input cannot change the shape of a SQL statement. Escape or sanitize anything rendered back into HTML so injected <code class=\"mono\">&lt;script&gt;</code> tags don't execute in someone else's browser.",
-      "p3.matters_title": "⚠️ Why it matters before deploy",
-      "p3.matters_body": "SQL injection can dump or drop your entire database. XSS can hijack sessions, steal tokens, and pivot into account takeover. Both have lived in the OWASP Top 10 for over a decade because they keep working — usually on a single forgotten field.",
+    "lbl.means": "What it means",
+    "lbl.why": "Why it matters before you ship",
+    "lbl.verified": "Verified in our environment",
+    "lbl.sandbox": "Sandbox",
 
-      "p4.title": "4. CORS — Lock the API to Your Own Domain",
-      "p4.means_title": "📖 What it means",
-      "p4.means_body": "<strong>CORS (Cross-Origin Resource Sharing)</strong> tells browsers which origins are allowed to call your API. In production, the allowed origin list should be your own domains — not <code class=\"mono\">*</code>, not <code class=\"mono\">localhost</code>, not whatever was convenient during development.",
-      "p4.matters_title": "⚠️ Why it matters before deploy",
-      "p4.matters_body": "A wide-open CORS policy lets malicious sites make authenticated requests to your API from a victim's browser, which can leak data or trigger actions on behalf of the user. Many teams ship <code class=\"mono\">Access-Control-Allow-Origin: *</code> from a dev config and only notice when something abuses it.",
-      "p4.quote": "💡 <strong>Architecture Note:</strong> CORS is a <strong>browser</strong> protection. It does not stop server-to-server attacks. Authentication and authorization still do the real work.",
+    "p1.eyebrow": "Check 1 of 5 — access control",
+    "p1.title": "Users can only reach records they own",
+    "p1.means.a": "Authentication proves who you are.",
+    "p1.means.b": "Authorization decides what you may open.",
+    "p1.means.c": "Every protected endpoint has to confirm the caller actually owns the record being requested, normally by matching the record's owner ID against the signed-in user's ID.",
+    "p1.why.a": "The failure has a name: an insecure direct object reference, usually shortened to IDOR. It is the most common serious bug we find in web applications.",
+    "p1.why.b": "If",
+    "p1.why.c": "hands back the order without checking who asked, anyone can walk the ID range and read other customers' data.",
+    "p1.why.d": "Random UUIDs make guessing harder, but a UUID is not an authorization check. You still need an explicit ownership test on every request.",
+    "p1.hint": "Every protected endpoint asserts ownership, not merely a valid session.",
+    "p1.labTitle": "Try it: one request, with the check and without",
+    "p1.labCaller": "Signed-in user",
+    "p1.labTarget": "Record requested",
+    "p1.labEnforce": "Enforce the ownership check",
+    "p1.labRun": "Send the request",
+    "p1.labBar": "Server response",
+    "p1.optUserA": "User A — usr_userA_9918",
+    "p1.optUserB": "User B — usr_userB_4402",
+    "p1.optOther": "Unrelated account — usr_outsider_666",
+    "p1.optOrd101": "Order 101 — owned by User A",
+    "p1.optOrd102": "Order 102 — owned by User B",
+    "p1.optInv908": "Invoice 908 — owned by User B",
 
-      "p5.title": "5. Rate Limiting",
-      "p5.means_title": "📖 What it means",
-      "p5.means_body": "Cap how many requests a single client (by IP, user, or API key) can make in a given window. Apply tighter limits on expensive or abusable endpoints — login, password reset, signup, search, anything that hits the database hard or sends email/SMS.",
-      "p5.matters_title": "⚠️ Why it matters before deploy",
-      "p5.matters_body": "Without rate limiting you're exposed to:<br>• <strong>Brute-force attacks</strong> on login and reset endpoints<br>• <strong>Credential stuffing</strong> at massive scale<br>• <strong>Denial of service</strong> from a single noisy client<br>• <strong>A surprise cloud bill</strong> when someone loops your most expensive endpoint overnight",
+    "p2.eyebrow": "Check 2 of 5 — account recovery",
+    "p2.title": "Reset links expire, and work exactly once",
+    "p2.means.a": "A reset link carries a single-use token. That token needs a short lifetime — fifteen to sixty minutes is normal — and must stop working the moment it is used or a newer one is issued.",
+    "p2.why.a": "Reset links land in mailboxes. Mailboxes get forwarded, screenshotted, left open on shared machines and turn up in breach dumps.",
+    "p2.why.b": "A token with no expiry is a permanent back door into the account. A short lifetime shrinks that window from forever down to minutes.",
+    "p2.hint": "Tokens expire, work once, and die when a newer one is issued.",
+    "p2.labTitle": "Try it: the life of a single reset token",
+    "p2.s1t": "Issue the reset link",
+    "p2.s1d": "Creates a single-use token with a fifteen-minute lifetime.",
+    "p2.s1b": "Issue token",
+    "p2.s2t": "Let time pass",
+    "p2.s2d": "Moves the clock twenty minutes on, past the token's lifetime.",
+    "p2.s2b": "Skip forward 20 minutes",
+    "p2.s3t": "Redeem the token",
+    "p2.s3d": "A live token sets the password once. An expired or spent token is refused.",
+    "p2.s3b": "Redeem token",
+    "p2.s4t": "Request another reset",
+    "p2.s4d": "Issuing a new token has to kill the previous one immediately.",
+    "p2.s4b": "Request a new token",
+    "p2.labBar": "Token store",
 
-      "chk.export_h3": "Sign-Off & Pre-Deployment Audit Export",
-      "chk.export_desc": "Export your complete verification status as a Markdown compliance report for inclusion in GitHub PRs, Jira tickets, or DevOps sign-off logs.",
-      "chk.btn_copy_md": "📋 Copy Markdown Report",
-      "chk.btn_copy_json": "💾 Export JSON Telemetry",
+    "p3.eyebrow": "Check 3 of 5 — untrusted input",
+    "p3.title": "Treat every value from the client as hostile",
+    "p3.means.a": "Assume everything the client sends is hostile.",
+    "p3.means.b": "Validate types, lengths and formats before anything else runs.",
+    "p3.means.c": "Use parameterised queries or an ORM so input can never change the shape of a SQL statement, and escape anything rendered back into a page so an injected",
+    "p3.means.d": "tag cannot run in somebody else's browser.",
+    "p3.why.a": "SQL injection can read or drop an entire database. Cross-site scripting can steal a session and become account takeover.",
+    "p3.why.b": "Both have sat in the OWASP Top 10 for over a decade because they keep working, usually on the one field somebody forgot.",
+    "p3.hint": "Every query is parameterised and every rendered output is escaped.",
+    "p3.labTitle": "Try it: the same payload, raw and handled",
+    "p3.labInput": "Value submitted by the client",
+    "p3.labHelp": "Edit it if you like. Nothing leaves this page.",
+    "p3.labRun": "Run the checks",
+    "p3.labBar": "Handling result",
 
-      "footer.desc": "Bespoke enterprise AI systems engineering, high-throughput autonomous agents, and industrial automation.",
-      "footer.col1": "Solutions Suite", "footer.col2": "Legal & Governance", "footer.col3": "Coordinates"
-    },
-    'nl': {
-      "hud.cluster": "ORBITALE CLUSTER: ONLINE",
-      "nav.home": "← Home (Chaos/Orde)", "nav.solutions": "Oplossingen Suite",
-      "nav.cases": "Casestudies", "nav.arch": "Architectuur",
-      "nav.security": "Beveiligingskluis", "nav.checklist": "Pre-Deploy Checklist",
-      "nav.contact": "Contact", "nav.cta": "⚡ Plan Consultatie",
-      
-      "chk.badge": "DIEPGAANDE VERDEDIGING // PRODUCTIE AUDIT GATE",
-      "chk.title": "Pre-Deployment Checklist",
-      "chk.sub": "Naar productie gaan is het moment waarop een klein overzicht verandert in een publiek incident. Deze checklist behandelt de punten die moeten worden geverifieerd voor de uitrol — wat elk punt betekent en waarom overslaan slecht afloopt.",
-      "chk.score_title": "Productie Verificatiestatus",
-      "chk.score_desc": "Vink de onderstaande controlepunten aan na validatie tegen uw productieomgeving of na tests in de ingebouwde simulatielabs.",
-      "chk.btn_verify_all": "✓ Alle Punten Goedkeuren",
-      "chk.btn_reset": "↺ Checklist Resetten",
-      "chk.btn_export": "📋 Kopieer Audit Rapport (Markdown)",
-      "chk.label_verified": "Gecontroleerd & Goedgekeurd",
+    "p4.eyebrow": "Check 4 of 5 — cross-origin access",
+    "p4.title": "The API answers your own domains only",
+    "p4.means.a": "CORS, or cross-origin resource sharing, tells browsers which sites may call your API.",
+    "p4.means.b": "In production that list holds your own domains — not a wildcard, not localhost, not whatever was convenient while developing.",
+    "p4.why.a": "A wide-open policy lets a malicious site make authenticated calls to your API from a victim's browser, leaking data or acting on that person's behalf.",
+    "p4.why.b": "Teams ship",
+    "p4.why.c": "out of a development config more often than anyone would like, and usually notice only once something abuses it.",
+    "p4.note.a": "CORS is a browser protection.",
+    "p4.note.b": "It does nothing about server-to-server requests. Authentication and authorization still do the real work.",
+    "p4.hint": "The production allow-list holds our own origins and nothing else.",
+    "p4.labTitle": "Try it: which origins get through",
+    "p4.labOrigin": "Origin header on the request",
+    "p4.labRun": "Check the preflight",
+    "p4.labBar": "Preflight result",
+    "p4.opt1": "https://farvex.ai — production",
+    "p4.opt2": "https://www.farvex.ai — production subdomain",
+    "p4.opt3": "http://localhost:3000 — a development machine",
+    "p4.opt4": "https://phishing-clone.example — unknown third party",
+    "p4.opt5": "* — a wildcard left over from development",
 
-      "p1.title": "1. Autorisatie — Gebruikers Beperkt tot Eigen Data",
-      "p1.means_title": "📖 Wat het betekent",
-      "p1.means_body": "<strong>Authenticatie bewijst <em>wie</em> je bent. Autorisatie bepaalt <em>wat je mag inzien of bewerken</em>.</strong> Elk beschermd endpoint moet controleren of de opvragende gebruiker daadwerkelijk eigenaar is van de gevraagde resource — doorgaans door het eigenaar-ID te matchen met de geauthenticeerde UUID.",
-      "p1.matters_title": "⚠️ Waarom dit telt voor deployment",
-      "p1.matters_body": "Dit is de meest voorkomende en schadelijke bugcategorie: <strong>IDOR (Insecure Direct Object Reference)</strong>. Als <code class=\"mono cyan\">/api/orders/123</code> de order retourneert zonder eigenaarschap te toetsen, kan iedereen nummers itereren en klantdata stelen. UUIDs maken raden lastiger, maar vervangen <strong>nooit</strong> expliciete autorisatie.",
+    "p5.eyebrow": "Check 5 of 5 — request volume",
+    "p5.title": "Expensive endpoints need a ceiling",
+    "p5.means.a": "Cap how many requests one client — identified by IP address, account or API key — can make inside a time window.",
+    "p5.means.b": "Put tighter limits on the expensive and abusable routes: sign-in, password reset, sign-up, search, and anything that sends email or SMS.",
+    "p5.why.a": "Without a ceiling, four things are on the table:",
+    "p5.r1a": "Brute force",
+    "p5.r1b": "against sign-in and password-reset endpoints.",
+    "p5.r2a": "Credential stuffing",
+    "p5.r2b": "run at the scale of a leaked password list.",
+    "p5.r3a": "Denial of service",
+    "p5.r3b": "from one noisy client, deliberate or not.",
+    "p5.r4a": "A surprise cloud bill",
+    "p5.r4b": "when something loops your costliest route overnight.",
+    "p5.hint": "Limits are set per route and answer with 429 and a Retry-After header.",
+    "p5.labTitle": "Try it: burst past the limit",
+    "p5.labRun": "Send a request",
+    "p5.labReset": "Empty the bucket",
+    "p5.labBar": "Gateway log",
 
-      "p2.title": "2. Wachtwoord Reset Links Moeten Verlopen",
-      "p2.means_title": "📖 Wat het betekent",
-      "p2.means_body": "Een resetlink bevat een eenmalige token. Deze token moet een korte levensduur hebben (15–60 minuten) en direct ongeldig worden zodra hij is gebruikt of wanneer een nieuwe aanvraag wordt gedaan.",
-      "p2.matters_title": "⚠️ Waarom dit telt voor deployment",
-      "p2.matters_body": "Resetlinks belanden in e-mail inboxes die kunnen worden doorgestuurd, gescreenshot of gelekt. Een link zonder vervaltijd vormt een permanente achterdeur. Een korte TTL verkleint het aanvalsvenster drastisch.",
+    "exp.eyebrow": "Sign-off",
+    "exp.h2": "Export the result",
+    "exp.sub": "Copy your status as Markdown for a pull request, or as JSON for a pipeline step. The report is generated in English so it reads the same in any repository.",
+    "exp.btnMd": "Copy the Markdown report",
+    "exp.btnJson": "Copy the JSON",
+    "exp.previewBar": "Report",
+    "exp.note": "Ticks live in this browser under a single local storage entry. Clearing site data clears the checklist.",
+    "exp.ctaTitle": "Want us to run this against your stack?",
+    "exp.ctaText": "We work through these five checks, plus the rest of our review, on every system we build and on systems we inherit. A briefing takes half an hour.",
+    "exp.ctaBtn": "Request a briefing",
+    "exp.ctaAlt": "How we handle security",
 
-      "p3.title": "3. Invoervalidatie — SQL Injectie & XSS Beveiliging",
-      "p3.means_title": "📖 Wat het betekent",
-      "p3.means_body": "<strong>Beschouw alle invoer vanaf de client als vijandig.</strong> Valideer types, lengtes en formaten. Gebruik <strong>geparameteriseerde queries / ORMs</strong> zodat invoer de SQL structuur niet kan manipuleren. Escape of sanitizeer HTML weergaves om <code class=\"mono\">&lt;script&gt;</code> injecties te blokkeren.",
-      "p3.matters_title": "⚠️ Waarom dit telt voor deployment",
-      "p3.matters_body": "SQL injectie kan databases legen of wissen. XSS kan sessies kapen en accounts overnemen. Beiden staan al meer dan 10 jaar in de OWASP Top 10 omdat ze blijven slagen bij vergeten invoervelden.",
+    "footer.desc": "Enterprise AI systems engineering — document parsing, workflow automation and agents built for European operations.",
+    "footer.col1": "Solutions",
+    "footer.col2": "Company",
+    "footer.col3": "Details",
+    "footer.l1": "Workflow automation",
+    "footer.l2": "Document parsing",
+    "footer.l3": "AI agents",
+    "footer.l4": "Forecasting",
+    "footer.l5": "Internal search",
+    "footer.l6": "Case studies",
+    "footer.l7": "Architecture",
+    "footer.l8": "Security",
+    "footer.l9": "Pre-deployment checklist",
+    "footer.l10": "Contact",
+    "footer.rights": "All rights reserved.",
+    "footer.privacy": "Privacy",
+    "footer.terms": "Terms",
+    "footer.cookies": "Cookies",
+    "footer.admin": "Admin",
 
-      "p4.title": "4. CORS — Vergrendel de API naar Eigen Domeinen",
-      "p4.means_title": "📖 Wat het betekent",
-      "p4.means_body": "<strong>CORS (Cross-Origin Resource Sharing)</strong> instrueert browsers welke herkomsten uw API mogen aanroepen. In productie moeten alleen uw eigen domeinen zijn toegestaan — geen <code class=\"mono\">*</code> en geen <code class=\"mono\">localhost</code>.",
-      "p4.matters_title": "⚠️ Waarom dit telt voor deployment",
-      "p4.matters_body": "Een open CORS beleid staat kwaadaardige websites toe om via de browser van een slachtoffer geauthenticeerde API acties uit te voeren. Veel teams rollen per ongeluk <code class=\"mono\">Access-Control-Allow-Origin: *</code> uit.",
-      "p4.quote": "💡 <strong>Architectuur Notitie:</strong> CORS is een <strong>browser</strong> bescherming. Het stopt geen server-naar-server aanvallen. Authenticatie en autorisatie blijven noodzakelijk.",
+    "ck.popTitle": "Cookies",
+    "ck.popText": "Your theme and language choice are kept on your own device. No advertising or profiling trackers.",
+    "ck.popAccept": "Accept",
+    "ck.popEssential": "Essential only",
+    "ck.popManage": "Details",
 
-      "p5.title": "5. Rate Limiting (Snelheidsbegrenzing)",
-      "p5.means_title": "📖 Wat het betekent",
-      "p5.means_body": "Beperk het aantal verzoeken dat een client (per IP, gebruiker of API sleutel) binnen een tijdsvenster mag doen. Stel strengere limieten in voor gevoelige endpoints zoals login, wachtwoordherstel en zware zoekopdrachten.",
-      "p5.matters_title": "⚠️ Waarom dit telt voor deployment",
-      "p5.matters_body": "Zonder rate limiting bent u kwetsbaar voor:<br>• <strong>Brute-force aanvallen</strong> op logins en reset links<br>• <strong>Credential stuffing</strong> op grote schaal<br>• <strong>Denial of service</strong> door luidruchtige clients<br>• <strong>Onverwacht hoge cloudrekeningen</strong> door nachtelijke loops",
+    "js.name1": "Authorization",
+    "js.name2": "Reset tokens",
+    "js.name3": "Input validation",
+    "js.name4": "CORS",
+    "js.name5": "Rate limits",
+    "js.pillPending": "{name}: pending",
+    "js.pillDone": "{name}: verified",
+    "js.badgeNone": "0 of 5 verified — not ready",
+    "js.badgeSome": "{n} of 5 verified — in progress",
+    "js.badgeAll": "5 of 5 verified — ready to deploy",
+    "js.noteAll": "All five checks are now marked as verified.",
+    "js.noteCleared": "The checklist has been cleared.",
 
-      "chk.export_h3": "Aftekening & Pre-Deployment Audit Export",
-      "chk.export_desc": "Exporteer uw volledige verificatiestatus als Markdown compliance rapport voor opname in GitHub PRs, Jira tickets of DevOps logs.",
-      "chk.btn_copy_md": "📋 Kopieer Markdown Rapport",
-      "chk.btn_copy_json": "💾 Exporteer JSON Telemetrie",
+    "js.p1.idle": "Pick a user and a record, then send the request.",
+    "js.p1.req": "GET /api/resources/{id}",
+    "js.p1.caller": "Signed-in user: {caller}",
+    "js.p1.owner": "Record owner: {owner}",
+    "js.p1.openHead": "No ownership check. This is the IDOR bug.",
+    "js.p1.openBody": "200 OK — the record is handed to a caller who does not own it.",
+    "js.p1.okHead": "Ownership check passed.",
+    "js.p1.okBody": "200 OK — the caller owns this record.",
+    "js.p1.denyHead": "Ownership check failed.",
+    "js.p1.denyBody": "403 Forbidden — the record is never read from the database.",
 
-      "footer.desc": "Maatwerk enterprise AI engineering, snelle autonome agenten en industriële automatisering.",
-      "footer.col1": "Oplossingen Suite", "footer.col2": "Juridisch & Beheer", "footer.col3": "Coördinaten"
-    }
-  };
+    "js.p2.idle": "No token yet. Start with step one.",
+    "js.p2.issued": "Token issued: {token}",
+    "js.p2.window": "Created {created}, expires {expires}. Lifetime 15 minutes, single use.",
+    "js.p2.needToken": "Issue a token first.",
+    "js.p2.shift": "Clock moved forward {mins} minutes.",
+    "js.p2.nowExpired": "The token has expired.",
+    "js.p2.stillValid": "The token is still valid.",
+    "js.p2.reuse": "Refused — this token has already been used.",
+    "js.p2.expired": "Refused — this token expired at {time}.",
+    "js.p2.redeemed": "Accepted — the password was reset and the token is now dead.",
+    "js.p2.reissued": "A new token was issued. Every earlier token was invalidated.",
 
-  function setLanguage(l) {
-    document.documentElement.setAttribute('data-lang', l);
-    localStorage.setItem('farvex_lang', l);
-    document.getElementById('btnLangEN').classList.toggle('active', l === 'en');
-    document.getElementById('btnLangNL').classList.toggle('active', l === 'nl');
-    const dict = T[l];
-    if (!dict) return;
-    document.querySelectorAll('[data-i18n]').forEach(el => {
-      const k = el.getAttribute('data-i18n');
-      if (dict[k]) el.innerHTML = dict[k];
+    "js.p3.idle": "Enter a value and run the checks to see the raw input next to the handled version.",
+    "js.p3.raw": "Raw input from the client:",
+    "js.p3.sqlHead": "1. Parameterised query — SQL injection blocked",
+    "js.p3.sqlNote": "The database compiles the statement first. The payload arrives as a value, never as syntax.",
+    "js.p3.xssHead": "2. HTML escaping — cross-site scripting blocked",
+    "js.p3.xssNote": "Angle brackets become entities, so the tag is printed as text instead of executed.",
+
+    "js.p4.idle": "Pick an origin to see how the production policy answers it.",
+    "js.p4.origin": "Origin: {origin}",
+    "js.p4.allowHead": "Allowed — this origin is on the production list.",
+    "js.p4.denyHead": "Blocked — this origin is not on the production list.",
+    "js.p4.denyBody": "The browser refuses to hand the response to the calling page.",
+    "js.p4.wildHead": "Rejected — a wildcard cannot be combined with credentials.",
+    "js.p4.wildBody": "Replace it with the exact origins you own.",
+
+    "js.p5.idle": "Send more than five requests in a window to see the limiter take over.",
+    "js.p5.meter": "Window: {n} of {max} requests used",
+    "js.p5.ok": "200 OK — request {n} served, {left} left in this window.",
+    "js.p5.blocked": "429 Too Many Requests — request {n} throttled. Retry-After: 8 seconds.",
+    "js.p5.reset": "Bucket emptied — 0 of {max} requests used.",
+
+    "js.exp.copied": "Copied to the clipboard.",
+    "js.exp.blocked": "Your browser blocked clipboard access. Select the text below and copy it by hand."
+  },
+  nl: {
+    "nav.solutions": "Oplossingen",
+    "nav.cases": "Praktijkvoorbeelden",
+    "nav.arch": "Architectuur",
+    "nav.security": "Beveiliging",
+    "nav.contact": "Contact",
+    "nav.checklist": "Checklist voor livegang",
+    "nav.cta": "Vraag een gesprek aan",
+
+    "ph.eyebrow": "Klaar voor livegang",
+    "ph.title": "Vijf controles voordat u live gaat",
+    "ph.sub": "Vijf controles die we uitvoeren voordat een release naar buiten gaat. Elke controle legt uit wat die inhoudt, wat overslaan u kost, en geeft u een speelomgeving waarin de fout naast de oplossing staat.",
+    "ph.saved": "Uw vinkjes blijven in deze browser. Er wordt niets naar ons verstuurd.",
+
+    "sum.eyebrow": "Voortgang",
+    "sum.h2": "Hoe deze release er nu voor staat",
+    "sum.sub": "Vink een controle af zodra u die in uw eigen omgeving hebt geverifieerd. De speelomgevingen hieronder leggen elke controle uit, maar vinken nooit iets voor u af.",
+    "sum.stat1": "Afgetekend",
+    "sum.stat2": "Gereedheid",
+    "sum.stat3": "Nog open",
+    "sum.cardTitle": "Status van de release",
+    "sum.pills": "Status van elke controle",
+    "sum.btnAll": "Vink alle vijf af als geverifieerd",
+    "sum.btnReset": "Wis de checklist",
+    "sum.btnExport": "Exporteer het resultaat",
+
+    "lbl.means": "Wat het inhoudt",
+    "lbl.why": "Waarom het telt voordat u live gaat",
+    "lbl.verified": "Geverifieerd in onze omgeving",
+    "lbl.sandbox": "Speelomgeving",
+
+    "p1.eyebrow": "Controle 1 van 5 — toegangscontrole",
+    "p1.title": "Gebruikers kunnen alleen bij records die van hen zijn",
+    "p1.means.a": "Authenticatie bewijst wie u bent.",
+    "p1.means.b": "Autorisatie bepaalt wat u mag openen.",
+    "p1.means.c": "Elk beveiligd endpoint moet bevestigen dat de aanroeper het opgevraagde record daadwerkelijk bezit, meestal door het eigenaars-ID van het record te vergelijken met het ID van de ingelogde gebruiker.",
+    "p1.why.a": "Deze fout heeft een naam: een insecure direct object reference, meestal afgekort tot IDOR. Het is de meest voorkomende ernstige fout die we in webapplicaties tegenkomen.",
+    "p1.why.b": "Als",
+    "p1.why.c": "de order teruggeeft zonder te controleren wie het vroeg, kan iedereen de reeks ID's aflopen en gegevens van andere klanten lezen.",
+    "p1.why.d": "Willekeurige UUID's maken raden lastiger, maar een UUID is geen autorisatiecontrole. U hebt nog steeds bij elk verzoek een expliciete eigendomstoets nodig.",
+    "p1.hint": "Elk beveiligd endpoint toetst eigendom, niet alleen een geldige sessie.",
+    "p1.labTitle": "Probeer het: één verzoek, met en zonder de controle",
+    "p1.labCaller": "Ingelogde gebruiker",
+    "p1.labTarget": "Opgevraagd record",
+    "p1.labEnforce": "Dwing de eigendomscontrole af",
+    "p1.labRun": "Verstuur het verzoek",
+    "p1.labBar": "Antwoord van de server",
+    "p1.optUserA": "Gebruiker A — usr_userA_9918",
+    "p1.optUserB": "Gebruiker B — usr_userB_4402",
+    "p1.optOther": "Onbekend account — usr_outsider_666",
+    "p1.optOrd101": "Order 101 — eigendom van gebruiker A",
+    "p1.optOrd102": "Order 102 — eigendom van gebruiker B",
+    "p1.optInv908": "Factuur 908 — eigendom van gebruiker B",
+
+    "p2.eyebrow": "Controle 2 van 5 — accountherstel",
+    "p2.title": "Herstellinks verlopen en werken precies één keer",
+    "p2.means.a": "Een herstellink bevat een token voor eenmalig gebruik. Dat token heeft een korte levensduur nodig — vijftien tot zestig minuten is gebruikelijk — en moet stoppen met werken zodra het is gebruikt of er een nieuwer token is uitgegeven.",
+    "p2.why.a": "Herstellinks komen in mailboxen terecht. Mailboxen worden doorgestuurd, gefotografeerd, open gelaten op gedeelde computers en duiken op in gelekte databases.",
+    "p2.why.b": "Een token zonder vervaltijd is een permanente achterdeur naar het account. Een korte levensduur krimpt dat venster van altijd naar minuten.",
+    "p2.hint": "Tokens verlopen, werken één keer en vervallen zodra er een nieuwer token wordt uitgegeven.",
+    "p2.labTitle": "Probeer het: het leven van één hersteltoken",
+    "p2.s1t": "Geef de herstellink uit",
+    "p2.s1d": "Maakt een token voor eenmalig gebruik met een levensduur van vijftien minuten.",
+    "p2.s1b": "Geef token uit",
+    "p2.s2t": "Laat tijd verstrijken",
+    "p2.s2d": "Zet de klok twintig minuten vooruit, voorbij de levensduur van het token.",
+    "p2.s2b": "Spring 20 minuten vooruit",
+    "p2.s3t": "Verzilver het token",
+    "p2.s3d": "Een geldig token stelt het wachtwoord één keer in. Een verlopen of gebruikt token wordt geweigerd.",
+    "p2.s3b": "Verzilver token",
+    "p2.s4t": "Vraag nog een herstel aan",
+    "p2.s4d": "Een nieuw token uitgeven moet het vorige onmiddellijk ongeldig maken.",
+    "p2.s4b": "Vraag een nieuw token aan",
+    "p2.labBar": "Tokenopslag",
+
+    "p3.eyebrow": "Controle 3 van 5 — onvertrouwde invoer",
+    "p3.title": "Behandel elke waarde van de client als vijandig",
+    "p3.means.a": "Ga ervan uit dat alles wat de client stuurt vijandig is.",
+    "p3.means.b": "Controleer typen, lengtes en formaten voordat er iets anders draait.",
+    "p3.means.c": "Gebruik geparametriseerde queries of een ORM zodat invoer nooit de vorm van een SQL-statement kan veranderen, en escape alles wat terug in een pagina wordt gezet zodat een geïnjecteerde",
+    "p3.means.d": "tag niet in de browser van iemand anders kan draaien.",
+    "p3.why.a": "SQL-injectie kan een hele database uitlezen of verwijderen. Cross-site scripting kan een sessie stelen en uitgroeien tot een overname van het account.",
+    "p3.why.b": "Beide staan al meer dan tien jaar in de OWASP Top 10 omdat ze blijven werken, meestal op dat ene veld dat iemand vergat.",
+    "p3.hint": "Elke query is geparametriseerd en elke weergegeven uitvoer is ge-escaped.",
+    "p3.labTitle": "Probeer het: dezelfde invoer, rauw en afgehandeld",
+    "p3.labInput": "Waarde ingestuurd door de client",
+    "p3.labHelp": "Pas het gerust aan. Er verlaat niets deze pagina.",
+    "p3.labRun": "Voer de controles uit",
+    "p3.labBar": "Resultaat van de afhandeling",
+
+    "p4.eyebrow": "Controle 4 van 5 — cross-origin toegang",
+    "p4.title": "De API antwoordt alleen uw eigen domeinen",
+    "p4.means.a": "CORS, oftewel cross-origin resource sharing, vertelt browsers welke sites uw API mogen aanroepen.",
+    "p4.means.b": "In productie bevat die lijst uw eigen domeinen — geen wildcard, geen localhost, niet wat tijdens het ontwikkelen handig was.",
+    "p4.why.a": "Een wagenwijd beleid laat een kwaadwillende site geauthenticeerde aanroepen naar uw API doen vanuit de browser van een slachtoffer, waardoor gegevens weglekken of er namens die persoon wordt gehandeld.",
+    "p4.why.b": "Teams zetten",
+    "p4.why.c": "vaker live vanuit een ontwikkelconfiguratie dan iemand zou willen, en merken het meestal pas als iets er misbruik van maakt.",
+    "p4.note.a": "CORS is een bescherming in de browser.",
+    "p4.note.b": "Het doet niets tegen verzoeken van server naar server. Authenticatie en autorisatie doen nog steeds het echte werk.",
+    "p4.hint": "De productielijst bevat onze eigen origins en verder niets.",
+    "p4.labTitle": "Probeer het: welke origins erdoor komen",
+    "p4.labOrigin": "Origin-header op het verzoek",
+    "p4.labRun": "Controleer de preflight",
+    "p4.labBar": "Resultaat van de preflight",
+    "p4.opt1": "https://farvex.ai — productie",
+    "p4.opt2": "https://www.farvex.ai — subdomein van productie",
+    "p4.opt3": "http://localhost:3000 — een ontwikkelmachine",
+    "p4.opt4": "https://phishing-clone.example — onbekende derde partij",
+    "p4.opt5": "* — een wildcard uit de ontwikkelfase",
+
+    "p5.eyebrow": "Controle 5 van 5 — aantal verzoeken",
+    "p5.title": "Dure endpoints hebben een bovengrens nodig",
+    "p5.means.a": "Begrens hoeveel verzoeken één client — herkend aan IP-adres, account of API-sleutel — binnen een tijdvenster mag doen.",
+    "p5.means.b": "Zet strakkere grenzen op de dure en misbruikgevoelige routes: inloggen, wachtwoordherstel, registreren, zoeken en alles wat e-mail of sms verstuurt.",
+    "p5.why.a": "Zonder bovengrens liggen er vier dingen op tafel:",
+    "p5.r1a": "Brute force",
+    "p5.r1b": "tegen endpoints voor inloggen en wachtwoordherstel.",
+    "p5.r2a": "Credential stuffing",
+    "p5.r2b": "op de schaal van een gelekte wachtwoordlijst.",
+    "p5.r3a": "Denial of service",
+    "p5.r3b": "door één luidruchtige client, bedoeld of niet.",
+    "p5.r4a": "Een onverwachte cloudrekening",
+    "p5.r4b": "wanneer iets 's nachts uw duurste route in een lus draait.",
+    "p5.hint": "Limieten staan per route ingesteld en antwoorden met 429 en een Retry-After-header.",
+    "p5.labTitle": "Probeer het: ga in één keer over de limiet heen",
+    "p5.labRun": "Verstuur een verzoek",
+    "p5.labReset": "Leeg de emmer",
+    "p5.labBar": "Gateway-logboek",
+
+    "exp.eyebrow": "Aftekenen",
+    "exp.h2": "Exporteer het resultaat",
+    "exp.sub": "Kopieer uw status als Markdown voor een pull request, of als JSON voor een stap in een pipeline. Het rapport wordt in het Engels gegenereerd zodat het in elke repository hetzelfde leest.",
+    "exp.btnMd": "Kopieer het Markdown-rapport",
+    "exp.btnJson": "Kopieer de JSON",
+    "exp.previewBar": "Rapport",
+    "exp.note": "Vinkjes staan in deze browser onder één local storage-item. Het wissen van sitegegevens wist de checklist.",
+    "exp.ctaTitle": "Wilt u dat wij dit op uw stack loslaten?",
+    "exp.ctaText": "We lopen deze vijf controles door, plus de rest van onze review, bij elk systeem dat we bouwen en bij systemen die we overnemen. Een gesprek duurt een half uur.",
+    "exp.ctaBtn": "Vraag een gesprek aan",
+    "exp.ctaAlt": "Hoe wij beveiliging aanpakken",
+
+    "footer.desc": "Enterprise AI-systeembouw — documentherkenning, workflow-automatisering en agents gebouwd voor Europese operaties.",
+    "footer.col1": "Oplossingen",
+    "footer.col2": "Bedrijf",
+    "footer.col3": "Gegevens",
+    "footer.l1": "Workflow-automatisering",
+    "footer.l2": "Documentherkenning",
+    "footer.l3": "AI-agents",
+    "footer.l4": "Voorspellingen",
+    "footer.l5": "Interne zoekfunctie",
+    "footer.l6": "Praktijkvoorbeelden",
+    "footer.l7": "Architectuur",
+    "footer.l8": "Beveiliging",
+    "footer.l9": "Checklist voor livegang",
+    "footer.l10": "Contact",
+    "footer.rights": "Alle rechten voorbehouden.",
+    "footer.privacy": "Privacy",
+    "footer.terms": "Voorwaarden",
+    "footer.cookies": "Cookies",
+    "footer.admin": "Beheer",
+
+    "ck.popTitle": "Cookies",
+    "ck.popText": "Uw thema- en taalkeuze blijven op uw eigen apparaat staan. Geen advertentie- of profileringstrackers.",
+    "ck.popAccept": "Accepteren",
+    "ck.popEssential": "Alleen noodzakelijk",
+    "ck.popManage": "Details",
+
+    "js.name1": "Autorisatie",
+    "js.name2": "Resettokens",
+    "js.name3": "Invoervalidatie",
+    "js.name4": "CORS",
+    "js.name5": "Verzoeklimieten",
+    "js.pillPending": "{name}: open",
+    "js.pillDone": "{name}: geverifieerd",
+    "js.badgeNone": "0 van 5 geverifieerd — nog niet klaar",
+    "js.badgeSome": "{n} van 5 geverifieerd — onderweg",
+    "js.badgeAll": "5 van 5 geverifieerd — klaar om live te gaan",
+    "js.noteAll": "Alle vijf controles staan nu als geverifieerd gemarkeerd.",
+    "js.noteCleared": "De checklist is gewist.",
+
+    "js.p1.idle": "Kies een gebruiker en een record en verstuur het verzoek.",
+    "js.p1.req": "GET /api/resources/{id}",
+    "js.p1.caller": "Ingelogde gebruiker: {caller}",
+    "js.p1.owner": "Eigenaar van het record: {owner}",
+    "js.p1.openHead": "Geen eigendomscontrole. Dit is de IDOR-fout.",
+    "js.p1.openBody": "200 OK — het record gaat naar een aanroeper die er geen eigenaar van is.",
+    "js.p1.okHead": "Eigendomscontrole geslaagd.",
+    "js.p1.okBody": "200 OK — de aanroeper is eigenaar van dit record.",
+    "js.p1.denyHead": "Eigendomscontrole mislukt.",
+    "js.p1.denyBody": "403 Forbidden — het record wordt nooit uit de database gelezen.",
+
+    "js.p2.idle": "Nog geen token. Begin bij stap één.",
+    "js.p2.issued": "Token uitgegeven: {token}",
+    "js.p2.window": "Aangemaakt {created}, verloopt {expires}. Levensduur 15 minuten, eenmalig te gebruiken.",
+    "js.p2.needToken": "Geef eerst een token uit.",
+    "js.p2.shift": "Klok {mins} minuten vooruitgezet.",
+    "js.p2.nowExpired": "Het token is verlopen.",
+    "js.p2.stillValid": "Het token is nog geldig.",
+    "js.p2.reuse": "Geweigerd — dit token is al gebruikt.",
+    "js.p2.expired": "Geweigerd — dit token is verlopen om {time}.",
+    "js.p2.redeemed": "Geaccepteerd — het wachtwoord is hersteld en het token is nu ongeldig.",
+    "js.p2.reissued": "Er is een nieuw token uitgegeven. Elk eerder token is ongeldig gemaakt.",
+
+    "js.p3.idle": "Voer een waarde in en start de controles om de rauwe invoer naast de afgehandelde versie te zien.",
+    "js.p3.raw": "Rauwe invoer van de client:",
+    "js.p3.sqlHead": "1. Geparametriseerde query — SQL-injectie geblokkeerd",
+    "js.p3.sqlNote": "De database compileert het statement eerst. De invoer komt binnen als waarde, nooit als syntaxis.",
+    "js.p3.xssHead": "2. HTML-escaping — cross-site scripting geblokkeerd",
+    "js.p3.xssNote": "Punthaken worden entiteiten, dus de tag wordt als tekst getoond in plaats van uitgevoerd.",
+
+    "js.p4.idle": "Kies een origin om te zien hoe het productiebeleid daarop antwoordt.",
+    "js.p4.origin": "Origin: {origin}",
+    "js.p4.allowHead": "Toegestaan — deze origin staat op de productielijst.",
+    "js.p4.denyHead": "Geblokkeerd — deze origin staat niet op de productielijst.",
+    "js.p4.denyBody": "De browser weigert het antwoord aan de aanroepende pagina te geven.",
+    "js.p4.wildHead": "Afgewezen — een wildcard kan niet samen met credentials.",
+    "js.p4.wildBody": "Vervang die door de exacte origins die u bezit.",
+
+    "js.p5.idle": "Verstuur meer dan vijf verzoeken binnen een venster om de begrenzer te zien ingrijpen.",
+    "js.p5.meter": "Venster: {n} van {max} verzoeken gebruikt",
+    "js.p5.ok": "200 OK — verzoek {n} afgehandeld, nog {left} over in dit venster.",
+    "js.p5.blocked": "429 Too Many Requests — verzoek {n} afgeknepen. Retry-After: 8 seconden.",
+    "js.p5.reset": "Emmer geleegd — 0 van {max} verzoeken gebruikt.",
+
+    "js.exp.copied": "Gekopieerd naar het klembord.",
+    "js.exp.blocked": "Uw browser blokkeerde toegang tot het klembord. Selecteer de tekst hieronder en kopieer die met de hand."
+  }
+};
+</script>
+
+<script defer src="assets/farvex.js"></script>
+
+<script>
+/* ---------------------------------------------------------------------------
+   Page-local behaviour: the five-check scorecard and the five sandboxes.
+
+   Two rules this file follows deliberately:
+   - Colour is never written as an inline style. State is a class the
+     stylesheet owns (fx-badge--ok / --warn / --bad, fx-ok / fx-warn / fx-bad),
+     so dark mode keeps working.
+   - Console output is built from text nodes, never innerHTML. One of these
+     sandboxes echoes attacker-shaped input back to the page; doing that with
+     innerHTML on a page about injection would be embarrassing.
+   --------------------------------------------------------------------------- */
+(function () {
+  'use strict';
+
+  var STORAGE_KEY = 'farvex_predeploy_status';
+  var PILL_IDS = ['pillAuth', 'pillToken', 'pillInput', 'pillCors', 'pillRate'];
+  var BADGE_STATES = ['fx-badge--ok', 'fx-badge--warn', 'fx-badge--bad', 'fx-badge--neutral'];
+
+  /* ---------- i18n helpers ------------------------------------------------ */
+  function t(key, fallback) {
+    try {
+      var lang = document.documentElement.getAttribute('data-lang') || 'en';
+      var dict = window.FARVEX_I18N && window.FARVEX_I18N[lang];
+      if (dict && typeof dict[key] === 'string') return dict[key];
+      var en = window.FARVEX_I18N && window.FARVEX_I18N.en;
+      if (en && typeof en[key] === 'string') return en[key];
+    } catch (e) { /* fall through */ }
+    return fallback || '';
+  }
+
+  function fill(key, fallback, values) {
+    var out = t(key, fallback);
+    Object.keys(values || {}).forEach(function (name) {
+      out = out.split('{' + name + '}').join(String(values[name]));
     });
-    updateScorecard();
+    return out;
   }
 
-  function setAtmosphere(t) {
-    document.documentElement.setAttribute('data-theme', t);
-    localStorage.setItem('farvex_theme', t);
-    document.getElementById('btnThemeObsidian').classList.toggle('active', t === 'obsidian');
-    document.getElementById('btnThemeMatrix').classList.toggle('active', t === 'matrix');
-    document.getElementById('btnThemeTitanium').classList.toggle('active', t === 'titanium');
+  function $(id) { return document.getElementById(id); }
+
+  function setBadgeState(el, state) {
+    if (!el) return;
+    BADGE_STATES.forEach(function (cls) { el.classList.remove(cls); });
+    if (state) el.classList.add(state);
   }
 
-  function toggleMobileNav() {
-    const btn = document.getElementById('mobileMenuBtn');
-    const drawer = document.getElementById('mobileNavDrawer');
-    btn.classList.toggle('active');
-    drawer.classList.toggle('open');
+  /* ---------- console output ---------------------------------------------
+     Lines are text nodes. `tone` maps to a stylesheet colour utility.       */
+  function clearConsole(el) {
+    if (!el) return;
+    while (el.firstChild) el.removeChild(el.firstChild);
   }
 
-  // --- SCORECARD & READINESS LOGIC ---
-  const pillarNames = ['Auth (IDOR)', 'Token TTL', 'Input Sanitization', 'CORS Domain Lock', 'Rate Limiting'];
-  
-  function updateScorecard() {
-    let checkedCount = 0;
-    for (let i = 1; i <= 5; i++) {
-      const chk = document.getElementById(`chkPillar${i}`);
-      const card = document.getElementById(`cardPillar${i}`);
-      const label = document.getElementById(`toggleLabel${i}`);
-      const pill = document.getElementById(`pill${['Auth','Token','Input','Cors','Rate'][i-1]}`);
-      
-      if (chk && chk.checked) {
-        checkedCount++;
-        card.classList.add('passed');
-        card.classList.remove('unverified');
-        label.classList.add('checked');
-        if (pill) {
-          pill.style.borderColor = 'var(--emerald-bright)';
-          pill.style.color = 'var(--emerald-bright)';
-          pill.innerHTML = `✓ ${pillarNames[i-1]}: PASSED`;
-        }
+  function addLine(el, text, tone, strong) {
+    if (!el) return;
+    var node = document.createElement(strong ? 'b' : 'span');
+    if (tone) node.className = tone;
+    node.textContent = text;
+    el.appendChild(node);
+    el.appendChild(document.createTextNode('\n'));
+  }
+
+  function writeConsole(el, lines) {
+    clearConsole(el);
+    lines.forEach(function (line) {
+      if (line === null) { el.appendChild(document.createTextNode('\n')); return; }
+      addLine(el, line.text, line.tone, line.strong);
+    });
+    el.dataset.state = 'written';
+  }
+
+  function idleConsole(el, key, fallback) {
+    if (!el) return;
+    clearConsole(el);
+    el.appendChild(document.createTextNode(t(key, fallback)));
+    el.dataset.state = 'idle';
+  }
+
+  function scrollToEnd(el) { if (el) el.scrollTop = el.scrollHeight; }
+
+  function clockTime(ms) {
+    try { return new Date(ms).toLocaleTimeString(); } catch (e) { return String(ms); }
+  }
+
+  /* ---------- scorecard ---------------------------------------------------- */
+  function boxes() {
+    return [1, 2, 3, 4, 5].map(function (i) { return $('chkPillar' + i); });
+  }
+
+  function renderScorecard() {
+    var checked = 0;
+
+    boxes().forEach(function (box, index) {
+      var on = !!(box && box.checked);
+      if (on) checked++;
+
+      var label = $('toggleLabel' + (index + 1));
+      if (label) label.classList.toggle('is-active', on);
+
+      var card = $('cardPillar' + (index + 1));
+      if (card) card.classList.toggle('is-verified', on);
+
+      var pill = $(PILL_IDS[index]);
+      if (pill) {
+        var name = t('js.name' + (index + 1), '');
+        pill.textContent = on
+          ? fill('js.pillDone', '{name}: verified', { name: name })
+          : fill('js.pillPending', '{name}: pending', { name: name });
+        setBadgeState(pill, on ? 'fx-badge--ok' : 'fx-badge--neutral');
+      }
+    });
+
+    var pct = Math.round((checked / 5) * 100);
+
+    var bar = $('readinessBar');
+    if (bar) bar.style.width = pct + '%';
+
+    var meter = $('readinessMeter');
+    if (meter) meter.setAttribute('aria-valuenow', String(checked));
+
+    if ($('statChecked')) $('statChecked').textContent = checked + ' / 5';
+    if ($('statPercent')) $('statPercent').textContent = pct + '%';
+    if ($('statOpen')) $('statOpen').textContent = String(5 - checked);
+
+    var badge = $('readinessStatusBadge');
+    if (badge) {
+      if (checked === 5) {
+        badge.textContent = t('js.badgeAll', '5 of 5 verified — ready to deploy');
+        setBadgeState(badge, 'fx-badge--ok');
+      } else if (checked > 0) {
+        badge.textContent = fill('js.badgeSome', '{n} of 5 verified — in progress', { n: checked });
+        setBadgeState(badge, 'fx-badge--warn');
       } else {
-        card.classList.remove('passed');
-        card.classList.add('unverified');
-        label.classList.remove('checked');
-        if (pill) {
-          pill.style.borderColor = 'var(--border-glass)';
-          pill.style.color = 'var(--text-muted)';
-          pill.innerHTML = `⏳ ${pillarNames[i-1]}: PENDING`;
-        }
+        badge.textContent = t('js.badgeNone', '0 of 5 verified — not ready');
+        setBadgeState(badge, 'fx-badge--bad');
       }
     }
-
-    const pct = Math.round((checkedCount / 5) * 100);
-    const bar = document.getElementById('readinessBar');
-    const badge = document.getElementById('readinessStatusBadge');
-
-    bar.style.width = `${pct}%`;
-
-    if (checkedCount === 5) {
-      badge.style.background = 'rgba(16, 185, 129, 0.2)';
-      badge.style.borderColor = 'var(--emerald-bright)';
-      badge.style.color = 'var(--emerald-bright)';
-      badge.innerHTML = `5 / 5 AUDITED (100% READY FOR DEPLOY)`;
-    } else if (checkedCount > 0) {
-      badge.style.background = 'rgba(245, 158, 11, 0.2)';
-      badge.style.borderColor = 'var(--amber-bright)';
-      badge.style.color = 'var(--amber-bright)';
-      badge.innerHTML = `${checkedCount} / 5 AUDITED (${pct}% - IN PROGRESS)`;
-    } else {
-      badge.style.background = 'rgba(239, 68, 68, 0.2)';
-      badge.style.borderColor = 'var(--red-bright)';
-      badge.style.color = 'var(--red-bright)';
-      badge.innerHTML = `0 / 5 AUDITED (BLOCKED)`;
-    }
-
-    // Save status to localStorage
-    const statusArray = [1,2,3,4,5].map(i => document.getElementById(`chkPillar${i}`)?.checked || false);
-    localStorage.setItem('farvex_predeploy_status', JSON.stringify(statusArray));
   }
 
-  function verifyAllPillars() {
-    for (let i = 1; i <= 5; i++) {
-      const chk = document.getElementById(`chkPillar${i}`);
-      if (chk) chk.checked = true;
-    }
-    updateScorecard();
-  }
-
-  function resetAllPillars() {
-    for (let i = 1; i <= 5; i++) {
-      const chk = document.getElementById(`chkPillar${i}`);
-      if (chk) chk.checked = false;
-    }
-    updateScorecard();
-  }
-
-  function loadSavedStatus() {
+  function saveStatus() {
     try {
-      const saved = JSON.parse(localStorage.getItem('farvex_predeploy_status'));
+      var state = boxes().map(function (box) { return !!(box && box.checked); });
+      window.localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+    } catch (e) { /* private browsing */ }
+  }
+
+  function loadStatus() {
+    try {
+      var saved = JSON.parse(window.localStorage.getItem(STORAGE_KEY));
       if (Array.isArray(saved)) {
-        saved.forEach((val, idx) => {
-          const chk = document.getElementById(`chkPillar${idx+1}`);
-          if (chk) chk.checked = !!val;
+        saved.forEach(function (value, index) {
+          var box = $('chkPillar' + (index + 1));
+          if (box) box.checked = !!value;
         });
       }
-    } catch(e){}
-    updateScorecard();
+    } catch (e) { /* nothing stored, or unreadable */ }
   }
 
-  // --- LAB 1: AUTHORIZATION / IDOR ---
-  const resourceDatabase = {
-    'ord_101_userA': { id: 'ord_101', type: 'Order', owner: 'usr_userA_9918', total: '€4,250.00', items: '2x High-Throughput H100 Node Licenses' },
-    'ord_102_userB': { id: 'ord_102', type: 'Order', owner: 'usr_userB_4402', total: '€12,800.00', items: '1x Enterprise OCR Sovereign Pipeline' },
-    'inv_908_userB': { id: 'inv_908', type: 'Invoice', owner: 'usr_userB_4402', total: '€950.00', items: 'Monthly Telemetry Ingress' }
+  function note(el, key, fallback, tone) {
+    if (!el) return;
+    el.textContent = t(key, fallback);
+    el.classList.remove('fx-formnote--ok', 'fx-formnote--warn', 'fx-formnote--bad');
+    el.classList.add(tone || 'fx-formnote--ok', 'is-visible');
+  }
+
+  /* ---------- 1. authorization -------------------------------------------- */
+  var RECORDS = {
+    ord_101_userA: { label: 'ord_101', owner: 'usr_userA_9918' },
+    ord_102_userB: { label: 'ord_102', owner: 'usr_userB_4402' },
+    inv_908_userB: { label: 'inv_908', owner: 'usr_userB_4402' }
   };
 
-  function runSimAuth() {
-    const caller = document.getElementById('simCallerUuid').value;
-    const targetKey = document.getElementById('simTargetResource').value;
-    const enforce = document.getElementById('simEnforceOwnership').checked;
-    const consoleEl = document.getElementById('consoleAuth');
-    const target = resourceDatabase[targetKey];
+  function runAuthSandbox() {
+    var el = $('consoleAuth');
+    var caller = $('simCallerUuid').value;
+    var key = $('simTargetResource').value;
+    var enforce = $('simEnforceOwnership').checked;
+    var record = RECORDS[key];
+    if (!record) return;
 
-    const timestamp = new Date().toLocaleTimeString();
-    let log = `[${timestamp}] Incoming Request: GET /api/resources/${targetKey}\n`;
-    log += `  Caller Context: ${caller}\n`;
-    log += `  Resource Owner: ${target.owner}\n`;
+    var lines = [
+      { text: fill('js.p1.req', 'GET /api/resources/{id}', { id: record.label }) },
+      { text: fill('js.p1.caller', 'Signed-in user: {caller}', { caller: caller }) },
+      { text: fill('js.p1.owner', 'Record owner: {owner}', { owner: record.owner }) },
+      null
+    ];
 
     if (!enforce) {
-      log += `<span class="danger">  [VULNERABILITY - IDOR DETECTED] No ownership check enforced!</span>\n`;
-      log += `<span class="warning">  HTTP 200 OK -> Leaked Data: ${JSON.stringify(target)}</span>\n`;
-      log += `  Result: Unchecked access granted to resource owned by another user.`;
+      lines.push({ text: t('js.p1.openHead', ''), tone: 'fx-bad', strong: true });
+      lines.push({ text: t('js.p1.openBody', ''), tone: 'fx-bad' });
+    } else if (caller === record.owner) {
+      lines.push({ text: t('js.p1.okHead', ''), tone: 'fx-ok', strong: true });
+      lines.push({ text: t('js.p1.okBody', ''), tone: 'fx-ok' });
     } else {
-      if (caller === target.owner) {
-        log += `<span class="success">  [AUTH CHECK PASSED] Caller UUID matches Resource Owner UUID.</span>\n`;
-        log += `<span class="success">  HTTP 200 OK -> Authorized Payload returned safely.</span>`;
-        // Auto check pillar 1 if passed
-        document.getElementById('chkPillar1').checked = true;
-        updateScorecard();
-      } else {
-        log += `<span class="danger">  [AUTH REJECTED - 403 FORBIDDEN] Caller UUID (${caller}) does not match Resource Owner (${target.owner}).</span>\n`;
-        log += `<span class="highlight">  HTTP 403 Forbidden -> {"error": "Access Denied: You do not own this resource."}</span>\n`;
-        log += `  Result: Data access prevented. IDOR blocked successfully.`;
-        document.getElementById('chkPillar1').checked = true;
-        updateScorecard();
-      }
+      lines.push({ text: t('js.p1.denyHead', ''), tone: 'fx-warn', strong: true });
+      lines.push({ text: t('js.p1.denyBody', ''), tone: 'fx-ok' });
     }
-    consoleEl.innerHTML = log;
+
+    writeConsole(el, lines);
   }
 
-  // --- LAB 2: PASSWORD RESET TOKEN TTL ---
-  let activeResetToken = null;
+  /* ---------- 2. reset tokens ---------------------------------------------- */
+  var token = null;
 
-  function simGenerateResetToken() {
-    const consoleEl = document.getElementById('consoleToken');
-    const tokenHex = Array.from(crypto.getRandomValues(new Uint8Array(16))).map(b=>b.toString(16).padStart(2,'0')).join('');
-    const now = Date.now();
-    activeResetToken = {
-      token: 'rst_' + tokenHex,
-      createdAt: now,
-      expiresAt: now + (15 * 60 * 1000), // 15 mins
-      used: false
-    };
-    consoleEl.innerHTML = `<span class="success">[TOKEN ISSUED] Token: ${activeResetToken.token}</span>\n` +
-      `  Created: ${new Date(activeResetToken.createdAt).toLocaleTimeString()}\n` +
-      `  Expires: ${new Date(activeResetToken.expiresAt).toLocaleTimeString()} (TTL: 15 minutes)\n` +
-      `  Status: ACTIVE & SINGLE-USE (Ready for redemption)`;
+  function randomToken() {
+    var bytes = new Uint8Array(16);
+    if (window.crypto && window.crypto.getRandomValues) {
+      window.crypto.getRandomValues(bytes);
+    } else {
+      for (var i = 0; i < bytes.length; i++) bytes[i] = Math.floor(Math.random() * 256);
+    }
+    return 'rst_' + Array.prototype.map.call(bytes, function (b) {
+      return ('0' + b.toString(16)).slice(-2);
+    }).join('');
   }
 
-  function simAdvanceTime(mins) {
-    const consoleEl = document.getElementById('consoleToken');
-    if (!activeResetToken) {
-      consoleEl.innerHTML = `<span class="warning">Generate a token first before advancing time.</span>`;
-      return;
-    }
-    activeResetToken.expiresAt -= (mins * 60 * 1000); // simulate passage of time
-    const isExpired = Date.now() > activeResetToken.expiresAt;
-    consoleEl.innerHTML += `\n<span class="highlight">[TIME SHIFT] Advanced clock forward by ${mins} minutes.</span>\n` +
-      `  Token Status: ${isExpired ? '<span class="danger">EXPIRED (TTL elapsed)</span>' : '<span class="success">STILL VALID</span>'}`;
+  function issueToken(reissued) {
+    var now = Date.now();
+    token = { value: randomToken(), createdAt: now, expiresAt: now + 15 * 60 * 1000, used: false };
+
+    var lines = [];
+    if (reissued) lines.push({ text: t('js.p2.reissued', ''), tone: 'fx-warn', strong: true });
+    lines.push({ text: fill('js.p2.issued', 'Token issued: {token}', { token: token.value }), tone: 'fx-ok', strong: true });
+    lines.push({ text: fill('js.p2.window', '', { created: clockTime(token.createdAt), expires: clockTime(token.expiresAt) }) });
+    writeConsole($('consoleToken'), lines);
   }
 
-  function simRedeemToken() {
-    const consoleEl = document.getElementById('consoleToken');
-    if (!activeResetToken) {
-      consoleEl.innerHTML = `<span class="danger">[ERROR] No reset token found in active store.</span>`;
-      return;
-    }
-    const now = Date.now();
-    if (activeResetToken.used) {
-      consoleEl.innerHTML += `\n<span class="danger">[REJECTED - TOKEN REUSE] Token ${activeResetToken.token} has ALREADY BEEN USED. Single-use policy enforced.</span>`;
-      return;
-    }
-    if (now > activeResetToken.expiresAt) {
-      consoleEl.innerHTML += `\n<span class="danger">[REJECTED - TOKEN EXPIRED] Token ${activeResetToken.token} expired at ${new Date(activeResetToken.expiresAt).toLocaleTimeString()}.</span>`;
-      return;
-    }
-    activeResetToken.used = true;
-    consoleEl.innerHTML += `\n<span class="success">[SUCCESS] Password reset authorized. Token ${activeResetToken.token} is now INVALIDATED & BURNED.</span>`;
-    document.getElementById('chkPillar2').checked = true;
-    updateScorecard();
+  function advanceClock(minutes) {
+    var el = $('consoleToken');
+    if (!token) { writeConsole(el, [{ text: t('js.p2.needToken', ''), tone: 'fx-warn' }]); return; }
+    token.expiresAt -= minutes * 60 * 1000;
+    var expired = Date.now() > token.expiresAt;
+    addLine(el, fill('js.p2.shift', '', { mins: minutes }), 'fx-accent', true);
+    addLine(el, expired ? t('js.p2.nowExpired', '') : t('js.p2.stillValid', ''), expired ? 'fx-bad' : 'fx-ok');
+    scrollToEnd(el);
   }
 
-  function simRequestNewReset() {
-    const consoleEl = document.getElementById('consoleToken');
-    if (activeResetToken) {
-      activeResetToken.used = true; // invalidate existing
+  function redeemToken() {
+    var el = $('consoleToken');
+    if (!token) { writeConsole(el, [{ text: t('js.p2.needToken', ''), tone: 'fx-warn' }]); return; }
+    if (token.used) {
+      addLine(el, t('js.p2.reuse', ''), 'fx-bad', true);
+    } else if (Date.now() > token.expiresAt) {
+      addLine(el, fill('js.p2.expired', '', { time: clockTime(token.expiresAt) }), 'fx-bad', true);
+    } else {
+      token.used = true;
+      addLine(el, t('js.p2.redeemed', ''), 'fx-ok', true);
     }
-    simGenerateResetToken();
-    consoleEl.innerHTML = `<span class="warning">[RE-ISSUE TRIGGERED] All prior active tokens invalidated immediately.</span>\n` + consoleEl.innerHTML;
-    document.getElementById('chkPillar2').checked = true;
-    updateScorecard();
+    scrollToEnd(el);
   }
 
-  // --- LAB 3: SQLi & XSS SANITIZATION ---
-  function runSimSanitize() {
-    const raw = document.getElementById('simPayloadInput').value;
-    const consoleEl = document.getElementById('consoleSanitize');
-
-    // HTML Entity Escape
-    const htmlEscaped = raw
+  /* ---------- 3. input handling -------------------------------------------- */
+  function escapeHtml(value) {
+    return value
       .replace(/&/g, '&amp;')
       .replace(/</g, '&lt;')
       .replace(/>/g, '&gt;')
       .replace(/"/g, '&quot;')
-      .replace(/'/g, '&#x27;')
-      .replace(/\//g, '&#x2F;');
-
-    // Parameterized SQL Representation
-    const sqlParameterized = `SELECT * FROM accounts WHERE username = $1 AND role = $2; -- Parameters: [$1 = ${JSON.stringify(raw)}, $2 = "user"]`;
-
-    consoleEl.innerHTML = `<span class="highlight">[RAW USER INPUT]:</span> ${raw}\n\n` +
-      `<span class="success">[1. PARAMETERIZED QUERY PREVENTS SQLi]:</span>\n  ${sqlParameterized}\n  (Database executes prepared AST; user payload is treated strictly as literal data, preventing syntax manipulation)\n\n` +
-      `<span class="success">[2. HTML ENTITY ENCODING PREVENTS XSS]:</span>\n  ${htmlEscaped}\n  (Tags neutralized: &lt;script&gt; renders as inert text; cannot execute in browser DOM)`;
-
-    document.getElementById('chkPillar3').checked = true;
-    updateScorecard();
+      .replace(/'/g, '&#x27;');
   }
 
-  // --- LAB 4: CORS VALIDATOR ---
-  const ALLOWED_CORS_ORIGINS = [
-    'https://farvex.ai',
-    'https://www.farvex.ai'
-  ];
+  function runSanitizeSandbox() {
+    var raw = $('simPayloadInput').value;
+    writeConsole($('consoleSanitize'), [
+      { text: t('js.p3.raw', ''), tone: 'fx-accent', strong: true },
+      { text: '  ' + raw },
+      null,
+      { text: t('js.p3.sqlHead', ''), tone: 'fx-ok', strong: true },
+      { text: '  SELECT * FROM accounts WHERE username = $1 AND role = $2;' },
+      { text: '  $1 = ' + JSON.stringify(raw) },
+      { text: '  $2 = "user"' },
+      { text: '  ' + t('js.p3.sqlNote', ''), tone: 'fx-dim' },
+      null,
+      { text: t('js.p3.xssHead', ''), tone: 'fx-ok', strong: true },
+      { text: '  ' + escapeHtml(raw) },
+      { text: '  ' + t('js.p3.xssNote', ''), tone: 'fx-dim' }
+    ]);
+  }
 
-  function runSimCors() {
-    const origin = document.getElementById('simCorsOrigin').value;
-    const consoleEl = document.getElementById('consoleCors');
+  /* ---------- 4. CORS -------------------------------------------------------- */
+  var ALLOWED_ORIGINS = ['https://farvex.ai', 'https://www.farvex.ai'];
 
-    let log = `[CORS Preflight Evaluation] Origin Header: ${origin}\n`;
-    if (ALLOWED_CORS_ORIGINS.includes(origin)) {
-      log += `<span class="success">  [CORS APPROVED] Origin is explicitly whitelisted in production policy.</span>\n`;
-      log += `<span class="success">  Response Headers:\n    Access-Control-Allow-Origin: ${origin}\n    Access-Control-Allow-Credentials: true\n    Access-Control-Allow-Methods: GET,POST,OPTIONS</span>`;
-      document.getElementById('chkPillar4').checked = true;
-      updateScorecard();
+  function runCorsSandbox() {
+    var origin = $('simCorsOrigin').value;
+    var lines = [{ text: fill('js.p4.origin', 'Origin: {origin}', { origin: origin }) }, null];
+
+    if (ALLOWED_ORIGINS.indexOf(origin) !== -1) {
+      lines.push({ text: t('js.p4.allowHead', ''), tone: 'fx-ok', strong: true });
+      lines.push({ text: '  Access-Control-Allow-Origin: ' + origin });
+      lines.push({ text: '  Access-Control-Allow-Credentials: true' });
+      lines.push({ text: '  Access-Control-Allow-Methods: GET, POST, OPTIONS' });
     } else if (origin === '*') {
-      log += `<span class="danger">  [CRITICAL RISK - WILDCARD REJECTED] Access-Control-Allow-Origin: * must NOT be used in production with credentials.</span>\n`;
-      log += `<span class="warning">  Action: Fixed to exact domain whitelist (https://farvex.ai).</span>`;
+      lines.push({ text: t('js.p4.wildHead', ''), tone: 'fx-bad', strong: true });
+      lines.push({ text: t('js.p4.wildBody', ''), tone: 'fx-warn' });
     } else {
-      log += `<span class="danger">  [CORS REJECTED] Origin "${origin}" is NOT authorized.</span>\n`;
-      log += `<span class="highlight">  Browser blocks cross-origin reading. No credential leakage permitted.</span>`;
-      document.getElementById('chkPillar4').checked = true;
-      updateScorecard();
-    }
-    consoleEl.innerHTML = log;
-  }
-
-  // --- LAB 5: RATE LIMITER ---
-  let rateCount = 0;
-  const RATE_MAX = 5;
-  let rateResetTimer = null;
-
-  function runSimBurstRequest() {
-    const consoleEl = document.getElementById('consoleRate');
-    const meterEl = document.getElementById('rateLimitMeter');
-    rateCount++;
-
-    if (!rateResetTimer) {
-      rateResetTimer = setTimeout(() => {
-        resetSimRateLimit();
-      }, 8000);
+      lines.push({ text: t('js.p4.denyHead', ''), tone: 'fx-warn', strong: true });
+      lines.push({ text: '  Access-Control-Allow-Origin: —' });
+      lines.push({ text: t('js.p4.denyBody', ''), tone: 'fx-ok' });
     }
 
-    meterEl.innerHTML = `Window: ${Math.min(rateCount, RATE_MAX)} / ${RATE_MAX} requests used`;
-
-    if (rateCount <= RATE_MAX) {
-      consoleEl.innerHTML += `\n<span class="success">[HTTP 200 OK] Request #${rateCount} processed nominally. Remaining quota: ${RATE_MAX - rateCount}</span>`;
-      consoleEl.scrollTop = consoleEl.scrollHeight;
-    } else {
-      consoleEl.innerHTML += `\n<span class="danger">[HTTP 429 TOO MANY REQUESTS] Rate threshold exceeded! Request #${rateCount} throttled. Retry-After: 8s</span>`;
-      consoleEl.scrollTop = consoleEl.scrollHeight;
-      document.getElementById('chkPillar5').checked = true;
-      updateScorecard();
-    }
+    writeConsole($('consoleCors'), lines);
   }
 
-  function resetSimRateLimit() {
-    rateCount = 0;
-    if (rateResetTimer) clearTimeout(rateResetTimer);
-    rateResetTimer = null;
-    document.getElementById('rateLimitMeter').innerHTML = `Window: 0 / ${RATE_MAX} requests used`;
-    const consoleEl = document.getElementById('consoleRate');
-    consoleEl.innerHTML = `<span class="highlight">[RATE BUCKET RESET] IP token quota replenished (0 / ${RATE_MAX} used).</span>`;
-  }
+  /* ---------- 5. rate limiting ---------------------------------------------- */
+  var RATE_MAX = 5;
+  var rateUsed = 0;
+  var rateTimer = null;
 
-  // --- EXPORT FUNCTIONS ---
-  function exportAuditReport() {
-    const statuses = [1,2,3,4,5].map(i => ({
-      name: pillarNames[i-1],
-      verified: document.getElementById(`chkPillar${i}`)?.checked || false
-    }));
-
-    const dateStr = new Date().toISOString();
-    const passedCount = statuses.filter(s=>s.verified).length;
-    const isFullReady = passedCount === 5;
-
-    let md = `# Farvex AI // Pre-Deployment Security Audit Report\n\n`;
-    md += `**Audit Timestamp:** ${dateStr}\n`;
-    md += `**Overall Status:** ${isFullReady ? '✅ READY FOR PRODUCTION DEPLOYMENT' : '⚠️ DEPLOYMENT BLOCKED - ACTION REQUIRED'}\n`;
-    md += `**Compliance Score:** ${passedCount} / 5 Verification Gates Passed (${Math.round((passedCount/5)*100)}%)\n\n`;
-    md += `## Verified Deployment Gates\n\n`;
-
-    statuses.forEach((s, idx) => {
-      md += `### ${idx+1}. ${s.name}\n`;
-      md += `- **Status:** ${s.verified ? '✅ AUDITED & VERIFIED' : '❌ PENDING VERIFICATION'}\n`;
-    });
-
-    md += `\n---\n*Report generated via Farvex AI Sovereign Defense Suite (https://farvex.ai/pre-deployment-checklist.html)*\n`;
-
-    navigator.clipboard.writeText(md).then(() => {
-      alert('Pre-Deployment Audit Report copied to clipboard in Markdown format!');
-    }).catch(() => {
-      prompt('Copy your Markdown report below:', md);
-    });
-  }
-
-  function exportAuditJson() {
-    const data = {
-      system: 'Farvex AI Pre-Deployment Security Gate',
-      version: '3.0.0-hardened',
-      timestamp: new Date().toISOString(),
-      score: Math.round(([1,2,3,4,5].filter(i=>document.getElementById(`chkPillar${i}`)?.checked).length / 5) * 100),
-      gates: [1,2,3,4,5].map(i => ({
-        id: `pillar_${i}`,
-        title: pillarNames[i-1],
-        audited: document.getElementById(`chkPillar${i}`)?.checked || false
-      }))
-    };
-    const jsonStr = JSON.stringify(data, null, 2);
-    navigator.clipboard.writeText(jsonStr).then(() => {
-      alert('Audit Telemetry JSON copied to clipboard!');
-    }).catch(() => {
-      prompt('Copy telemetry JSON below:', jsonStr);
-    });
-  }
-
-  // Particle Canvas
-  const canvas = document.getElementById('matrixCanvas');
-  const ctx = canvas.getContext('2d');
-  let width, height, particles = [];
-
-  function resizeCanvas() {
-    width = canvas.width = window.innerWidth;
-    height = canvas.height = window.innerHeight;
-    particles = [];
-    for (let i = 0; i < 40; i++) {
-      particles.push({
-        x: Math.random() * width,
-        y: Math.random() * height,
-        vx: (Math.random() - 0.5) * 1.2,
-        vy: (Math.random() - 0.5) * 1.2,
-        r: Math.random() * 2 + 1
+  function renderMeter() {
+    var meter = $('rateLimitMeter');
+    if (meter) {
+      meter.textContent = fill('js.p5.meter', 'Window: {n} of {max} requests used', {
+        n: Math.min(rateUsed, RATE_MAX), max: RATE_MAX
       });
     }
   }
-  window.addEventListener('resize', resizeCanvas);
 
-  function renderParticles() {
-    ctx.clearRect(0, 0, width, height);
-    for (let i = 0; i < particles.length; i++) {
-      const p = particles[i];
-      p.x += p.vx;
-      p.y += p.vy;
-      if (p.x < 0 || p.x > width) p.vx *= -1;
-      if (p.y < 0 || p.y > height) p.vy *= -1;
+  function sendBurst() {
+    var el = $('consoleRate');
+    if (el.dataset.state !== 'written') clearConsole(el);
+    rateUsed++;
 
-      const isMatrix = document.documentElement.getAttribute('data-theme') === 'matrix';
-      ctx.beginPath();
-      ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
-      ctx.fillStyle = isMatrix ? 'rgba(16, 185, 129, 0.6)' : 'rgba(0, 240, 255, 0.4)';
-      ctx.fill();
-
-      for (let j = i + 1; j < particles.length; j++) {
-        const p2 = particles[j];
-        const dist = Math.hypot(p.x - p2.x, p.y - p2.y);
-        if (dist < 120) {
-          ctx.beginPath();
-          ctx.moveTo(p.x, p.y);
-          ctx.lineTo(p2.x, p2.y);
-          ctx.strokeStyle = isMatrix ? `rgba(16, 185, 129, ${0.2 * (1 - dist / 120)})` : `rgba(0, 240, 255, ${0.15 * (1 - dist / 120)})`;
-          ctx.stroke();
-        }
-      }
+    if (!rateTimer) {
+      rateTimer = window.setTimeout(function () { resetBucket(); }, 8000);
     }
-    requestAnimationFrame(renderParticles);
+
+    if (rateUsed <= RATE_MAX) {
+      addLine(el, fill('js.p5.ok', '', { n: rateUsed, left: RATE_MAX - rateUsed }), 'fx-ok');
+    } else {
+      addLine(el, fill('js.p5.blocked', '', { n: rateUsed }), 'fx-bad', true);
+    }
+    el.dataset.state = 'written';
+    renderMeter();
+    scrollToEnd(el);
   }
 
-  document.addEventListener('DOMContentLoaded', () => {
-    resizeCanvas();
-    renderParticles();
-    const l = localStorage.getItem('farvex_lang') || 'en';
-    const t = localStorage.getItem('farvex_theme') || 'matrix';
-    setLanguage(l);
-    setAtmosphere(t);
-    loadSavedStatus();
+  function resetBucket() {
+    rateUsed = 0;
+    if (rateTimer) { window.clearTimeout(rateTimer); rateTimer = null; }
+    renderMeter();
+    writeConsole($('consoleRate'), [
+      { text: fill('js.p5.reset', '', { max: RATE_MAX }), tone: 'fx-accent' }
+    ]);
+  }
+
+  /* ---------- export --------------------------------------------------------
+     The report is deliberately English in both languages: it ends up in a pull
+     request or a pipeline log, where a stable wording is worth more than a
+     translation.                                                             */
+  var REPORT_NAMES = ['Authorization (IDOR)', 'Password reset token expiry',
+    'Input validation (SQLi and XSS)', 'CORS origin allow-list', 'Rate limiting'];
+
+  function statuses() {
+    return boxes().map(function (box, index) {
+      return { name: REPORT_NAMES[index], verified: !!(box && box.checked) };
+    });
+  }
+
+  function buildMarkdown() {
+    var rows = statuses();
+    var passed = rows.filter(function (row) { return row.verified; }).length;
+    var out = '# Farvex AI — pre-deployment checklist\n\n';
+    out += '- Generated: ' + new Date().toISOString() + '\n';
+    out += '- Result: ' + (passed === 5 ? 'ready to deploy' : 'not ready — ' + (5 - passed) + ' check(s) open') + '\n';
+    out += '- Verified: ' + passed + ' of 5 (' + Math.round((passed / 5) * 100) + '%)\n\n';
+    out += '## Checks\n\n';
+    rows.forEach(function (row, index) {
+      out += (index + 1) + '. [' + (row.verified ? 'x' : ' ') + '] ' + row.name + '\n';
+    });
+    out += '\nSource: https://farvex.ai/pre-deployment-checklist.html\n';
+    return out;
+  }
+
+  function buildJson() {
+    var rows = statuses();
+    var passed = rows.filter(function (row) { return row.verified; }).length;
+    return JSON.stringify({
+      report: 'farvex-pre-deployment-checklist',
+      generated: new Date().toISOString(),
+      verified: passed,
+      total: 5,
+      ready: passed === 5,
+      checks: rows.map(function (row, index) {
+        return { id: 'check_' + (index + 1), name: row.name, verified: row.verified };
+      })
+    }, null, 2);
+  }
+
+  function copyReport(text, format) {
+    var wrap = $('exportPreviewWrap');
+    var preview = $('exportPreview');
+    var label = $('exportFormat');
+
+    if (label) label.textContent = format;
+    if (preview) preview.textContent = text;
+
+    function reveal(noteKey, tone) {
+      if (wrap) wrap.hidden = false;
+      note($('exportNote'), noteKey, '', tone);
+    }
+
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(text).then(function () {
+        reveal('js.exp.copied', 'fx-formnote--ok');
+      }).catch(function () {
+        reveal('js.exp.blocked', 'fx-formnote--warn');
+      });
+    } else {
+      reveal('js.exp.blocked', 'fx-formnote--warn');
+    }
+  }
+
+  /* ---------- wiring --------------------------------------------------------- */
+  function on(id, handler) {
+    var el = $(id);
+    if (el) el.addEventListener('click', handler);
+  }
+
+  function renderIdleConsoles() {
+    [['consoleAuth', 'js.p1.idle'], ['consoleToken', 'js.p2.idle'],
+     ['consoleSanitize', 'js.p3.idle'], ['consoleCors', 'js.p4.idle'],
+     ['consoleRate', 'js.p5.idle']].forEach(function (pair) {
+      var el = $(pair[0]);
+      if (el && el.dataset.state !== 'written') idleConsole(el, pair[1], '');
+    });
+  }
+
+  function init() {
+    boxes().forEach(function (box) {
+      if (!box) return;
+      box.addEventListener('change', function () {
+        renderScorecard();
+        saveStatus();
+      });
+    });
+
+    on('btnVerifyAll', function () {
+      boxes().forEach(function (box) { if (box) box.checked = true; });
+      renderScorecard();
+      saveStatus();
+      note($('checklistNote'), 'js.noteAll', '', 'fx-formnote--ok');
+    });
+
+    on('btnResetAll', function () {
+      boxes().forEach(function (box) { if (box) box.checked = false; });
+      renderScorecard();
+      saveStatus();
+      note($('checklistNote'), 'js.noteCleared', '', 'fx-formnote--warn');
+    });
+
+    on('btnSimAuth', runAuthSandbox);
+    on('btnTokenIssue', function () { issueToken(false); });
+    on('btnTokenAdvance', function () { advanceClock(20); });
+    on('btnTokenRedeem', redeemToken);
+    on('btnTokenReissue', function () { issueToken(true); });
+    on('btnSimSanitize', runSanitizeSandbox);
+    on('btnSimCors', runCorsSandbox);
+    on('btnSimBurst', sendBurst);
+    on('btnSimRateReset', resetBucket);
+    on('btnCopyMd', function () { copyReport(buildMarkdown(), 'markdown'); });
+    on('btnCopyJson', function () { copyReport(buildJson(), 'json'); });
+
+    loadStatus();
+    renderScorecard();
+    renderIdleConsoles();
+    renderMeter();
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', init);
+  } else {
+    init();
+  }
+
+  // Re-render every string this file writes when the visitor switches language.
+  document.addEventListener('farvex:langchange', function () {
+    renderScorecard();
+    renderIdleConsoles();
+    renderMeter();
   });
+})();
 </script>
 
-<!-- Vercel Speed Insights -->
-<script>
-  window.si = window.si || function () { (window.siq = window.siq || []).push(arguments); };
-</script>
 <script defer src="/_vercel/speed-insights/script.js"></script>
 </body>
 </html>
